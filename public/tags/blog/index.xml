@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>blog on axfinn 的个人博客</title>
+    <link>https://axfinn.github.io/tags/blog/</link>
+    <description>Recent content in blog on axfinn 的个人博客</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>zn-Hans</language>
+    <lastBuildDate>Thu, 03 Apr 2025 17:12:13 +0800</lastBuildDate><atom:link href="https://axfinn.github.io/tags/blog/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>One Test</title>
+      <link>https://axfinn.github.io/blog/2025-04/one-test/</link>
+      <pubDate>Thu, 03 Apr 2025 17:12:13 +0800</pubDate>
+      
+      <guid>https://axfinn.github.io/blog/2025-04/one-test/</guid>
+      <description>This is an example of adding an intro picture to the post.</description>
+    </item>
+    
+  </channel>
+</rss>

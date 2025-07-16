@@ -16,6 +16,8 @@ tags: ["Vue3", "工具导航", "个性化", "前端开发", "效率"]
 
 为了解决这些问题，我们构思并实现了一个高度可定制的个人工具导航页——**My Tool Dashboard**。
 
+**项目地址：** [https://github.com/axfinn/my-tool-dashboard](https://github.com/axfinn/my-tool-dashboard)
+
 ## 核心理念：构建一个“活”的、个性化的数字工作台
 
 My Tool Dashboard 的设计核心在于提供一个**集中、高效且充满乐趣**的工具访问入口。我们秉持以下几个核心理念：

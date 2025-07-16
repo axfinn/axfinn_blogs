@@ -1,0 +1,14 @@
+# Hugo
+/public/
+/resources/_gen/
+
+# Node.js
+/node_modules/
+
+# macOS
+.DS_Store
+
+# Temporary files
+*.tmp
+*.bak
+*.log

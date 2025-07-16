@@ -85,5 +85,6 @@ pygmentsuseclasses         = true
   
   # analytics
   googleAnalytics          = "your-google-analytic-id"
+  mermaid                  = true
     
     

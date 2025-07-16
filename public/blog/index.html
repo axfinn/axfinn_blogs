@@ -270,6 +270,8 @@
 
   
 
+  
+
 
 
 
@@ -292,8 +294,26 @@
           
             
             <li class="py-1">
+              <a href="https://axfinn.github.io/categories/ai">
+                <span>Ai (1)</span>
+              </a>
+            </li>           
+          
+            
+              <li class="middot"></li>
+            
+            <li class="py-1">
               <a href="https://axfinn.github.io/categories/blog">
                 <span>Blog (1)</span>
+              </a>
+            </li>           
+          
+            
+              <li class="middot"></li>
+            
+            <li class="py-1">
+              <a href="https://axfinn.github.io/categories/%E6%8A%80%E6%9C%AF">
+                <span>技术 (1)</span>
               </a>
             </li>           
           
@@ -306,6 +326,8 @@
 
     
           
+
+  
 
   
 
@@ -329,7 +351,22 @@
         
         
         
+            <li><a href="https://axfinn.github.io/tags/ai%E6%99%BA%E8%83%BD%E4%BD%93" role="button"><span>ai智能体 (1)</span></a></li>
+          
+        
             <li><a href="https://axfinn.github.io/tags/blog" role="button"><span>blog (1)</span></a></li>
+          
+        
+            <li><a href="https://axfinn.github.io/tags/go-live" role="button"><span>go-live (1)</span></a></li>
+          
+        
+            <li><a href="https://axfinn.github.io/tags/%E4%BB%BB%E5%8A%A1%E9%A9%B1%E5%8A%A8" role="button"><span>任务驱动 (1)</span></a></li>
+          
+        
+            <li><a href="https://axfinn.github.io/tags/%E6%A8%A1%E5%9D%97%E5%8C%96" role="button"><span>模块化 (1)</span></a></li>
+          
+        
+            <li><a href="https://axfinn.github.io/tags/%E7%B3%BB%E7%BB%9F%E8%AE%BE%E8%AE%A1" role="button"><span>系统设计 (1)</span></a></li>
           
         
       </div>
@@ -365,7 +402,7 @@
               
                 <div class="px-2 middot"></div>
                 <div>
-                  One post
+                  2 posts
                 </div>
               
             </div>
@@ -377,6 +414,74 @@
             
             
           </div>
+
+          
+              <div class="post-wrapper white-bg post-card">
+  
+  <a href="https://axfinn.github.io/blog/2025-07/%E6%9E%84%E5%BB%BA%E6%A8%A1%E5%9D%97%E5%8C%96%E5%8F%AF%E5%8A%A8%E6%80%81%E5%8F%91%E7%8E%B0%E4%BB%BB%E5%8A%A1%E7%9A%84ai%E6%99%BA%E8%83%BD%E4%BD%93%E4%B8%80%E6%AC%A1%E5%A4%8D%E6%9D%82%E7%9A%84%E5%AE%9E%E8%B7%B5/">
+    <div class="post-header text-center">
+      <div class="px-4 post-heading">构建模块化、可动态发现任务的AI智能体：一次复杂的实践</div>
+      <ul class="post-meta li-x mt-1">
+        
+          <li>Jul 16, 2025</li>
+        
+    
+        
+          <li class="middot"></li>
+          <li>4 minutes read</li>
+        
+      </ul>
+    </div>
+    
+
+    
+      背景：从一个复杂的运维诉求开始 在复杂的线上服务环境中，我们经常遇到这样的问题：“请帮我查询服务 live.live.app-blink 的错误日志，并对其中一个 trace_id 进行全链路分析。” 这个看似简单的请求，背后却隐藏着一个复杂的工作流： 查询初始日志：首先需要调用日志服务，找到指定的错误日志。 提取关键信息：从日志中准确提取出 trace_id。 动态任务发现：基于这个 trace_id，需要进一步查询关联了哪些下游服务。 生成子任务：为每一个新发现的关......
+    
+  </a>
+
+  
+  
+  <div class="post-meta li-x mt-2 div-x">
+    <div>
+      
+        
+          <li><a href="https://axfinn.github.io/categories/%E6%8A%80%E6%9C%AF"><i class="fas fa-folder-open pr-1" aria-hidden="true"></i> 技术 </a></li>
+        
+          <li><a href="https://axfinn.github.io/categories/ai"><i class="fas fa-folder-open pr-1" aria-hidden="true"></i> AI </a></li>
+        
+      
+      
+    </div>
+   
+    <div>
+      
+        
+<div class="li-x div-x post-meta">
+  <li class="pr-0"><a href="https://axfinn.github.io/tags/"><i class="fas fa-tags"></i></a></li>
+  <div class="tags-sm">
+    
+      <li><a href="https://axfinn.github.io/tags/ai%E6%99%BA%E8%83%BD%E4%BD%93" role="button">AI智能体 </a></li>
+      
+    
+      <li><a href="https://axfinn.github.io/tags/%E6%A8%A1%E5%9D%97%E5%8C%96" role="button">模块化 </a></li>
+      
+    
+      <li><a href="https://axfinn.github.io/tags/%E4%BB%BB%E5%8A%A1%E9%A9%B1%E5%8A%A8" role="button">任务驱动 </a></li>
+      
+    
+      <li><a href="https://axfinn.github.io/tags/%E7%B3%BB%E7%BB%9F%E8%AE%BE%E8%AE%A1" role="button">系统设计 </a></li>
+      
+    
+      <li><a href="https://axfinn.github.io/tags/go-live" role="button">Go-Live </a></li>
+      
+    
+  </div>
+</div>
+      
+    </div>
+  </div>
+
+</div>
 
           
               <div class="post-wrapper white-bg post-card">

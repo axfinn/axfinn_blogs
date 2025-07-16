@@ -1,17 +1,25 @@
-#!/bin/bash 
-###
- # @Author: axfinn
- # @Date: 2025-04-03 17:32:31
- # @LastEditors: 和家豪 hejiahao01@bilibili.com
- # @LastEditTime: 2025-04-03 17:36:50
- # @FilePath: /axfinn_blogs/publish.sh
- # @Description: 这是默认设置,请设置`customMade`, 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
-### 
-# 
+#!/bin/bash
+# Exit immediately if a command exits with a non-zero status.
+set -e
+
+echo "INFO: Building site with Hugo..."
 hugo -D
-rm -rf ../axfinn.github.io/*
-cp -rp ./public/* ../axfinn.github.io/ 
-cd ../axfinn.github.io/
+
+echo "INFO: Deploying to axfinn.github.io..."
+# The target directory for the built site.
+DEPLOY_DIR="../axfinn.github.io"
+
+# Clean and copy new files.
+rm -rf ${DEPLOY_DIR}/*
+cp -rp ./public/* ${DEPLOY_DIR}/
+
+# Commit and push changes.
+cd ${DEPLOY_DIR}
+echo "INFO: Committing changes..."
 git add .
-git commit -m "fix: `date +%Y%m%d-%H%M`发布新文章"
-git push -f origin master
+# Use a consistent commit message format.
+git commit -m "chore: Publish site updates at $(date +'%Y-%m-%d %H:%M:%S')"
+echo "INFO: Pushing to remote..."
+git push origin master
+
+echo "INFO: Deployment successful."

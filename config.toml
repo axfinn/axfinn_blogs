@@ -1,5 +1,5 @@
 baseURL = 'https://axfinn.github.io/'
-title = 'axfinn 的个人博客'
+title = 'jaxiu He'
 
 builddrafts                = false
 languageCode               = "zn-Hans"
@@ -10,7 +10,7 @@ publishdir                 = "public"
 enableEmoji                = true
 hasCJKLanguage             = true
 summaryLength              = 200
-Paginate                   = 3
+pagination.pagerSize       = 3
 
 theme                      = "AllinOne"
 
@@ -29,19 +29,19 @@ pygmentsuseclasses         = true
 
 [menu]
   [[menu.main]]
-    name                   = "Blog"
+    name                   = "博客"
     weight                 = -120
     identifier             = "blog"
     url                    = "blog/"  
 
   [[menu.main]]
-    name                   = "Moment"
+    name                   = "动态"
     weight                 = -110
     identifier             = "moment"
     url                    = "moment/" 
 
   [[menu.main]]
-    name                   = "About"
+    name                   = "关于"
     weight                 = -100
     identifier             = "about"
     url                    = "about/"  
@@ -51,8 +51,8 @@ pygmentsuseclasses         = true
 [params]
   faviconfile              = "img/logo.png"               # from static/
   avatar                   = "img/logo.png"             # path to image in static dir e.g img/avatar.png 
-  author                   = "Orianna"
-  description              = ["Be myself.", "Love the wonderful world.", "Do the right things and be a better man."]           # appears in the site header when set to a non-empty string
+  author                   = "jaxiu He"
+  description              = "Be myself. Love the wonderful world. Do the right things and be a better man."           # appears in the site header when set to a non-empty string
   welcome_head             = "Hello, World!"
   welcome_word             = "~ No Day But Today ~"
 

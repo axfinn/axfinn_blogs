@@ -1,6 +1,6 @@
 ---
 title: "一句话命令"
-date: 2020-10-28T00:00:00+08:00
+date: 2025-07-18T18:30:00+08:00
 draft: false
 tags: ["Sci", "Vscode", "Vue", "Qa"]
 categories: ["技术"]

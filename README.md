@@ -1,109 +1,121 @@
-# 个人博客源码 (axfinn_blogs)
+# AxFinn's Blog - Hugo Source
 
-[![Hugo](https://img.shields.io/badge/Hugo-0.148.1-blue.svg)](https://gohugo.io/)
-[![Theme](https://img.shields.io/badge/Theme-AllinOne-lightgrey.svg)](https://github.com/sy-records/hugo-theme-allinone)
-[![License](https://img.shields.io/badge/License-MIT-green.svg)](LICENSE)
+## 1. 关于本项目
 
-欢迎来到我的个人博客源码仓库。此项目使用 [Hugo](https://gohugo.io/)（一个快速的静态网站生成器）构建，并托管在 [GitHub Pages](https://pages.github.com/) 上。
+本项目是我的个人博客的源代码仓库，基于优秀的静态网站生成器 [Hugo](https://gohugo.io/) 构建。所有的博文和网站配置都在这里进行管理。
 
-**线上访问地址: [https://axfinn.github.io/](https://axfinn.github.io/)**
+## 2. 技术栈
 
-## ✨ 项目特色
+*   **静态网站生成器**: Hugo
+*   **内容格式**: Markdown
+*   **主题**: AllinOne / hexo-theme-matery (根据 `config.toml` 配置)
+*   **部署**: 通过一个自定义的 `publish.sh` 脚本推送到 `axfinn.github.io`
 
-- **极速构建**: 基于 Go 语言的 Hugo 核心，带来毫秒级的网站生成速度。
-- **响应式主题**: 使用 `AllinOne` 主题，在桌面和移动设备上均有良好的阅读体验。
-- **Markdown 写作**: 所有文章均使用 Markdown 格式编写，专注于内容本身。
-- **自动化部署**: 通过一个简单的 Shell 脚本，实现一键构建和发布。
-- **功能丰富**: 支持代码高亮、LaTeX 公式、文章归档、标签分类等功能。
+## 3. 环境准备
 
-## 🛠️ 技术栈
+在开始之前，请确保你的电脑上已经安装了 Hugo。
 
-- **内容**: [Hugo](https://gohugo.io/)
-- **主题**: [hugo-theme-allinone](https://github.com/sy-records/hugo-theme-allinone)
-- **托管**: [GitHub Pages](https://pages.github.com/)
-- **持续集成**: Shell 脚本
-
-## 🚀 如何在本地运行
-
-### 1. 环境准备
-
-请确保你的电脑上已经安装了 [Git](https://git-scm.com/) 和 [Hugo](https://gohugo.io/getting-started/installing/) (建议使用 extended 版本)。
-
-### 2. 克隆仓库
-
+**在 macOS 上安装:**
 ```bash
-# 克隆主仓库
-git clone https://github.com/axfinn/axfinn_blogs.git
-cd axfinn_blogs
-
-# 初始化并拉取主题子模块
-git submodule update --init --recursive
+brew install hugo
 ```
 
-### 3. 启动本地服务
+**在其他系统上安装:**
+请参考 [Hugo 官方安装指南](https://gohugo.io/installation/)。
 
+安装完成后，可以通过以下命令验证是否成功：
 ```bash
-# Hugo 会启动一个本地服务器，并实时刷新
-hugo server -D
+hugo version
 ```
 
-现在，你可以在浏览器中打开 `http://localhost:1313` 来预览博客。`-D` 参数会确保草稿（draft）状态的文章也能被渲染。
+## 4. 本地开发与预览
 
-## ✍️ 内容创作
+在撰写新文章或修改网站配置时，你可以在本地启动一个实时预览的 Web 服务器。
 
-### 创建新文章
+1.  **克隆本项目** (如果尚未克隆):
+    ```bash
+    git clone <your-repo-url>
+    cd axfinn_blogs
+    ```
 
-通过以下命令可以快速创建一个新的博文：
+2.  **启动 Hugo 服务器**:
+    ```bash
+    # -D, --buildDrafts  包含标记为草稿的文章
+    # -F, --buildFuture 包含发布��期在未来的文章
+    hugo server -D -F
+    ```
+
+3.  **访问预览网站**:
+    打开浏览器，访问 `http://localhost:1313`。你会看到博客的实时预览，当你修改并保存任何文件时，浏览器中的页面都会自动刷新。
+
+## 5. 如何撰写一篇新文章
+
+### 5.1 创建文章文件
+
+使用 Hugo 的 `new` 命令来创建一篇新文章。这能确保文章文件包含正确的元数据（Front Matter）。
 
 ```bash
-hugo new blog/your-post-title.md
+# 示例：创建一篇名为 "my-first-post" 的博文
+hugo new content/blog/my-first-post.md
 ```
 
-Hugo 会根据 `archetypes/default.md` 中的模板，在 `content/blog/` 目录下生成一个新的 Markdown 文件。
+### 5.2 理解文章元数据 (Front Matter)
 
-### 文章元数据 (Front Matter)
-
-每篇文章的开头都需要包含一些元数据，用于配置文章的标题、日期、标签等信息。
+打开新创建的 Markdown 文件，你会看到文件顶部有一段被 `---` 包围的区域，这就是文章的元数据。
 
 ```yaml
 ---
-title: "文章标题"
-date: 2025-07-19T12:00:00+08:00
-draft: false # 设置为 false 才会正式发布
-tags: ["技术", "Hugo"]
-categories: ["教程"]
+title: "My First Post" # 文章标题
+date: 2025-07-20T12:00:00+08:00 # 文章发布日期
+draft: true # 是否为草稿。true 表示是草稿，不会被发布
+slug: "my-first-post-slug" # 【重要】用于生成干净的 URL，建议使用英文
+tags: ["技术", "Python"] # 标签，可以有多个
+categories: ["教程"] # 分类
 ---
-
-这里是你的正文内容...
 ```
 
-## 📦 部署流程
+**关键字段解释**:
+*   `title`: 显示在网站上的文章标题。
+*   `date`: 文章的发布时间。Hugo 会根据这个时间排序。
+*   `draft`: **非常重要**。新建的文章默认为 `true` (草稿)。在本地预览时，��要使用 `hugo server -D` 才能看到。当你准备好发布时，请务必将其修改为 `false`。
+*   `slug`: **强烈推荐**。为了避免中文标题导致 URL 出现乱码，请为每篇文章设置一个简短、清晰的英文 `slug`。
+*   `tags` / `categories`: 用于文章的分类和归档。
 
-本项目的部署流程是半自动化的，通过 `publish.sh` 脚本完成。
+### 5.3 撰写内容
 
-### 部署原理
+在元数据下方，使用标准的 Markdown 语法撰写你的文章正文即可。
 
-`publish.sh` 脚本执行以下操作：
+## 6. 发布网站
 
-1.  **构建静态文件**: 运行 `hugo -D` 命令，将 `content/` 目录下的 Markdown 文件生成为静态 HTML，并输出到 `public/` 目录。
-2.  **切换到发布目录**: `public/` 目录本身是一个独立的 Git 仓库，它关联到 `axfinn.github.io`。脚本会将生成的文件复制到该仓库。
-3.  **提交并推送**: 在 `axfinn.github.io` 仓库中，自动提交所有变更，并推送到 GitHub。
-4.  **更新源码**: 同时，脚本也会将主项目（`axfinn_blogs`）的变更提交并推送。
+本项目使用一个名为 `publish.sh` 的脚本来自动化部署流程。
 
-### 如何发布
+### 6.1 发布流程揭秘
 
-当你完成写作或修改后，只需运行：
+当你运行 `bash publish.sh` 时，脚本会执行以下操作：
 
-```bash
-./publish.sh "你的提交信息"
+1.  **执行 `hugo` 命令**: 在 `axfinn_blogs` 目录下，编译整个网站，将生成的静态文件（HTML, CSS, JS 等）输出到 `public/` 目录。
+2.  **进入 `public` 目录**: `public` 目录本身是一个独立的 Git 仓库，它关联到你的 `axfinn.github.io` 仓库。
+3.  **提交并推送**: 在 `public` 目录内，脚本会自动执行 `git add .`、`git commit` 和 `git push`，将新生成的网站文件推送到 GitHub Pages，完成发布。
+
+### 6.2 如何发布
+
+1.  确保你已经完成了文章的撰写，并已将文章的 `draft` 状态设置为 `false`。
+2.  在 `axfinn_blogs` 的根目录下，运行发布脚本：
+    ```bash
+    bash publish.sh
+    ```
+3.  等待脚本执行完毕��几分钟后，你的网站就会更新。
+
+## 7. 目录结构简介
+
 ```
-
-脚本会自动完成所有构建和发布步骤。
-
-## 🤝 贡献
-
-欢迎提出 Issue 或 Pull Request。如果你发现了 bug 或者有任何改进建议，请随时提出。
-
-## 📄 许可证
-
-本项目采用 [MIT](LICENSE) 许可。
+.
+├── archetypes/    # 文章的元数据模板
+├── content/       # 所有的 Markdown 文章内容
+├── data/          # 数据文件
+├── layouts/       # 网站的布局和模板
+├── static/        # 静态资源，如图片、CSS、JS
+├── themes/        # Hugo 主题
+├── config.toml    # 网站的全局配置文件
+└── publish.sh     # 一键发布脚本
+```

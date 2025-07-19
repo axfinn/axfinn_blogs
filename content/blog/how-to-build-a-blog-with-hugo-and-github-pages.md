@@ -222,6 +222,29 @@ git clone https://github.com/your-username/your-username.github.io.git public
 
 几分钟后，访问 `https://your-username.github.io`，你就能看到成功上线的个人博客了！
 
+## 实例分析：axfinn_blogs
+
+本文档所在的博客项目 `axfinn_blogs` 就是一个很好的实例。你可以通过它的[源码仓库](https://github.com/axfinn/axfinn_blogs)来学习和参考。
+
+### 关键配置 (`config.toml`)
+
+`axfinn_blogs` 的 `config.toml` 文件包含了一些有趣的配置：
+
+- **永久链接格式**: 通过 `[permalinks]` 设置，将博客文章的 URL 格式定义为 `/:year-:month/:slug/`，更具可读性。
+- **分类系统**: 定义了 `tags`, `series`, `categories` 三种分类方式。
+- **自定义菜单**: 配置了“博客”、“动态”、“关于”等导航菜单。
+- **JSON 输出**: 通过 `[outputs]` 配置，将首页内容输出为 JSON 格式，这通常用于站内搜索功能。
+
+### 自动化发布脚本 (`publish.sh`)
+
+`axfinn_blogs` 使用了一个更完善的 `publish.sh` 脚本，它有几个特点：
+
+- **目标目录**: 脚本通过 `DEPLOY_DIR="../axfinn.github.io"` 变量，直接指定了发布的目标目录，而不是在 `public` 目录中操作 Git。
+- **增量更新**: 脚本先删除目标目录的旧文件，再复制新生成的文件，确保了部署的纯净性。
+- **统一的提交信息**: 脚本使用 `chore: Publish site updates at $(date +'%Y-%m-%d %H:%M:%S')` 作为固定的提交信息，方便追踪发布历史。
+
+这个真实的项目案例可以帮助你更好地理解 Hugo 的配置和自动化部署的实践。
+
 ## 总结
 
 通过本教程，你已经成功搭建并发布了自己的个人博客。现在，你可以专注于内容创作，并通过 `hugo new` 创建新文章，然后运行 `./publish.sh` 来一键更新你的博客。祝你写作愉快！

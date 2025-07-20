@@ -223,7 +223,7 @@ git remote add origin <remote-repository-url>
 获取远程仓库的最新更改：
 
 ```bash
-git fetch origin # 从远程仓库下载最新���据，但不合并到本地分支
+git fetch origin # 从远程仓库下载最新数据，但不合并到本地分支
 git pull origin <branch-name> # 下载最新数据并合并到当前分支 (等同于 fetch + merge)
 ```
 `git pull` 经常用于同步远程 `main` 或 `master` 分支的最新代码。

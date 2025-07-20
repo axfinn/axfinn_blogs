@@ -3,6 +3,8 @@ document.addEventListener('DOMContentLoaded', function () {
     const searchResults = document.getElementById('search-results');
     let searchIndex = null;
 
+    searchResults.style.display = 'none'; // Initially hide search results
+
     // Fetch the search index
     fetch('/index.json')
         .then(response => response.json())
@@ -15,6 +17,7 @@ document.addEventListener('DOMContentLoaded', function () {
         searchResults.innerHTML = '';
 
         if (query.length < 2 || !searchIndex) {
+            searchResults.style.display = 'none'; // Hide if query is too short or no index
             return;
         }
 
@@ -28,10 +31,12 @@ document.addEventListener('DOMContentLoaded', function () {
                 li.innerHTML = `<a href="${item.uri}">${item.title}</a>`;
                 searchResults.appendChild(li);
             });
+            searchResults.style.display = 'block'; // Show results
         } else {
             const li = document.createElement('li');
             li.textContent = 'No results found';
             searchResults.appendChild(li);
+            searchResults.style.display = 'block'; // Show "No results" message
         }
     });
 });

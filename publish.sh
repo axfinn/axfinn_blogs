@@ -18,8 +18,8 @@ cd ${DEPLOY_DIR}
 echo "INFO: Committing changes..."
 git add .
 # Use a consistent commit message format.
-git commit -m "chore: Publish site updates at $(date +'%Y-%m-%d %H:%M:%S')"
+git commit -m "chore: 发布网站更新 $(date +'%Y-%m-%d %H:%M:%S')"
 echo "INFO: Pushing to remote..."
-git push origin master
+git push origin main
 
 echo "INFO: Deployment successful."

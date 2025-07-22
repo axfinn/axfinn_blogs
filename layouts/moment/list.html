@@ -1,0 +1,18 @@
+{{ define "main" }}
+<main class="main" role="main">
+  <article class="article">
+    <h1 class="article-title">Moments</h1>
+    {{ .Content }}
+    {{ range .Pages }}
+      <article class="archive-item">
+        <h2 class="archive-item-title">
+          <a href="{{ .RelPermalink }}">{{ .Title }}</a>
+        </h2>
+        <span class="archive-item-date">
+          {{ .Date.Format "2006-01-02" }}
+        </span>
+      </article>
+    {{ end }}
+  </article>
+</main>
+{{ end }}

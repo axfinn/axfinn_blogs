@@ -1,6 +1,6 @@
 ---
 title: "Qwen Code 实战应用与总结"
-date: 2025-07-23T18:30:00+08:00
+date: 2025-07-23T16:10:00+08:00
 draft: false
 slug: "qwen-code-practical-applications-and-summary"
 tags: ["Qwen Code", "实战应用", "案例分析", "总结"]

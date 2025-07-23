@@ -13,6 +13,29 @@ categories: ["技术", "AI工具"]
 
 Qwen Code 提供了一套丰富的工具集，允许 AI 模型与本地环境进行交互、执行命令、访问文件和执行各种操作。这些工具通过确认提示和沙箱机制确保安全性。
 
+工具集的分类可以用下图表示：
+
+{{< mermaid >}}
+graph TD
+    A[Qwen Code 工具集] --> B[文件系统工具]
+    A --> C[网络工具]
+    A --> D[其他工具]
+    
+    B --> B1[list_directory]
+    B --> B2[read_file]
+    B --> B3[write_file]
+    B --> B4[glob]
+    B --> B5[search_file_content]
+    B --> B6[replace]
+    
+    C --> C1[google_web_search]
+    C --> C2[web_fetch]
+    
+    D --> D1[save_memory]
+    D --> D2[run_shell_command]
+    D --> D3[MCP 服务器工具]
+{{< /mermaid >}}
+
 ## 文件系统工具
 
 Qwen Code 提供了完整的文件系统操作工具：
@@ -156,6 +179,35 @@ replace({
 })
 ```
 
+文件系统工具的使用流程可以用下图表示：
+
+{{< mermaid >}}
+graph LR
+    A[AI模型] --> B{需要文件操作?}
+    B -->|是| C[选择合适的工具]
+    C --> D[list_directory]
+    C --> E[read_file]
+    C --> F[write_file]
+    C --> G[glob]
+    C --> H[search_file_content]
+    C --> I[replace]
+    
+    D --> J[获取目录结构]
+    E --> K[读取文件内容]
+    F --> L[写入文件内容]
+    G --> M[查找文件]
+    H --> N[搜索文件内容]
+    I --> O[替换文件内容]
+    
+    J --> P[返回结果给AI]
+    K --> P
+    L --> P
+    M --> P
+    N --> P
+    O --> P
+    P --> A
+{{< /mermaid >}}
+
 ## 网络工具
 
 ### `google_web_search`：网络搜索工具
@@ -234,6 +286,27 @@ Qwen Code 采用多种安全机制保护用户环境：
 1. **确认提示**：在执行敏感操作前请求用户确认
 2. **沙箱机制**：在隔离环境中执行潜在危险操作
 3. **权限控制**：限制对文件系统和网络的访问
+
+安全机制的架构可以用下图表示：
+
+{{< mermaid >}}
+graph TD
+    A[工具执行请求] --> B[权限检查]
+    B --> C{权限是否足够?}
+    C -->|否| D[拒绝执行]
+    C -->|是| E[确认提示]
+    E --> F{用户是否确认?}
+    F -->|否| D
+    F -->|是| G[沙箱环境检查]
+    G --> H{是否需要沙箱?}
+    H -->|否| I[直接执行]
+    H -->|是| J[创建沙箱环境]
+    J --> K[在沙箱中执行]
+    K --> L[清理沙箱环境]
+    L --> M[返回执行结果]
+    I --> M
+    M --> N[AI模型]
+{{< /mermaid >}}
 
 ## 总结
 

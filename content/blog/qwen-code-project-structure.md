@@ -40,6 +40,34 @@ qwen-code/
 └── tsconfig.json             # TypeScript 配置
 ```
 
+为了更直观地理解项目结构，我们可以用 Mermaid 绘制一个图表：
+
+{{< mermaid >}}
+graph TD
+    A[qwen-code] --> B[.github]
+    A --> C[docs]
+    A --> D[examples]
+    A --> E[integration-tests]
+    A --> F[packages]
+    A --> G[scripts]
+    A --> H[tests]
+    A --> I[配置文件]
+    
+    B --> B1[workflows]
+    C --> C1[tools]
+    F --> F1[cli]
+    F --> F2[core]
+    F --> F3[...]
+    I --> I1[.eslintrc.js]
+    I --> I2[.gitignore]
+    I --> I3[.npmrc]
+    I --> I4[Dockerfile]
+    I --> I5[Makefile]
+    I --> I6[README.md]
+    I --> I7[package.json]
+    I --> I8[tsconfig.json]
+{{< /mermaid >}}
+
 ## 核心包详解
 
 ### CLI 包 (`packages/cli`)
@@ -58,6 +86,23 @@ CLI 包是 Qwen Code 的命令行界面实现，基于 React 和 Ink 构建。
 3. **配置管理**：加载和管理用户配置
 4. **认证机制**：处理 API 认证
 
+CLI 包与 Core 包之间的交互可以用下图表示：
+
+{{< mermaid >}}
+sequenceDiagram
+    participant User
+    participant CLI
+    participant Core
+    participant AI
+    
+    User->>CLI: 输入命令
+    CLI->>Core: 调用核心功能
+    Core->>AI: 发送请求到 Qwen
+    AI-->>Core: 返回响应
+    Core-->>CLI: 处理结果
+    CLI-->>User: 显示结果
+{{< /mermaid >}}
+
 ### Core 包 (`packages/core`)
 
 Core 包实现了 Qwen Code 的核心功能，包括与 AI 模型的交互和工具执行。
@@ -73,6 +118,21 @@ Core 包实现了 Qwen Code 的核心功能，包括与 AI 模型的交互和工
 - `src/tools/`：各种工具实现
 - `src/core/`：核心功能实现
 - `src/telemetry/`：遥测数据收集
+
+Core 包内部模块之间的关系如下：
+
+{{< mermaid >}}
+graph LR
+    A[Core Package] --> B[工具执行器]
+    A --> C[模型接口]
+    A --> D[沙箱管理]
+    A --> E[内存管理]
+    
+    B --> F[工具实现]
+    C --> G[Qwen API]
+    D --> H[安全执行环境]
+    E --> I[长期记忆存储]
+{{< /mermaid >}}
 
 ## 构建系统
 
@@ -98,6 +158,29 @@ Qwen Code 使用以下构建工具：
   }
 }
 ```
+
+构建流程可以用下图表示：
+
+{{< mermaid >}}
+flowchart TD
+    A[源代码] --> B[TypeScript 编译]
+    B --> C[Esbuild 打包]
+    C --> D[可执行文件]
+    
+    A --> E[单元测试]
+    E --> F[测试报告]
+    
+    A --> G[代码检查]
+    G --> H[检查报告]
+    
+    A --> I[类型检查]
+    I --> J[类型检查报告]
+    
+    D --> K[发布]
+    F --> K
+    H --> K
+    J --> K
+{{< /mermaid >}}
 
 ## 测试策略
 

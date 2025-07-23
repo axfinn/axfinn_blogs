@@ -10,7 +10,7 @@ categories: ["技术", "项目分析"]
 
 在 NPS 项目概述中，我们对这款强大的内网穿透工具进行了宏观的介绍。本篇文章将深入 NPS 的服务端（Server）核心，从 `nps/server/server.go` 文件入手，详细剖析其架构设计、任务管理、流量处理以及系统监控等关键功能。理解 `server.go` 的运作机制，是掌握 NPS 核心原理的基石。
 
-## `server.go`：服务端的“大脑”
+## `server.go`：服务端的"大脑"
 
 `server.go` 文件是 NPS 服务端的启动入口和主要协调者。它负责初始化各项服务、管理客户端连接、调度隧道任务以及收集系统运行状态。
 
@@ -21,6 +21,27 @@ categories: ["技术", "项目分析"]
 *   `Bridge *bridge.Bridge`：这是服务端与客户端之间通信的核心桥梁。它负责维护客户端连接、处理客户端发送的指令以及转发数据。
 *   `RunList sync.Map`：一个并发安全的 Map，用于存储当前正在运行的所有隧道（`proxy.Service` 实例）。通过 `sync.Map`，NPS 能够高效地管理和访问多个并发的隧道服务。
 *   `once sync.Once`：用于确保某些初始化操作（如 `flowSession`）只执行一次。
+
+NPS 服务端核心组件架构可以用下图表示：
+
+{{< mermaid >}}
+graph TD
+    A[server.go] --> B[Bridge]
+    A --> C[RunList]
+    A --> D[once]
+    
+    B --> B1[客户端连接管理]
+    B --> B2[指令处理]
+    B --> B3[数据转发]
+    
+    C --> C1[TCP隧道服务]
+    C --> C2[UDP隧道服务]
+    C --> C3[HTTP代理服务]
+    C --> C4[SOCKS5服务]
+    C --> C5[Web管理服务]
+    
+    D --> D1[流量数据持久化]
+{{< /mermaid >}}
 
 ### 初始化与任务加载
 
@@ -39,7 +60,31 @@ categories: ["技术", "项目分析"]
 *   **`Bridge.OpenTask`**：当有新的隧道任务需要启动时，从该通道接收任务并调用 `AddTask()`。
 *   **`Bridge.CloseTask`**：当有隧道任务需要停止时，从该通道接收任务 ID 并调用 `StopServer()`。
 *   **`Bridge.CloseClient`**：当客户端断开连接或需要被移除时，从该通道接收客户端 ID，并调用 `DelTunnelAndHostByClientId()` 删除该客户端关联的所有隧道和主机。
-*   **`Bridge.SecretChan`**：处理特殊的“秘密连接”。如果连接的密码与某个启用状态的隧道匹配，则会启动一个 `proxy.NewBaseServer` 来处理该连接。
+*   **`Bridge.SecretChan`**：处理特殊的"秘密连接"。如果连接的密码与某个启用状态的隧道匹配，则会启动一个 `proxy.NewBaseServer` 来处理该连接。
+
+`DealBridgeTask()` 的处理流程可以用下图表示：
+
+{{< mermaid >}}
+flowchart TD
+    A[DealBridgeTask循环] --> B{事件类型?}
+    B -->|OpenTask| C[接收新任务]
+    C --> D[调用AddTask启动隧道]
+    B -->|CloseTask| E[接收关闭任务ID]
+    E --> F[调用StopServer停止隧道]
+    B -->|CloseClient| G[接收客户端ID]
+    G --> H[调用DelTunnelAndHostByClientId]
+    B -->|SecretChan| I[接收秘密连接]
+    I --> J{密码匹配?}
+    J -->|是| K[启动proxy.NewBaseServer]
+    J -->|否| L[忽略连接]
+    
+    D --> M[更新RunList]
+    F --> M
+    H --> M
+    K --> M
+    L --> M
+    M --> A
+{{< /mermaid >}}
 
 ### 服务端启动流程：`StartNewServer()`
 
@@ -51,6 +96,25 @@ categories: ["技术", "项目分析"]
 4.  **启动任务处理协程**：启动 `DealBridgeTask()` goroutine，开始处理来自 `Bridge` 的任务事件。
 5.  **启动客户端流量处理**：启动 `dealClientFlow()` goroutine，定期处理客户端的流量数据。
 6.  **启动主代理服务**：根据传入的隧道配置 (`cnf.Mode`)，通过 `NewMode()` 函数实例化对应的 `proxy.Service`，并在独立的 goroutine 中启动它。这个 `proxy.Service` 实例会被存储在 `RunList` 中。
+
+服务端启动流程可以用下图表示：
+
+{{< mermaid >}}
+graph TD
+    A[StartNewServer] --> B[初始化Bridge]
+    B --> C[启动Bridge监听]
+    C --> D[启动P2P服务]
+    D --> E[启动任务处理协程]
+    E --> F[启动客户端流量处理]
+    F --> G[启动主代理服务]
+    G --> H[存储到RunList]
+    H --> I[服务端启动完成]
+    
+    C --> C1[goroutine: Bridge.StartTunnel]
+    E --> E1[goroutine: DealBridgeTask]
+    F --> F1[goroutine: dealClientFlow]
+    G --> G1[goroutine: proxy.Service]
+{{< /mermaid >}}
 
 ### 代理模式工厂：`NewMode()`
 

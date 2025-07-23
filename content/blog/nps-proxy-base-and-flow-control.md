@@ -35,6 +35,43 @@ categories: ["技术", "项目分析"]
     ```
     这个接口定义了与 `bridge` 模块（服务端与客户端通信的桥梁）交互的方法。`SendLinkInfo` 方法负责将客户端的连接信息 (`link`) 和隧道信息 (`t`) 发送给 `bridge`，并从 `bridge` 获取到与目标服务建立的连接 (`target net.Conn`)。这表明 `proxy` 模块本身并不直接与客户端通信，而是通过 `bridge` 模块进行抽象和解耦。
 
+NPS 代理服务的核心接口可以用下图表示：
+
+{{< mermaid >}}
+classDiagram
+    class Service {
+        <<interface>>
+        +Start() error
+        +Close() error
+    }
+    
+    class NetBridge {
+        <<interface>>
+        +SendLinkInfo(clientId int, link *conn.Link, t *file.Tunnel) (target net.Conn, err error)
+    }
+    
+    class BaseServer {
+        -id int
+        -bridge NetBridge
+        -task *file.Tunnel
+        -errorContent []byte
+        -sync.Mutex
+        +FlowAdd(in, out int64)
+        +FlowAddHost(host *file.Host, in, out int64)
+        +CheckFlowAndConnNum(client *file.Client)
+        +auth(r *http.Request, c *conn.Conn, u, p string)
+        +IsGlobalBlackIp(ipPort string)
+        +DealClient()
+    }
+    
+    Service <|-- TcpProxy
+    Service <|-- UdpProxy
+    Service <|-- HttpProxy
+    Service <|-- Socks5Proxy
+    NetBridge <|.. BridgeModule
+    BaseServer ..> NetBridge
+{{< /mermaid >}}
+
 ### `BaseServer`：通用代理服务结构体
 
 `BaseServer` 是一个嵌入在具体代理服务结构体中的基础结构体，它包含了所有代理服务通用的属性和方法：
@@ -73,6 +110,34 @@ type BaseServer struct {
     *   **连接数限制**：通过 `client.GetConn()` 方法检查客户端是否还有可用的连接数。
     *   **重要性**：这是 NPS 实现资源管理和防止滥用的关键机制。
 
+流量统计与控制的流程可以用下图表示：
+
+{{< mermaid >}}
+flowchart TD
+    A[客户端连接] --> B[检查黑名单]
+    B --> C{是否在黑名单中?}
+    C -->|是| D[关闭连接]
+    C -->|否| E[构建conn.Link]
+    E --> F[通过bridge获取目标连接]
+    F --> G{是否成功获取?}
+    G -->|否| H[返回错误]
+    G -->|是| I[开始数据拷贝]
+    I --> J[流量统计]
+    J --> K[累加隧道流量]
+    K --> L[累加主机流量]
+    L --> M[检查流量限制]
+    M --> N{是否超限?}
+    N -->|是| O[断开连接]
+    N -->|否| P[继续数据传输]
+    
+    J --> Q[加锁保护]
+    K --> Q
+    L --> Q
+    M --> Q
+    Q --> R[解锁]
+    R --> S[完成数据传输]
+{{< /mermaid >}}
+
 ### 安全与认证
 
 `base.go` 也包含了基本的安全检查和认证逻辑：
@@ -95,6 +160,29 @@ type BaseServer struct {
 2.  **构建 `conn.Link`**：根据连接类型 (`tp`)、目标地址 (`addr`)、加密 (`Crypt`)、压缩 (`Compress`)、客户端远程地址 (`c.Conn.RemoteAddr().String()`)、本地代理 (`localProxy`) 和协议版本 (`protoVersion`) 等信息，构建一个 `conn.Link` 结构体。`conn.Link` 封装了连接的元数据和传输特性。
 3.  **通过 `bridge` 获取目标连接**：调用 `s.bridge.SendLinkInfo(client.Id, link, s.task)` 将 `link` 信息发送给 `bridge` 模块。`bridge` 模块会负责与客户端建立实际的隧道连接，并返回一个与目标服务建立的 `net.Conn`。
 4.  **数据拷贝**：如果成功获取到目标连接，则调用 `conn.CopyWaitGroup(target, c.Conn, ...)` 开始在客户端连接 (`c.Conn`) 和目标连接 (`target`) 之间进行双向数据拷贝。`CopyWaitGroup` 会处理加密、压缩、流量限制等逻辑。
+
+`DealClient()` 的处理流程可以用下图表示：
+
+{{< mermaid >}}
+sequenceDiagram
+    participant Client
+    participant BaseServer
+    participant Bridge
+    participant Target
+    
+    Client->>BaseServer: 发起连接请求
+    BaseServer->>BaseServer: 黑名单检查
+    BaseServer->>BaseServer: 构建conn.Link
+    BaseServer->>Bridge: SendLinkInfo
+    Bridge->>Client: 建立隧道连接
+    Bridge->>Target: 建立目标连接
+    Bridge-->>BaseServer: 返回目标连接
+    BaseServer->>BaseServer: 数据拷贝准备
+    BaseServer->>Client: 开始数据传输
+    BaseServer->>Target: 开始数据传输
+    BaseServer->>BaseServer: 流量统计
+    BaseServer->>BaseServer: 连接数检查
+{{< /mermaid >}}
 
 ## 总结
 

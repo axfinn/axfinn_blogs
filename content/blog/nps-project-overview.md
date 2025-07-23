@@ -28,6 +28,30 @@ NPS 的核心在于其全面的协议支持和灵活的流量转发能力：
 *   **内网 SOCKS5 代理**：提供一个 SOCKS5 代理服务，使得用户可以像在内网一样访问各种内网资源或设备，常用于搭建内网穿透 SS。
 *   **P2P 支持**：支持点对点连接，进一步提升穿透的灵活性和效率。
 
+NPS 支持的协议类型可以用下图表示：
+
+{{< mermaid >}}
+graph TD
+    A[NPS 协议支持] --> B[TCP 流量转发]
+    A --> C[UDP 流量转发]
+    A --> D[HTTP 代理]
+    A --> E[SOCKS5 代理]
+    A --> F[P2P 连接]
+    
+    B --> B1[Web 服务映射]
+    B --> B2[SSH 访问]
+    B --> B3[远程桌面]
+    
+    C --> C1[DNS 解析]
+    C --> C2[UDP 服务访问]
+    
+    D --> D1[内网网站访问]
+    
+    E --> E1[内网资源访问]
+    
+    F --> F1[点对点连接]
+{{< /mermaid >}}
+
 ## NPS 的主要特点
 
 NPS 之所以成为内网穿透领域的佼佼者，得益于其以下显著特点：
@@ -42,6 +66,48 @@ NPS 之所以成为内网穿透领域的佼佼者，得益于其以下显著特�
 *   **域名解析功能**：具备自定义 Header、404 页面配置、Host 修改、站点保护、URL 路由、泛解析等功能，为域名代理模式提供强大支持。
 *   **服务端支持多用户和用户注册功能**：方便团队协作和多用户管理。
 
+NPS 的主要特点可以总结为以下对比图：
+
+{{< mermaid >}}
+radarChart[NPS 特点雷达图]
+axisConfig
+{
+  type: radialLinear,
+  angleLines: {
+    display: false
+  },
+  ticks: {
+    beginAtZero: true,
+    max: 10,
+    min: 0,
+    stepSize: 2
+  },
+  pointLabels: {
+    fontSize: 12
+  }
+}
+
+data
+{
+  labels: ['协议支持', '平台兼容性', '控制能力', '安全性', '易用性', '监控能力', '扩展功能', '域名解析', '多用户支持'],
+  datasets: [
+    {
+      label: 'NPS',
+      data: [9, 8, 8, 7, 9, 8, 7, 8, 7],
+      fill: true,
+      backgroundColor: 'rgba(255, 99, 132, 0.2)',
+      borderColor: 'rgb(255, 99, 132)',
+      pointBackgroundColor: 'rgb(255, 99, 132)',
+      pointBorderColor: '#fff',
+      pointHoverBackgroundColor: '#fff',
+      pointHoverBorderColor: 'rgb(255, 99, 132)'
+    }
+  ]
+}
+{{< /mermaid >}}
+
+注：以上评分为主观评估，满分10分。
+
 ## 应用场景
 
 NPS 的多功能性使其在众多场景中都能发挥重要作用：
@@ -51,6 +117,35 @@ NPS 的多功能性使其在众多场景中都能发挥重要作用：
 *   **内网 DNS/UDP 服务访问**：通过 UDP 代理模式，解决外网访问内网 DNS 或其他 UDP 服务的问题。
 *   **外网 HTTP 代理访问内网站点**：通过 HTTP 代理模式，在外网安全访问内网的 Web 应用。
 *   **搭建内网穿透 SOCKS5 代理**：在外网如同使用内网 VPN 一样访问内网资源或设备。
+
+NPS 的应用场景可以用下图表示：
+
+{{< mermaid >}}
+graph TD
+    A[外网用户] --> B[NPS 服务端]
+    C[内网资源] --> D[NPS 客户端]
+    B <--> D
+    
+    subgraph 应用场景
+        E[微信开发]
+        F[远程访问]
+        G[DNS服务]
+        H[HTTP代理]
+        I[SOCKS5代理]
+    end
+    
+    B --> E
+    B --> F
+    B --> G
+    B --> H
+    B --> I
+    
+    E --> J[本地环境暴露]
+    F --> K[SSH/远程桌面]
+    G --> L[UDP服务访问]
+    H --> M[安全Web访问]
+    I --> N[内网资源访问]
+{{< /mermaid >}}
 
 ## 快速上手概览
 

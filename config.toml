@@ -72,6 +72,9 @@ pygmentsuseclasses         = true
   # latex
   katex                    = true
 
+  # mermaid
+  mermaid                  = true
+
   # links
   email                    = "521very@email.com"
   github                   = "//github.com/axfinn"

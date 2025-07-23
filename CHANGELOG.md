@@ -4,8 +4,10 @@
 
 ### Added
 - Blog pet with drag, hide/show, and interactive speech features.
+- Mermaid diagram support for technical blog posts.
 
 ### Changed
 - Improved search box integration (visual alignment and display logic).
-- Optimized blog pet behavior: reduced random speech interval to 5 seconds and added immediate speech on page load.
+- Optimified blog pet behavior: reduced random speech interval to 5 seconds and added immediate speech on page load.
+- Enhanced multiple technical blog posts with Mermaid diagrams for better visualization of system architectures and workflows.
 

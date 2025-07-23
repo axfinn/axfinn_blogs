@@ -42,6 +42,26 @@ main().catch((error) => {
 2. 调用 `main()` 函数启动应用
 3. 实现全局错误处理，确保任何未捕获的异常都能被妥善处理
 
+CLI 启动流程可以用下图表示：
+
+{{< mermaid >}}
+flowchart TD
+    A[CLI入口点] --> B[导入gemini.js]
+    B --> C[调用main函数]
+    C --> D[解析命令行参数]
+    D --> E[加载配置]
+    E --> F[设置主题]
+    F --> G[处理认证]
+    G --> H[检查内存]
+    H --> I[初始化沙箱]
+    I --> J{是否TTY?}
+    J -->|否| K[读取标准输入]
+    K --> L[处理非交互输入]
+    J -->|是| M[启动交互模式]
+    L --> N[结束]
+    M --> N
+{{< /mermaid >}}
+
 ### 主逻辑实现
 
 `packages/cli/src/gemini.tsx` 是 CLI 的核心实现文件。让我们分析其中的关键部分：
@@ -190,6 +210,35 @@ export class RequestProcessor {
   }
 }
 ```
+
+请求处理的核心流程可以用下图表示：
+
+{{< mermaid >}}
+sequenceDiagram
+    participant User
+    participant Processor
+    participant Context
+    participant Model
+    participant Tools
+    
+    User->>Processor: 输入请求
+    Processor->>Context: 添加用户消息
+    Processor->>Context: 构建完整上下文
+    Processor->>Model: 调用模型
+    Model-->>Processor: 返回响应
+    Processor->>Processor: 解析响应
+    alt 有工具调用
+        Processor->>Tools: 执行工具
+        Tools-->>Processor: 返回结果
+        Processor->>Model: 反馈工具结果
+        Model-->>Processor: 返回最终响应
+        Processor->>Context: 添加助手消息
+        Processor-->>User: 返回最终结果
+    else 无工具调用
+        Processor->>Context: 添加助手消息
+        Processor-->>User: 返回结果
+    end
+{{< /mermaid >}}
 
 这个实现展示了 Qwen Code 如何处理用户的输入，调用 AI 模型，并根据需要执行工具。
 
@@ -707,6 +756,31 @@ export function registerAllTools(): void {
   // ... 注册其他工具
 }
 ```
+
+工具注册与管理系统可以用下图表示：
+
+{{< mermaid >}}
+graph TD
+    A[工具注册系统] --> B[工具注册表]
+    A --> C[工具注册函数]
+    
+    B --> B1[readFileTool]
+    B --> B2[writeFileTool]
+    B --> B3[listDirectoryTool]
+    B --> B4[globTool]
+    B --> B5[searchFileContentTool]
+    B --> B6[replaceTool]
+    B --> B7[runShellCommandTool]
+    B --> B8[googleWebSearchTool]
+    B --> B9[webFetchTool]
+    B --> B10[saveMemoryTool]
+    
+    C --> D[registerAllTools]
+    D --> E[注册所有工具到注册表]
+    
+    F[工具执行器] --> B
+    F -->|获取工具| G[执行工具]
+{{< /mermaid >}}
 
 ## 错误处理与日志记录
 

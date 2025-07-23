@@ -85,3 +85,8 @@ pygmentsuseclasses         = true
   
   # analytics
   googleAnalytics          = "your-google-analytic-id"
+
+[markup]
+  [markup.goldmark]
+    [markup.goldmark.renderer]
+      unsafe = true

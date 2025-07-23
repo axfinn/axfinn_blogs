@@ -1,18 +1,56 @@
 {{ define "main" }}
-<main class="main" role="main">
-  <article class="article">
-    <h1 class="article-title">Moments</h1>
-    {{ .Content }}
-    {{ range .Pages }}
-      <article class="archive-item">
-        <h2 class="archive-item-title">
-          <a href="{{ .RelPermalink }}">{{ .Title }}</a>
-        </h2>
-        <span class="archive-item-date">
-          {{ .Date.Format "2006-01-02" }}
-        </span>
-      </article>
-    {{ end }}
-  </article>
-</main>
+  <main class="post-main-wrapper px-5">
+    <!-- <div class="container"> -->
+    <div class="row">
+
+      {{ $single := add (add (len (where .Pages ".Params.categories" "ne" nil)) (len (where .Pages ".Params.series" "ne" nil)) ) (len (where .Pages ".Params.tags" "ne" nil)) }}
+      {{ if gt $single 0 }}
+        <!-- Sidebar -->
+        <div class="col-md-3">
+          {{ partial "sidebar-categories.html" . }}    
+          {{ partial "sidebar-tags.html" . }}
+          {{ partial "sidebar-series.html" . }}
+        </div>
+        <!-- /.Sidebar -->
+
+        <!-- Post list -->
+        <!-- <div class="content"> -->
+        <div class="col-md-9 mt-3">  
+      {{ else }}
+        <div class="container content mt-3">  
+      {{ end }}
+          <ul>
+            <div class="div-x">
+              {{ partial "page-heading.html" . }}
+              {{ $page_num := (len .Data.Pages)}}
+              {{ if gt $page_num 0 }}
+                <div class="px-2 middot"></div>
+                <div>
+                  {{ i18n "postCount" $page_num }}
+                </div>
+              {{ end }}
+            </div>
+
+            {{ if .Content }}
+              <div class="post-content markdown">
+                {{ .Content }}
+              </div>
+          {{ end }}  
+        </ul>
+        <div>
+          <div class="pagination pagination-outline justify-content-end active-color">
+            {{ $paginator := .Paginate .Data.Pages.ByPublishDate.Reverse }}
+            {{ template "_internal/pagination.html" . }}
+          </div>
+
+          {{ range $paginator.Pages }}
+              {{ partial "post-card.html" . }}
+          {{ end }}
+            
+        </div>
+      </div>
+      <!-- /.Post list -->
+
+    </div>
+  </main>
 {{ end }}

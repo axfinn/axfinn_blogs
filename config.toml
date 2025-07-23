@@ -85,8 +85,3 @@ pygmentsuseclasses         = true
   
   # analytics
   googleAnalytics          = "your-google-analytic-id"
-    
-[outputs]
-  home = ["HTML", "JSON"]
-    
-    

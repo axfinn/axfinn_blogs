@@ -1,0 +1,166 @@
+/**
+ * Dynamic Background Control Panel Styles
+ */
+
+.dynamic-bg-control-panel {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  z-index: 10000;
+  font-family: 'Raleway', "Helvetica Neue", Arial, "PingFang SC", "Lantinghei SC", "Microsoft YaHei", sans-serif;
+}
+
+.dynamic-bg-control-toggle {
+  width: 40px;
+  height: 40px;
+  background-color: rgba(0, 0, 0, 0.7);
+  color: white;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+  transition: all 0.3s ease;
+}
+
+.dynamic-bg-control-toggle:hover {
+  background-color: rgba(0, 0, 0, 0.9);
+  transform: rotate(30deg);
+}
+
+.dynamic-bg-control-content {
+  background-color: rgba(255, 255, 255, 0.95);
+  border-radius: 10px;
+  box-shadow: 0 5px 20px rgba(0, 0, 0, 0.2);
+  padding: 20px;
+  margin-top: 10px;
+  width: 280px;
+  backdrop-filter: blur(10px);
+  transform-origin: top right;
+  transition: all 0.3s ease;
+}
+
+.dynamic-bg-control-content.collapsed {
+  opacity: 0;
+  transform: scale(0.9) translateY(-10px);
+  pointer-events: none;
+}
+
+.dynamic-bg-control-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 15px;
+  padding-bottom: 10px;
+  border-bottom: 1px solid #eee;
+}
+
+.dynamic-bg-control-title {
+  font-size: 18px;
+  font-weight: 600;
+  color: #333;
+  margin: 0;
+}
+
+.dynamic-bg-control-close {
+  background: none;
+  border: none;
+  font-size: 20px;
+  cursor: pointer;
+  color: #999;
+  transition: color 0.2s;
+}
+
+.dynamic-bg-control-close:hover {
+  color: #333;
+}
+
+.dynamic-bg-control-group {
+  margin-bottom: 15px;
+}
+
+.dynamic-bg-control-label {
+  display: block;
+  margin-bottom: 5px;
+  font-size: 14px;
+  color: #555;
+  font-weight: 500;
+}
+
+.dynamic-bg-control-input {
+  width: 100%;
+  padding: 8px 12px;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  font-size: 14px;
+  transition: border-color 0.2s;
+  box-sizing: border-box;
+}
+
+.dynamic-bg-control-input:focus {
+  outline: none;
+  border-color: #428bca;
+}
+
+.dynamic-bg-control-checkbox {
+  display: flex;
+  align-items: center;
+  margin-bottom: 10px;
+}
+
+.dynamic-bg-control-checkbox input {
+  margin-right: 8px;
+  width: 16px;
+  height: 16px;
+}
+
+.dynamic-bg-control-checkbox label {
+  font-size: 14px;
+  color: #555;
+  cursor: pointer;
+}
+
+.dynamic-bg-control-buttons {
+  display: flex;
+  gap: 10px;
+  margin-top: 10px;
+}
+
+.dynamic-bg-control-button {
+  flex: 1;
+  padding: 10px;
+  border: none;
+  border-radius: 5px;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.dynamic-bg-control-button.primary {
+  background-color: #428bca;
+  color: white;
+}
+
+.dynamic-bg-control-button.primary:hover {
+  background-color: #357abd;
+}
+
+.dynamic-bg-control-button.secondary {
+  background-color: #f0f0f0;
+  color: #333;
+}
+
+.dynamic-bg-control-button.secondary:hover {
+  background-color: #e0e0e0;
+}
+
+.dynamic-bg-control-status {
+  font-size: 13px;
+  color: #777;
+  text-align: center;
+  margin-top: 10px;
+  padding-top: 10px;
+  border-top: 1px solid #eee;
+}

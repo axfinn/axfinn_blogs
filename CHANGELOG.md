@@ -1,4 +1,19 @@
-# Changelog
+# 更新日志
+
+## 2025-08-01
+
+### 新增内容
+
+- 添加 DeepChat 系列博客文章，全面分析开源 AI 聊天平台：
+  - [DeepChat 项目概览：多模型AI对话平台介绍](content/blog/deepchat-project-overview.md)
+  - [DeepChat 架构设计解析：Electron 多平台实现原理](content/blog/deepchat-architecture-design.md)
+  - [DeepChat 多模型支持机制详解](content/blog/deepchat-multi-model-support.md)
+  - [DeepChat MCP 支持深度剖析](content/blog/deepchat-mcp-support.md)
+  - [DeepChat 搜索增强功能实现分析](content/blog/deepchat-search-enhancement.md)
+  - [DeepChat 多窗口多标签架构设计](content/blog/deepchat-multi-window-tabs.md)
+  - [DeepChat 安全与隐私保护机制](content/blog/deepchat-security-privacy.md)
+  - [DeepChat 性能优化与企业级应用](content/blog/deepchat-performance-enterprise.md)
+  - [DeepChat 系列总结：构建下一代 AI 交互平台的完整解析](content/blog/deepchat-series-summary.md)
 
 ## [2025.07.23] - 2025-07-23
 

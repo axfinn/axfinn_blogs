@@ -13,6 +13,10 @@
   - [DeepChat 多窗口多标签架构设计](content/blog/deepchat-multi-window-tabs.md)
   - [DeepChat 安全与隐私保护机制](content/blog/deepchat-security-privacy.md)
   - [DeepChat 性能优化与企业级应用](content/blog/deepchat-performance-enterprise.md)
+  - [DeepChat 多平台构建实现详解：从代码到发布](content/blog/deepchat-multi-platform-build.md)
+  - [DeepChat 多窗口多标签架构深度解析](content/blog/deepchat-multi-window-tabs-architecture.md)
+  - [DeepChat MCP 支持实现详解：打造强大的 AI 工具生态系统](content/blog/deepchat-mcp-implementation.md)
+  - [DeepChat 跨平台实现机制详解：构建真正跨系统的 Electron 应用](content/blog/deepchat-cross-platform-implementation.md)
   - [DeepChat 系列总结：构建下一代 AI 交互平台的完整解析](content/blog/deepchat-series-summary.md)
 
 ## [2025.07.23] - 2025-07-23
@@ -27,4 +31,3 @@
 - Enhanced multiple technical blog posts with Mermaid diagrams for better visualization of system architectures and workflows. / 使用 Mermaid 图表增强了多篇技术博客文章，以便更好地可视化系统架构和工作流程
 - Fixed date ordering of Qwen Code blog series to ensure proper chronological display. / 修正了 Qwen Code 博客系列的日期排序，确保正确的时间顺序显示
 - Added custom template to remove pagination from tag pages, showing all related posts. / 添加了自定义模板以移除标签页面的分页，显示所有相关文章
-

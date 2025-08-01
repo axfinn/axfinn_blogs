@@ -1,6 +1,6 @@
 ---
 title: "DeepChat 多平台构建实现详解：从代码到发布"
-date: 2025-08-01T19:00:00+08:00
+date: 2025-08-01T18:10:00+08:00
 draft: false
 slug: "deepchat-multi-platform-build"
 tags: ["DeepChat", "Electron", "构建系统", "CI/CD", "多平台"]
@@ -157,4 +157,4 @@ DeepChat 通过 GitHub Actions 实现自动化构建和发布：
 
 DeepChat 的多平台构建实现体现了现代 Electron 应用的最佳实践。通过合理的构建配置、平台特定处理和自动化流程，DeepChat 能够高效地为多个平台生成高质量的应用程序。这种构建系统不仅保证了应用在各平台的一致性，还大大简化了发布流程，为开源项目的持续发展提供了坚实基础。
 
-对于想要构建跨平台 Electron 应用的开发者来说，DeepChat 的构建系统提供了宝贵的参考价值。
+对于想要构建跨平台 Electron 应用的开发者来说，DeepChat 的构建系统提供了宝贵的参考价值.

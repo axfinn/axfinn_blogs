@@ -1,6 +1,6 @@
 ---
 title: "DeepChat 跨平台实现机制详解：构建真正跨系统的 Electron 应用"
-date: 2025-08-01T21:00:00+08:00
+date: 2025-08-01T18:30:00+08:00
 draft: false
 slug: "deepchat-cross-platform-implementation"
 tags: ["DeepChat", "Electron", "跨平台", "构建系统", "macOS", "Windows", "Linux"]
@@ -411,4 +411,4 @@ DeepChat 的跨平台实现展示了现代 Electron 应用开发的最佳实践�
 
 对于希望构建跨平台 Electron 应用的开发者来说，DeepChat 的实现提供了宝贵的参考价值。它不仅展示了技术实现的细节，更重要的是体现了工程化思维和用户至上的设计理念。
 
-随着操作系统的演进和新技术的出现，跨平台应用开发也将面临新的挑战和机遇。DeepChat 的实现为这一领域的发展提供了有益的探索和实践经验。
+随着操作系统的演进和新技术的出现，跨平台应用开发也将面临新的挑战和机遇。DeepChat 的实现为这一领域的发展提供了有益的探索和实践经验.

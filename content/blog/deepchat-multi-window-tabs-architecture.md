@@ -1,6 +1,6 @@
 ---
 title: "DeepChat 多窗口多标签架构深度解析"
-date: 2025-08-01T19:30:00+08:00
+date: 2025-08-01T18:15:00+08:00
 draft: false
 slug: "deepchat-multi-window-tabs-architecture"
 tags: ["DeepChat", "Electron", "架构设计", "多窗口", "多标签"]
@@ -140,7 +140,7 @@ DeepChat 实现了标签页在不同窗口间的拖拽功能，主要技术点�
 2. **窗口间通信** - 通过 IPC 在不同窗口间传递拖拽信息
 3. **视图重新附加** - 将 WebContentsView 从原窗口分离并附加到新窗口
 
-```javascript
+```
 // 拖拽实现示例
 const handleTabDragStart = (event, tabId) => {
   event.dataTransfer.setData('text/plain', tabId);
@@ -162,7 +162,7 @@ const handleTabDrop = async (event, targetWindowId) => {
 
 DeepChat 实现了统一的事件总线系统，用于在不同组件间传递消息：
 
-```typescript
+```
 // 事件总线使用示例
 eventBus.on('tab-switched', (tabId) => {
   // 处理标签切换事件

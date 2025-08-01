@@ -1,6 +1,6 @@
 ---
 title: "DeepChat 多窗口多标签架构深度解析"
-date: 2025-08-01T18:15:00+08:00
+date: 2025-07-31T18:15:00+08:00
 draft: false
 slug: "deepchat-multi-window-tabs-architecture"
 tags: ["DeepChat", "Electron", "架构设计", "多窗口", "多标签"]
@@ -107,7 +107,7 @@ DeepChat 采用了独特的双进程架构：
 
 DeepChat 的多窗口多标签功能主要由 [TabPresenter](file:///Volumes/M20/code/docs/deepchat/src/main/presenter/tabPresenter.ts#L36-L355) 类实现，它负责管理所有标签页的生命周期：
 
-```typescript
+``typescript
 // TabPresenter 核心功能
 class TabPresenter {
   // 创建新标签页

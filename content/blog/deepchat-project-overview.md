@@ -1,6 +1,6 @@
 ---
 title: "DeepChat 项目概览：多模型AI对话平台介绍"
-date: 2025-08-01T18:00:00+08:00
+date: 2025-07-31T18:00:00+08:00
 draft: false
 slug: "deepchat-project-overview"
 tags: ["DeepChat", "AI", "Electron", "多平台", "开源项目"]

@@ -1,6 +1,6 @@
 ---
 title: "DeepChat 多窗口多标签架构设计"
-date: 2025-08-01T20:30:00+08:00
+date: 2025-07-31T20:30:00+08:00
 draft: false
 slug: "deepchat-multi-window-tabs"
 tags: ["DeepChat", "AI", "多窗口", "多标签", "UI设计", "架构设计"]
@@ -136,7 +136,7 @@ class SessionManager {
 
 ### 窗口数据结构
 
-```typescript
+``typescript
 interface WindowState {
   id: string;                    // 窗口唯一标识
   title: string;                 // 窗口标题
@@ -156,7 +156,7 @@ interface TabState {
 
 ### 窗口管理实现
 
-```typescript
+``typescript
 class WindowManager {
   private windows: Map<string, WindowState> = new Map();
   
@@ -239,7 +239,7 @@ class WindowManager {
 
 为了确保多个窗口间的数据一致性，DeepChat 实现了跨窗口状态同步机制：
 
-```typescript
+``typescript
 class StateSyncManager {
   private syncChannels: Map<string, Set<string>> = new Map();
   
@@ -274,7 +274,7 @@ class StateSyncManager {
 
 DeepChat 将会话状态持久化到本地存储：
 
-```typescript
+``typescript
 class SessionPersistence {
   private storagePath: string;
   
@@ -336,7 +336,7 @@ class SessionPersistence {
 
 DeepChat 的标签页界面设计注重用户体验：
 
-```tsx
+``tsx
 // 标签页组件
 const TabBar: React.FC<TabBarProps> = ({ tabs, activeTab, onSwitchTab, onCloseTab }) => {
   return (
@@ -369,7 +369,7 @@ const TabBar: React.FC<TabBarProps> = ({ tabs, activeTab, onSwitchTab, onCloseTa
 
 支持标签页的拖拽和重新排列：
 
-```typescript
+``typescript
 class TabDragManager {
   handleTabDragStart(tabId: string, event: DragEvent): void {
     event.dataTransfer?.setData('text/plain', tabId);
@@ -401,7 +401,7 @@ class TabDragManager {
 
 为了优化内存使用，DeepChat 实现了会话的懒加载和卸载机制：
 
-```typescript
+``typescript
 class MemoryManager {
   private loadedSessions: Map<string, Session> = new Map();
   private sessionCache: LRUCache<string, Session>;
@@ -453,7 +453,7 @@ class MemoryManager {
 
 对于包含大量消息的会话，采用虚拟化渲染技术：
 
-```tsx
+``tsx
 const VirtualizedMessageList: React.FC<MessageListProps> = ({ messages }) => {
   const { visibleItems, totalHeight, itemHeight } = useVirtualizedList({
     items: messages,

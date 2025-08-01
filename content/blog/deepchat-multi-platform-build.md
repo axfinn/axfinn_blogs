@@ -1,6 +1,6 @@
 ---
 title: "DeepChat 多平台构建实现详解：从代码到发布"
-date: 2025-08-01T18:10:00+08:00
+date: 2025-07-31T18:10:00+08:00
 draft: false
 slug: "deepchat-multi-platform-build"
 tags: ["DeepChat", "Electron", "构建系统", "CI/CD", "多平台"]

@@ -1,6 +1,6 @@
 ---
 title: "DeepChat MCP 支持深度剖析"
-date: 2025-08-01T19:30:00+08:00
+date: 2025-07-31T19:30:00+08:00
 draft: false
 slug: "deepchat-mcp-support"
 tags: ["DeepChat", "AI", "MCP", "工具调用", "Model Context Protocol"]
@@ -134,7 +134,7 @@ class ToolManager {
 4. **执行工具** - 调用相应的工具实现
 5. **返回结果** - 将执行结果返回给 AI 模型
 
-```typescript
+``typescript
 async handleToolCall(request: CallToolRequest): Promise<CallToolResponse> {
   const tool = this.toolManager.getTool(request.params.name);
   if (!tool) {
@@ -170,7 +170,7 @@ DeepChat 内置了一些常用的工具，例如：
 
 #### 代码执行工具
 
-```typescript
+``typescript
 const codeExecutionTool: Tool = {
   name: "execute_code",
   description: "Execute code in a secure sandbox environment",
@@ -196,7 +196,7 @@ const codeExecutionTool: Tool = {
 
 #### 网络请求工具
 
-```typescript
+``typescript
 const httpRequestTool: Tool = {
   name: "http_request",
   description: "Make HTTP requests to external APIs",
@@ -243,7 +243,7 @@ DeepChat 支持多种类型的资源访问：
 
 为了确保安全性，DeepChat 实现了资源访问控制机制：
 
-```typescript
+``typescript
 class ResourceManager {
   private resources: Map<string, Resource> = new Map();
   private accessControl: AccessControlManager;
@@ -271,7 +271,7 @@ class ResourceManager {
 
 DeepChat 支持定义和使用提示模板：
 
-```typescript
+``typescript
 interface Prompt {
   name: string;
   description: string;
@@ -302,7 +302,7 @@ class PromptManager {
 
 AI 模型可以请求特定的提示模板，并提供必要的参数来生成最终的提示：
 
-```typescript
+``typescript
 async handleGetPrompt(request: GetPromptRequest): Promise<GetPromptResponse> {
   const prompt = this.promptManager.renderPrompt(
     request.params.name,
@@ -330,7 +330,7 @@ DeepChat 提供了友好的图形界面来配置和管理 MCP 服务：
 
 MCP 服务配置以 JSON 格式存储：
 
-```json
+```
 {
   "mcp": {
     "servers": [

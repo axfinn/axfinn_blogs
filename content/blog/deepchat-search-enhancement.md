@@ -1,6 +1,6 @@
 ---
 title: "DeepChat 搜索增强功能实现分析"
-date: 2025-08-01T20:00:00+08:00
+date: 2025-07-31T20:00:00+08:00
 draft: false
 slug: "deepchat-search-enhancement"
 tags: ["DeepChat", "AI", "搜索增强", "搜索引擎集成", "信息检索"]
@@ -295,7 +295,7 @@ class WebBrowser {
 
 DeepChat 还可以模拟用户在搜索引擎中的操作：
 
-```typescript
+``typescript
 class SearchSimulator {
   async simulateSearch(query: string, engine: string): Promise<SearchResult[]> {
     const browser = await puppeteer.launch();
@@ -360,7 +360,7 @@ class SearchSimulator {
 
 为了提高搜索结果的质量，DeepChat 实现了过滤和去重机制：
 
-```typescript
+``typescript
 class SearchResultFilter {
   filterAndDeduplicate(results: SearchResult[]): SearchResult[] {
     // 去重
@@ -410,7 +410,7 @@ class SearchResultFilter {
 
 DeepChat 还实现了智能排序算法：
 
-```typescript
+``typescript
 class SearchResultRanker {
   rank(results: SearchResult[], query: string): SearchResult[] {
     return results
@@ -449,7 +449,7 @@ class SearchResultRanker {
 
 DeepChat 在搜索功能中考虑了用户隐私：
 
-```typescript
+``typescript
 class PrivacyAwareSearch {
   async privateSearch(
     query: string, 
@@ -485,4 +485,4 @@ DeepChat 的搜索增强功能通过多种技术手段实现了 AI 与搜索引�
 
 通过这些技术，DeepChat 能够提供更加准确、实时和可靠的信息服务，大大增强了 AI 助手的实用性。
 
-在下一篇文章中，我们将探讨 DeepChat 的多窗口多标签架构设计，分析其如何实现并行会话管理和用户界面设计。
+在下一篇文章中，我们将探讨 DeepChat 的多窗口多标签架构设计，分析其如何实现并行会话管理和用户界面设计.

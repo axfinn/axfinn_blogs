@@ -1,6 +1,6 @@
 ---
 title: "DeepChat 架构设计解析：Electron 多平台实现原理"
-date: 2025-08-01T18:30:00+08:00
+date: 2025-07-31T18:30:00+08:00
 draft: false
 slug: "deepchat-architecture-design"
 tags: ["DeepChat", "AI", "Electron", "架构设计", "多平台"]

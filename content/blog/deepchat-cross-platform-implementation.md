@@ -1,6 +1,6 @@
 ---
 title: "DeepChat 跨平台实现机制详解：构建真正跨系统的 Electron 应用"
-date: 2025-08-01T18:30:00+08:00
+date: 2025-07-31T18:30:00+08:00
 draft: false
 slug: "deepchat-cross-platform-implementation"
 tags: ["DeepChat", "Electron", "跨平台", "构建系统", "macOS", "Windows", "Linux"]

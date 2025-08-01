@@ -1,6 +1,6 @@
 ---
 title: "DeepChat 多模型支持机制详解"
-date: 2025-08-01T19:00:00+08:00
+date: 2025-07-31T19:00:00+08:00
 draft: false
 slug: "deepchat-multi-model-support"
 tags: ["DeepChat", "AI", "多模型", "API集成", "架构设计"]
@@ -44,7 +44,7 @@ DeepChat 采用了适配器模式来实现对不同模型提供商的支持。�
 
 DeepChat 定义了统一的模型接口，所有模型适配器都需要实现这些接口：
 
-```typescript
+``typescript
 interface ModelProvider {
   // 发送聊天消息
   sendMessage(messages: Message[], options: SendOptions): Promise<Response>;
@@ -68,7 +68,7 @@ interface ModelProvider {
 
 由于 OpenAI API 已经成为事实标准，许多模型提供商都提供了兼容 OpenAI API 的接口。DeepChat 利用这一点，为所有兼容 OpenAI API 的模型提供商创建了一个通用适配器：
 
-```typescript
+``typescript
 class OpenAICompatibleProvider implements ModelProvider {
   private client: OpenAIApi;
   
@@ -108,7 +108,7 @@ class OpenAICompatibleProvider implements ModelProvider {
 
 对于一些有专有 API 的模型提供商，DeepChat 实现了专门的适配器。例如，Gemini 的适配器：
 
-```typescript
+``typescript
 class GeminiProvider implements ModelProvider {
   private client: GoogleGenerativeAI;
   
@@ -153,7 +153,7 @@ Ollama 是一个流行的本地模型运行工具，DeepChat 通过直接与 Oll
 
 DeepChat 的 Ollama 适配器不仅支持基本的聊天功能，还提供了模型管理功能：
 
-```typescript
+``typescript
 class OllamaProvider implements ModelProvider {
   private client: Ollama;
   private host: string;
@@ -204,7 +204,7 @@ DeepChat 还提供了图形化界面来管理 Ollama 模型：
 
 DeepChat 实现了一个统一的配置系统来管理不同模型提供商的配置信息：
 
-```typescript
+``typescript
 interface ProviderConfig {
   id: string;           // 唯一标识符
   name: string;         // 显示名称
@@ -234,7 +234,7 @@ class ConfigManager {
 
 用户可以在不重启应用的情况下切换不同的模型提供商和模型：
 
-```typescript
+``typescript
 class ModelManager {
   private currentProvider: ModelProvider | null = null;
   private providers: Map<string, ModelProvider> = new Map();
@@ -263,7 +263,7 @@ class ModelManager {
 
 DeepChat 实现了统一的错误处理机制来处理不同模型提供商的错误：
 
-```typescript
+``typescript
 class ModelError extends Error {
   constructor(
     message: string,
@@ -298,7 +298,7 @@ async sendMessage(messages: Message[], options: SendOptions) {
 
 为了提高稳定性，DeepChat 实现了重试机制：
 
-```typescript
+``typescript
 async function withRetry<T>(
   operation: () => Promise<T>,
   maxRetries: number = 3,
@@ -331,4 +331,4 @@ DeepChat 的多模型支持机制通过适配器模式实现了对各种 AI 模�
 4. **配置管理** - 实现了统一的配置系统，支持运行时切换
 5. **错误处理** - 提供统一的错误处理和重试机制
 
-在下一篇文章中，我们将深入探讨 DeepChat 的 MCP（Model Context Protocol）支持，分析其如何实现工具调用和资源管理功能。
+在下一篇文章中，我们将深入探讨 DeepChat 的 MCP（Model Context Protocol）支持，分析其如何实现工具调用和资源管理功能.

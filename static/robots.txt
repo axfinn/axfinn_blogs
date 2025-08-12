@@ -1,0 +1,11 @@
+User-agent: *
+Allow: /
+Sitemap: https://axfinn.github.io/sitemap.xml
+
+# 百度搜索引擎
+User-agent: Baiduspider
+Allow: /
+
+# 谷歌搜索引擎
+User-agent: Googlebot
+Allow: /

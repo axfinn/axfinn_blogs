@@ -1,4 +1,4 @@
-baseURL = 'https://axfinn.github.io/'
+baseURL = 'https://blog.jaxiu.cn/'
 title = 'jaxiu He'
 
 builddrafts                = false
@@ -88,6 +88,11 @@ pygmentsuseclasses         = true
   
   # analytics
   googleAnalytics          = "your-google-analytic-id"
+  
+  # 搜索引擎验证代码
+  # 请替换成您在搜索引擎平台获取的实际验证代码
+  baiduVerify              = "your-baidu-verify-code"
+  googleVerify             = "your-google-verify-code"
 
 [markup]
   [markup.goldmark]

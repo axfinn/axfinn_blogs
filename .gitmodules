@@ -1,3 +1,6 @@
 [submodule "themes/hexo-theme-matery"]
 	path = themes/hexo-theme-matery
 	url = https://github.com/blinkfox/hexo-theme-matery.git
+[submodule "themes/AllinOne"]
+	path = themes/AllinOne
+	url = https://github.com/orianna-zzo/AllinOne.git

@@ -1,11 +1,14 @@
 [
-{{ range $index, $page := where .Site.Pages "Type" "in" (slice "post" "blog") }}
-  {{ if ne $page.Title "" }}
-  {
-    "uri": "{{ $page.Permalink }}",
-    "title": "{{ $page.Title }}",
-    "content": {{ $page.Summary | jsonify }}
-  }{{ if ne ($index) (sub (len (where .Site.Pages "Type" "in" (slice "post" "blog"))) 1) }},{{ end }}
-  {{ end }}
-{{ end }}
+{{- $pages := where .Site.RegularPages "Type" "in" (slice "post" "blog") -}}
+{{- $total := len $pages -}}
+{{- range $index, $page := $pages -}}
+{{- if ne $page.Title "" -}}
+{
+"uri": "{{ $page.Permalink }}",
+"title": "{{ $page.Title }}",
+"date": "{{ $page.Date.Format "2006-01-02" }}",
+"content": {{ $page.Plain | jsonify }}
+}{{- if ne (add $index 1) $total -}},{{- end }}
+{{- end -}}
+{{- end -}}
 ]

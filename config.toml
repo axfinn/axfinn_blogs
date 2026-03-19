@@ -94,6 +94,12 @@ pygmentsuseclasses         = true
   baiduVerify              = "your-baidu-verify-code"
   googleVerify             = "your-google-verify-code"
 
+[outputs]
+  home = ["HTML", "JSON", "RSS"]
+  page = ["HTML"]
+  section = ["HTML"]
+  taxonomy = ["HTML"]
+
 [markup]
   [markup.goldmark]
     [markup.goldmark.renderer]

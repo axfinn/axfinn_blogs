@@ -3,8 +3,8 @@ title: "每日技术热点 | 3月26日：OpenAI停运Sora、阿里AI获全球创
 date: 2026-03-26T09:00:00+08:00
 draft: false
 slug: "daily-tech-2026-03-26"
-tags: ["技术热点", "每日简报", "科技新闻", "AI", "OpenAI", "谷歌", "脑机接口"]
-categories: ["技术热点"]
+tags: ["AI日报", "AI日报", "AI日报", "AI", "OpenAI", "谷歌", "脑机接口"]
+categories: ["AI日报"]
 toc: true
 description: "3月26日技术热点：OpenAI宣布停运Sora视频服务；阿里AI助手千问首上车载；谷歌发布TurboQuant压缩算法；脑机接口公司傲意科技获投1.5亿元。"
 images:

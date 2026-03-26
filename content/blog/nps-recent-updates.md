@@ -2,7 +2,7 @@
 title: "NPS项目近期重要更新解析"
 date: 2025-07-30T10:00:00+08:00
 draft: false
-tags: ["nps", "内网穿透", "网络工具", "开源项目"]
+tags: ["NPS", "内网穿透", "网络工具", "开源项目"]
 categories: ["技术实践"]
 toc: true
 ---

@@ -2,8 +2,8 @@
 title: "每日技术热点 - 2026年03月06日"
 date: 2026-03-06T23:24:51+08:00
 draft: false
-tags: ["技术热点", "每日简报", "科技新闻", "AI", "大模型"]
-categories: ["技术热点"]
+tags: ["AI日报", "AI日报", "AI日报", "AI", "大模型"]
+categories: ["AI日报"]
 toc: true
 description: "每日技术领域重要新闻汇总，包含 AI 大模型、开源、前端等方向的最新动态"
 ---

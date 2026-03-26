@@ -3,8 +3,8 @@ title: "🎵 每日技术热点 | 3月26日（歌曲版）：OpenAI停运Sora、
 date: 2026-03-26T09:00:00+08:00
 draft: false
 slug: "daily-tech-song-2026-03-26"
-tags: ["技术热点", "每日简报", "科技新闻", "AI", "歌曲版"]
-categories: ["技术热点"]
+tags: ["AI日报", "AI日报", "AI日报", "AI", "歌曲版"]
+categories: ["AI日报"]
 toc: true
 description: "🎧 3月26日技术热点歌曲版，配合音乐阅读效果更佳！"
 images:

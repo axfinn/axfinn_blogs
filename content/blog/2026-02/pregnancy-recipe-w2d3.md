@@ -3,7 +3,7 @@ title: "孕期健康菜谱 - 第2周 周三（妊娠期糖尿病+肾结石预防
 date: 2026-02-25T10:00:00+08:00
 draft: false
 slug: "pregnancy-recipe-w2d3"
-tags: ["菜谱", "孕期", "健康", "烹饪", "第2周", "周三"]
+tags: ["菜谱", "孕期", "健康", "烹饪"]
 categories: ["生活", "孕期指南"]
 toc: true
 ---

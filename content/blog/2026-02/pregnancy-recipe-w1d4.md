@@ -3,7 +3,7 @@ title: "孕期健康菜谱 - 第1周 周四（妊娠期糖尿病+肾结石预防
 date: 2026-02-25T10:00:00+08:00
 draft: false
 slug: "pregnancy-recipe-w1d4"
-tags: ["菜谱", "孕期", "健康", "烹饪", "第1周", "周四"]
+tags: ["菜谱", "孕期", "健康", "烹饪"]
 categories: ["生活", "孕期指南"]
 toc: true
 ---

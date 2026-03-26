@@ -1,0 +1,60 @@
+{{ range where .Pages ".Params.series" "ne" nil }}
+  {{ $.Scratch.Add "series" (apply .Params.series "lower" ".") }}
+{{ end }}
+
+{{ $terms := uniq ($.Scratch.Get "series") }}
+
+{{ $kind := .Kind }}
+
+{{ if or (gt (len $terms) 0) (eq $kind "home") }}
+  <hr>
+  {{ with .Site.Taxonomies.series }}
+    <div class="post-meta">
+      <div class="mb-2">
+        <a href="{{ "series/" | absLangURL }}">
+          <span class="font-weight-bold text-uppercase post-meta">
+            <i class="fas fa-bookmark pr-1" aria-hidden="true"></i> 
+            Recommend Series
+          </span>
+        </a>
+      </div>
+     
+      <div class="post-meta" >
+        {{ if eq $kind "home" }}
+          <!-- Homepage -->
+          {{ range first 5 .ByCount }}
+
+            {{ $icon := "📚" }}
+            {{ $imgPath := "img/default.jpg" }}
+            {{ $desc := "" }}
+            {{ if eq .Name "孕期知识" }}{{ $icon = "👶" }}{{ $imgPath = "/img/categories/pregnancy.jpg" }}{{ $desc = "孕期饮食、健康、胎教等知识全攻略" }}{{ end }}
+            {{ if eq .Name "DevTools" }}{{ $icon = "🛠️" }}{{ $imgPath = "/img/categories/coding.jpg" }}{{ $desc = "开发者工具推荐、使用技巧和实战经验" }}{{ end }}
+            {{ if eq .Name "博客优化" }}{{ $icon = "⚡" }}{{ $imgPath = "/img/categories/architecture.jpg" }}{{ $desc = "博客性能优化、SEO、用户体验改进" }}{{ end }}
+            {{ if eq .Name "QwenCode实践" }}{{ $icon = "🤖" }}{{ $imgPath = "/img/categories/ai.jpg" }}{{ $desc = "通义千问Code系列文章实战应用" }}{{ end }}
+            {{ if eq .Name "开源项目" }}{{ $icon = "🚀" }}{{ $imgPath = "/img/categories/project.jpg" }}{{ $desc = "优秀开源项目深度解析" }}{{ end }}
+            
+            {{ $title := printf "%s %s" $icon (.Name | title) }}
+            {{ $url := add ("series/" | absLangURL) (.Name | urlize) }}
+            
+            {{ partial "sidebar-card.html" (dict "url" $url "title" $title "img_path" ($imgPath | absURL) "text" $desc ) }}
+          
+          {{ end }}
+
+        {{ else }}
+          <!-- Others -->
+          {{ range first 5 (where .ByCount "Name" "in" $terms) }}
+            {{ $icon := "📚" }}
+            {{ if eq .Name "孕期知识" }}{{ $icon = "👶" }}{{ end }}
+            {{ if eq .Name "DevTools" }}{{ $icon = "🛠️" }}{{ end }}
+            {{ if eq .Name "博客优化" }}{{ $icon = "⚡" }}{{ end }}
+            {{ if eq .Name "QwenCode实践" }}{{ $icon = "🤖" }}{{ end }}
+            {{ if eq .Name "开源项目" }}{{ $icon = "🚀" }}{{ end }}
+            <li class="py-1"><a href="{{ "series/" | absLangURL }}{{ .Name | urlize }}"><span>{{ $icon }} {{ .Name | title }} ({{ .Count }})</span></a></li>
+          {{ end }}
+        {{ end }}
+      </div>
+    
+      
+    </div>
+  {{ end }}
+{{ end }}

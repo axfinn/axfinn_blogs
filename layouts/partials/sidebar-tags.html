@@ -1,0 +1,39 @@
+{{ range where .Pages ".Params.tags" "ne" nil }}
+  {{ $.Scratch.Add "tags"  (apply .Params.tags "lower" ".") }}
+{{ end }}
+
+{{ $terms := uniq ($.Scratch.Get "tags") }}
+
+{{ if gt (len $terms) 0 }}
+  <hr>
+  {{ with .Site.Taxonomies.tags }}
+    <div class="post-meta">
+      <div class="mb-2">
+        <a href="{{ "tags/" | absLangURL }}">
+          <span class="font-weight-bold text-uppercase post-meta">
+            <i class="fas fa-tags pr-1" aria-hidden="true"></i> 
+            Featured Tags
+          </span>
+        </a>
+      </div>
+
+      <div class="li-x post-meta tags-md" style="margin-left: -8px;">
+        
+        {{ range first 20 (where .ByCount "Name" "in" $terms)  }}
+          {{ $tag := .Name }}
+          {{ $icon := "📌" }}
+          {{ if or (eq $tag "AI") (eq $tag "ai") (eq $tag "大模型") }}{{ $icon = "🤖" }}{{ end }}
+          {{ if or (eq $tag "编程") (eq $tag "代码") (eq $tag "开发") }}{{ $icon = "💻" }}{{ end }}
+          {{ if or (eq $tag "教程") (eq $tag "指南") (eq $tag "教程") }}{{ $icon = "📚" }}{{ end }}
+          {{ if or (eq $tag "开源") (eq $tag "项目") (eq $tag "项目分析") }}{{ $icon = "🚀" }}{{ end }}
+          {{ if or (eq $tag "孕期") (eq $tag "怀孕") (eq $tag "孕期指南") }}{{ $icon = "👶" }}{{ end }}
+          {{ if or (eq $tag "生活") (eq $tag "日常") (eq $tag "随笔") }}{{ $icon = "🌱" }}{{ end }}
+          {{ if or (eq $tag "AI") (eq $tag "技术") (eq $tag "科技") }}{{ $icon = "⚡" }}{{ end }}
+          <li><a href="{{ "tags/" | absLangURL }}{{ .Name | urlize }}" role="button"><span>{{ $icon }} {{ .Name }} ({{ .Count }})</span></a></li>
+        {{ end }}
+      </div>
+    </div>
+
+    
+  {{ end }}
+{{ end }}

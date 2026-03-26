@@ -4,6 +4,7 @@ date: 2025-07-23
 draft: false
 tags: ["Qwen Code", "前端开发", "Hugo", "JavaScript", "动态背景"]
 categories: ["技术实践"]
+toc: true
 series: ["Qwen Code实践"]
 ---
 

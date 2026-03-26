@@ -2,6 +2,7 @@
 title: "AI编程工具深度调研系列（六）：Google Gemini 完整解析"
 date: 2026-02-26T11:23:00+08:00
 categories: ["技术", "AI", "编程工具"]
+toc: true
 tags: ["AI", "编程工具", "Google", "Gemini", "编程助手"]
 ---
 

@@ -5,6 +5,7 @@ draft: false
 slug: "todoing-project-overview"
 tags: ["todoIng", "任务管理", "Git", "开源项目", "Node.js", "React"]
 categories: ["技术", "项目分析"]
+toc: true
 ---
 
 # todoIng 项目概览：像管理代码一样管理你的任务

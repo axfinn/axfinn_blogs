@@ -5,6 +5,7 @@ draft: false
 slug: "deepchat-security-privacy"
 tags: ["DeepChat", "AI", "安全", "隐私保护", "数据加密"]
 categories: ["技术", "安全"]
+toc: true
 ---
 
 # DeepChat 安全与隐私保护机制

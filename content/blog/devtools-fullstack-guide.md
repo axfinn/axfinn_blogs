@@ -5,6 +5,7 @@ draft: false
 slug: "devtools-fullstack-guide"
 tags: ["Go语言", "Vue", "全栈开发", "Docker", "WebSocket"]
 categories: ["技术", "项目分析"]
+toc: true
 series: ["DevTools"]
 ---
 

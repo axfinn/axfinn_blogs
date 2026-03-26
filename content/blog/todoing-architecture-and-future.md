@@ -5,6 +5,7 @@ draft: false
 slug: "todoing-architecture-and-future"
 tags: ["todoIng", "系统架构", "微服务", "云原生", "未来发展"]
 categories: ["技术", "架构设计"]
+toc: true
 ---
 
 # todoIng 架构设计与未来展望

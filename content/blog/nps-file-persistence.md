@@ -4,6 +4,7 @@ date: 2025-07-18T19:10:00+08:00
 draft: false
 tags: ["NPS", "服务端", "架构", "Go语言", "JSON", "持久化", "配置管理"]
 categories: ["技术", "项目分析"]
+toc: true
 ---
 
 ## 引言

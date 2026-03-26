@@ -5,6 +5,7 @@ draft: false
 slug: "mercury-thermometer-safety-handling-guide"
 tags: ["安全", "健康", "生活常识", "环保"]
 categories: ["生活", "安全知识"]
+toc: true
 ---
 
 # 水银温度计打碎后的风险、处理与环境影响全攻略

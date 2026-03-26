@@ -5,6 +5,7 @@ draft: false
 slug: "qwen-code-core-implementation-details"
 tags: ["Qwen Code", "源码解析", "实现细节", "核心代码"]
 categories: ["技术", "源码解析"]
+toc: true
 ---
 
 # Qwen Code 核心代码实现细节深度解读

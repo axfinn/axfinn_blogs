@@ -5,6 +5,7 @@ draft: false
 slug: "devtools-pregnancy-module"
 tags: ["DevTools", "Vue3", "Go", "SQLite", "全栈开发", "Element Plus"]
 categories: ["技术", "项目分析"]
+toc: true
 series: ["DevTools"]
 ---
 

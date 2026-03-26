@@ -5,6 +5,7 @@ draft: false
 slug: "deepchat-performance-enterprise"
 tags: ["DeepChat", "AI", "性能优化", "企业应用", "架构设计"]
 categories: ["技术", "架构设计"]
+toc: true
 ---
 
 # DeepChat 性能优化与企业级应用

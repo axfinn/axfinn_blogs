@@ -5,6 +5,7 @@ draft: false
 slug: "todoing-ai-report-generation"
 tags: ["todoIng", "AI", "OpenAI", "报告生成", "工作效率"]
 categories: ["技术", "AI应用"]
+toc: true
 ---
 
 # todoIng AI 报告生成系统设计与智能应用

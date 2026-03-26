@@ -2,6 +2,7 @@
 title: "AI编程工具深度调研系列（七）：Kiro 新兴编程工具解析"
 date: 2026-02-26T11:24:00+08:00
 categories: ["技术", "AI", "编程工具"]
+toc: true
 tags: ["AI", "编程工具", "Kiro", "IDE", "编程助手"]
 ---
 

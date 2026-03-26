@@ -5,6 +5,7 @@ draft: false
 slug: "git-learning-and-usage-guide"
 tags: ["Git", "版本控制", "教程", "开发工具"]
 categories: ["技术", "教程"]
+toc: true
 ---
 
 # Git 学习与详细使用指南

@@ -5,6 +5,7 @@ draft: false
 slug: "qwen-code-development-guide"
 tags: ["Qwen Code", "开发指南", "贡献指南", "TypeScript"]
 categories: ["技术", "开发指南"]
+toc: true
 ---
 
 # Qwen Code 开发指南

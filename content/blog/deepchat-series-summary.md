@@ -5,6 +5,7 @@ draft: false
 slug: "deepchat-series-summary"
 tags: ["DeepChat", "AI", "总结", "架构设计", "开源项目"]
 categories: ["技术", "总结"]
+toc: true
 ---
 
 # DeepChat 系列总结：构建下一代 AI 交互平台的完整解析

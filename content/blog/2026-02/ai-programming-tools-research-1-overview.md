@@ -2,6 +2,7 @@
 title: "AI编程工具深度调研系列：序言与概述"
 date: 2026-02-26T11:18:00+08:00
 categories: ["技术", "AI", "编程工具"]
+toc: true
 tags: ["AI", "编程工具", "调研", "OpenAI", "Claude", "GLM", "MiniMax", "Gemini", "Kiro"]
 ---
 

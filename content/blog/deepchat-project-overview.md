@@ -5,6 +5,7 @@ draft: false
 slug: "deepchat-project-overview"
 tags: ["DeepChat", "AI", "Electron", "多平台", "开源项目"]
 categories: ["技术", "AI工具"]
+toc: true
 ---
 
 # DeepChat 项目概览：多模型AI对话平台介绍

@@ -5,6 +5,7 @@ draft: false
 slug: "daily-tech-2026-03-17"
 tags: ["技术热点", "每日简报", "科技新闻", "AI", "量子计算", "硬件"]
 categories: ["技术热点"]
+toc: true
 description: "3月17日技术热点：GTC2026揭示Agent应用爆发；量子计算融资额逼近2025全年；AWE展会展现AI消费硬件新趋势。"
 images:
   - "https://images.unsplash.com/photo-1518770660439-4636190af475?auto=format&fit=crop&w=1200&q=80"

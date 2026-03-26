@@ -4,6 +4,7 @@ date: 2025-07-19T00:00:00+08:00
 draft: false
 tags: ["Hugo", "GitHub Pages", "博客搭建", "教程"]
 categories: ["技术"]
+toc: true
 ---
 
 ## 前言

@@ -5,6 +5,7 @@ draft: false
 slug: "qwen-code-project-structure"
 tags: ["Qwen Code", "项目结构", "架构设计", "开发指南"]
 categories: ["技术", "架构设计"]
+toc: true
 ---
 
 # Qwen Code 项目框架详解

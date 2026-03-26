@@ -2,6 +2,7 @@
 title: "AI编程工具深度调研系列（五）：MiniMax 多模态AI新秀解析"
 date: 2026-02-26T11:22:00+08:00
 categories: ["技术", "AI", "编程工具"]
+toc: true
 tags: ["AI", "编程工具", "MiniMax", "多模态", "AI编程"]
 ---
 

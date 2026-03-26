@@ -5,6 +5,7 @@ draft: false
 slug: "deepchat-mcp-support"
 tags: ["DeepChat", "AI", "MCP", "工具调用", "Model Context Protocol"]
 categories: ["技术", "AI工具"]
+toc: true
 ---
 
 # DeepChat MCP 支持深度剖析

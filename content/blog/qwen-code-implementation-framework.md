@@ -5,6 +5,7 @@ draft: false
 slug: "qwen-code-implementation-framework"
 tags: ["Qwen Code", "架构设计", "实现原理", "源码解析"]
 categories: ["技术", "架构设计"]
+toc: true
 ---
 
 # Qwen Code 实现框架深度解析

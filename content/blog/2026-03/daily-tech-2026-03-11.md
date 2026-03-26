@@ -4,6 +4,7 @@ date: 2026-03-11T03:47:32+08:00
 draft: false
 tags: ["技术热点", "每日简报", "科技新闻", "AI", "研究", "治理"]
 categories: ["技术热点"]
+toc: true
 description: "3月11日技术热点：MIT 提出更优的复杂视觉任务规划方法；Gallup 报告显示公共部门 AI 采用率快速增长。"
 images:
   - "https://images.unsplash.com/photo-1518770660439-4636190af475?auto=format&fit=crop&w=1200&q=80"

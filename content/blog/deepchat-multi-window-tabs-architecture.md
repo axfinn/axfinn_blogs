@@ -5,6 +5,7 @@ draft: false
 slug: "deepchat-multi-window-tabs-architecture"
 tags: ["DeepChat", "Electron", "架构设计", "多窗口", "多标签"]
 categories: ["技术", "架构设计"]
+toc: true
 ---
 
 # DeepChat 多窗口多标签架构深度解析

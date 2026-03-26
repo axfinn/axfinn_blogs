@@ -5,6 +5,7 @@ draft: false
 slug: "daily-news-2026-03-16"
 tags: ["科技", "AI", "新闻汇总", "每日简报"]
 categories: ["技术", "AI工具"]
+toc: true
 ---
 
 > 每天早上9点自动更新，汇集国内外科技与AI领域的最新动态。

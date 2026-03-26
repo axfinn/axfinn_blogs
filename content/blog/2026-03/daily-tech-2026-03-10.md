@@ -4,6 +4,7 @@ date: 2026-03-11T03:47:12+08:00
 draft: false
 tags: ["技术热点", "每日简报", "科技新闻", "AI", "Gemini", "Google Workspace", "Adobe", "Photoshop", "YouTube", "Deepfake"]
 categories: ["技术热点"]
+toc: true
 description: "3月10日技术热点：Google Gemini 深度融入 Docs/Sheets/Slides/Drive，Adobe 推出 Photoshop AI Assistant 公测，YouTube 扩大深伪检测试点。"
 images:
   - "https://images.unsplash.com/photo-1518770660439-4636190af475?auto=format&fit=crop&w=1200&q=80"

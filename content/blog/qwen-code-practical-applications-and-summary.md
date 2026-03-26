@@ -5,6 +5,7 @@ draft: false
 slug: "qwen-code-practical-applications-and-summary"
 tags: ["Qwen Code", "实战应用", "案例分析", "总结"]
 categories: ["技术", "应用案例"]
+toc: true
 ---
 
 # Qwen Code 实战应用与总结

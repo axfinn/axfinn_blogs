@@ -5,6 +5,7 @@ draft: false
 slug: "deepchat-multi-window-tabs"
 tags: ["DeepChat", "AI", "多窗口", "多标签", "UI设计", "架构设计"]
 categories: ["技术", "架构设计"]
+toc: true
 ---
 
 # DeepChat 多窗口多标签架构设计

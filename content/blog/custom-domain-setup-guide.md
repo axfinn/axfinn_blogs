@@ -4,6 +4,7 @@ date: 2025-08-12T14:45:00+08:00
 draft: false
 tags: ["博客", "自定义域名", "GitHub Pages", "DNS配置"]
 categories: ["技术教程"]
+toc: true
 series: ["博客优化"]
 ---
 

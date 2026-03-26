@@ -4,6 +4,7 @@ date: 2026-03-23
 draft: false
 tags: ["AI", "大模型", "GLM-5", "MiniMax", "技术对比"]
 categories: ["技术分析"]
+toc: true
 summary: "全面对比智谱 AI 的 GLM-5 和 MiniMax 的 M2.7，从技术架构、性能评测、应用场景、成本分析等多个维度深入分析，为你的模型选型提供决策参考。"
 ---
 

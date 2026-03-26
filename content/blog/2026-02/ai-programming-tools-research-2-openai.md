@@ -2,6 +2,7 @@
 title: "AI编程工具深度调研系列（二）：OpenAI Codex 全面解析"
 date: 2026-02-26T11:19:00+08:00
 categories: ["技术", "AI", "编程工具"]
+toc: true
 tags: ["AI", "编程工具", "OpenAI", "Codex", "GPT"]
 ---
 

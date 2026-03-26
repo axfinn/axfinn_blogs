@@ -5,6 +5,7 @@ draft: false
 slug: "todoing-team-collaboration-and-permissions"
 tags: ["todoIng", "团队协作", "权限管理", "MongoDB", "RBAC"]
 categories: ["技术", "系统设计"]
+toc: true
 ---
 
 # todoIng 团队协作与权限管理架构设计

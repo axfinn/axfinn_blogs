@@ -3,7 +3,7 @@
 set -e
 
 echo "INFO: Building site with Hugo..."
-hugo -D
+/home/node/.openclaw/workspace/tools/bin/hugo
 
 echo "INFO: Deploying to axfinn.github.io..."
 # The target directory for the built site.

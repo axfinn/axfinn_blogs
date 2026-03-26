@@ -5,6 +5,7 @@ draft: false
 slug: "deepchat-multi-platform-build"
 tags: ["DeepChat", "Electron", "构建系统", "CI/CD", "多平台"]
 categories: ["技术", "DevOps"]
+toc: true
 ---
 
 # DeepChat 多平台构建实现详解：从代码到发布

@@ -5,6 +5,7 @@ draft: false
 slug: "deepchat-cross-platform-implementation"
 tags: ["DeepChat", "Electron", "跨平台", "构建系统", "macOS", "Windows", "Linux"]
 categories: ["技术", "架构设计"]
+toc: true
 ---
 
 # DeepChat 跨平台实现机制详解：构建真正跨系统的 Electron 应用

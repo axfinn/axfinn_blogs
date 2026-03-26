@@ -5,6 +5,7 @@ draft: false
 slug: "qwen-code-project-overview"
 tags: ["Qwen Code", "AI", "CLI", "开发工具"]
 categories: ["技术", "AI工具"]
+toc: true
 ---
 
 # Qwen Code 项目概览

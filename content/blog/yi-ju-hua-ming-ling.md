@@ -4,6 +4,7 @@ date: 2025-07-18T18:30:00+08:00
 draft: false
 tags: ["Sci", "Vscode", "Vue", "Qa"]
 categories: ["技术"]
+toc: true
 ---
 
 ## 常用一句话命令

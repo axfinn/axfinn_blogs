@@ -5,6 +5,7 @@ draft: false
 slug: "qwen-code-tools-detailed"
 tags: ["Qwen Code", "工具集", "AI", "开发工具"]
 categories: ["技术", "AI工具"]
+toc: true
 ---
 
 # Qwen Code 工具详解

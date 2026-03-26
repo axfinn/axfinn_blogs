@@ -5,6 +5,7 @@ draft: false
 slug: "qwen-code-cli-usage"
 tags: ["Qwen Code", "CLI", "使用指南", "开发工具"]
 categories: ["技术", "AI工具"]
+toc: true
 ---
 
 # Qwen Code CLI 使用详解

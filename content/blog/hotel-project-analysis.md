@@ -5,6 +5,7 @@ draft: false
 slug: "flask-sqlite-hotel-system-tutorial"
 tags: ["Python", "Flask", "SQLite", "Docker", "项目分析", "系统设计", "前端", "Jinja2", "Bootstrap", "教程"]
 categories: ["技术", "教程"]
+toc: true
 ---
 
 ## 前言

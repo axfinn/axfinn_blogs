@@ -5,6 +5,7 @@ draft: false
 slug: "todoing-git-style-history-tracking"
 tags: ["todoIng", "Git", "历史追踪", "MongoDB", "事件驱动"]
 categories: ["技术", "架构设计"]
+toc: true
 ---
 
 # todoIng Git 风格历史追踪系统设计与架构

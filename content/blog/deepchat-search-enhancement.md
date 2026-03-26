@@ -5,6 +5,7 @@ draft: false
 slug: "deepchat-search-enhancement"
 tags: ["DeepChat", "AI", "搜索增强", "搜索引擎集成", "信息检索"]
 categories: ["技术", "AI工具"]
+toc: true
 ---
 
 # DeepChat 搜索增强功能实现分析

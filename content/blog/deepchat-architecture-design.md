@@ -5,6 +5,7 @@ draft: false
 slug: "deepchat-architecture-design"
 tags: ["DeepChat", "AI", "Electron", "架构设计", "多平台"]
 categories: ["技术", "架构设计"]
+toc: true
 ---
 
 # DeepChat 架构设计解析：Electron 多平台实现原理

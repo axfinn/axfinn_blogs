@@ -5,6 +5,7 @@ draft: false
 slug: "hotel-project-remote-deployment-guide"
 tags: ["Docker", "部署", "教程", "运维", "项目分析"]
 categories: ["技术", "教程"]
+toc: true
 ---
 
 # Hotel 项目：远程服务器部署指南

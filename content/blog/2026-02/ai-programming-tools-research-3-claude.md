@@ -2,6 +2,7 @@
 title: "AI编程工具深度调研系列（三）：Claude 编程助手全面解析"
 date: 2026-02-26T11:20:00+08:00
 categories: ["技术", "AI", "编程工具"]
+toc: true
 tags: ["AI", "编程工具", "Claude", "Anthropic", "Claude Code"]
 ---
 

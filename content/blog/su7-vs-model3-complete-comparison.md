@@ -1151,7 +1151,7 @@ flowchart TB
 {{< mermaid >}}
 flowchart TB
     subgraph 小米SU7["小米SU7 激光雷达融合方案"]
-        M0 --> M1["感知层"]
+        M0["传感器配置"] --> M1["感知层"]
         M1 --> M2["激光雷达 120乘25度视场 200m"]
         M1 --> M3["毫米波雷达3个 前向加角雷达 200m"]
         M1 --> M4["摄像头11个"]
@@ -1163,7 +1163,7 @@ flowchart TB
     end
 
     subgraph 特斯拉["特斯拉 纯视觉方案"]
-        T0 --> T1["感知层"]
+        T0["传感器配置"] --> T1["感知层"]
         T1 --> T2["摄像头8个 5MP像素 三目"]
         T2 --> T3["BEV transformer视觉感知网络"]
         T3 --> T4["Occupancy Network三维占用网络"]

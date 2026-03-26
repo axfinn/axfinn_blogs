@@ -94,6 +94,24 @@ pygmentsuseclasses         = true
   baiduVerify              = "your-baidu-verify-code"
   googleVerify             = "your-google-verify-code"
 
+  # 分类图片映射
+  [params.categoryImages]
+    "ai" = "/img/categories/ai.jpg"
+    "ai工具" = "/img/categories/ai.jpg"
+    "技术" = "/img/categories/coding.jpg"
+    "编程工具" = "/img/categories/coding.jpg"
+    "孕期指南" = "/img/categories/pregnancy.jpg"
+    "生活" = "/img/categories/pregnancy.jpg"
+    "架构设计" = "/img/categories/architecture.jpg"
+    "系统设计" = "/img/categories/architecture.jpg"
+    "项目分析" = "/img/categories/project.jpg"
+    "开源项目" = "/img/categories/project.jpg"
+    "赛博朋克" = "/img/categories/cyberpunk.jpg"
+    "小说" = "/img/categories/cyberpunk.jpg"
+    "技术热点" = "/img/categories/ai.jpg"
+    "技术教程" = "/img/categories/coding.jpg"
+    "教程" = "/img/categories/coding.jpg"
+
 [outputs]
   home = ["HTML", "JSON", "RSS"]
   page = ["HTML"]

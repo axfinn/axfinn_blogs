@@ -41,6 +41,12 @@ pygmentsuseclasses         = true
     url                    = "moment/" 
 
   [[menu.main]]
+    name                   = "胎教故事"
+    weight                 = -105
+    identifier             = "prenatal"
+    url                    = "blog/prenatal-stories/"
+
+  [[menu.main]]
     name                   = "关于"
     weight                 = -100
     identifier             = "about"

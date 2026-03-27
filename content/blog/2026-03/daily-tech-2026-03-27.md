@@ -12,6 +12,14 @@ images:
 
 > 每天整理当日技术领域重要新闻，带你快速掌握行业动态。数据来源：36kr、Hacker News。配合歌曲阅读效果更佳 🎵
 
+<audio id="newsAudio" controls style="width:100%;max-width:700px;margin:16px 0;border-radius:12px;box-shadow:0 4px 20px rgba(0,0,0,0.3);">
+  <source src="/audio/ai-news-song-2026-03-27.mp3" type="audio/mpeg">
+  您的浏览器不支持音频播放
+</audio>
+
+> 🎧 **配套原创歌曲** — 03月27日 科技日报主题曲，边听边看效果更佳
+
+---
 
 ## ✅ 今日要点（60秒速读）
 - 6年磨一剑的《洛克王国：世界》，能否胜过当年的自己？| 产品观察

@@ -10,11 +10,9 @@ images:
   - "https://images.unsplash.com/photo-1677442136019-21780ecad995?auto=format&fit=crop&w=1200&q=80"
 ---
 
-> 每天整理当日技术领域重要新闻，带你快速掌握行业动态。配合歌曲阅读效果更佳 🎵
-
 
 <audio id="newsAudio" controls style="width:100%;max-width:700px;margin:16px 0;border-radius:12px;box-shadow:0 4px 20px rgba(0,0,0,0.3);">
-  <source src="/audio/ai-news-song-2026-03-28.mp3" type="audio/mpeg">
+  <source src="/audio/song_2026-03-28.mp3" type="audio/mpeg">
   您的浏览器不支持音频播放
 </audio>
 
@@ -22,63 +20,118 @@ images:
 
 ---
 
-# AI狂飙时代：技术突破、应用落地与生态重塑
 
-## 当算力成为国家战略资源
+> 每天整理当日技术领域重要新闻，带你快速掌握行业动态。数据来源：36kr、Hacker News。配合歌曲阅读效果更佳 🎵
 
-2025年的科技版图，正在被一股前所未有的AI浪潮重新绘制。从北京中关村的技术秀场，到得克萨斯州的荒漠数据中心工地，从硅谷的实验室到中国手术室的机械臂，一场关于人工智能的全方位竞赛已经展开。这不仅是技术的竞争，更是关于未来产业格局、经济模式乃至社会治理的综合博弈。
 
-Meta宣布将在得克萨斯州投资100亿美元建设AI数据中心，目标在2028年达到1吉瓦容量，这一数字足以说明AI时代对算力基础设施的渴求。1吉瓦相当于一座中型核电站的发电能力，而如此庞大的能源需求仅仅是为了支撑AI模型的训练和部署。这预示着，未来的国家竞争力将不再仅仅取决于钢铁产量或汽车销量，算力资源和能源供应正在成为新的战略制高点。
+## ✅ 今日要点（60秒速读）
+- 「一人一天一部剧」时代降临，但AI短剧供给过剩不是末日｜专访巨日禄杰夫
+- 龙湖：2025年收入973.1亿，预计两年后完成新模式筑基
+- 氪星晚报｜菜鸟集团与泰国正大集团旗下CP AXTRA签署战略合作协议；平头哥镇岳510出货量超50万片，多家存储公司SSD已搭载该芯片；猎户星空推出AI Agent服务机器人
+- 瞄准多场景、全周期运动体验，趣冲健身推出多款自研AI智能健身设备｜最前线
+- 从单季到全年盈利，知乎迎来估值重估
 
-得州数据中心的选址绝非偶然。得克萨斯州拥有丰富的土地资源、相对廉价的电力成本，以及相对宽松的监管环境。Meta的百亿美元投资只是冰山一角——谷歌、亚马逊、微软等科技巨头都在全球范围内疯狂圈地建设数据中心。这种大规模的基础设施投资，折射出AI产业发展的一个核心趋势：**算力即国力**。没有足够的算力支撑，任何AI战略都将沦为空中楼阁。
+## 🤖 AI & 大模型进展
 
-## 大模型的进化与商业落地
+### 1. 「一人一天一部剧」时代降临，但AI短剧供给过剩不是末日｜专访巨日禄杰夫
+来源：https://36kr.com/p/3738258350817540?f=rss
 
-在大洋彼岸，AI模型的进化同样令人瞩目。GPT-5.4的发布带来了编程能力的深度整合和100万Token上下文支持的突破，这意味着AI不再仅仅是一个对话工具，而是正在成为能够处理复杂项目的“数字助手”。100万Token的上下文窗口几乎可以容纳一部长篇小说的全部内容，这意味着AI可以在更长的时间维度上理解用户需求，提供更加连贯和精准的服务。
+摘要：今日热点导览
+  
+   前阿里千问负责人林俊旸离职后首发长文：从训练模型转向训练智能体
+   九号公司：与泡泡玛特达成合作，联名电动车将于4月推出
+   苹果公司或将改变战略，向外部人工智能助手开放Siri
+   多位即将卸任的CEO将人工智能列为决定离职的原因之一
+   英国将对限制青少年使用社交媒体展开试点
+  
+  TOP3大新闻
+  美籍华裔刑事鉴识专家李昌钰逝世，享年87岁
+  美国康涅狄格州纽黑文大学27日发布公告说，美籍华裔刑事鉴识专家李昌钰当天在位于内华达州的家中逝世，享年87岁。纽黑文大学校长延斯·弗雷泽里克森表示，李昌钰对该校以及国际法医学界作出卓越贡献，深刻影响一代又一
 
-然而，AI技术的发展并非一帆风顺。GPT-5.4发布之际，Claude赢得对特朗普政府初步禁令的消息同样引发广泛关注。这一法律博弈的背后，是AI伦理与国家安全之间日益尖锐的矛盾。当AI系统能够生成足以混淆视听的文本、图像乃至视频时，如何界定言论自由与信息安全的边界？当AI可能影响选举、操纵舆论时，政府是否有权对其进行限制？这些问题没有标准答案，但它们正在塑造AI治理的基本框架。
+### 2. 龙湖：2025年收入973.1亿，预计两年后完成新模式筑基
+来源：https://36kr.com/p/3741132856115207?f=rss
 
-与此同时，谷歌Agent Smith的限流事件则揭示了AI应用的另一面——技术进步必须与商业可持续性相平衡。Agent Smith主打编程自动化，支持异步后台运行和手机查看进度，这种“无感化”的使用体验本应是AI应用的理想形态。然而，当使用量突破系统承载上限时，如何在用户体验和系统稳定性之间取得平衡，成为所有AI应用开发者必须面对的课题。
+摘要：大公司：
+  日本ispace公司将美国国家航空航天局（NASA）资助的登月任务推迟至2030年
+  日本航天器初创企业ispace周五表示，在两次登月着陆器任务失败后，公司进行战略调整，将把一项由美国政府资助的月球探测任务再度推迟至2030年，并裁减全球员工。此次公告凸显出该企业前景不明朗。当前美国正联合商业及国际伙伴重组太空任务。（新浪财经）
+  菜鸟集团与泰国正大集团旗下CP AXTRA签署战略合作协议
+  36氪获悉，今日菜鸟集团与泰国正大集团旗下CP AXTRA签署战略合作协议。菜鸟将应用其数字供应链科技、仓储自动化技术，以及海外仓储网络运营经验，全力支持CP AXTRA 在泰国及东
 
-## 从实验室到手术室：AI应用的中国样本
+### 3. 氪星晚报｜菜鸟集团与泰国正大集团旗下CP AXTRA签署战略合作协议；平头哥镇岳510出货量超50万片，多家存储公司SSD已搭载该芯片；猎户星空推出AI Agent服务机器人
+来源：https://36kr.com/p/3737878513844224?f=rss
 
-在北京，AI技术的应用落地呈现出另一种景象。中关村论坛年会上，机器人集体亮相，AR翻译眼镜实现54种语言的实时翻译，这些展示不再是概念演示，而是正在走进日常生活的实用工具。亮亮视野与智谱AI的合作，将同声传译这一传统的人工密集型工作推向了自动化的边缘。54种语言的实时翻译能力，意味着跨语言交流的障碍正在被技术手段逐步消解。
+摘要：作者｜黄楠
+  编辑｜袁斯来
+  一个庞大的万亿级健康消费市场正加速形成。根据国际健身协会（IFAI）等报告显示，近年来，数字健身市场增速高达41.4%，全球健身行业规模预计2030年达1.5万亿美元。其中，中国健康产业规模在2025年已突破10万亿元规模，健康生活服务赛道以每年超15%增速增长。
+  然而，传统健身行业长期受困于用户留存难、运营效率低、服务同质化三大瓶颈。在这一背景下，从单一场馆运营转向“AI+场景+硬件”的系统化智能升级，正成为行业提升效率、应对市场变化的核心趋势。&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&
 
-更具冲击力的是北京在数字化医疗领域的突破。骨科手术机器人能够在3分钟内完成手术规划，实现亚毫米级的精准定位。更值得关注的是，北京目前拥有84个国家创新医疗器械，位居全国第一。这不仅是一个数字的领先，更代表着AI医疗产业化的完整生态正在形成。从手术规划到精准定位，从影像诊断到药物研发，AI正在全方位渗透医疗产业的每一个环节。
+### 4. 瞄准多场景、全周期运动体验，趣冲健身推出多款自研AI智能健身设备｜最前线
+来源：https://36kr.com/p/3740892215623942?f=rss
 
-北京市将自己定位为全国数字化医疗创新的“策源地”，这一战略定位背后是产学研用的深度整合。84个国家创新医疗器械的获批，意味着这些技术已经通过了监管部门的审核，具备了规模化应用的资质。这与得克萨斯州的数据中心投资形成了有趣的对照：一个是硬件基础设施的建设，一个是应用场景的深度开发，两者共同构成了AI产业发展的两极。
+摘要：作者 | 黄绎达
+  编辑 | 张帆
+  3月25日，知乎（证券代码：ZH.N；2039.HK）发布了2025年全年业绩。
+  知乎2025年财报最核心的亮点，是首次实现全年非公认会计准则（Non-GAAP）盈利，对应的全年经调整净利润为3790万元。分季度来看，2024Q4~2025Q2，知乎连续三个季度实现单季度Non-GAAP盈利；其中，2025Q2表现最佳，实现了首次单季度盈利，该季度净利润录得7248万元，同期Non-GAAP净利润为9134万元。
+  由此可见，2025年上半年业绩端的良好表现，是2025年Non-GAAP净利润盈利的关键。其背后的核心逻辑则在于经营效率和经营质量的
 
-## 操作系统之争：微软的反击
+### 5. 从单季到全年盈利，知乎迎来估值重估
+来源：https://36kr.com/p/3740850993037312?f=rss
 
-在软件层面，微软的动作同样引人注目。微软宣布组建新团队为Windows 11打造100%原生应用，明确提出要告别“网页套壳”的开发模式。这一声明看似是对技术路线的选择，实则暗藏着操作系统话语权的争夺。
+摘要：文｜任倩
+  具身数据层的全球竞赛正在迅速升温。NVIDIA Research在2026年发布EgoScale数据与训练框架，在Ego-centric人类操作视频上训练VLA模型，用 20,854小时带动作标注的第一人称人类视频，观察到数据规模和验证损失之间接近对数线性的scaling law。1X收集人类第一视角及家庭行为数据，通过 Sunday项目采集百万小时级家庭场景视频。光轮智能采用仿真合成数据和人类视频数据（EgoSuite）的混合路线，宣称累计交付突破100万小时，估值飙向十亿美金。
+  几个月内，行业关注点已不再只是“谁采得更多”，而是“谁能把Human-centric /Ego
 
-“网页套壳”模式曾是移动互联网时代的主流开发范式。通过Web技术开发一次，即可在iOS、Android、Windows等多平台运行，大大降低了开发成本。然而，这种模式在性能和体验上始终难以与原生应用比肩。当AI能力成为操作系统的新竞争维度时，微软意识到必须将AI深度整合到系统底层，而不是简单地叠加一个AI助手。
+### 6. 对标英伟达EgoScale数据路径，清华系孵化星忆科技拿到首轮融资
+来源：https://36kr.com/p/3740899945136130?f=rss
 
-100%原生应用的开发意味着AI能力将不再是“外挂”，而是融入操作系统的每一个细胞。从文件管理到系统设置，从多任务处理到安全防护，AI将无处不在。这是对苹果封闭生态模式的某种回归，也是对AI时代操作系统形态的一次重新定义。微软的野心很明确：在AI时代重新确立Windows的平台优势，将用户锁定在微软的生态系统之中。
+摘要：文｜周鑫雨&nbsp;王欣逸 钟楚笛
+  编辑｜周鑫雨
+  Token，在技术语境下，是模型处理文本时的最小单位；在商业语境下，则成了AI服务最主流的计费方式。
+  近期，让Token被黄仁勋、吴泳铭等人，拔高到“经济学”概念的导火索，是当下全球最火的开源Agent框架——俗称为“龙虾”的OpenClaw。
+  它第一次让Agent的概念突破极客圈层，走向普罗大众；同时，运行龙虾庞大的Token消耗，也让习惯使用免费ChatBot的普通用户，第一次感知到：智能，是一种昂贵的、需要购买的资源。
+  2026年3月27日，中关村论坛。在主题为“OpenClaw与AI开源”的圆桌上，五位分别来自大模
 
-## 机器人时代的到来
+## 💰 创业投资动态
+1. 对标英伟达EgoScale数据路径，清华系孵化星忆科技拿到首轮融资 — 来源：https://36kr.com/p/3740899945136130?f=rss
+2. 谷歌接近达成协议，将为Anthropic的数据中心提供融资支持 — 来源：https://36kr.com/newsflashes/3742361946751241?f=rss
 
-OpenAI重启机器人团队的消息，标志着AI竞争的焦点正在从虚拟世界延伸到物理世界。Meta前AR硬件负责人的加盟，更暗示着AR与机器人技术的融合可能成为下一个突破口。
+## 🌍 国外科技动态（HN热门）
+1. Soverign AI Agent Accountability — https://at1c.com/2026/03/din-identity-soverign-ai-agent-accountability
+   Article URL: https://at1c.com/2026/03/din-identity-soverign-ai-agent-accountability
+Comments URL: ht
+2. Show HN: Web game, an AI decides if you would survive in a survival situation — https://youwillnotsurvive.com/
+   Hello HN, I made this website where you are given a unique survival scenario made by AI and you have
+3. Show HN: A prompt that builds the most capable AI agent system — https://github.com/fainir/most-capable-agent-system-prompt
+   Article URL: https://github.com/fainir/most-capable-agent-system-prompt
+Comments URL: https://news.y
+4. Towards end-to-end automation of AI research — https://www.nature.com/articles/s41586-026-10265-5
+   Article URL: https://www.nature.com/articles/s41586-026-10265-5
+Comments URL: https://news.ycombinat
+5. SafeSkill – We scanned 10K AI skills for code exploits and prompt injection — https://safeskill.dev
+   Article URL: https://safeskill.dev
+Comments URL: https://news.ycombinator.com/item?id=47556257
+Point
+6. Wikipedia bans AI-generated content in its online encyclopedia — https://www.theguardian.com/technology/2026/mar/27/wikipedia-bans-ai
+   Article URL: https://www.theguardian.com/technology/2026/mar/27/wikipedia-bans-ai
+Comments URL: http
 
-机器人技术的发展一直受制于两个瓶颈：感知能力和决策能力。AI大模型在自然语言理解和生成方面的突破，为解决决策问题提供了新的思路。当机器人能够理解自然语言指令、进行复杂推理、规划执行路径时，其应用场景将指数级扩展。家庭服务、工业制造、医疗护理、危险环境作业，机器人正在从科幻走向现实。
+## 📱 一句话新闻速递
+1. 「一人一天一部剧」时代降临，但AI短剧供给过剩不是末日｜专访巨日禄杰夫
+2. 9点1氪｜“华人神探”李昌钰去世；罗技为“一降价你像狗一样跑来”广告语道歉；寿司
+3. 曹操出行2025年业绩：首次调整后Q4盈利，迈向盈利性增长新阶段
+4. 业绩快报 | 茶百道2025年业绩报：新品业绩贡献超30%，部分门店咖啡日售超百
+5. 龙湖：2025年收入973.1亿，预计两年后完成新模式筑基
+6. 氪星晚报｜菜鸟集团与泰国正大集团旗下CP AXTRA签署战略合作协议；平头哥镇岳
+7. 瞄准多场景、全周期运动体验，趣冲健身推出多款自研AI智能健身设备｜最前线
+8. 从单季到全年盈利，知乎迎来估值重估
+9. 对标英伟达EgoScale数据路径，清华系孵化星忆科技拿到首轮融资
+10. 杨植麟/张鹏/夏立雪/罗福莉/黄超，谈龙虾，谈“Token经济学”
+11. 7-Eleven将在日本推出手机下单门店取货服务
+12. 苹果挖角谷歌高管 Lilian Rincon 执掌 AI 营销战略
+13. 谷歌接近达成协议，将为Anthropic的数据中心提供融资支持
+14. 2026清明档新片预售票房破1500万
+15. 特斯拉55座超充站落地重庆高速
 
-中关村论坛上机器人集体亮相的场景，或许正是这一趋势的预演。当这些机器人走出展馆、走进工厂和家庭时，它们将如何改变人类的生产和生活方式？这个问题没有现成的答案，但可以确定的是，我们正在见证一个新时代的开启。
-
-## 一人公司：AI时代的组织革命
-
-在所有这些技术突破之外，一个更加根本性的变革正在悄然发生——“一人公司”（OPC）正在成为AI时代的创业新范式。
-
-传统的创业模式需要团队、需要融资、需要漫长的产品开发周期。而现在，一个独立开发者借助AI工具，可以在极短的时间内完成过去需要一个团队才能完成的工作。GPT-5.4的编程能力、Agent Smith的自动化工具、各种AI辅助设计平台，正在将“一个人就是一支军队”从比喻变成现实。
-
-这种变革的影响是深远的。它降低了创业的门槛，让更多创新想法得以实现；但同时，它也可能重塑整个产业的价值链。当个人开发者能够以极低的成本完成复杂的产品开发时，传统的组织结构和商业模式将何去何从？
-
-## 站在历史的转折点
-
-回望这八条新闻，我们看到的不仅是技术的进步，更是一个时代的转折。算力基础设施的大规模投资，预示着AI将成为像电力一样的基础设施；大模型能力的持续突破，意味着AI正在从工具变成伙伴；从医疗到编程，从操作系统到机器人，AI正在渗透经济的每一个细胞；而一人公司的兴起，则暗示着生产关系的根本性变革正在酝酿。
-
-当然，挑战与机遇并存。AI伦理与国家安全的博弈、算力竞争背后的能源危机、技术垄断可能带来的数字鸿沟，都是必须正视的问题。但有一点是确定的：AI时代的浪潮已经不可阻挡，我们能做的，是在拥抱变革的同时，为可能到来的冲击做好准备。
-
-北京的中关村、硅谷的实验室、得克萨斯的工地——这些看似遥远的地点，正以我们难以想象的速度相互连接，共同编织着AI时代的新图景。而我们，正站在这张图景的起点。
 
 ---
 
@@ -87,7 +140,118 @@ OpenAI重启机器人团队的消息，标志着AI竞争的焦点正在从虚拟
 > 📝 **词曲：** AI创作 | **曲风：** 电子流行摇滚 | **阅读方式：** 配合歌词听歌效果更佳 🎧
 
 <div class="lyrics-box" id="lyricsBox">
-（歌词内容见当日音频播放器下方）
+<think>
+The user wants a song lyrics in Chinese based on today's news (given). The requirements:
+
+1. Cover key news in tech, startup, product, technology domains.
+2. Lyrics total characters <= 250 (hard requirement). Count characters not words; Chinese characters count as characters. Must be within 250 Chinese characters. Must not exceed.
+3. Structure: [Intro] + [Verse] + [Chorus] + [Verse] + [Chorus] + [Bridge] + [Outro]
+4. Each line no more than 14 characters; Chinese rhyme, rhythm.
+5. No repetitive meaning; keep info compact.
+6. Only output lyrics, no explanations.
+7. Use [Verse] labels for paragraph start.
+8. No specific personal names (like 雷军, 马斯克), no specific company names (like 苹果, 小米), no specific financial numbers. So generic references like "科技公司", "出行平台", "健康产业", "新能源", "AI智能体", etc. Must not mention brand names like 曹操出行, 茶百道, 龙湖, ispace, NASA, etc.
+
+We need to embed key news elements but in generic terms. News items include:
+
+- AI短剧供给过剩 (but not needed maybe).
+- AI agent, shift from training model to training agents (林俊旸; but no personal names).
+- Nine company (九号公司) collaboration with bubble? We can't mention company names, but maybe "电动车联手潮流IP" etc.
+- Apple opening Siri (no brand names). Could say "手机系统开放AI助手".
+- CEOs quitting due to AI.
+- UK restrictions on teen social media.
+- Ride-hailing platform (出行平台) covering 195 cities, revenue 202 billion (but no specific numbers). Could say "平台覆盖百城，收入大幅增长".
+- Food delivery (外卖) battles focusing on coffee and new tea drinks; subsidies waning.
+- Tea brand (茶饮) GMV 161.8 billion? Can't use numbers. Could say "茶饮业绩提升，日均单店增长".
+- Real estate (地产) group revenue 973.1 billion (can't use numbers). Could say "房产集团收入逼近千亿，运营业务占比提升".
+- Japanese lunar company postpone mission to 2030, cut staff (no brand names).
+- Chinese logistics (菜鸟) partnership with Thai (no brand names) – "物流携手泰国伙伴".
+- Chip maker shipping over 500k pieces (no brand names) – "自研芯片出货突破五十万".
+- AI robot service launched.
+- Health consumption market: digital fitness market grows 41.4%, global fitness market 1.5 trillion USD, Chinese health industry 10 trillion (no numbers). Could say "健康消费市场规模激增".
+
+We must compress within 250 characters total. Let's try to produce a lyrics structure.
+
+Goal: 250 Chinese characters maximum. Let's approximate. Each line <=14 characters.
+
+Structure: [Intro] [Verse] [Chorus] [Verse] [Chorus] [Bridge] [Outro].
+
+Probably each section multiple lines.
+
+We need to ensure total characters <=250. Let's count later.
+
+We must not exceed 14 characters per line.
+
+We must avoid any personal names, company names, specific numbers.
+
+We must avoid "曹操", "茶百道", "龙湖", "ispace", "NASA", etc.
+
+We can refer to "出行平台", "茶饮品牌", "地产集团", "航天初创", "物流企业", "芯片制造", "健康产业", "健身平台", "AI助手", "AI智能体", etc.
+
+We must keep lines with Chinese rhyme (maybe same ending words or similar tone). Use "风", "梦", "潮", "光", etc. Keep a rhythm.
+
+Let's design.
+
+First, [Intro] perhaps a short line, e.g., "[Intro] 晨光破晓，科技潮起". That's 9 characters? Let's count: 晨(1) 光2 破3 晓4 ，5 科6 技7 潮8 起9. Good.
+
+Now [Verse] label. Use [Verse] at start. Then several lines.
+
+We need to talk about AI智能体 shift, AI短剧, AI助手的开放, CEOs quitting because AI, UK teen restrictions.
+
+We can have lines like: "[Verse] AI智能体，模型转成长". That's 10 characters? Let's count: AI (two letters counts as 2? But each letter considered a character? In Chinese we could just use "AI" as two characters. Let's treat as characters. So AI (2) 智 (3) 能 (4) 体 (5) ， (punct maybe not count) but we can ignore punctuation. Let's just count characters ignoring punctuation maybe.
+
+Better: "AI智能体，模型转向". Count: A(1) I(2) 智(3) 能(4) 体(5) ，(6?) but punctuation may count. But we can include punctuation, but it's okay.
+
+Let's treat each Chinese character and each Latin letter as separate characters. So we need to be careful.
+
+We'll produce lines up to 14 characters each.
+
+Let's draft:
+
+Intro: "晨光破晓，科技潮涌"
+
+Verse: 
+Line1: "AI智能体，模型转向学习" (maybe 12 characters)
+Line2: "短剧泛滥，内容供过于求" (maybe 14)
+Line3: "手机系统，开放AI助手" (11)
+Line4: "高管离职，AI成关键" (9)
+Line5: "英伦青少年，社交设限" (10)
+
+That's Verse1.
+
+Now [Chorus] label.
+
+Chorus lines need to be catchy, summarizing: "科技浪潮，梦想驱动".
+
+We can do 2-3 lines.
+
+Chorus:
+Line1: "科技浪潮，席卷万里云"
+Line2: "创新节拍，踏破旧时门"
+Line3: "未来星辰，照亮每一步"
+
+But need each line <=14 characters.
+
+Let's count:
+
+"科技浪潮，席卷万里云" - characters: 科(1) 技2 浪3 潮4 ，5 席6 卷7 万8 里9 云10 -> 10 chars. OK.
+
+"创新节拍，踏破旧时门" - 创1 新2 节3 拍4 ，5 踏6 破7 旧8 时9 门10 -> 10.
+
+"未来星辰，照亮每一步" - 未1 来2 星3 辰4 ，5 照6 亮7 每8 一9 步10 -> 10.
+
+Now Verse2.
+
+Verse2 includes:出行平台业绩增长, 茶饮外卖补贴减弱, 地产集团收入提升, 航天任务推迟, 物流合作, 芯片出货, 健康产业高速增长.
+
+Let's write 4-5 lines.
+
+Verse2 lines:
+
+Line1: "出行平台，覆盖百城收入升" (14?) Count: 出1 行2 平3 台4 ，5 覆6 盖7 百8 城9 收10 入11 升12 -> 12.
+
+Line2: "外卖补贴退，咖啡茶饮订单降" (14?)
+</think>
 </div>
 
 <script>
@@ -135,3 +299,32 @@ OpenAI重启机器人团队的消息，标志着AI竞争的焦点正在从虚拟
 }
 </style>
 
+
+## 📚 参考来源
+1. 「一人一天一部剧」时代降临，但AI短剧供给过剩不是末日｜专访巨日禄杰夫 — https://36kr.com/p/3738258350817540?f=rss
+2. 9点1氪｜“华人神探”李昌钰去世；罗技为“一降价你像狗一样跑来”广告语道歉；寿司郎就餐需出示手机SIM卡尾号 — https://36kr.com/p/3741924007461128?f=rss
+3. 曹操出行2025年业绩：首次调整后Q4盈利，迈向盈利性增长新阶段 — https://36kr.com/p/3741142695117059?f=rss
+4. 业绩快报 | 茶百道2025年业绩报：新品业绩贡献超30%，部分门店咖啡日售超百杯 — https://36kr.com/p/3741100948029448?f=rss
+5. 龙湖：2025年收入973.1亿，预计两年后完成新模式筑基 — https://36kr.com/p/3741132856115207?f=rss
+6. 氪星晚报｜菜鸟集团与泰国正大集团旗下CP AXTRA签署战略合作协议；平头哥镇岳510出货量超50万片，多家存储公司SSD已搭载该芯片；猎户星空推出AI Agent服务机器人 — https://36kr.com/p/3737878513844224?f=rss
+7. 瞄准多场景、全周期运动体验，趣冲健身推出多款自研AI智能健身设备｜最前线 — https://36kr.com/p/3740892215623942?f=rss
+8. 从单季到全年盈利，知乎迎来估值重估 — https://36kr.com/p/3740850993037312?f=rss
+9. 对标英伟达EgoScale数据路径，清华系孵化星忆科技拿到首轮融资 — https://36kr.com/p/3740899945136130?f=rss
+10. 杨植麟/张鹏/夏立雪/罗福莉/黄超，谈龙虾，谈“Token经济学” — https://36kr.com/p/3740893801824512?f=rss
+11. 7-Eleven将在日本推出手机下单门店取货服务 — https://36kr.com/newsflashes/3742370337718280?f=rss
+12. 苹果挖角谷歌高管 Lilian Rincon 执掌 AI 营销战略 — https://36kr.com/newsflashes/3742367427198976?f=rss
+13. 谷歌接近达成协议，将为Anthropic的数据中心提供融资支持 — https://36kr.com/newsflashes/3742361946751241?f=rss
+14. 2026清明档新片预售票房破1500万 — https://36kr.com/newsflashes/3742360454332672?f=rss
+15. 特斯拉55座超充站落地重庆高速 — https://36kr.com/newsflashes/3742240741818369?f=rss
+
+### HackerNews热门
+1. Soverign AI Agent Accountability — https://at1c.com/2026/03/din-identity-soverign-ai-agent-accountability
+2. Show HN: Web game, an AI decides if you would survive in a survival situation — https://youwillnotsurvive.com/
+3. Show HN: A prompt that builds the most capable AI agent system — https://github.com/fainir/most-capable-agent-system-prompt
+4. Towards end-to-end automation of AI research — https://www.nature.com/articles/s41586-026-10265-5
+5. SafeSkill – We scanned 10K AI skills for code exploits and prompt injection — https://safeskill.dev
+6. Wikipedia bans AI-generated content in its online encyclopedia — https://www.theguardian.com/technology/2026/mar/27/wikipedia-bans-ai
+7. Show HN_Mnemosyne: A 10^38 Joule Thermodynamic Barrier for Post-Quantum Edge AI — https://www.researchgate.net/profile/Bo-Jun-Han
+8. How AI Will Reshape Public Opinion — https://www.conspicuouscognition.com/p/how-ai-will-reshape-public-opinion
+9. The Explore-Exploit Tradeoff for AI Tools — https://www.normallydistributed.dev/the-explore-exploit-tradeoff-for-ai-tools/
+10. Agents for Security: The Tipping Point for Offensive AI — https://menlovc.com/perspective/agents-for-security-the-tipping-point-for-offensive-ai/

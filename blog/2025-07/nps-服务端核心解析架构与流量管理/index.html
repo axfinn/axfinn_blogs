@@ -1,0 +1,1031 @@
+<!DOCTYPE html>
+<html lang="zn-Hans">
+  <head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge, chrome=1">
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no, maximum-scale=1" />
+  
+  <meta name="author" content="jaxiu He">
+  <meta name="description"
+    content="引言
+在 NPS 项目概述中，我们对这款强大的内网穿透工具进行了宏观的介绍。本篇文章将深入 NPS 的服务端（Server）核心，从 nps/server/server.go 文件入手，详细剖析其架构设计、任务管理、流量处理以及系统监控等关键功能。理解 server.go 的运作机制，是掌握 NPS 核心原理的基石。
+server.go：服务端的&quot;大脑&quot;
+server.go 文件是 NPS 服务端的启动入口和主要协调者。它负责初始化各项服务、管理客户端连接、调度隧道任务以及收集系统运行状态。
+核心组件概览
+在 server.go 中，我们可以看到几个关键的全局变量和结构：
+
+Bridge *bridge.Bridge：这是服务端与客户端之间通信的核心桥梁。它负责维护客户端连接、处理客户端发送的指令以及转发数据。
+RunList sync.Map：一个并发安全的 Map，用于存储当前正在运行的所有隧道（proxy.Service 实例）。通过 sync.Map，NPS 能够高效地管理和访问多个并发的隧道服务。
+once sync.Once：用于确保某些初始化操作（如 flowSession）只执行一次。
+
+NPS 服务端核心组件架构可以用下图表示：">
+
+  <meta property="og:url" content="https://blog.jaxiu.cn/blog/2025-07/nps-%E6%9C%8D%E5%8A%A1%E7%AB%AF%E6%A0%B8%E5%BF%83%E8%A7%A3%E6%9E%90%E6%9E%B6%E6%9E%84%E4%B8%8E%E6%B5%81%E9%87%8F%E7%AE%A1%E7%90%86/">
+  <meta property="og:site_name" content="jaxiu He">
+  <meta property="og:title" content="NPS 服务端核心解析：架构与流量管理">
+  <meta property="og:description" content="引言 在 NPS 项目概述中，我们对这款强大的内网穿透工具进行了宏观的介绍。本篇文章将深入 NPS 的服务端（Server）核心，从 nps/server/server.go 文件入手，详细剖析其架构设计、任务管理、流量处理以及系统监控等关键功能。理解 server.go 的运作机制，是掌握 NPS 核心原理的基石。
+server.go：服务端的&#34;大脑&#34; server.go 文件是 NPS 服务端的启动入口和主要协调者。它负责初始化各项服务、管理客户端连接、调度隧道任务以及收集系统运行状态。
+核心组件概览 在 server.go 中，我们可以看到几个关键的全局变量和结构：
+Bridge *bridge.Bridge：这是服务端与客户端之间通信的核心桥梁。它负责维护客户端连接、处理客户端发送的指令以及转发数据。 RunList sync.Map：一个并发安全的 Map，用于存储当前正在运行的所有隧道（proxy.Service 实例）。通过 sync.Map，NPS 能够高效地管理和访问多个并发的隧道服务。 once sync.Once：用于确保某些初始化操作（如 flowSession）只执行一次。 NPS 服务端核心组件架构可以用下图表示：">
+  <meta property="og:locale" content="zn_Hans">
+  <meta property="og:type" content="article">
+    <meta property="article:section" content="blog">
+    <meta property="article:published_time" content="2025-07-18T15:30:00+08:00">
+    <meta property="article:modified_time" content="2025-07-18T15:30:00+08:00">
+    <meta property="article:tag" content="NPS">
+    <meta property="article:tag" content="服务端">
+    <meta property="article:tag" content="架构">
+    <meta property="article:tag" content="流量管理">
+    <meta property="article:tag" content="Go语言">
+
+
+  <title>
+    
+     NPS 服务端核心解析：架构与流量管理 | jaxiu He 
+    
+  </title>
+
+  <link rel="canonical" href="https://blog.jaxiu.cn/blog/2025-07/nps-%E6%9C%8D%E5%8A%A1%E7%AB%AF%E6%A0%B8%E5%BF%83%E8%A7%A3%E6%9E%90%E6%9E%B6%E6%9E%84%E4%B8%8E%E6%B5%81%E9%87%8F%E7%AE%A1%E7%90%86/">
+
+  
+  
+
+  
+  
+  
+  <meta name="baidu-site-verification" content="your-baidu-verify-code" />
+  
+
+  
+  
+  <meta name="google-site-verification" content="your-google-verify-code" />
+  
+
+  
+  <link href="https://blog.jaxiu.cn/css/vendors-extensions/fontawesome/all.min.css" rel="stylesheet">
+
+  
+  <link rel="stylesheet"
+    href="https://fonts.googleapis.com/css?family=Open+Sans:400,700|Ubuntu+Mono:400,400i,700,700i|Raleway:300,400,500,600">
+  <link href="https://blog.jaxiu.cn/css/font.css" rel="stylesheet">
+
+  
+  <link href="https://blog.jaxiu.cn/css/vendors/bootstrap4/bootstrap.min.css" rel="stylesheet">
+  <link href="https://blog.jaxiu.cn/css/vendors-extensions/mdb/mdb.min.css" rel="stylesheet">
+  <link href="https://blog.jaxiu.cn/css/vendors/mdb/style.min.css" rel="stylesheet">
+  <link href="https://blog.jaxiu.cn/css/main.css" rel="stylesheet">
+
+
+  
+  <link rel="shortcut icon"  href="https://blog.jaxiu.cn/img/logo.png" >
+
+
+  
+  
+
+  <style type="text/css">
+    @media (min-width: 800px) and (max-width: 850px) {
+      .navbar:not(.top-nav-collapse) {
+        background: #1C2331 !important;
+      }
+    }
+  </style>
+
+
+  
+  
+  <link rel="stylesheet" href="https://blog.jaxiu.cn/js/vendors/katex/katex.min.css">
+  
+  
+
+  
+  
+  <link rel="stylesheet" href="https://blog.jaxiu.cn/css/vendors/highlight/github-gist.css">
+  
+
+  
+  
+  <script type="module">
+    import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.esm.min.mjs';
+    mermaid.initialize({ startOnLoad: true });
+  </script>
+  
+  
+
+  
+  <link href="https://blog.jaxiu.cn/css/holiday-effects.css" rel="stylesheet">
+  <script src="https://blog.jaxiu.cn/js/holiday-effects.js"></script>
+
+  
+  <script src="https://blog.jaxiu.cn/js/dynamic-bg.js"></script>
+  <link href="https://blog.jaxiu.cn/css/dynamic-bg-control.css" rel="stylesheet">
+
+</head>
+  <body class="bg-light" data-spy="scroll" data-target="#page-scrollspy" data-offset="90">
+  
+    
+    
+
+    
+      
+
+
+<nav class="navbar fixed-top navbar-expand-lg navbar-dark scrolling-navbar">
+    <div class="container">
+
+      
+      <a class="navbar-brand" href="https://blog.jaxiu.cn/">
+          
+        <img class="avatar" src="https://blog.jaxiu.cn/img/logo.png" style="width: 40px!important;height: auto;"  class="d-inline-block align-top" alt="" >
+        
+        <strong> jaxiu He</strong>
+      </a>
+
+      
+      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
+        aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+
+      
+      <div class="collapse navbar-collapse" id="navbarSupportedContent">
+
+        
+        <ul class="navbar-nav mr-auto ">
+          <li class="nav-item ">
+            <a class="nav-link" href="https://blog.jaxiu.cn/">Home</a>
+          </li>
+          
+            <li class="nav-item ">
+              <a class="nav-link" href="https://blog.jaxiu.cn/blog/" >博客  </a>
+            </li>
+
+          
+            <li class="nav-item ">
+              <a class="nav-link" href="https://blog.jaxiu.cn/moment/" >动态  </a>
+            </li>
+
+          
+            <li class="nav-item ">
+              <a class="nav-link" href="https://blog.jaxiu.cn/blog/prenatal-stories/" >胎教故事  </a>
+            </li>
+
+          
+            <li class="nav-item ">
+              <a class="nav-link" href="https://blog.jaxiu.cn/about/" >关于  </a>
+            </li>
+
+          
+        </ul>
+
+        
+        <ul class="navbar-nav">
+          <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" href="#" id="searchDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+              <i class="fas fa-search"></i> 搜索
+            </a>
+            <div class="dropdown-menu dropdown-menu-right p-3" aria-labelledby="searchDropdown" style="min-width: 300px; max-width: 400px;">
+              <form class="search-form" onsubmit="return false;">
+                <div class="input-group">
+                  <input type="text" id="search-query" class="form-control" placeholder="搜索文章标题或内容..." autocomplete="off">
+                  <div class="input-group-append">
+                    <button class="btn btn-outline-secondary" type="button" onclick="document.getElementById('search-query').focus();">
+                      <i class="fas fa-search"></i>
+                    </button>
+                  </div>
+                </div>
+              </form>
+              <ul id="search-results" class="list-unstyled mt-2 mb-0" style="max-height: 400px; overflow-y: auto;"></ul>
+            </div>
+          </li>
+        </ul>
+
+      </div>
+
+    </div>
+  </nav>
+   
+      
+
+
+
+
+
+
+
+<div id="site-header" class="carousel slide carousel-fade" data-ride="carousel" style="height: 18rem;">
+  
+
+  
+  
+  
+
+  
+  <div class="carousel-inner" role="listbox">
+    
+    
+
+    
+    <div class="carousel-item active">
+      <div class="view"
+        style="background-image: url('https://blog.jaxiu.cn/img/header-slides/raw_1515691746.jpg'); background-repeat: no-repeat; background-size: cover;">
+
+        
+        <div class="mask rgba-black-light d-flex justify-content-center align-items-center">
+
+          
+          
+          
+
+        </div>
+        
+
+      </div>
+    </div>
+    
+    
+    
+    
+
+    
+    <div class="carousel-item">
+      <div class="view"
+        style="background-image: url('https://blog.jaxiu.cn/img/header-slides//raw_1515847341.jpg'); background-repeat: no-repeat; background-size: cover;">
+
+        
+        <div class="mask rgba-black-light d-flex justify-content-center align-items-center">
+
+
+
+        </div>
+        
+
+      </div>
+    </div>
+    
+    
+    
+
+
+  </div>
+  
+
+  
+  <div class="carousel-content text-center white-text wow fadeIn">
+    <div class="row mx-0 headfont mt-3 pt-4">
+      
+      <div class="col-12 col-sm-5 align-middle">
+        <a href="https://blog.jaxiu.cn/">
+          
+          <img class="pull-right avatar avatar-md" src="https://blog.jaxiu.cn/img/logo.png" alt="">
+          
+        </a>
+      </div>
+
+      <div class="col-12 col-sm-7 text-left pl-2">
+        <a href="https://blog.jaxiu.cn/">
+          <h1 class="mb-2 h1" style="font-weight: 300;">
+            <strong>jaxiu He</strong>
+          </h1>
+        </a>
+
+
+        
+        <div class="mt-2" style="font-size: 1rem; color: white;">
+          
+          <a href="//github.com/axfinn" target="_blank" rel="noopener"><i class="fab fa-github pr-1"
+              aria-hidden="true"></i></a>
+          
+          
+
+          
+
+          
+
+          
+
+          
+
+          
+
+
+          
+          <a href="mailto:521very@email.com"><i class="far fa-envelope-open pr-1" aria-hidden="true"></i></a>
+          
+
+          
+
+
+        </div>
+      </div>
+    </div>
+  </div>
+  
+
+  
+  
+  
+
+</div>
+  
+    
+
+    
+  
+  <main class="post-main-wrapper">
+    
+    
+    <div class="row">
+
+      
+
+      
+      <div class="col-md-10">
+      
+
+        
+        <div class="z-depth-1  post-wrapper white-bg single-post">
+
+          <div class="post-header text-center" >
+  <ul class="post-meta li-x">
+    
+      
+        <li><a href="https://blog.jaxiu.cn/categories/%E6%8A%80%E6%9C%AF"><i class="fas fa-folder-open pr-1" aria-hidden="true"></i> 技术 </a></li>
+      
+        <li><a href="https://blog.jaxiu.cn/categories/%E9%A1%B9%E7%9B%AE%E5%88%86%E6%9E%90"><i class="fas fa-folder-open pr-1" aria-hidden="true"></i> 项目分析 </a></li>
+      
+    
+    
+  </ul>
+
+  <div class="px-4 post-heading">NPS 服务端核心解析：架构与流量管理</div>
+
+  <ul class="post-meta li-x mt-1">
+    
+      <li>Jul 18, 2025</li>
+    
+
+    
+      <li class="middot"></li>
+      <li>6 minutes read</li>
+    
+  </ul>
+  
+
+</div>
+
+
+          <div class="post-content markdown">
+            <h2 id="引言">引言</h2>
+<p>在 NPS 项目概述中，我们对这款强大的内网穿透工具进行了宏观的介绍。本篇文章将深入 NPS 的服务端（Server）核心，从 <code>nps/server/server.go</code> 文件入手，详细剖析其架构设计、任务管理、流量处理以及系统监控等关键功能。理解 <code>server.go</code> 的运作机制，是掌握 NPS 核心原理的基石。</p>
+<h2 id="servergo服务端的大脑"><code>server.go</code>：服务端的&quot;大脑&quot;</h2>
+<p><code>server.go</code> 文件是 NPS 服务端的启动入口和主要协调者。它负责初始化各项服务、管理客户端连接、调度隧道任务以及收集系统运行状态。</p>
+<h3 id="核心组件概览">核心组件概览</h3>
+<p>在 <code>server.go</code> 中，我们可以看到几个关键的全局变量和结构：</p>
+<ul>
+<li><code>Bridge *bridge.Bridge</code>：这是服务端与客户端之间通信的核心桥梁。它负责维护客户端连接、处理客户端发送的指令以及转发数据。</li>
+<li><code>RunList sync.Map</code>：一个并发安全的 Map，用于存储当前正在运行的所有隧道（<code>proxy.Service</code> 实例）。通过 <code>sync.Map</code>，NPS 能够高效地管理和访问多个并发的隧道服务。</li>
+<li><code>once sync.Once</code>：用于确保某些初始化操作（如 <code>flowSession</code>）只执行一次。</li>
+</ul>
+<p>NPS 服务端核心组件架构可以用下图表示：</p>
+<div class="mermaid">
+
+graph TD
+    A[server.go] --> B[Bridge]
+    A --> C[RunList]
+    A --> D[once]
+    
+    B --> B1[客户端连接管理]
+    B --> B2[指令处理]
+    B --> B3[数据转发]
+    
+    C --> C1[TCP隧道服务]
+    C --> C2[UDP隧道服务]
+    C --> C3[HTTP代理服务]
+    C --> C4[SOCKS5服务]
+    C --> C5[Web管理服务]
+    
+    D --> D1[流量数据持久化]
+
+</div>
+<h3 id="初始化与任务加载">初始化与任务加载</h3>
+<p>服务端的启动从初始化开始：</p>
+<ul>
+<li><strong><code>init()</code> 函数</strong>：简单地初始化 <code>RunList</code> 为一个空的 <code>sync.Map</code>。</li>
+<li><strong><code>InitFromCsv()</code> 函数</strong>：
+<ul>
+<li>负责从持久化存储（通过 <code>file.GetDb().JsonDb</code> 访问，通常是 JSON 文件）中加载预设的隧道任务。</li>
+<li>如果配置了 <code>public_vkey</code>（公共验证密钥），会创建一个特殊的公共客户端，允许未注册的客户端通过此密钥连接。</li>
+<li>遍历所有已存储的隧道任务，如果任务状态为 <code>true</code>（启用），则调用 <code>AddTask()</code> 函数将其启动。</li>
+</ul>
+</li>
+</ul>
+<h3 id="服务端核心循环dealbridgetask">服务端核心循环：<code>DealBridgeTask()</code></h3>
+<p><code>DealBridgeTask()</code> 是服务端的一个关键 goroutine，它在一个无限循环中监听来自 <code>Bridge</code> 的各种事件通道，实现对隧道和客户端的动态管理：</p>
+<ul>
+<li><strong><code>Bridge.OpenTask</code></strong>：当有新的隧道任务需要启动时，从该通道接收任务并调用 <code>AddTask()</code>。</li>
+<li><strong><code>Bridge.CloseTask</code></strong>：当有隧道任务需要停止时，从该通道接收任务 ID 并调用 <code>StopServer()</code>。</li>
+<li><strong><code>Bridge.CloseClient</code></strong>：当客户端断开连接或需要被移除时，从该通道接收客户端 ID，并调用 <code>DelTunnelAndHostByClientId()</code> 删除该客户端关联的所有隧道和主机。</li>
+<li><strong><code>Bridge.SecretChan</code></strong>：处理特殊的&quot;秘密连接&quot;。如果连接的密码与某个启用状态的隧道匹配，则会启动一个 <code>proxy.NewBaseServer</code> 来处理该连接。</li>
+</ul>
+<p><code>DealBridgeTask()</code> 的处理流程可以用下图表示：</p>
+<div class="mermaid">
+
+flowchart TD
+    A[DealBridgeTask循环] --> B{事件类型?}
+    B -->|OpenTask| C[接收新任务]
+    C --> D[调用AddTask启动隧道]
+    B -->|CloseTask| E[接收关闭任务ID]
+    E --> F[调用StopServer停止隧道]
+    B -->|CloseClient| G[接收客户端ID]
+    G --> H[调用DelTunnelAndHostByClientId]
+    B -->|SecretChan| I[接收秘密连接]
+    I --> J{密码匹配?}
+    J -->|是| K[启动proxy.NewBaseServer]
+    J -->|否| L[忽略连接]
+    
+    D --> M[更新RunList]
+    F --> M
+    H --> M
+    K --> M
+    L --> M
+    M --> A
+
+</div>
+<h3 id="服务端启动流程startnewserver">服务端启动流程：<code>StartNewServer()</code></h3>
+<p><code>StartNewServer()</code> 是 NPS 服务端的主启动函数，它负责协调各项服务的启动：</p>
+<ol>
+<li><strong>初始化 <code>Bridge</code></strong>：根据配置的桥接端口 (<code>bridgePort</code>)、类型 (<code>bridgeType</code>) 和断开连接策略 (<code>bridgeDisconnect</code>)，创建一个 <code>bridge.Bridge</code> 实例。</li>
+<li><strong>启动 <code>Bridge</code> 监听</strong>：在一个独立的 goroutine 中启动 <code>Bridge.StartTunnel()</code>，使其开始监听客户端连接。</li>
+<li><strong>启动 P2P 服务</strong>：如果 <code>p2p_port</code> 在配置中指定，NPS 会启动多个 P2P 服务器实例，用于支持点对点连接。</li>
+<li><strong>启动任务处理协程</strong>：启动 <code>DealBridgeTask()</code> goroutine，开始处理来自 <code>Bridge</code> 的任务事件。</li>
+<li><strong>启动客户端流量处理</strong>：启动 <code>dealClientFlow()</code> goroutine，定期处理客户端的流量数据。</li>
+<li><strong>启动主代理服务</strong>：根据传入的隧道配置 (<code>cnf.Mode</code>)，通过 <code>NewMode()</code> 函数实例化对应的 <code>proxy.Service</code>，并在独立的 goroutine 中启动它。这个 <code>proxy.Service</code> 实例会被存储在 <code>RunList</code> 中。</li>
+</ol>
+<p>服务端启动流程可以用下图表示：</p>
+<div class="mermaid">
+
+graph TD
+    A[StartNewServer] --> B[初始化Bridge]
+    B --> C[启动Bridge监听]
+    C --> D[启动P2P服务]
+    D --> E[启动任务处理协程]
+    E --> F[启动客户端流量处理]
+    F --> G[启动主代理服务]
+    G --> H[存储到RunList]
+    H --> I[服务端启动完成]
+    
+    C --> C1[goroutine: Bridge.StartTunnel]
+    E --> E1[goroutine: DealBridgeTask]
+    F --> F1[goroutine: dealClientFlow]
+    G --> G1[goroutine: proxy.Service]
+
+</div>
+<h3 id="代理模式工厂newmode">代理模式工厂：<code>NewMode()</code></h3>
+<p><code>NewMode()</code> 函数是 NPS 服务端实现多协议支持的关键。它根据隧道配置中的 <code>Mode</code> 字段，返回不同的 <code>proxy.Service</code> 实现，每种实现对应一种代理模式：</p>
+<ul>
+<li><strong><code>tcp</code> / <code>file</code></strong>：通过 <code>proxy.NewTunnelModeServer(proxy.ProcessTunnel, ...)</code> 创建，用于标准的 TCP 流量转发。</li>
+<li><strong><code>socks5</code></strong>：通过 <code>proxy.NewSock5ModeServer(...)</code> 创建，提供 SOCKS5 代理服务。</li>
+<li><strong><code>httpProxy</code></strong>：通过 <code>proxy.NewTunnelModeServer(proxy.ProcessHttp, ...)</code> 创建，用于 HTTP 代理。</li>
+<li><strong><code>tcpTrans</code></strong>：通过 <code>proxy.NewTunnelModeServer(proxy.HandleTrans, ...)</code> 创建，用于 TCP 透明传输。</li>
+<li><strong><code>udp</code></strong>：通过 <code>proxy.NewUdpModeServer(...)</code> 创建，用于 UDP 流量转发。</li>
+<li><strong><code>webServer</code></strong>：这是一个特殊的模式，它会初始化数据库中的任务，并启动一个 <code>httpHostServer</code> 类型的隧道，然后通过 <code>proxy.NewWebServer(...)</code> 创建 Web 管理界面服务。</li>
+<li><strong><code>httpHostServer</code></strong>：通过 <code>proxy.NewHttp(...)</code> 创建，用于处理 HTTP/HTTPS 域名解析和代理。</li>
+</ul>
+<h3 id="隧道任务生命周期管理">隧道任务生命周期管理</h3>
+<p><code>server.go</code> 提供了一系列函数来管理隧道任务的生命周期：</p>
+<ul>
+<li><strong><code>AddTask(t *file.Tunnel)</code></strong>：添加并启动一个新的隧道任务。它会根据任务模式进行一些预处理（如端口测试），然后通过 <code>NewMode()</code> 实例化并启动对应的代理服务。</li>
+<li><strong><code>StopServer(id int)</code></strong>：停止指定 ID 的隧道服务。它会从 <code>RunList</code> 中查找对应的服务实例，调用其 <code>Close()</code> 方法，并更新数据库中任务的状态。</li>
+<li><strong><code>StartTask(id int)</code></strong>：启动一个已存在的、但当前处于停止状态的隧道任务。</li>
+<li><strong><code>DelTask(id int)</code></strong>：删除指定 ID 的隧道任务，如果任务正在运行，会先停止它。</li>
+</ul>
+<h3 id="客户端与流量数据处理">客户端与流量数据处理</h3>
+<ul>
+<li><strong><code>dealClientFlow()</code></strong>：一个定时器（每分钟触发一次）协程，用于定期调用 <code>dealClientData()</code>。</li>
+<li><strong><code>dealClientData()</code></strong>：遍历所有客户端，更新它们的在线状态、最后在线时间、版本信息，并计算总的流入/流出流量。这些数据用于 Web 管理界面的展示。</li>
+<li><strong><code>DelTunnelAndHostByClientId(clientId int, justDelNoStore bool)</code></strong>：删除指定客户端 ID 关联的所有隧道和主机配置。</li>
+<li><strong><code>DelClientConnect(clientId int)</code></strong>：断开指定客户端 ID 的连接。</li>
+</ul>
+<h3 id="仪表盘数据获取getdashboarddata">仪表盘数据获取：<code>GetDashboardData()</code></h3>
+<p><code>GetDashboardData()</code> 函数负责收集并返回用于 Web 管理界面仪表盘的数据，包括：</p>
+<ul>
+<li>NPS 版本、主机数量、客户端数量（在线/总数）。</li>
+<li>总流入/流出流量。</li>
+<li>各种隧道类型（TCP、UDP、SOCKS5、HTTP 代理、秘密代理、P2P）的数量。</li>
+<li>桥接类型、HTTP/HTTPS 代理端口、IP 限制、流量存储间隔、P2P IP/端口、日志级别等配置信息。</li>
+<li>系统资源使用情况：CPU 使用率、系统负载、内存使用率（Swap 和 Virtual Memory）、网络 I/O 和 TCP 连接数。</li>
+</ul>
+<h3 id="数据持久化flowsession">数据持久化：<code>flowSession()</code></h3>
+<p><code>flowSession()</code> 是一个独立的 goroutine，它会根据配置的间隔（默认为 1 分钟）定时将主机、任务、客户端和全局流量数据持久化到 JSON 文件中，确保数据在服务重启后不会丢失。</p>
+<h2 id="总结">总结</h2>
+<p><code>nps/server/server.go</code> 作为 NPS 服务端的“大脑”，通过精巧的并发设计和模块化管理，实现了强大的内网穿透功能。它不仅负责启动和协调各种代理服务，还提供了完善的任务生命周期管理、客户端连接管理、流量统计以及系统监控能力。对 <code>server.go</code> 的深入理解，为我们后续剖析 NPS 的具体代理实现和客户端通信奠定了基础。</p>
+<p>在下一篇文章中，我们将继续深入 <code>nps/server/proxy</code> 目录，探索不同代理模式的具体实现细节。</p>
+
+          </div>
+
+          
+          <div class="row">
+            <div class="col-md-8">
+            
+              <div class="mb-5">
+                
+<div class="li-x div-x post-meta">
+  <li class="pr-0"><a href="https://blog.jaxiu.cn/tags/"><i class="fas fa-tags"></i></a></li>
+  <div class="tags-sm">
+    
+      <li><a href="https://blog.jaxiu.cn/tags/nps" role="button">NPS </a></li>
+      
+    
+      <li><a href="https://blog.jaxiu.cn/tags/%E6%9C%8D%E5%8A%A1%E7%AB%AF" role="button">服务端 </a></li>
+      
+    
+      <li><a href="https://blog.jaxiu.cn/tags/%E6%9E%B6%E6%9E%84" role="button">架构 </a></li>
+      
+    
+      <li><a href="https://blog.jaxiu.cn/tags/%E6%B5%81%E9%87%8F%E7%AE%A1%E7%90%86" role="button">流量管理 </a></li>
+      
+    
+      <li><a href="https://blog.jaxiu.cn/tags/go%E8%AF%AD%E8%A8%80" role="button">Go语言 </a></li>
+      
+    
+  </div>
+</div>
+              </div>
+            
+            </div>
+            
+          </div>
+          
+
+          
+          <div class="row pt-3">
+            <div class="col-md-6">
+              
+                <a href=https://blog.jaxiu.cn/blog/2025-07/nps-%E9%A1%B9%E7%9B%AE%E6%A6%82%E8%BF%B0%E5%86%85%E7%BD%91%E7%A9%BF%E9%80%8F%E5%88%A9%E5%99%A8/ class="post-meta">Previous
+                  <div class="pt-2 pb-5 d-flex">
+                    <i class="fas fa-angle-left text-grey font-weight-bold mr-2 active-color"></i>
+                    <span>NPS 项目概述：内网穿透利器</span>
+                  </div>
+                </a>
+              
+            </div>
+            
+            <div class="col-md-6 text-right" >
+              
+                <a href=https://blog.jaxiu.cn/blog/2025-07/nps-%E4%BB%A3%E7%90%86%E5%AE%9E%E7%8E%B0%E9%80%9A%E7%94%A8%E5%9F%BA%E7%A1%80%E4%B8%8E%E6%B5%81%E9%87%8F%E6%8E%A7%E5%88%B6/ class="post-meta">Next
+                  <div class="pt-2 pb-5 flex-reverse">
+                    <i class="fas fa-angle-right text-grey font-weight-bold ml-2 active-color"></i>
+                    <span>NPS 代理实现：通用基础与流量控制</span>
+                  </div>
+                </a>
+              
+            </div>
+          </div>
+
+          
+
+        </div>
+        
+
+      </div>
+      
+
+      
+	
+	
+	
+	
+		
+		
+		
+	
+
+		
+		<div class="col-md-2 pl-0">
+
+			
+			<div id="page-scrollspy" class="toc-nav">
+				
+				<ul class="nav nav-pills ml-0">
+					
+					<li class="nav-item pb-3 text-center">
+						<span class="font-weight-bold mb-2">- CATALOG - </span>
+					</li>
+
+					
+						
+						
+							
+								
+								
+									<ul class="nav">
+								
+								
+
+										<li class="nav-item">
+						 					<a class="nav-link" href="#%e5%bc%95%e8%a8%80">
+												 引言
+											</a>
+										</li>
+						 
+								
+								
+									</ul>
+								
+							
+						
+				 
+						
+						
+							
+								
+								
+									<ul class="nav">
+								
+								
+
+										<li class="nav-item">
+						 					<a class="nav-link" href="#servergo%e6%9c%8d%e5%8a%a1%e7%ab%af%e7%9a%84%e5%a4%a7%e8%84%91">
+												 server.go：服务端的&#34;大脑&#34;
+											</a>
+										</li>
+						 
+								
+								
+									</ul>
+								
+							
+						
+				 
+						
+						
+							
+								
+								
+									<ul class="nav">
+								
+									<ul class="nav">
+								
+								
+
+										<li class="nav-item">
+						 					<a class="nav-link" href="#%e6%a0%b8%e5%bf%83%e7%bb%84%e4%bb%b6%e6%a6%82%e8%a7%88">
+												 核心组件概览
+											</a>
+										</li>
+						 
+								
+								
+									</ul>
+								
+									</ul>
+								
+							
+						
+				 
+						
+						
+							
+								
+								
+									<ul class="nav">
+								
+									<ul class="nav">
+								
+								
+
+										<li class="nav-item">
+						 					<a class="nav-link" href="#%e5%88%9d%e5%a7%8b%e5%8c%96%e4%b8%8e%e4%bb%bb%e5%8a%a1%e5%8a%a0%e8%bd%bd">
+												 初始化与任务加载
+											</a>
+										</li>
+						 
+								
+								
+									</ul>
+								
+									</ul>
+								
+							
+						
+				 
+						
+						
+							
+								
+								
+									<ul class="nav">
+								
+									<ul class="nav">
+								
+								
+
+										<li class="nav-item">
+						 					<a class="nav-link" href="#%e6%9c%8d%e5%8a%a1%e7%ab%af%e6%a0%b8%e5%bf%83%e5%be%aa%e7%8e%afdealbridgetask">
+												 服务端核心循环：DealBridgeTask()
+											</a>
+										</li>
+						 
+								
+								
+									</ul>
+								
+									</ul>
+								
+							
+						
+				 
+						
+						
+							
+								
+								
+									<ul class="nav">
+								
+									<ul class="nav">
+								
+								
+
+										<li class="nav-item">
+						 					<a class="nav-link" href="#%e6%9c%8d%e5%8a%a1%e7%ab%af%e5%90%af%e5%8a%a8%e6%b5%81%e7%a8%8bstartnewserver">
+												 服务端启动流程：StartNewServer()
+											</a>
+										</li>
+						 
+								
+								
+									</ul>
+								
+									</ul>
+								
+							
+						
+				 
+						
+						
+							
+								
+								
+									<ul class="nav">
+								
+									<ul class="nav">
+								
+								
+
+										<li class="nav-item">
+						 					<a class="nav-link" href="#%e4%bb%a3%e7%90%86%e6%a8%a1%e5%bc%8f%e5%b7%a5%e5%8e%82newmode">
+												 代理模式工厂：NewMode()
+											</a>
+										</li>
+						 
+								
+								
+									</ul>
+								
+									</ul>
+								
+							
+						
+				 
+						
+						
+							
+								
+								
+									<ul class="nav">
+								
+									<ul class="nav">
+								
+								
+
+										<li class="nav-item">
+						 					<a class="nav-link" href="#%e9%9a%a7%e9%81%93%e4%bb%bb%e5%8a%a1%e7%94%9f%e5%91%bd%e5%91%a8%e6%9c%9f%e7%ae%a1%e7%90%86">
+												 隧道任务生命周期管理
+											</a>
+										</li>
+						 
+								
+								
+									</ul>
+								
+									</ul>
+								
+							
+						
+				 
+						
+						
+							
+								
+								
+									<ul class="nav">
+								
+									<ul class="nav">
+								
+								
+
+										<li class="nav-item">
+						 					<a class="nav-link" href="#%e5%ae%a2%e6%88%b7%e7%ab%af%e4%b8%8e%e6%b5%81%e9%87%8f%e6%95%b0%e6%8d%ae%e5%a4%84%e7%90%86">
+												 客户端与流量数据处理
+											</a>
+										</li>
+						 
+								
+								
+									</ul>
+								
+									</ul>
+								
+							
+						
+				 
+						
+						
+							
+								
+								
+									<ul class="nav">
+								
+									<ul class="nav">
+								
+								
+
+										<li class="nav-item">
+						 					<a class="nav-link" href="#%e4%bb%aa%e8%a1%a8%e7%9b%98%e6%95%b0%e6%8d%ae%e8%8e%b7%e5%8f%96getdashboarddata">
+												 仪表盘数据获取：GetDashboardData()
+											</a>
+										</li>
+						 
+								
+								
+									</ul>
+								
+									</ul>
+								
+							
+						
+				 
+						
+						
+							
+								
+								
+									<ul class="nav">
+								
+									<ul class="nav">
+								
+								
+
+										<li class="nav-item">
+						 					<a class="nav-link" href="#%e6%95%b0%e6%8d%ae%e6%8c%81%e4%b9%85%e5%8c%96flowsession">
+												 数据持久化：flowSession()
+											</a>
+										</li>
+						 
+								
+								
+									</ul>
+								
+									</ul>
+								
+							
+						
+				 
+						
+						
+							
+								
+								
+									<ul class="nav">
+								
+								
+
+										<li class="nav-item">
+						 					<a class="nav-link" href="#%e6%80%bb%e7%bb%93">
+												 总结
+											</a>
+										</li>
+						 
+								
+								
+									</ul>
+								
+							
+						
+				 
+
+				</ul>
+			</div>
+			
+
+		</div>
+		
+	
+
+    </div>
+    
+
+
+  </main>
+  
+
+
+    
+    
+<footer class="page-footer text-center font-small mt-4 wow fadeIn">
+
+
+  
+  <div class="pb-2 mt-5 pt-5">
+    
+    <a href="//github.com/axfinn " target="_blank" rel="noopener"><i class="fab fa-github mr-3"
+        aria-hidden="true"></i></a>
+    
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+
+    
+    <a href="mailto:521very@email.com"><i class="far fa-envelope-open mr-3" aria-hidden="true"></i></a>
+    
+
+    
+
+    
+
+  </div>
+  
+
+  
+  <div class="copyright py-4">
+    
+    <span> 2016 - 2026 &copy; | Theme <a href='https://github.com/orianna-zzo/AllinOne'
+        target="_blank">AllinOne</a> by <a href='https://github.com/orianna-zzo' target="_blank">Orianna</a> </span>
+  </div>
+  
+
+</footer>
+
+    
+
+
+
+
+<script type="text/javascript" src="https://blog.jaxiu.cn/js/vendors/jquery/jquery-3.3.1.min.js"></script>
+<script type="text/javascript" src="https://blog.jaxiu.cn/js/vendors/jquery/jquery.smooth-scroll.min.js"></script>
+
+
+
+<script type="text/javascript" src="https://blog.jaxiu.cn/js/vendors/popper.min.js"></script>
+<script type="text/javascript" src="https://blog.jaxiu.cn/js/vendors/holder.min.js"></script>
+<script type="text/javascript" src="https://blog.jaxiu.cn/js/vendors-extensions/bootstrap4/bootstrap.js" ></script>
+
+<script type="text/javascript" src="https://blog.jaxiu.cn/js/vendors/mdb/mdb.min.js"></script>
+
+<script type="text/javascript" src="https://blog.jaxiu.cn/js/main.js"></script>
+<script type="text/javascript" src="https://blog.jaxiu.cn/js/search.js"></script>
+
+
+
+
+  <script src="https://blog.jaxiu.cn/js/vendors/highlight.pack.js"> </script>
+  <script>hljs.initHighlightingOnLoad();</script>
+
+
+
+
+
+  <script src="https://blog.jaxiu.cn/js/vendors/katex/katex.min.js"> </script>
+  <script src="https://blog.jaxiu.cn/js/vendors/katex/contrib/auto-render.min.js"></script>
+
+  <script>
+      document.addEventListener("DOMContentLoaded", function () {
+          renderMathInElement(document.body);
+      });
+  </script>
+
+
+
+
+
+
+
+
+<script type="text/javascript">
+  
+  new WOW().init();
+</script>
+  </body>
+</html>

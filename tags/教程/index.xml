@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>教程 on jaxiu He</title>
+    <link>https://blog.jaxiu.cn/tags/%E6%95%99%E7%A8%8B/</link>
+    <description>Recent content in 教程 on jaxiu He</description>
+    <generator>Hugo</generator>
+    <language>zn-Hans</language>
+    <lastBuildDate>Sat, 19 Jul 2025 11:00:00 +0800</lastBuildDate>
+    <atom:link href="https://blog.jaxiu.cn/tags/%E6%95%99%E7%A8%8B/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Git 学习与详细使用指南</title>
+      <link>https://blog.jaxiu.cn/blog/2025-07/git-learning-and-usage-guide/</link>
+      <pubDate>Sat, 19 Jul 2025 11:00:00 +0800</pubDate>
+      <guid>https://blog.jaxiu.cn/blog/2025-07/git-learning-and-usage-guide/</guid>
+      <description>&lt;h1 id=&#34;git-学习与详细使用指南&#34;&gt;Git 学习与详细使用指南&lt;/h1&gt;&#xA;&lt;p&gt;Git 是目前世界上最流行、最先进的分布式版本控制系统。它能够高效地管理项目代码，记录每一次修改，并允许多人协作开发。无论你是个人开发者还是团队成员，掌握 Git 都是一项必备技能。&lt;/p&gt;&#xA;&lt;p&gt;本文将从 Git 的基本概念入手，逐步深入到常用命令、分支管理、远程协作，并提供一些高级技巧和参考资源，帮助你全面掌握 Git。&lt;/p&gt;&#xA;&lt;h2 id=&#34;1-git-基础概念&#34;&gt;1. Git 基础概念&lt;/h2&gt;&#xA;&lt;p&gt;在深入学习 Git 命令之前，理解以下核心概念至关重要：&lt;/p&gt;&#xA;&lt;ul&gt;&#xA;&lt;li&gt;&lt;strong&gt;版本控制系统 (VCS)&lt;/strong&gt;: 记录文件内容变化，以便将来查阅特定版本修订情况的系统。&lt;/li&gt;&#xA;&lt;li&gt;&lt;strong&gt;分布式版本控制系统 (DVCS)&lt;/strong&gt;: 每个开发者都拥有完整的代码仓库副本，无需依赖中央服务器即可进行大部分操作。&lt;/li&gt;&#xA;&lt;li&gt;&lt;strong&gt;仓库 (Repository)&lt;/strong&gt;: 存储项目所有文件和历史记录的��方。分为本地仓库和远程仓库。&lt;/li&gt;&#xA;&lt;li&gt;&lt;strong&gt;工作区 (Working Directory)&lt;/strong&gt;: 你在电脑上实际操作的目录，包含项目文件。&lt;/li&gt;&#xA;&lt;li&gt;&lt;strong&gt;暂存区 (Staging Area / Index)&lt;/strong&gt;: 一个临时区域，用于存放你即将提交（commit）的更改。你可以选择性地将工作区的修改添加到暂存区。&lt;/li&gt;&#xA;&lt;li&gt;&lt;strong&gt;提交 (Commit)&lt;/strong&gt;: 将暂存区的更改永久保存到本地仓库的历史记录中。每次提交都会生成一个唯一的 SHA-1 值作为标识。&lt;/li&gt;&#xA;&lt;li&gt;&lt;strong&gt;分支 (Branch)&lt;/strong&gt;: Git 中最强大的功能之一。它允许你在不影响主线开发的情况下，独立地进行新功能开发或 bug 修复。每个分支都是一个独立的开发线。&lt;/li&gt;&#xA;&lt;li&gt;&lt;strong&gt;HEAD&lt;/strong&gt;: 指向当前所在分支的指针。&lt;/li&gt;&#xA;&lt;/ul&gt;&#xA;&lt;h2 id=&#34;2-git-安装与配置&#34;&gt;2. Git 安装与配置&lt;/h2&gt;&#xA;&lt;h3 id=&#34;21-安装-git&#34;&gt;2.1 安装 Git&lt;/h3&gt;&#xA;&lt;ul&gt;&#xA;&lt;li&gt;&lt;strong&gt;macOS&lt;/strong&gt;: &lt;code&gt;brew install git&lt;/code&gt;&lt;/li&gt;&#xA;&lt;li&gt;&lt;strong&gt;Linux (Debian/Ubuntu)&lt;/strong&gt;: &lt;code&gt;sudo apt-get install git&lt;/code&gt;&lt;/li&gt;&#xA;&lt;li&gt;&lt;strong&gt;Windows&lt;/strong&gt;: 从 &lt;a href=&#34;https://git-scm.com/download/win&#34;&gt;Git 官方网站&lt;/a&gt; 下载安装包。&lt;/li&gt;&#xA;&lt;/ul&gt;&#xA;&lt;p&gt;安装完成后，在终端输入 &lt;code&gt;git --version&lt;/code&gt; 验证是否成功。&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>Hotel 项目：远程服务器部署指南</title>
+      <link>https://blog.jaxiu.cn/blog/2025-07/hotel-project-remote-deployment-guide/</link>
+      <pubDate>Sat, 19 Jul 2025 11:00:00 +0800</pubDate>
+      <guid>https://blog.jaxiu.cn/blog/2025-07/hotel-project-remote-deployment-guide/</guid>
+      <description>&lt;h1 id=&#34;hotel-项目远程服务器部署指南&#34;&gt;Hotel 项目：远程服务器部署指南&lt;/h1&gt;&#xA;&lt;p&gt;本文档提供了将 &lt;code&gt;hotel&lt;/code&gt; 酒店管理系统部署到远程服务器的详细步骤，主要通过 Docker 进行。&lt;/p&gt;&#xA;&lt;h2 id=&#34;前提条件&#34;&gt;前提条件&lt;/h2&gt;&#xA;&lt;p&gt;在开始之前，请确保您的远程服务器已安装以下工具：&lt;/p&gt;&#xA;&lt;ul&gt;&#xA;&lt;li&gt;&lt;strong&gt;Git&lt;/strong&gt;: 用于克隆项目仓库。&lt;/li&gt;&#xA;&lt;li&gt;&lt;strong&gt;Docker&lt;/strong&gt;: 用于构建和运行容器化应用程序。&lt;/li&gt;&#xA;&lt;li&gt;&lt;strong&gt;SSH 访问&lt;/strong&gt;: 用于连接到您的远程服务器。&lt;/li&gt;&#xA;&lt;/ul&gt;&#xA;&lt;h2 id=&#34;部署步骤&#34;&gt;部署步骤&lt;/h2&gt;&#xA;&lt;p&gt;请按照以下步骤在您的远程服务器上部署 &lt;code&gt;hotel&lt;/code&gt; 项目：&lt;/p&gt;&#xA;&lt;h3 id=&#34;1-连接到您的远程服务器&#34;&gt;1. 连接到您的远程服务器&lt;/h3&gt;&#xA;&lt;p&gt;使用 SSH 连接到您的远程服务器：&lt;/p&gt;&#xA;&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;ssh your_username@your_server_ip&#xA;&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h3 id=&#34;2-克隆仓库&#34;&gt;2. 克隆仓库&lt;/h3&gt;&#xA;&lt;p&gt;导航到您希望部署的目录（例如，&lt;code&gt;/opt/apps/&lt;/code&gt;），然后克隆 &lt;code&gt;hotel&lt;/code&gt; 项目仓库：&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>从零到一：用 Flask &#43; SQLite 打造一个轻量级酒店管理系统（前后端详解）</title>
+      <link>https://blog.jaxiu.cn/blog/2025-07/flask-sqlite-hotel-system-tutorial/</link>
+      <pubDate>Sat, 19 Jul 2025 11:00:00 +0800</pubDate>
+      <guid>https://blog.jaxiu.cn/blog/2025-07/flask-sqlite-hotel-system-tutorial/</guid>
+      <description>&lt;h2 id=&#34;前言&#34;&gt;前言&lt;/h2&gt;&#xA;&lt;p&gt;对于许多编程初学者来说，理论知识和实际项目之间总有一道鸿沟。今天，我将带领大家跨越这道鸿沟，通过一个真实的项目——&lt;code&gt;hotel&lt;/code&gt; 轻量级酒店管理系统，来学习如何将技术应用到实践中。&lt;/p&gt;&#xA;&lt;p&gt;这个项目非常适合初学者，它功能完整、代码清晰，并且覆盖了 Web 开发的方方面面：从后端逻辑、数据库设计，到前端页面渲染和用户交互。最棒的是，它还支持 Docker 一键部署！&lt;/p&gt;&#xA;&lt;p&gt;&lt;strong&gt;项目地址&lt;/strong&gt;: &lt;a href=&#34;git@github.com:axfinn/hotel.git&#34;&gt;git@github.com:axfinn/hotel.git&lt;/a&gt;&lt;/p&gt;&#xA;&lt;p&gt;我将从环境搭建开始，详细剖析前后端代码，让你不仅能看懂，更能学会如何构建一个属于自己的 Web 应用。&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>从零到一：使用 Hugo 和 GitHub Pages 搭建个人博客</title>
+      <link>https://blog.jaxiu.cn/blog/2025-07/%E4%BB%8E%E9%9B%B6%E5%88%B0%E4%B8%80%E4%BD%BF%E7%94%A8-hugo-%E5%92%8C-github-pages-%E6%90%AD%E5%BB%BA%E4%B8%AA%E4%BA%BA%E5%8D%9A%E5%AE%A2/</link>
+      <pubDate>Sat, 19 Jul 2025 00:00:00 +0800</pubDate>
+      <guid>https://blog.jaxiu.cn/blog/2025-07/%E4%BB%8E%E9%9B%B6%E5%88%B0%E4%B8%80%E4%BD%BF%E7%94%A8-hugo-%E5%92%8C-github-pages-%E6%90%AD%E5%BB%BA%E4%B8%AA%E4%BA%BA%E5%8D%9A%E5%AE%A2/</guid>
+      <description>&lt;h2 id=&#34;前言&#34;&gt;前言&lt;/h2&gt;&#xA;&lt;p&gt;拥有一个个人博客是分享知识、记录学习和展示作品的绝佳方式。本文将详细介绍如何使用强大的静态网站生成器 Hugo 和免费的 GitHub Pages 服务，从零开始搭建一个属于你自己的、功能完善且高度可定制的个人博客。&lt;/p&gt;&#xA;&lt;h2 id=&#34;为什么选择-hugo-和-github-pages&#34;&gt;为什么选择 Hugo 和 GitHub Pages？&lt;/h2&gt;&#xA;&lt;ul&gt;&#xA;&lt;li&gt;&lt;strong&gt;Hugo&lt;/strong&gt;: Go 语言编写的静态网站生成器，以其惊人的构建速度和灵活性而闻名。它拥有丰富的主题和强大的功能，让你可以专注于内容创作。&lt;/li&gt;&#xA;&lt;li&gt;&lt;strong&gt;GitHub Pages&lt;/strong&gt;: GitHub 提供的免费静态网站托管服务。它与 Git 无缝集成，非常适合托管个人博客、项目文档等。&lt;/li&gt;&#xA;&lt;/ul&gt;&#xA;&lt;h2 id=&#34;准备工作&#34;&gt;准备工作&lt;/h2&gt;&#xA;&lt;p&gt;在开始之前，请确保你的电脑上已经安装了以下软件：&lt;/p&gt;</description>
+    </item>
+  </channel>
+</rss>

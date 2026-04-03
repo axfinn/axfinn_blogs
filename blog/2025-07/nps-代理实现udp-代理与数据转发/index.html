@@ -1,0 +1,913 @@
+<!DOCTYPE html>
+<html lang="zn-Hans">
+  <head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge, chrome=1">
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no, maximum-scale=1" />
+  
+  <meta name="author" content="jaxiu He">
+  <meta name="description"
+    content="引言
+在 NPS 系列文章中，我们已经探讨了 NPS 的整体架构、服务端核心以及多种 TCP 相关的代理模式（TCP 隧道、HTTP 代理、SOCKS5 代理）和 P2P 代理。本篇文章将聚焦于 NPS 的 UDP 代理实现。我们将通过分析 nps/server/proxy/udp.go 文件，揭示 NPS 如何处理 UDP 流量，实现内网 UDP 服务的穿透。
+UDP 代理的需求与挑战
+UDP（User Datagram Protocol）是一种无连接的传输协议，常用于对实时性要求较高、允许少量丢包的应用，如 DNS 查询、在线游戏、音视频通话等。由于 UDP 的无连接特性，其代理实现与 TCP 代理有所不同，主要挑战在于：">
+
+  <meta property="og:url" content="https://blog.jaxiu.cn/blog/2025-07/nps-%E4%BB%A3%E7%90%86%E5%AE%9E%E7%8E%B0udp-%E4%BB%A3%E7%90%86%E4%B8%8E%E6%95%B0%E6%8D%AE%E8%BD%AC%E5%8F%91/">
+  <meta property="og:site_name" content="jaxiu He">
+  <meta property="og:title" content="NPS 代理实现：UDP 代理与数据转发">
+  <meta property="og:description" content="引言 在 NPS 系列文章中，我们已经探讨了 NPS 的整体架构、服务端核心以及多种 TCP 相关的代理模式（TCP 隧道、HTTP 代理、SOCKS5 代理）和 P2P 代理。本篇文章将聚焦于 NPS 的 UDP 代理实现。我们将通过分析 nps/server/proxy/udp.go 文件，揭示 NPS 如何处理 UDP 流量，实现内网 UDP 服务的穿透。
+UDP 代理的需求与挑战 UDP（User Datagram Protocol）是一种无连接的传输协议，常用于对实时性要求较高、允许少量丢包的应用，如 DNS 查询、在线游戏、音视频通话等。由于 UDP 的无连接特性，其代理实现与 TCP 代理有所不同，主要挑战在于：">
+  <meta property="og:locale" content="zn_Hans">
+  <meta property="og:type" content="article">
+    <meta property="article:section" content="blog">
+    <meta property="article:published_time" content="2025-07-18T16:45:00+08:00">
+    <meta property="article:modified_time" content="2025-07-18T16:45:00+08:00">
+    <meta property="article:tag" content="NPS">
+    <meta property="article:tag" content="UDP代理">
+    <meta property="article:tag" content="Go语言">
+    <meta property="article:tag" content="网络协议">
+    <meta property="article:tag" content="内网穿透">
+
+
+  <title>
+    
+     NPS 代理实现：UDP 代理与数据转发 | jaxiu He 
+    
+  </title>
+
+  <link rel="canonical" href="https://blog.jaxiu.cn/blog/2025-07/nps-%E4%BB%A3%E7%90%86%E5%AE%9E%E7%8E%B0udp-%E4%BB%A3%E7%90%86%E4%B8%8E%E6%95%B0%E6%8D%AE%E8%BD%AC%E5%8F%91/">
+
+  
+  
+
+  
+  
+  
+  <meta name="baidu-site-verification" content="your-baidu-verify-code" />
+  
+
+  
+  
+  <meta name="google-site-verification" content="your-google-verify-code" />
+  
+
+  
+  <link href="https://blog.jaxiu.cn/css/vendors-extensions/fontawesome/all.min.css" rel="stylesheet">
+
+  
+  <link rel="stylesheet"
+    href="https://fonts.googleapis.com/css?family=Open+Sans:400,700|Ubuntu+Mono:400,400i,700,700i|Raleway:300,400,500,600">
+  <link href="https://blog.jaxiu.cn/css/font.css" rel="stylesheet">
+
+  
+  <link href="https://blog.jaxiu.cn/css/vendors/bootstrap4/bootstrap.min.css" rel="stylesheet">
+  <link href="https://blog.jaxiu.cn/css/vendors-extensions/mdb/mdb.min.css" rel="stylesheet">
+  <link href="https://blog.jaxiu.cn/css/vendors/mdb/style.min.css" rel="stylesheet">
+  <link href="https://blog.jaxiu.cn/css/main.css" rel="stylesheet">
+
+
+  
+  <link rel="shortcut icon"  href="https://blog.jaxiu.cn/img/logo.png" >
+
+
+  
+  
+
+  <style type="text/css">
+    @media (min-width: 800px) and (max-width: 850px) {
+      .navbar:not(.top-nav-collapse) {
+        background: #1C2331 !important;
+      }
+    }
+  </style>
+
+
+  
+  
+  <link rel="stylesheet" href="https://blog.jaxiu.cn/js/vendors/katex/katex.min.css">
+  
+  
+
+  
+  
+  <link rel="stylesheet" href="https://blog.jaxiu.cn/css/vendors/highlight/github-gist.css">
+  
+
+  
+  
+  <script type="module">
+    import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.esm.min.mjs';
+    mermaid.initialize({ startOnLoad: true });
+  </script>
+  
+  
+
+  
+  <link href="https://blog.jaxiu.cn/css/holiday-effects.css" rel="stylesheet">
+  <script src="https://blog.jaxiu.cn/js/holiday-effects.js"></script>
+
+  
+  <script src="https://blog.jaxiu.cn/js/dynamic-bg.js"></script>
+  <link href="https://blog.jaxiu.cn/css/dynamic-bg-control.css" rel="stylesheet">
+
+</head>
+  <body class="bg-light" data-spy="scroll" data-target="#page-scrollspy" data-offset="90">
+  
+    
+    
+
+    
+      
+
+
+<nav class="navbar fixed-top navbar-expand-lg navbar-dark scrolling-navbar">
+    <div class="container">
+
+      
+      <a class="navbar-brand" href="https://blog.jaxiu.cn/">
+          
+        <img class="avatar" src="https://blog.jaxiu.cn/img/logo.png" style="width: 40px!important;height: auto;"  class="d-inline-block align-top" alt="" >
+        
+        <strong> jaxiu He</strong>
+      </a>
+
+      
+      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
+        aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+
+      
+      <div class="collapse navbar-collapse" id="navbarSupportedContent">
+
+        
+        <ul class="navbar-nav mr-auto ">
+          <li class="nav-item ">
+            <a class="nav-link" href="https://blog.jaxiu.cn/">Home</a>
+          </li>
+          
+            <li class="nav-item ">
+              <a class="nav-link" href="https://blog.jaxiu.cn/blog/" >博客  </a>
+            </li>
+
+          
+            <li class="nav-item ">
+              <a class="nav-link" href="https://blog.jaxiu.cn/moment/" >动态  </a>
+            </li>
+
+          
+            <li class="nav-item ">
+              <a class="nav-link" href="https://blog.jaxiu.cn/blog/prenatal-stories/" >胎教故事  </a>
+            </li>
+
+          
+            <li class="nav-item ">
+              <a class="nav-link" href="https://blog.jaxiu.cn/about/" >关于  </a>
+            </li>
+
+          
+        </ul>
+
+        
+        <ul class="navbar-nav">
+          <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" href="#" id="searchDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+              <i class="fas fa-search"></i> 搜索
+            </a>
+            <div class="dropdown-menu dropdown-menu-right p-3" aria-labelledby="searchDropdown" style="min-width: 300px; max-width: 400px;">
+              <form class="search-form" onsubmit="return false;">
+                <div class="input-group">
+                  <input type="text" id="search-query" class="form-control" placeholder="搜索文章标题或内容..." autocomplete="off">
+                  <div class="input-group-append">
+                    <button class="btn btn-outline-secondary" type="button" onclick="document.getElementById('search-query').focus();">
+                      <i class="fas fa-search"></i>
+                    </button>
+                  </div>
+                </div>
+              </form>
+              <ul id="search-results" class="list-unstyled mt-2 mb-0" style="max-height: 400px; overflow-y: auto;"></ul>
+            </div>
+          </li>
+        </ul>
+
+      </div>
+
+    </div>
+  </nav>
+   
+      
+
+
+
+
+
+
+
+<div id="site-header" class="carousel slide carousel-fade" data-ride="carousel" style="height: 18rem;">
+  
+
+  
+  
+  
+
+  
+  <div class="carousel-inner" role="listbox">
+    
+    
+
+    
+    <div class="carousel-item active">
+      <div class="view"
+        style="background-image: url('https://blog.jaxiu.cn/img/header-slides/raw_1515691746.jpg'); background-repeat: no-repeat; background-size: cover;">
+
+        
+        <div class="mask rgba-black-light d-flex justify-content-center align-items-center">
+
+          
+          
+          
+
+        </div>
+        
+
+      </div>
+    </div>
+    
+    
+    
+    
+
+    
+    <div class="carousel-item">
+      <div class="view"
+        style="background-image: url('https://blog.jaxiu.cn/img/header-slides//raw_1515847341.jpg'); background-repeat: no-repeat; background-size: cover;">
+
+        
+        <div class="mask rgba-black-light d-flex justify-content-center align-items-center">
+
+
+
+        </div>
+        
+
+      </div>
+    </div>
+    
+    
+    
+
+
+  </div>
+  
+
+  
+  <div class="carousel-content text-center white-text wow fadeIn">
+    <div class="row mx-0 headfont mt-3 pt-4">
+      
+      <div class="col-12 col-sm-5 align-middle">
+        <a href="https://blog.jaxiu.cn/">
+          
+          <img class="pull-right avatar avatar-md" src="https://blog.jaxiu.cn/img/logo.png" alt="">
+          
+        </a>
+      </div>
+
+      <div class="col-12 col-sm-7 text-left pl-2">
+        <a href="https://blog.jaxiu.cn/">
+          <h1 class="mb-2 h1" style="font-weight: 300;">
+            <strong>jaxiu He</strong>
+          </h1>
+        </a>
+
+
+        
+        <div class="mt-2" style="font-size: 1rem; color: white;">
+          
+          <a href="//github.com/axfinn" target="_blank" rel="noopener"><i class="fab fa-github pr-1"
+              aria-hidden="true"></i></a>
+          
+          
+
+          
+
+          
+
+          
+
+          
+
+          
+
+
+          
+          <a href="mailto:521very@email.com"><i class="far fa-envelope-open pr-1" aria-hidden="true"></i></a>
+          
+
+          
+
+
+        </div>
+      </div>
+    </div>
+  </div>
+  
+
+  
+  
+  
+
+</div>
+  
+    
+
+    
+  
+  <main class="post-main-wrapper">
+    
+    
+    <div class="row">
+
+      
+
+      
+      <div class="col-md-10">
+      
+
+        
+        <div class="z-depth-1  post-wrapper white-bg single-post">
+
+          <div class="post-header text-center" >
+  <ul class="post-meta li-x">
+    
+      
+        <li><a href="https://blog.jaxiu.cn/categories/%E6%8A%80%E6%9C%AF"><i class="fas fa-folder-open pr-1" aria-hidden="true"></i> 技术 </a></li>
+      
+        <li><a href="https://blog.jaxiu.cn/categories/%E9%A1%B9%E7%9B%AE%E5%88%86%E6%9E%90"><i class="fas fa-folder-open pr-1" aria-hidden="true"></i> 项目分析 </a></li>
+      
+    
+    
+  </ul>
+
+  <div class="px-4 post-heading">NPS 代理实现：UDP 代理与数据转发</div>
+
+  <ul class="post-meta li-x mt-1">
+    
+      <li>Jul 18, 2025</li>
+    
+
+    
+      <li class="middot"></li>
+      <li>4 minutes read</li>
+    
+  </ul>
+  
+
+</div>
+
+
+          <div class="post-content markdown">
+            <h2 id="引言">引言</h2>
+<p>在 NPS 系列文章中，我们已经探讨了 NPS 的整体架构、服务端核心以及多种 TCP 相关的代理模式（TCP 隧道、HTTP 代理、SOCKS5 代理）和 P2P 代理。本篇文章将聚焦于 NPS 的 <strong>UDP 代理</strong>实现。我们将通过分析 <code>nps/server/proxy/udp.go</code> 文件，揭示 NPS 如何处理 UDP 流量，实现内网 UDP 服务的穿透。</p>
+<h2 id="udp-代理的需求与挑战">UDP 代理的需求与挑战</h2>
+<p>UDP（User Datagram Protocol）是一种无连接的传输协议，常用于对实时性要求较高、允许少量丢包的应用，如 DNS 查询、在线游戏、音视频通话等。由于 UDP 的无连接特性，其代理实现与 TCP 代理有所不同，主要挑战在于：</p>
+<ul>
+<li><strong>会话管理</strong>：UDP 是无连接的，代理服务器需要维护客户端与目标服务之间的“伪会话”，以确保数据包能够正确地双向转发。</li>
+<li><strong>NAT 穿越</strong>：与 P2P 代理类似，UDP 代理也需要处理 NAT 穿越问题，确保数据包能够穿透内网防火墙和 NAT 设备。</li>
+<li><strong>数据包丢失</strong>：UDP 本身不保证数据包的可靠传输，代理层需要尽可能地减少数据包丢失。</li>
+</ul>
+<h2 id="udpgoudp-代理的实现"><code>udp.go</code>：UDP 代理的实现</h2>
+<p><code>udp.go</code> 文件定义了 <code>UdpModeServer</code> 结构体，它是 NPS 实现 UDP 代理的核心。</p>
+<h3 id="udpmodeserver-结构体"><code>UdpModeServer</code> 结构体</h3>
+<p><code>UdpModeServer</code> 结构体包含了 UDP 代理所需的关键信息：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-go" data-lang="go"><span class="line"><span class="cl"><span class="kd">type</span><span class="w"> </span><span class="nx">UdpModeServer</span><span class="w"> </span><span class="kd">struct</span><span class="w"> </span><span class="p">{</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nx">BaseServer</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nx">addrMap</span><span class="w">  </span><span class="nx">sync</span><span class="p">.</span><span class="nx">Map</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nx">listener</span><span class="w"> </span><span class="o">*</span><span class="nx">net</span><span class="p">.</span><span class="nx">UDPConn</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="p">}</span><span class="w">
+</span></span></span></code></pre></div><ul>
+<li><code>BaseServer</code>：继承了 <code>base.go</code> 中定义的通用功能。</li>
+<li><code>addrMap sync.Map</code>：一个并发安全的 Map，用于存储客户端的 UDP 地址与对应的目标连接。键是客户端的 <code>addr.String()</code>，值是 <code>io.ReadWriteCloser</code>（通常是 <code>conn.Conn</code> 实例）。这个 Map 用于维护客户端与目标服务之间的“伪会话”。</li>
+<li><code>listener *net.UDPConn</code>：UDP 代理服务监听的 UDP 连接。</li>
+</ul>
+<p><code>NewUdpModeServer()</code> 函数用于创建并初始化一个 <code>UdpModeServer</code> 实例。</p>
+<h3 id="start-方法启动-udp-监听"><code>Start()</code> 方法：启动 UDP 监听</h3>
+<p><code>UdpModeServer</code> 的 <code>Start()</code> 方法负责启动 UDP 监听，并为每个接收到的 UDP 数据包调用 <code>process()</code> 方法进行处理：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-go" data-lang="go"><span class="line"><span class="cl"><span class="kd">func</span><span class="w"> </span><span class="p">(</span><span class="nx">s</span><span class="w"> </span><span class="o">*</span><span class="nx">UdpModeServer</span><span class="p">)</span><span class="w"> </span><span class="nf">Start</span><span class="p">()</span><span class="w"> </span><span class="kt">error</span><span class="w"> </span><span class="p">{</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="kd">var</span><span class="w"> </span><span class="nx">err</span><span class="w"> </span><span class="kt">error</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="nx">s</span><span class="p">.</span><span class="nx">task</span><span class="p">.</span><span class="nx">ServerIp</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="s">&#34;&#34;</span><span class="w"> </span><span class="p">{</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">        </span><span class="nx">s</span><span class="p">.</span><span class="nx">task</span><span class="p">.</span><span class="nx">ServerIp</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="s">&#34;0.0.0.0&#34;</span><span class="w"> </span><span class="c1">// 默认监听所有 IP</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="p">}</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nx">s</span><span class="p">.</span><span class="nx">listener</span><span class="p">,</span><span class="w"> </span><span class="nx">err</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nx">net</span><span class="p">.</span><span class="nf">ListenUDP</span><span class="p">(</span><span class="s">&#34;udp&#34;</span><span class="p">,</span><span class="w"> </span><span class="o">&amp;</span><span class="nx">net</span><span class="p">.</span><span class="nx">UDPAddr</span><span class="p">{</span><span class="nx">net</span><span class="p">.</span><span class="nf">ParseIP</span><span class="p">(</span><span class="nx">s</span><span class="p">.</span><span class="nx">task</span><span class="p">.</span><span class="nx">ServerIp</span><span class="p">),</span><span class="w"> </span><span class="nx">s</span><span class="p">.</span><span class="nx">task</span><span class="p">.</span><span class="nx">Port</span><span class="p">,</span><span class="w"> </span><span class="s">&#34;&#34;</span><span class="p">})</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="nx">err</span><span class="w"> </span><span class="o">!=</span><span class="w"> </span><span class="kc">nil</span><span class="w"> </span><span class="p">{</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">        </span><span class="k">return</span><span class="w"> </span><span class="nx">err</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="p">}</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="k">for</span><span class="w"> </span><span class="p">{</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">        </span><span class="nx">buf</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nx">common</span><span class="p">.</span><span class="nx">BufPoolUdp</span><span class="p">.</span><span class="nf">Get</span><span class="p">().([]</span><span class="kt">byte</span><span class="p">)</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">        </span><span class="nx">n</span><span class="p">,</span><span class="w"> </span><span class="nx">addr</span><span class="p">,</span><span class="w"> </span><span class="nx">err</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nx">s</span><span class="p">.</span><span class="nx">listener</span><span class="p">.</span><span class="nf">ReadFromUDP</span><span class="p">(</span><span class="nx">buf</span><span class="p">)</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="nx">err</span><span class="w"> </span><span class="o">!=</span><span class="w"> </span><span class="kc">nil</span><span class="w"> </span><span class="p">{</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">            </span><span class="k">if</span><span class="w"> </span><span class="nx">strings</span><span class="p">.</span><span class="nf">Contains</span><span class="p">(</span><span class="nx">err</span><span class="p">.</span><span class="nf">Error</span><span class="p">(),</span><span class="w"> </span><span class="s">&#34;use of closed network connection&#34;</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">                </span><span class="k">break</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">            </span><span class="p">}</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">            </span><span class="k">continue</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">        </span><span class="p">}</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">        </span><span class="c1">// 黑名单检查</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="nf">IsGlobalBlackIp</span><span class="p">(</span><span class="nx">addr</span><span class="p">.</span><span class="nf">String</span><span class="p">())</span><span class="w"> </span><span class="p">{</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">            </span><span class="k">break</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">        </span><span class="p">}</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="nx">common</span><span class="p">.</span><span class="nf">IsBlackIp</span><span class="p">(</span><span class="nx">addr</span><span class="p">.</span><span class="nf">String</span><span class="p">(),</span><span class="w"> </span><span class="nx">s</span><span class="p">.</span><span class="nx">task</span><span class="p">.</span><span class="nx">Client</span><span class="p">.</span><span class="nx">VerifyKey</span><span class="p">,</span><span class="w"> </span><span class="nx">s</span><span class="p">.</span><span class="nx">task</span><span class="p">.</span><span class="nx">Client</span><span class="p">.</span><span class="nx">BlackIpList</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">            </span><span class="k">break</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">        </span><span class="p">}</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">        </span><span class="nx">logs</span><span class="p">.</span><span class="nf">Trace</span><span class="p">(</span><span class="s">&#34;New udp connection,client %d,remote address %s&#34;</span><span class="p">,</span><span class="w"> </span><span class="nx">s</span><span class="p">.</span><span class="nx">task</span><span class="p">.</span><span class="nx">Client</span><span class="p">.</span><span class="nx">Id</span><span class="p">,</span><span class="w"> </span><span class="nx">addr</span><span class="p">)</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">        </span><span class="k">go</span><span class="w"> </span><span class="nx">s</span><span class="p">.</span><span class="nf">process</span><span class="p">(</span><span class="nx">addr</span><span class="p">,</span><span class="w"> </span><span class="nx">buf</span><span class="p">[:</span><span class="nx">n</span><span class="p">])</span><span class="w"> </span><span class="c1">// 为每个 UDP 数据包启动一个 goroutine 处理</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="p">}</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="kc">nil</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="p">}</span><span class="w">
+</span></span></span></code></pre></div><ul>
+<li>NPS 会在指定的 <code>ServerIp</code> 和 <code>Port</code> 上监听 UDP 连接。</li>
+<li>每个接收到的 UDP 数据包都会在一个新的 goroutine 中由 <code>process()</code> 函数处理，以实现并发处理。</li>
+<li>在处理之前，会进行全局和客户端特定的黑名单检查。</li>
+</ul>
+<h3 id="processudp-数据包的处理与转发"><code>process()</code>：UDP 数据包的处理与转发</h3>
+<p><code>process()</code> 方法是 UDP 数据包处理的核心逻辑。它根据 <code>addrMap</code> 中是否存在对应的连接来决定是建立新连接还是复用现有连接：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-go" data-lang="go"><span class="line"><span class="cl"><span class="kd">func</span><span class="w"> </span><span class="p">(</span><span class="nx">s</span><span class="w"> </span><span class="o">*</span><span class="nx">UdpModeServer</span><span class="p">)</span><span class="w"> </span><span class="nf">process</span><span class="p">(</span><span class="nx">addr</span><span class="w"> </span><span class="o">*</span><span class="nx">net</span><span class="p">.</span><span class="nx">UDPAddr</span><span class="p">,</span><span class="w"> </span><span class="nx">data</span><span class="w"> </span><span class="p">[]</span><span class="kt">byte</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="nx">v</span><span class="p">,</span><span class="w"> </span><span class="nx">ok</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nx">s</span><span class="p">.</span><span class="nx">addrMap</span><span class="p">.</span><span class="nf">Load</span><span class="p">(</span><span class="nx">addr</span><span class="p">.</span><span class="nf">String</span><span class="p">());</span><span class="w"> </span><span class="nx">ok</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="c1">// 如果已存在连接</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">        </span><span class="nx">clientConn</span><span class="p">,</span><span class="w"> </span><span class="nx">ok</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nx">v</span><span class="p">.(</span><span class="nx">io</span><span class="p">.</span><span class="nx">ReadWriteCloser</span><span class="p">)</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="nx">ok</span><span class="w"> </span><span class="p">{</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">            </span><span class="nx">_</span><span class="p">,</span><span class="w"> </span><span class="nx">err</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nx">clientConn</span><span class="p">.</span><span class="nf">Write</span><span class="p">(</span><span class="nx">data</span><span class="p">)</span><span class="w"> </span><span class="c1">// 直接将数据写入现有连接</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">            </span><span class="k">if</span><span class="w"> </span><span class="nx">err</span><span class="w"> </span><span class="o">!=</span><span class="w"> </span><span class="kc">nil</span><span class="w"> </span><span class="p">{</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">                </span><span class="nx">logs</span><span class="p">.</span><span class="nf">Warn</span><span class="p">(</span><span class="nx">err</span><span class="p">)</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">                </span><span class="k">return</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">            </span><span class="p">}</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">            </span><span class="nx">s</span><span class="p">.</span><span class="nx">task</span><span class="p">.</span><span class="nx">Client</span><span class="p">.</span><span class="nx">Flow</span><span class="p">.</span><span class="nf">Add</span><span class="p">(</span><span class="nb">int64</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="nx">data</span><span class="p">)),</span><span class="w"> </span><span class="nb">int64</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="nx">data</span><span class="p">)))</span><span class="w"> </span><span class="c1">// 流量统计</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">        </span><span class="p">}</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="p">}</span><span class="w"> </span><span class="k">else</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="c1">// 如果是新的连接</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="nx">err</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nx">s</span><span class="p">.</span><span class="nf">CheckFlowAndConnNum</span><span class="p">(</span><span class="nx">s</span><span class="p">.</span><span class="nx">task</span><span class="p">.</span><span class="nx">Client</span><span class="p">);</span><span class="w"> </span><span class="nx">err</span><span class="w"> </span><span class="o">!=</span><span class="w"> </span><span class="kc">nil</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="c1">// 流量和连接数检查</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">            </span><span class="nx">logs</span><span class="p">.</span><span class="nf">Warn</span><span class="p">(</span><span class="s">&#34;client id %d, task id %d,error %s, when udp connection&#34;</span><span class="p">,</span><span class="w"> </span><span class="nx">s</span><span class="p">.</span><span class="nx">task</span><span class="p">.</span><span class="nx">Client</span><span class="p">.</span><span class="nx">Id</span><span class="p">,</span><span class="w"> </span><span class="nx">s</span><span class="p">.</span><span class="nx">task</span><span class="p">.</span><span class="nx">Id</span><span class="p">,</span><span class="w"> </span><span class="nx">err</span><span class="p">.</span><span class="nf">Error</span><span class="p">())</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">            </span><span class="k">return</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">        </span><span class="p">}</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">        </span><span class="k">defer</span><span class="w"> </span><span class="nx">s</span><span class="p">.</span><span class="nx">task</span><span class="p">.</span><span class="nx">Client</span><span class="p">.</span><span class="nf">AddConn</span><span class="p">()</span><span class="w"> </span><span class="c1">// 增加连接数</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">        </span><span class="c1">// 构建 conn.Link 并通过 bridge 获取目标连接</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">        </span><span class="nx">link</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nx">conn</span><span class="p">.</span><span class="nf">NewLink</span><span class="p">(</span><span class="nx">common</span><span class="p">.</span><span class="nx">CONN_UDP</span><span class="p">,</span><span class="w"> </span><span class="nx">s</span><span class="p">.</span><span class="nx">task</span><span class="p">.</span><span class="nx">Target</span><span class="p">.</span><span class="nx">TargetStr</span><span class="p">,</span><span class="w"> </span><span class="nx">s</span><span class="p">.</span><span class="nx">task</span><span class="p">.</span><span class="nx">Client</span><span class="p">.</span><span class="nx">Cnf</span><span class="p">.</span><span class="nx">Crypt</span><span class="p">,</span><span class="w"> </span><span class="nx">s</span><span class="p">.</span><span class="nx">task</span><span class="p">.</span><span class="nx">Client</span><span class="p">.</span><span class="nx">Cnf</span><span class="p">.</span><span class="nx">Compress</span><span class="p">,</span><span class="w"> </span><span class="nx">addr</span><span class="p">.</span><span class="nf">String</span><span class="p">(),</span><span class="w"> </span><span class="nx">s</span><span class="p">.</span><span class="nx">task</span><span class="p">.</span><span class="nx">Target</span><span class="p">.</span><span class="nx">LocalProxy</span><span class="p">,</span><span class="w"> </span><span class="s">&#34;&#34;</span><span class="p">)</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="nx">clientConn</span><span class="p">,</span><span class="w"> </span><span class="nx">err</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nx">s</span><span class="p">.</span><span class="nx">bridge</span><span class="p">.</span><span class="nf">SendLinkInfo</span><span class="p">(</span><span class="nx">s</span><span class="p">.</span><span class="nx">task</span><span class="p">.</span><span class="nx">Client</span><span class="p">.</span><span class="nx">Id</span><span class="p">,</span><span class="w"> </span><span class="nx">link</span><span class="p">,</span><span class="w"> </span><span class="nx">s</span><span class="p">.</span><span class="nx">task</span><span class="p">);</span><span class="w"> </span><span class="nx">err</span><span class="w"> </span><span class="o">!=</span><span class="w"> </span><span class="kc">nil</span><span class="w"> </span><span class="p">{</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">            </span><span class="k">return</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">        </span><span class="p">}</span><span class="w"> </span><span class="k">else</span><span class="w"> </span><span class="p">{</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">            </span><span class="nx">target</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nx">conn</span><span class="p">.</span><span class="nf">GetConn</span><span class="p">(</span><span class="nx">clientConn</span><span class="p">,</span><span class="w"> </span><span class="nx">s</span><span class="p">.</span><span class="nx">task</span><span class="p">.</span><span class="nx">Client</span><span class="p">.</span><span class="nx">Cnf</span><span class="p">.</span><span class="nx">Crypt</span><span class="p">,</span><span class="w"> </span><span class="nx">s</span><span class="p">.</span><span class="nx">task</span><span class="p">.</span><span class="nx">Client</span><span class="p">.</span><span class="nx">Cnf</span><span class="p">.</span><span class="nx">Compress</span><span class="p">,</span><span class="w"> </span><span class="kc">nil</span><span class="p">,</span><span class="w"> </span><span class="kc">true</span><span class="p">)</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">            </span><span class="nx">s</span><span class="p">.</span><span class="nx">addrMap</span><span class="p">.</span><span class="nf">Store</span><span class="p">(</span><span class="nx">addr</span><span class="p">.</span><span class="nf">String</span><span class="p">(),</span><span class="w"> </span><span class="nx">target</span><span class="p">)</span><span class="w"> </span><span class="c1">// 存储新连接到 addrMap</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">            </span><span class="k">defer</span><span class="w"> </span><span class="nx">target</span><span class="p">.</span><span class="nf">Close</span><span class="p">()</span><span class="w"> </span><span class="c1">// 确保连接关闭</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">            </span><span class="nx">_</span><span class="p">,</span><span class="w"> </span><span class="nx">err</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nx">target</span><span class="p">.</span><span class="nf">Write</span><span class="p">(</span><span class="nx">data</span><span class="p">)</span><span class="w"> </span><span class="c1">// 将数据写入目标连接</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">            </span><span class="k">if</span><span class="w"> </span><span class="nx">err</span><span class="w"> </span><span class="o">!=</span><span class="w"> </span><span class="kc">nil</span><span class="w"> </span><span class="p">{</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">                </span><span class="nx">logs</span><span class="p">.</span><span class="nf">Warn</span><span class="p">(</span><span class="nx">err</span><span class="p">)</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">                </span><span class="k">return</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">            </span><span class="p">}</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">            </span><span class="nx">s</span><span class="p">.</span><span class="nx">task</span><span class="p">.</span><span class="nx">Client</span><span class="p">.</span><span class="nx">Flow</span><span class="p">.</span><span class="nf">Add</span><span class="p">(</span><span class="nb">int64</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="nx">data</span><span class="p">)),</span><span class="w"> </span><span class="nb">int64</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="nx">data</span><span class="p">)))</span><span class="w"> </span><span class="c1">// 流量统计</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">            </span><span class="c1">// 循环读取目标连接的数据并转发给客户端</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">            </span><span class="nx">buf</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nx">common</span><span class="p">.</span><span class="nx">BufPoolUdp</span><span class="p">.</span><span class="nf">Get</span><span class="p">().([]</span><span class="kt">byte</span><span class="p">)</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">            </span><span class="k">defer</span><span class="w"> </span><span class="nx">common</span><span class="p">.</span><span class="nx">BufPoolUdp</span><span class="p">.</span><span class="nf">Put</span><span class="p">(</span><span class="nx">buf</span><span class="p">)</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">            </span><span class="k">for</span><span class="w"> </span><span class="p">{</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">                </span><span class="nx">clientConn</span><span class="p">.</span><span class="nf">SetReadDeadline</span><span class="p">(</span><span class="nx">time</span><span class="p">.</span><span class="nf">Now</span><span class="p">().</span><span class="nf">Add</span><span class="p">(</span><span class="nx">time</span><span class="p">.</span><span class="nf">Duration</span><span class="p">(</span><span class="mi">60</span><span class="p">)</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="nx">time</span><span class="p">.</span><span class="nx">Second</span><span class="p">))</span><span class="w"> </span><span class="c1">// 设置读取超时</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">                </span><span class="k">if</span><span class="w"> </span><span class="nx">n</span><span class="p">,</span><span class="w"> </span><span class="nx">err</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nx">target</span><span class="p">.</span><span class="nf">Read</span><span class="p">(</span><span class="nx">buf</span><span class="p">);</span><span class="w"> </span><span class="nx">err</span><span class="w"> </span><span class="o">!=</span><span class="w"> </span><span class="kc">nil</span><span class="w"> </span><span class="p">{</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">                    </span><span class="nx">s</span><span class="p">.</span><span class="nx">addrMap</span><span class="p">.</span><span class="nf">Delete</span><span class="p">(</span><span class="nx">addr</span><span class="p">.</span><span class="nf">String</span><span class="p">())</span><span class="w"> </span><span class="c1">// 读取失败，从 Map 中删除连接</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">                    </span><span class="nx">logs</span><span class="p">.</span><span class="nf">Warn</span><span class="p">(</span><span class="nx">err</span><span class="p">)</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">                    </span><span class="k">return</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">                </span><span class="p">}</span><span class="w"> </span><span class="k">else</span><span class="w"> </span><span class="p">{</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">                    </span><span class="nx">_</span><span class="p">,</span><span class="w"> </span><span class="nx">err</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nx">s</span><span class="p">.</span><span class="nx">listener</span><span class="p">.</span><span class="nf">WriteTo</span><span class="p">(</span><span class="nx">buf</span><span class="p">[:</span><span class="nx">n</span><span class="p">],</span><span class="w"> </span><span class="nx">addr</span><span class="p">)</span><span class="w"> </span><span class="c1">// 将数据写回客户端</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">                    </span><span class="k">if</span><span class="w"> </span><span class="nx">err</span><span class="w"> </span><span class="o">!=</span><span class="w"> </span><span class="kc">nil</span><span class="w"> </span><span class="p">{</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">                        </span><span class="nx">logs</span><span class="p">.</span><span class="nf">Warn</span><span class="p">(</span><span class="nx">err</span><span class="p">)</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">                        </span><span class="k">return</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">                    </span><span class="p">}</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">                    </span><span class="nx">s</span><span class="p">.</span><span class="nx">task</span><span class="p">.</span><span class="nx">Client</span><span class="p">.</span><span class="nx">Flow</span><span class="p">.</span><span class="nf">Add</span><span class="p">(</span><span class="nb">int64</span><span class="p">(</span><span class="nx">n</span><span class="p">),</span><span class="w"> </span><span class="nb">int64</span><span class="p">(</span><span class="nx">n</span><span class="p">))</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">                </span><span class="p">}</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">            </span><span class="p">}</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">        </span><span class="p">}</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="p">}</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="p">}</span><span class="w">
+</span></span></span></code></pre></div><p><strong>核心逻辑：</strong></p>
+<ol>
+<li><strong>连接复用</strong>：当收到来自某个客户端 IP 的 UDP 数据包时，<code>process()</code> 首先检查 <code>addrMap</code> 中是否已经存在该客户端对应的目标连接。
+<ul>
+<li><strong>如果存在</strong>：直接将数据写入已有的目标连接，实现连接复用。</li>
+<li><strong>如果不存在</strong>：
+<ul>
+<li>进行流量和连接数检查。</li>
+<li>通过 <code>s.bridge.SendLinkInfo()</code> 建立一个新的 UDP 隧道到客户端。</li>
+<li>将新建立的目标连接存储到 <code>addrMap</code> 中，以便后续复用。</li>
+<li>将当前数据包写入目标连接。</li>
+<li>启动一个循环，持续从目标连接读取数据，并将其写回给原始的客户端 IP。为了防止连接长时间不活动，设置了读取超时。</li>
+</ul>
+</li>
+</ul>
+</li>
+</ol>
+<h3 id="close-方法关闭-udp-监听"><code>Close()</code> 方法：关闭 UDP 监听</h3>
+<p><code>UdpModeServer</code> 的 <code>Close()</code> 方法非常简单，它仅仅关闭了底层的 <code>net.UDPConn</code>，从而停止接收新的 UDP 数据包：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-go" data-lang="go"><span class="line"><span class="cl"><span class="kd">func</span><span class="w"> </span><span class="p">(</span><span class="nx">s</span><span class="w"> </span><span class="o">*</span><span class="nx">UdpModeServer</span><span class="p">)</span><span class="w"> </span><span class="nf">Close</span><span class="p">()</span><span class="w"> </span><span class="kt">error</span><span class="w"> </span><span class="p">{</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="nx">s</span><span class="p">.</span><span class="nx">listener</span><span class="p">.</span><span class="nf">Close</span><span class="p">()</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="p">}</span><span class="w">
+</span></span></span></code></pre></div><h2 id="总结">总结</h2>
+<p><code>nps/server/proxy/udp.go</code> 文件展示了 NPS 如何实现 UDP 代理。通过 <code>UdpModeServer</code> 结构体和 <code>addrMap</code> 的巧妙运用，NPS 能够有效地管理无连接的 UDP 流量，实现客户端与内网 UDP 服务之间的双向数据转发。这种机制对于需要穿透内网访问 DNS、游戏服务器等 UDP 应用场景至关重要。</p>
+<p>在下一篇文章中，我们将继续探索 NPS 的其他代理模式，例如 WebSocket 代理。</p>
+
+          </div>
+
+          
+          <div class="row">
+            <div class="col-md-8">
+            
+              <div class="mb-5">
+                
+<div class="li-x div-x post-meta">
+  <li class="pr-0"><a href="https://blog.jaxiu.cn/tags/"><i class="fas fa-tags"></i></a></li>
+  <div class="tags-sm">
+    
+      <li><a href="https://blog.jaxiu.cn/tags/nps" role="button">NPS </a></li>
+      
+    
+      <li><a href="https://blog.jaxiu.cn/tags/udp%E4%BB%A3%E7%90%86" role="button">UDP代理 </a></li>
+      
+    
+      <li><a href="https://blog.jaxiu.cn/tags/go%E8%AF%AD%E8%A8%80" role="button">Go语言 </a></li>
+      
+    
+      <li><a href="https://blog.jaxiu.cn/tags/%E7%BD%91%E7%BB%9C%E5%8D%8F%E8%AE%AE" role="button">网络协议 </a></li>
+      
+    
+      <li><a href="https://blog.jaxiu.cn/tags/%E5%86%85%E7%BD%91%E7%A9%BF%E9%80%8F" role="button">内网穿透 </a></li>
+      
+    
+  </div>
+</div>
+              </div>
+            
+            </div>
+            
+          </div>
+          
+
+          
+          <div class="row pt-3">
+            <div class="col-md-6">
+              
+                <a href=https://blog.jaxiu.cn/blog/2025-07/nps-%E4%BB%A3%E7%90%86%E5%AE%9E%E7%8E%B0p2p-%E5%8D%8F%E8%AE%AE%E4%B8%8E-udp-%E6%89%93%E6%B4%9E/ class="post-meta">Previous
+                  <div class="pt-2 pb-5 d-flex">
+                    <i class="fas fa-angle-left text-grey font-weight-bold mr-2 active-color"></i>
+                    <span>NPS 代理实现：P2P 协议与 UDP 打洞</span>
+                  </div>
+                </a>
+              
+            </div>
+            
+            <div class="col-md-6 text-right" >
+              
+                <a href=https://blog.jaxiu.cn/blog/2025-07/nps-%E4%BB%A3%E7%90%86%E5%AE%9E%E7%8E%B0websocket-%E4%BB%A3%E7%90%86%E4%B8%8E-http-%E5%8F%8D%E5%90%91%E4%BB%A3%E7%90%86/ class="post-meta">Next
+                  <div class="pt-2 pb-5 flex-reverse">
+                    <i class="fas fa-angle-right text-grey font-weight-bold ml-2 active-color"></i>
+                    <span>NPS 代理实现：WebSocket 代理与 HTTP 反向代理</span>
+                  </div>
+                </a>
+              
+            </div>
+          </div>
+
+          
+
+        </div>
+        
+
+      </div>
+      
+
+      
+	
+	
+	
+	
+		
+		
+		
+	
+
+		
+		<div class="col-md-2 pl-0">
+
+			
+			<div id="page-scrollspy" class="toc-nav">
+				
+				<ul class="nav nav-pills ml-0">
+					
+					<li class="nav-item pb-3 text-center">
+						<span class="font-weight-bold mb-2">- CATALOG - </span>
+					</li>
+
+					
+						
+						
+							
+								
+								
+									<ul class="nav">
+								
+								
+
+										<li class="nav-item">
+						 					<a class="nav-link" href="#%e5%bc%95%e8%a8%80">
+												 引言
+											</a>
+										</li>
+						 
+								
+								
+									</ul>
+								
+							
+						
+				 
+						
+						
+							
+								
+								
+									<ul class="nav">
+								
+								
+
+										<li class="nav-item">
+						 					<a class="nav-link" href="#udp-%e4%bb%a3%e7%90%86%e7%9a%84%e9%9c%80%e6%b1%82%e4%b8%8e%e6%8c%91%e6%88%98">
+												 UDP 代理的需求与挑战
+											</a>
+										</li>
+						 
+								
+								
+									</ul>
+								
+							
+						
+				 
+						
+						
+							
+								
+								
+									<ul class="nav">
+								
+								
+
+										<li class="nav-item">
+						 					<a class="nav-link" href="#udpgoudp-%e4%bb%a3%e7%90%86%e7%9a%84%e5%ae%9e%e7%8e%b0">
+												 udp.go：UDP 代理的实现
+											</a>
+										</li>
+						 
+								
+								
+									</ul>
+								
+							
+						
+				 
+						
+						
+							
+								
+								
+									<ul class="nav">
+								
+									<ul class="nav">
+								
+								
+
+										<li class="nav-item">
+						 					<a class="nav-link" href="#udpmodeserver-%e7%bb%93%e6%9e%84%e4%bd%93">
+												 UdpModeServer 结构体
+											</a>
+										</li>
+						 
+								
+								
+									</ul>
+								
+									</ul>
+								
+							
+						
+				 
+						
+						
+							
+								
+								
+									<ul class="nav">
+								
+									<ul class="nav">
+								
+								
+
+										<li class="nav-item">
+						 					<a class="nav-link" href="#start-%e6%96%b9%e6%b3%95%e5%90%af%e5%8a%a8-udp-%e7%9b%91%e5%90%ac">
+												 Start() 方法：启动 UDP 监听
+											</a>
+										</li>
+						 
+								
+								
+									</ul>
+								
+									</ul>
+								
+							
+						
+				 
+						
+						
+							
+								
+								
+									<ul class="nav">
+								
+									<ul class="nav">
+								
+								
+
+										<li class="nav-item">
+						 					<a class="nav-link" href="#processudp-%e6%95%b0%e6%8d%ae%e5%8c%85%e7%9a%84%e5%a4%84%e7%90%86%e4%b8%8e%e8%bd%ac%e5%8f%91">
+												 process()：UDP 数据包的处理与转发
+											</a>
+										</li>
+						 
+								
+								
+									</ul>
+								
+									</ul>
+								
+							
+						
+				 
+						
+						
+							
+								
+								
+									<ul class="nav">
+								
+									<ul class="nav">
+								
+								
+
+										<li class="nav-item">
+						 					<a class="nav-link" href="#close-%e6%96%b9%e6%b3%95%e5%85%b3%e9%97%ad-udp-%e7%9b%91%e5%90%ac">
+												 Close() 方法：关闭 UDP 监听
+											</a>
+										</li>
+						 
+								
+								
+									</ul>
+								
+									</ul>
+								
+							
+						
+				 
+						
+						
+							
+								
+								
+									<ul class="nav">
+								
+								
+
+										<li class="nav-item">
+						 					<a class="nav-link" href="#%e6%80%bb%e7%bb%93">
+												 总结
+											</a>
+										</li>
+						 
+								
+								
+									</ul>
+								
+							
+						
+				 
+
+				</ul>
+			</div>
+			
+
+		</div>
+		
+	
+
+    </div>
+    
+
+
+  </main>
+  
+
+
+    
+    
+<footer class="page-footer text-center font-small mt-4 wow fadeIn">
+
+
+  
+  <div class="pb-2 mt-5 pt-5">
+    
+    <a href="//github.com/axfinn " target="_blank" rel="noopener"><i class="fab fa-github mr-3"
+        aria-hidden="true"></i></a>
+    
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+
+    
+    <a href="mailto:521very@email.com"><i class="far fa-envelope-open mr-3" aria-hidden="true"></i></a>
+    
+
+    
+
+    
+
+  </div>
+  
+
+  
+  <div class="copyright py-4">
+    
+    <span> 2016 - 2026 &copy; | Theme <a href='https://github.com/orianna-zzo/AllinOne'
+        target="_blank">AllinOne</a> by <a href='https://github.com/orianna-zzo' target="_blank">Orianna</a> </span>
+  </div>
+  
+
+</footer>
+
+    
+
+
+
+
+<script type="text/javascript" src="https://blog.jaxiu.cn/js/vendors/jquery/jquery-3.3.1.min.js"></script>
+<script type="text/javascript" src="https://blog.jaxiu.cn/js/vendors/jquery/jquery.smooth-scroll.min.js"></script>
+
+
+
+<script type="text/javascript" src="https://blog.jaxiu.cn/js/vendors/popper.min.js"></script>
+<script type="text/javascript" src="https://blog.jaxiu.cn/js/vendors/holder.min.js"></script>
+<script type="text/javascript" src="https://blog.jaxiu.cn/js/vendors-extensions/bootstrap4/bootstrap.js" ></script>
+
+<script type="text/javascript" src="https://blog.jaxiu.cn/js/vendors/mdb/mdb.min.js"></script>
+
+<script type="text/javascript" src="https://blog.jaxiu.cn/js/main.js"></script>
+<script type="text/javascript" src="https://blog.jaxiu.cn/js/search.js"></script>
+
+
+
+
+  <script src="https://blog.jaxiu.cn/js/vendors/highlight.pack.js"> </script>
+  <script>hljs.initHighlightingOnLoad();</script>
+
+
+
+
+
+  <script src="https://blog.jaxiu.cn/js/vendors/katex/katex.min.js"> </script>
+  <script src="https://blog.jaxiu.cn/js/vendors/katex/contrib/auto-render.min.js"></script>
+
+  <script>
+      document.addEventListener("DOMContentLoaded", function () {
+          renderMathInElement(document.body);
+      });
+  </script>
+
+
+
+
+
+
+
+
+<script type="text/javascript">
+  
+  new WOW().init();
+</script>
+  </body>
+</html>

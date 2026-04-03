@@ -1,0 +1,1513 @@
+<!DOCTYPE html>
+<html lang="zn-Hans">
+  <head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge, chrome=1">
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no, maximum-scale=1" />
+  
+  <meta name="author" content="jaxiu He">
+  <meta name="description"
+    content="DeepChat 多窗口多标签架构设计
+引言
+现代用户在使用 AI 工具时往往需要同时处理多个任务或主题，这就要求应用程序具备良好的多任务处理能力。DeepChat 采用了创新的多窗口&#43;多标签架构，支持跨维度的并行多会话操作，让用户能够像使用浏览器一样使用 AI，提供非阻塞的优秀体验。本文将深入分析这一架构的设计与实现。
+多窗口多标签架构概述
+设计理念
+DeepChat 的多窗口多标签架构基于以下设计理念：
+
+并行处理 - 允许用户同时进行多个独立的对话
+上下文隔离 - 每个会话都有独立的上下文，互不干扰
+灵活组织 - 用户可以根据需要组织和管理会话
+资源优化 - 合理管理内存和计算资源
+
+架构图示
+┌─────────────────────────────────────────────────────────────────────┐
+│                        DeepChat 多窗口架构                          │
+├─────────────────────────────────────────────────────────────────────┤
+│  ┌─────────────────┐    ┌─────────────────┐    ┌─────────────────┐  │
+│  │   主窗口         │    │   子窗口A        │    │   子窗口B        │  │
+│  │                 │    │                 │    │                 │  │
+│  │ ┌─────────────┐ │    │ ┌─────────────┐ │    │ ┌─────────────┐ │  │
+│  │ │  标签页1     │ │    │ │  标签页1     │ │    │ │  标签页1     │ │  │
+│  │ ├─────────────┤ │    │ ├─────────────┤ │    │ ├─────────────┤ │  │
+│  │ │  标签页2     │ │    │ │  标签页2     │ │    │ │  标签页2     │ │  │
+│  │ ├─────────────┤ │    │ └─────────────┘ │    │ └─────────────┘ │  │
+│  │ │  标签页3     │ │    │                 │    │                 │  │
+│  │ └─────────────┘ │    │                 │    │                 │  │
+│  └─────────────────┘    └─────────────────┘    └─────────────────┘  │
+└─────────────────────────────────────────────────────────────────────┘
+会话管理机制
+会话数据结构
+DeepChat 中的会话采用如下数据结构：">
+
+  <meta property="og:url" content="https://blog.jaxiu.cn/blog/2025-07/deepchat-multi-window-tabs/">
+  <meta property="og:site_name" content="jaxiu He">
+  <meta property="og:title" content="DeepChat 多窗口多标签架构设计">
+  <meta property="og:description" content="DeepChat 多窗口多标签架构设计 引言 现代用户在使用 AI 工具时往往需要同时处理多个任务或主题，这就要求应用程序具备良好的多任务处理能力。DeepChat 采用了创新的多窗口&#43;多标签架构，支持跨维度的并行多会话操作，让用户能够像使用浏览器一样使用 AI，提供非阻塞的优秀体验。本文将深入分析这一架构的设计与实现。
+多窗口多标签架构概述 设计理念 DeepChat 的多窗口多标签架构基于以下设计理念：
+并行处理 - 允许用户同时进行多个独立的对话 上下文隔离 - 每个会话都有独立的上下文，互不干扰 灵活组织 - 用户可以根据需要组织和管理会话 资源优化 - 合理管理内存和计算资源 架构图示 ┌─────────────────────────────────────────────────────────────────────┐ │ DeepChat 多窗口架构 │ ├─────────────────────────────────────────────────────────────────────┤ │ ┌─────────────────┐ ┌─────────────────┐ ┌─────────────────┐ │ │ │ 主窗口 │ │ 子窗口A │ │ 子窗口B │ │ │ │ │ │ │ │ │ │ │ │ ┌─────────────┐ │ │ ┌─────────────┐ │ │ ┌─────────────┐ │ │ │ │ │ 标签页1 │ │ │ │ 标签页1 │ │ │ │ 标签页1 │ │ │ │ │ ├─────────────┤ │ │ ├─────────────┤ │ │ ├─────────────┤ │ │ │ │ │ 标签页2 │ │ │ │ 标签页2 │ │ │ │ 标签页2 │ │ │ │ │ ├─────────────┤ │ │ └─────────────┘ │ │ └─────────────┘ │ │ │ │ │ 标签页3 │ │ │ │ │ │ │ │ │ └─────────────┘ │ │ │ │ │ │ │ └─────────────────┘ └─────────────────┘ └─────────────────┘ │ └─────────────────────────────────────────────────────────────────────┘ 会话管理机制 会话数据结构 DeepChat 中的会话采用如下数据结构：">
+  <meta property="og:locale" content="zn_Hans">
+  <meta property="og:type" content="article">
+    <meta property="article:section" content="blog">
+    <meta property="article:published_time" content="2025-07-31T20:30:00+08:00">
+    <meta property="article:modified_time" content="2025-07-31T20:30:00+08:00">
+    <meta property="article:tag" content="DeepChat">
+    <meta property="article:tag" content="AI">
+    <meta property="article:tag" content="多窗口">
+    <meta property="article:tag" content="多标签">
+    <meta property="article:tag" content="UI设计">
+    <meta property="article:tag" content="架构设计">
+
+
+  <title>
+    
+     DeepChat 多窗口多标签架构设计 | jaxiu He 
+    
+  </title>
+
+  <link rel="canonical" href="https://blog.jaxiu.cn/blog/2025-07/deepchat-multi-window-tabs/">
+
+  
+  
+
+  
+  
+  
+  <meta name="baidu-site-verification" content="your-baidu-verify-code" />
+  
+
+  
+  
+  <meta name="google-site-verification" content="your-google-verify-code" />
+  
+
+  
+  <link href="https://blog.jaxiu.cn/css/vendors-extensions/fontawesome/all.min.css" rel="stylesheet">
+
+  
+  <link rel="stylesheet"
+    href="https://fonts.googleapis.com/css?family=Open+Sans:400,700|Ubuntu+Mono:400,400i,700,700i|Raleway:300,400,500,600">
+  <link href="https://blog.jaxiu.cn/css/font.css" rel="stylesheet">
+
+  
+  <link href="https://blog.jaxiu.cn/css/vendors/bootstrap4/bootstrap.min.css" rel="stylesheet">
+  <link href="https://blog.jaxiu.cn/css/vendors-extensions/mdb/mdb.min.css" rel="stylesheet">
+  <link href="https://blog.jaxiu.cn/css/vendors/mdb/style.min.css" rel="stylesheet">
+  <link href="https://blog.jaxiu.cn/css/main.css" rel="stylesheet">
+
+
+  
+  <link rel="shortcut icon"  href="https://blog.jaxiu.cn/img/logo.png" >
+
+
+  
+  
+
+  <style type="text/css">
+    @media (min-width: 800px) and (max-width: 850px) {
+      .navbar:not(.top-nav-collapse) {
+        background: #1C2331 !important;
+      }
+    }
+  </style>
+
+
+  
+  
+  <link rel="stylesheet" href="https://blog.jaxiu.cn/js/vendors/katex/katex.min.css">
+  
+  
+
+  
+  
+  <link rel="stylesheet" href="https://blog.jaxiu.cn/css/vendors/highlight/github-gist.css">
+  
+
+  
+  
+  <script type="module">
+    import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.esm.min.mjs';
+    mermaid.initialize({ startOnLoad: true });
+  </script>
+  
+  
+
+  
+  <link href="https://blog.jaxiu.cn/css/holiday-effects.css" rel="stylesheet">
+  <script src="https://blog.jaxiu.cn/js/holiday-effects.js"></script>
+
+  
+  <script src="https://blog.jaxiu.cn/js/dynamic-bg.js"></script>
+  <link href="https://blog.jaxiu.cn/css/dynamic-bg-control.css" rel="stylesheet">
+
+</head>
+  <body class="bg-light" data-spy="scroll" data-target="#page-scrollspy" data-offset="90">
+  
+    
+    
+
+    
+      
+
+
+<nav class="navbar fixed-top navbar-expand-lg navbar-dark scrolling-navbar">
+    <div class="container">
+
+      
+      <a class="navbar-brand" href="https://blog.jaxiu.cn/">
+          
+        <img class="avatar" src="https://blog.jaxiu.cn/img/logo.png" style="width: 40px!important;height: auto;"  class="d-inline-block align-top" alt="" >
+        
+        <strong> jaxiu He</strong>
+      </a>
+
+      
+      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
+        aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+
+      
+      <div class="collapse navbar-collapse" id="navbarSupportedContent">
+
+        
+        <ul class="navbar-nav mr-auto ">
+          <li class="nav-item ">
+            <a class="nav-link" href="https://blog.jaxiu.cn/">Home</a>
+          </li>
+          
+            <li class="nav-item ">
+              <a class="nav-link" href="https://blog.jaxiu.cn/blog/" >博客  </a>
+            </li>
+
+          
+            <li class="nav-item ">
+              <a class="nav-link" href="https://blog.jaxiu.cn/moment/" >动态  </a>
+            </li>
+
+          
+            <li class="nav-item ">
+              <a class="nav-link" href="https://blog.jaxiu.cn/blog/prenatal-stories/" >胎教故事  </a>
+            </li>
+
+          
+            <li class="nav-item ">
+              <a class="nav-link" href="https://blog.jaxiu.cn/about/" >关于  </a>
+            </li>
+
+          
+        </ul>
+
+        
+        <ul class="navbar-nav">
+          <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" href="#" id="searchDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+              <i class="fas fa-search"></i> 搜索
+            </a>
+            <div class="dropdown-menu dropdown-menu-right p-3" aria-labelledby="searchDropdown" style="min-width: 300px; max-width: 400px;">
+              <form class="search-form" onsubmit="return false;">
+                <div class="input-group">
+                  <input type="text" id="search-query" class="form-control" placeholder="搜索文章标题或内容..." autocomplete="off">
+                  <div class="input-group-append">
+                    <button class="btn btn-outline-secondary" type="button" onclick="document.getElementById('search-query').focus();">
+                      <i class="fas fa-search"></i>
+                    </button>
+                  </div>
+                </div>
+              </form>
+              <ul id="search-results" class="list-unstyled mt-2 mb-0" style="max-height: 400px; overflow-y: auto;"></ul>
+            </div>
+          </li>
+        </ul>
+
+      </div>
+
+    </div>
+  </nav>
+   
+      
+
+
+
+
+
+
+
+<div id="site-header" class="carousel slide carousel-fade" data-ride="carousel" style="height: 18rem;">
+  
+
+  
+  
+  
+
+  
+  <div class="carousel-inner" role="listbox">
+    
+    
+
+    
+    <div class="carousel-item active">
+      <div class="view"
+        style="background-image: url('https://blog.jaxiu.cn/img/header-slides/raw_1515691746.jpg'); background-repeat: no-repeat; background-size: cover;">
+
+        
+        <div class="mask rgba-black-light d-flex justify-content-center align-items-center">
+
+          
+          
+          
+
+        </div>
+        
+
+      </div>
+    </div>
+    
+    
+    
+    
+
+    
+    <div class="carousel-item">
+      <div class="view"
+        style="background-image: url('https://blog.jaxiu.cn/img/header-slides//raw_1515847341.jpg'); background-repeat: no-repeat; background-size: cover;">
+
+        
+        <div class="mask rgba-black-light d-flex justify-content-center align-items-center">
+
+
+
+        </div>
+        
+
+      </div>
+    </div>
+    
+    
+    
+
+
+  </div>
+  
+
+  
+  <div class="carousel-content text-center white-text wow fadeIn">
+    <div class="row mx-0 headfont mt-3 pt-4">
+      
+      <div class="col-12 col-sm-5 align-middle">
+        <a href="https://blog.jaxiu.cn/">
+          
+          <img class="pull-right avatar avatar-md" src="https://blog.jaxiu.cn/img/logo.png" alt="">
+          
+        </a>
+      </div>
+
+      <div class="col-12 col-sm-7 text-left pl-2">
+        <a href="https://blog.jaxiu.cn/">
+          <h1 class="mb-2 h1" style="font-weight: 300;">
+            <strong>jaxiu He</strong>
+          </h1>
+        </a>
+
+
+        
+        <div class="mt-2" style="font-size: 1rem; color: white;">
+          
+          <a href="//github.com/axfinn" target="_blank" rel="noopener"><i class="fab fa-github pr-1"
+              aria-hidden="true"></i></a>
+          
+          
+
+          
+
+          
+
+          
+
+          
+
+          
+
+
+          
+          <a href="mailto:521very@email.com"><i class="far fa-envelope-open pr-1" aria-hidden="true"></i></a>
+          
+
+          
+
+
+        </div>
+      </div>
+    </div>
+  </div>
+  
+
+  
+  
+  
+
+</div>
+  
+    
+
+    
+  
+  <main class="post-main-wrapper">
+    
+    
+    <div class="row">
+
+      
+
+      
+      <div class="col-md-10">
+      
+
+        
+        <div class="z-depth-1  post-wrapper white-bg single-post">
+
+          <div class="post-header text-center" >
+  <ul class="post-meta li-x">
+    
+      
+        <li><a href="https://blog.jaxiu.cn/categories/%E6%8A%80%E6%9C%AF"><i class="fas fa-folder-open pr-1" aria-hidden="true"></i> 技术 </a></li>
+      
+        <li><a href="https://blog.jaxiu.cn/categories/%E6%9E%B6%E6%9E%84%E8%AE%BE%E8%AE%A1"><i class="fas fa-folder-open pr-1" aria-hidden="true"></i> 架构设计 </a></li>
+      
+    
+    
+  </ul>
+
+  <div class="px-4 post-heading">DeepChat 多窗口多标签架构设计</div>
+
+  <ul class="post-meta li-x mt-1">
+    
+      <li>Jul 31, 2025</li>
+    
+
+    
+      <li class="middot"></li>
+      <li>5 minutes read</li>
+    
+  </ul>
+  
+
+</div>
+
+
+          <div class="post-content markdown">
+            <h1 id="deepchat-多窗口多标签架构设计">DeepChat 多窗口多标签架构设计</h1>
+<h2 id="引言">引言</h2>
+<p>现代用户在使用 AI 工具时往往需要同时处理多个任务或主题，这就要求应用程序具备良好的多任务处理能力。DeepChat 采用了创新的多窗口+多标签架构，支持跨维度的并行多会话操作，让用户能够像使用浏览器一样使用 AI，提供非阻塞的优秀体验。本文将深入分析这一架构的设计与实现。</p>
+<h2 id="多窗口多标签架构概述">多窗口多标签架构概述</h2>
+<h3 id="设计理念">设计理念</h3>
+<p>DeepChat 的多窗口多标签架构基于以下设计理念：</p>
+<ol>
+<li><strong>并行处理</strong> - 允许用户同时进行多个独立的对话</li>
+<li><strong>上下文隔离</strong> - 每个会话都有独立的上下文，互不干扰</li>
+<li><strong>灵活组织</strong> - 用户可以根据需要组织和管理会话</li>
+<li><strong>资源优化</strong> - 合理管理内存和计算资源</li>
+</ol>
+<h3 id="架构图示">架构图示</h3>
+<pre tabindex="0"><code>┌─────────────────────────────────────────────────────────────────────┐
+│                        DeepChat 多窗口架构                          │
+├─────────────────────────────────────────────────────────────────────┤
+│  ┌─────────────────┐    ┌─────────────────┐    ┌─────────────────┐  │
+│  │   主窗口         │    │   子窗口A        │    │   子窗口B        │  │
+│  │                 │    │                 │    │                 │  │
+│  │ ┌─────────────┐ │    │ ┌─────────────┐ │    │ ┌─────────────┐ │  │
+│  │ │  标签页1     │ │    │ │  标签页1     │ │    │ │  标签页1     │ │  │
+│  │ ├─────────────┤ │    │ ├─────────────┤ │    │ ├─────────────┤ │  │
+│  │ │  标签页2     │ │    │ │  标签页2     │ │    │ │  标签页2     │ │  │
+│  │ ├─────────────┤ │    │ └─────────────┘ │    │ └─────────────┘ │  │
+│  │ │  标签页3     │ │    │                 │    │                 │  │
+│  │ └─────────────┘ │    │                 │    │                 │  │
+│  └─────────────────┘    └─────────────────┘    └─────────────────┘  │
+└─────────────────────────────────────────────────────────────────────┘
+</code></pre><h2 id="会话管理机制">会话管理机制</h2>
+<h3 id="会话数据结构">会话数据结构</h3>
+<p>DeepChat 中的会话采用如下数据结构：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-typescript" data-lang="typescript"><span class="line"><span class="cl"><span class="kr">interface</span> <span class="nx">Session</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">  <span class="nx">id</span>: <span class="kt">string</span><span class="p">;</span>                    <span class="c1">// 会话唯一标识
+</span></span></span><span class="line"><span class="cl">  <span class="nx">title</span>: <span class="kt">string</span><span class="p">;</span>                 <span class="c1">// 会话标题
+</span></span></span><span class="line"><span class="cl">  <span class="nx">createdAt</span>: <span class="kt">Date</span><span class="p">;</span>              <span class="c1">// 创建时间
+</span></span></span><span class="line"><span class="cl">  <span class="nx">updatedAt</span>: <span class="kt">Date</span><span class="p">;</span>              <span class="c1">// 最后更新时间
+</span></span></span><span class="line"><span class="cl">  <span class="nx">messages</span>: <span class="kt">Message</span><span class="p">[];</span>          <span class="c1">// 消息历史
+</span></span></span><span class="line"><span class="cl">  <span class="nx">modelConfig</span>: <span class="kt">ModelConfig</span><span class="p">;</span>     <span class="c1">// 模型配置
+</span></span></span><span class="line"><span class="cl">  <span class="nx">tags</span>: <span class="kt">string</span><span class="p">[];</span>               <span class="c1">// 标签
+</span></span></span><span class="line"><span class="cl">  <span class="nx">windowId</span>: <span class="kt">string</span><span class="p">;</span>             <span class="c1">// 所属窗口ID
+</span></span></span><span class="line"><span class="cl">  <span class="nx">tabIndex</span>: <span class="kt">number</span><span class="p">;</span>             <span class="c1">// 标签页索引
+</span></span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="kr">interface</span> <span class="nx">Message</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">  <span class="nx">id</span>: <span class="kt">string</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">  <span class="nx">role</span><span class="o">:</span> <span class="s1">&#39;user&#39;</span> <span class="o">|</span> <span class="s1">&#39;assistant&#39;</span> <span class="o">|</span> <span class="s1">&#39;system&#39;</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">  <span class="nx">content</span>: <span class="kt">string</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">  <span class="nx">timestamp</span>: <span class="kt">Date</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">  <span class="nx">metadata?</span>: <span class="kt">any</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></div><h3 id="会话生命周期管理">会话生命周期管理</h3>
+<p>DeepChat 实现了完整的会话生命周期管理：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-typescript" data-lang="typescript"><span class="line"><span class="cl"><span class="kr">class</span> <span class="nx">SessionManager</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">  <span class="kr">private</span> <span class="nx">sessions</span>: <span class="kt">Map</span><span class="p">&lt;</span><span class="nt">string</span><span class="p">,</span> <span class="na">Session</span><span class="p">&gt;</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">Map</span><span class="p">();</span>
+</span></span><span class="line"><span class="cl">  <span class="kr">private</span> <span class="nx">activeSessions</span>: <span class="kt">Set</span><span class="p">&lt;</span><span class="nt">string</span><span class="p">&gt;</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">Set</span><span class="p">();</span>
+</span></span><span class="line"><span class="cl">  
+</span></span><span class="line"><span class="cl">  <span class="c1">// 创建新会话
+</span></span></span><span class="line"><span class="cl">  <span class="nx">createSession</span><span class="p">(</span><span class="nx">windowId</span>: <span class="kt">string</span><span class="p">,</span> <span class="nx">config?</span>: <span class="kt">Partial</span><span class="p">&lt;</span><span class="nt">Session</span><span class="p">&gt;)</span><span class="o">:</span> <span class="nx">Session</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="kr">const</span> <span class="nx">sessionId</span> <span class="o">=</span> <span class="k">this</span><span class="p">.</span><span class="nx">generateId</span><span class="p">();</span>
+</span></span><span class="line"><span class="cl">    <span class="kr">const</span> <span class="nx">session</span>: <span class="kt">Session</span> <span class="o">=</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">      <span class="nx">id</span>: <span class="kt">sessionId</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">      <span class="nx">title</span><span class="o">:</span> <span class="s1">&#39;新会话&#39;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">      <span class="nx">createdAt</span>: <span class="kt">new</span> <span class="nb">Date</span><span class="p">(),</span>
+</span></span><span class="line"><span class="cl">      <span class="nx">updatedAt</span>: <span class="kt">new</span> <span class="nb">Date</span><span class="p">(),</span>
+</span></span><span class="line"><span class="cl">      <span class="nx">messages</span><span class="o">:</span> <span class="p">[],</span>
+</span></span><span class="line"><span class="cl">      <span class="nx">modelConfig</span>: <span class="kt">defaultModelConfig</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">      <span class="nx">tags</span><span class="o">:</span> <span class="p">[],</span>
+</span></span><span class="line"><span class="cl">      <span class="nx">windowId</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">      <span class="nx">tabIndex</span>: <span class="kt">this.getNextTabIndex</span><span class="p">(</span><span class="nx">windowId</span><span class="p">),</span>
+</span></span><span class="line"><span class="cl">      <span class="p">...</span><span class="nx">config</span>
+</span></span><span class="line"><span class="cl">    <span class="p">};</span>
+</span></span><span class="line"><span class="cl">    
+</span></span><span class="line"><span class="cl">    <span class="k">this</span><span class="p">.</span><span class="nx">sessions</span><span class="p">.</span><span class="kr">set</span><span class="p">(</span><span class="nx">sessionId</span><span class="p">,</span> <span class="nx">session</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">    <span class="k">return</span> <span class="nx">session</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">  <span class="p">}</span>
+</span></span><span class="line"><span class="cl">  
+</span></span><span class="line"><span class="cl">  <span class="c1">// 获取会话
+</span></span></span><span class="line"><span class="cl">  <span class="nx">getSession</span><span class="p">(</span><span class="nx">sessionId</span>: <span class="kt">string</span><span class="p">)</span><span class="o">:</span> <span class="nx">Session</span> <span class="o">|</span> <span class="kc">undefined</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="k">return</span> <span class="k">this</span><span class="p">.</span><span class="nx">sessions</span><span class="p">.</span><span class="kr">get</span><span class="p">(</span><span class="nx">sessionId</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">  <span class="p">}</span>
+</span></span><span class="line"><span class="cl">  
+</span></span><span class="line"><span class="cl">  <span class="c1">// 更新会话
+</span></span></span><span class="line"><span class="cl">  <span class="nx">updateSession</span><span class="p">(</span><span class="nx">sessionId</span>: <span class="kt">string</span><span class="p">,</span> <span class="nx">updates</span>: <span class="kt">Partial</span><span class="p">&lt;</span><span class="nt">Session</span><span class="p">&gt;)</span><span class="o">:</span> <span class="k">void</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="kr">const</span> <span class="nx">session</span> <span class="o">=</span> <span class="k">this</span><span class="p">.</span><span class="nx">sessions</span><span class="p">.</span><span class="kr">get</span><span class="p">(</span><span class="nx">sessionId</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">    <span class="k">if</span> <span class="p">(</span><span class="nx">session</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">      <span class="nb">Object</span><span class="p">.</span><span class="nx">assign</span><span class="p">(</span><span class="nx">session</span><span class="p">,</span> <span class="nx">updates</span><span class="p">,</span> <span class="p">{</span> <span class="nx">updatedAt</span>: <span class="kt">new</span> <span class="nb">Date</span><span class="p">()</span> <span class="p">});</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl">  <span class="p">}</span>
+</span></span><span class="line"><span class="cl">  
+</span></span><span class="line"><span class="cl">  <span class="c1">// 删除会话
+</span></span></span><span class="line"><span class="cl">  <span class="nx">deleteSession</span><span class="p">(</span><span class="nx">sessionId</span>: <span class="kt">string</span><span class="p">)</span><span class="o">:</span> <span class="k">void</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="k">this</span><span class="p">.</span><span class="nx">sessions</span><span class="p">.</span><span class="k">delete</span><span class="p">(</span><span class="nx">sessionId</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">    <span class="k">this</span><span class="p">.</span><span class="nx">activeSessions</span><span class="p">.</span><span class="k">delete</span><span class="p">(</span><span class="nx">sessionId</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">  <span class="p">}</span>
+</span></span><span class="line"><span class="cl">  
+</span></span><span class="line"><span class="cl">  <span class="c1">// 激活会话
+</span></span></span><span class="line"><span class="cl">  <span class="nx">activateSession</span><span class="p">(</span><span class="nx">sessionId</span>: <span class="kt">string</span><span class="p">)</span><span class="o">:</span> <span class="k">void</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="k">this</span><span class="p">.</span><span class="nx">activeSessions</span><span class="p">.</span><span class="nx">add</span><span class="p">(</span><span class="nx">sessionId</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">  <span class="p">}</span>
+</span></span><span class="line"><span class="cl">  
+</span></span><span class="line"><span class="cl">  <span class="c1">// 休眠会话
+</span></span></span><span class="line"><span class="cl">  <span class="nx">deactivateSession</span><span class="p">(</span><span class="nx">sessionId</span>: <span class="kt">string</span><span class="p">)</span><span class="o">:</span> <span class="k">void</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="k">this</span><span class="p">.</span><span class="nx">activeSessions</span><span class="p">.</span><span class="k">delete</span><span class="p">(</span><span class="nx">sessionId</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">  <span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></div><h2 id="窗口管理系统">窗口管理系统</h2>
+<h3 id="窗口数据结构">窗口数据结构</h3>
+<p>``typescript
+interface WindowState {
+id: string;                    // 窗口唯一标识
+title: string;                 // 窗口标题
+bounds: Rectangle;            // 窗口位置和大小
+sessions: string[];           // 包含的会话ID列表
+activeSession: string | null; // 当前激活的会话
+tabs: TabState[];             // 标签页状态
+}</p>
+<p>interface TabState {
+id: string;                   // 标签页ID
+sessionId: string;            // 关联的会话ID
+title: string;                // 标签页标题
+isActive: boolean;            // 是否为当前标签页
+}</p>
+<pre tabindex="0"><code>
+### 窗口管理实现
+
+``typescript
+class WindowManager {
+  private windows: Map&lt;string, WindowState&gt; = new Map();
+  
+  // 创建新窗口
+  createWindow(options?: BrowserWindowOptions): WindowState {
+    const windowId = this.generateId();
+    
+    // 创建 Electron 窗口
+    const browserWindow = new BrowserWindow({
+      width: 1200,
+      height: 800,
+      ...options
+    });
+    
+    const windowState: WindowState = {
+      id: windowId,
+      title: &#39;DeepChat&#39;,
+      bounds: browserWindow.getBounds(),
+      sessions: [],
+      activeSession: null,
+      tabs: []
+    };
+    
+    this.windows.set(windowId, windowState);
+    
+    // 监听窗口事件
+    browserWindow.on(&#39;resize&#39;, () =&gt; {
+      this.updateWindowBounds(windowId, browserWindow.getBounds());
+    });
+    
+    return windowState;
+  }
+  
+  // 添加标签页到窗口
+  addTabToWindow(windowId: string, session: Session): TabState {
+    const window = this.windows.get(windowId);
+    if (!window) {
+      throw new Error(`Window ${windowId} not found`);
+    }
+    
+    const tab: TabState = {
+      id: this.generateId(),
+      sessionId: session.id,
+      title: session.title,
+      isActive: window.tabs.length === 0
+    };
+    
+    window.tabs.push(tab);
+    window.sessions.push(session.id);
+    
+    if (tab.isActive) {
+      window.activeSession = session.id;
+    }
+    
+    return tab;
+  }
+  
+  // 切换标签页
+  switchToTab(windowId: string, tabId: string): void {
+    const window = this.windows.get(windowId);
+    if (!window) return;
+    
+    // 更新标签页激活状态
+    window.tabs.forEach(tab =&gt; {
+      tab.isActive = tab.id === tabId;
+    });
+    
+    // 更新当前会话
+    const tab = window.tabs.find(t =&gt; t.id === tabId);
+    if (tab) {
+      window.activeSession = tab.sessionId;
+    }
+  }
+}
+</code></pre><h2 id="数据同步与状态管理">数据同步与状态管理</h2>
+<h3 id="跨窗口状态同步">跨窗口状态同步</h3>
+<p>为了确保多个窗口间的数据一致性，DeepChat 实现了跨窗口状态同步机制：</p>
+<p>``typescript
+class StateSyncManager {
+private syncChannels: Map&lt;string, Set<string>&gt; = new Map();</p>
+<p>// 广播状态更新
+broadcastStateUpdate(channel: string, data: any): void {
+const windows = this.syncChannels.get(channel) || new Set();</p>
+<pre><code>windows.forEach(windowId =&gt; {
+  const window = WindowManager.getInstance().getWindow(windowId);
+  if (window) {
+    window.webContents.send('state-update', {
+      channel,
+      data
+    });
+  }
+});
+</code></pre>
+<p>}</p>
+<p>// 订阅状态更新
+subscribeToUpdates(windowId: string, channels: string[]): void {
+channels.forEach(channel =&gt; {
+if (!this.syncChannels.has(channel)) {
+this.syncChannels.set(channel, new Set());
+}
+this.syncChannels.get(channel)!.add(windowId);
+});
+}
+}</p>
+<pre tabindex="0"><code>
+### 会话状态持久化
+
+DeepChat 将会话状态持久化到本地存储：
+
+``typescript
+class SessionPersistence {
+  private storagePath: string;
+  
+  constructor(storagePath: string) {
+    this.storagePath = storagePath;
+  }
+  
+  // 保存会话
+  async saveSession(session: Session): Promise&lt;void&gt; {
+    const filePath = path.join(this.storagePath, `${session.id}.json`);
+    await fs.promises.writeFile(
+      filePath, 
+      JSON.stringify(session, null, 2)
+    );
+  }
+  
+  // 加载会话
+  async loadSession(sessionId: string): Promise&lt;Session | null&gt; {
+    try {
+      const filePath = path.join(this.storagePath, `${sessionId}.json`);
+      const data = await fs.promises.readFile(filePath, &#39;utf-8&#39;);
+      return JSON.parse(data);
+    } catch (error) {
+      return null;
+    }
+  }
+  
+  // 获取所有会话列表
+  async listSessions(): Promise&lt;SessionMetadata[]&gt; {
+    const files = await fs.promises.readdir(this.storagePath);
+    const sessions: SessionMetadata[] = [];
+    
+    for (const file of files) {
+      if (file.endsWith(&#39;.json&#39;)) {
+        const sessionId = path.basename(file, &#39;.json&#39;);
+        const session = await this.loadSession(sessionId);
+        if (session) {
+          sessions.push({
+            id: session.id,
+            title: session.title,
+            createdAt: session.createdAt,
+            updatedAt: session.updatedAt,
+            messageCount: session.messages.length
+          });
+        }
+      }
+    }
+    
+    return sessions.sort((a, b) =&gt; 
+      b.updatedAt.getTime() - a.updatedAt.getTime()
+    );
+  }
+}
+</code></pre><h2 id="用户界面设计与交互体验">用户界面设计与交互体验</h2>
+<h3 id="标签页界面设计">标签页界面设计</h3>
+<p>DeepChat 的标签页界面设计注重用户体验：</p>
+<p>``tsx
+// 标签页组件
+const TabBar: React.FC<TabBarProps> = ({ tabs, activeTab, onSwitchTab, onCloseTab }) =&gt; {
+return (
+<div className="tab-bar">
+{tabs.map(tab =&gt; (
+&lt;div
+key={tab.id}
+className={<code>tab ${tab.id === activeTab ? 'active' : ''}</code>}
+onClick={() =&gt; onSwitchTab(tab.id)}
+&gt;
+<span className="tab-title">{tab.title}</span>
+&lt;button
+className=&ldquo;tab-close&rdquo;
+onClick={(e) =&gt; {
+e.stopPropagation();
+onCloseTab(tab.id);
+}}
+&gt;
+×
+</button>
+</div>
+))}
+<button className="new-tab" onClick={onCreateTab}>+</button>
+</div>
+);
+};</p>
+<pre tabindex="0"><code>
+### 拖拽与重新排列
+
+支持标签页的拖拽和重新排列：
+
+``typescript
+class TabDragManager {
+  handleTabDragStart(tabId: string, event: DragEvent): void {
+    event.dataTransfer?.setData(&#39;text/plain&#39;, tabId);
+    event.dataTransfer!.effectAllowed = &#39;move&#39;;
+  }
+  
+  handleTabDragOver(event: DragEvent): void {
+    event.preventDefault();
+    event.dataTransfer!.dropEffect = &#39;move&#39;;
+  }
+  
+  handleTabDrop(targetTabId: string, event: DragEvent): void {
+    event.preventDefault();
+    const draggedTabId = event.dataTransfer?.getData(&#39;text/plain&#39;);
+    if (draggedTabId &amp;&amp; draggedTabId !== targetTabId) {
+      this.reorderTabs(draggedTabId, targetTabId);
+    }
+  }
+  
+  private reorderTabs(draggedTabId: string, targetTabId: string): void {
+    // 实现标签页重新排序逻辑
+  }
+}
+</code></pre><h2 id="性能优化策略">性能优化策略</h2>
+<h3 id="内存管理">内存管理</h3>
+<p>为了优化内存使用，DeepChat 实现了会话的懒加载和卸载机制：</p>
+<p>``typescript
+class MemoryManager {
+private loadedSessions: Map&lt;string, Session&gt; = new Map();
+private sessionCache: LRUCache&lt;string, Session&gt;;</p>
+<p>constructor(maxCachedSessions: number = 50) {
+this.sessionCache = new LRUCache(maxCachedSessions);
+}</p>
+<p>// 获取会话（自动加载）
+async getSession(sessionId: string): Promise&lt;Session | null&gt; {
+// 检查已加载的会话
+if (this.loadedSessions.has(sessionId)) {
+return this.loadedSessions.get(sessionId)!;
+}</p>
+<pre><code>// 检查缓存
+if (this.sessionCache.has(sessionId)) {
+  const session = this.sessionCache.get(sessionId)!;
+  this.loadedSessions.set(sessionId, session);
+  return session;
+}
+
+// 从持久化存储加载
+const session = await SessionPersistence.getInstance().loadSession(sessionId);
+if (session) {
+  this.loadedSessions.set(sessionId, session);
+  this.sessionCache.set(sessionId, session);
+}
+
+return session;
+</code></pre>
+<p>}</p>
+<p>// 卸载不活跃的会话
+unloadInactiveSessions(): void {
+const activeSessionIds = WindowManager.getInstance().getActiveSessionIds();</p>
+<pre><code>for (const [sessionId, session] of this.loadedSessions.entries()) {
+  if (!activeSessionIds.includes(sessionId)) {
+    // 从已加载集合中移除
+    this.loadedSessions.delete(sessionId);
+    // 保留在缓存中以备快速重新加载
+  }
+}
+</code></pre>
+<p>}
+}</p>
+<pre tabindex="0"><code>
+### 虚拟化渲染
+
+对于包含大量消息的会话，采用虚拟化渲染技术：
+
+``tsx
+const VirtualizedMessageList: React.FC&lt;MessageListProps&gt; = ({ messages }) =&gt; {
+  const { visibleItems, totalHeight, itemHeight } = useVirtualizedList({
+    items: messages,
+    itemHeight: 100, // 估计的每条消息高度
+    windowHeight: 600
+  });
+  
+  return (
+    &lt;div className=&#34;message-list&#34; style={{ height: totalHeight }}&gt;
+      {visibleItems.map((message, index) =&gt; (
+        &lt;div 
+          key={message.id}
+          className=&#34;message-item&#34;
+          style={{ 
+            height: itemHeight,
+            transform: `translateY(${index * itemHeight}px)`
+          }}
+        &gt;
+          &lt;MessageView message={message} /&gt;
+        &lt;/div&gt;
+      ))}
+    &lt;/div&gt;
+  );
+};
+</code></pre><h2 id="小结">小结</h2>
+<p>DeepChat 的多窗口多标签架构为用户提供了强大的并行处理能力，其主要特点包括：</p>
+<ol>
+<li><strong>灵活的会话管理</strong> - 支持创建、切换、重命名和删除会话</li>
+<li><strong>跨窗口同步</strong> - 确保多个窗口间的数据一致性</li>
+<li><strong>状态持久化</strong> - 会话数据本地存储，支持持久化保存</li>
+<li><strong>优秀的用户体验</strong> - 直观的标签页界面和拖拽操作</li>
+<li><strong>性能优化</strong> - 内存管理和虚拟化渲染技术</li>
+</ol>
+<p>这一架构让用户能够像使用现代浏览器一样使用 AI 工具，大大提高了工作效率和用户体验。</p>
+<p>在下一篇文章中，我们将探讨 DeepChat 的安全与隐私保护机制，分析其如何确保用户数据的安全。</p>
+
+          </div>
+
+          
+          <div class="row">
+            <div class="col-md-8">
+            
+              <div class="mb-5">
+                
+<div class="li-x div-x post-meta">
+  <li class="pr-0"><a href="https://blog.jaxiu.cn/tags/"><i class="fas fa-tags"></i></a></li>
+  <div class="tags-sm">
+    
+      <li><a href="https://blog.jaxiu.cn/tags/deepchat" role="button">DeepChat </a></li>
+      
+    
+      <li><a href="https://blog.jaxiu.cn/tags/ai" role="button">AI </a></li>
+      
+    
+      <li><a href="https://blog.jaxiu.cn/tags/%E5%A4%9A%E7%AA%97%E5%8F%A3" role="button">多窗口 </a></li>
+      
+    
+      <li><a href="https://blog.jaxiu.cn/tags/%E5%A4%9A%E6%A0%87%E7%AD%BE" role="button">多标签 </a></li>
+      
+    
+      <li><a href="https://blog.jaxiu.cn/tags/ui%E8%AE%BE%E8%AE%A1" role="button">UI设计 </a></li>
+      
+    
+      <li><a href="https://blog.jaxiu.cn/tags/%E6%9E%B6%E6%9E%84%E8%AE%BE%E8%AE%A1" role="button">架构设计 </a></li>
+      
+    
+  </div>
+</div>
+              </div>
+            
+            </div>
+            
+          </div>
+          
+
+          
+          <div class="row pt-3">
+            <div class="col-md-6">
+              
+                <a href=https://blog.jaxiu.cn/blog/2025-07/deepchat-search-enhancement/ class="post-meta">Previous
+                  <div class="pt-2 pb-5 d-flex">
+                    <i class="fas fa-angle-left text-grey font-weight-bold mr-2 active-color"></i>
+                    <span>DeepChat 搜索增强功能实现分析</span>
+                  </div>
+                </a>
+              
+            </div>
+            
+            <div class="col-md-6 text-right" >
+              
+                <a href=https://blog.jaxiu.cn/blog/2025-07/deepchat-security-privacy/ class="post-meta">Next
+                  <div class="pt-2 pb-5 flex-reverse">
+                    <i class="fas fa-angle-right text-grey font-weight-bold ml-2 active-color"></i>
+                    <span>DeepChat 安全与隐私保护机制</span>
+                  </div>
+                </a>
+              
+            </div>
+          </div>
+
+          
+
+        </div>
+        
+
+      </div>
+      
+
+      
+	
+	
+	
+	
+		
+		
+		
+	
+
+		
+		<div class="col-md-2 pl-0">
+
+			
+			<div id="page-scrollspy" class="toc-nav">
+				
+				<ul class="nav nav-pills ml-0">
+					
+					<li class="nav-item pb-3 text-center">
+						<span class="font-weight-bold mb-2">- CATALOG - </span>
+					</li>
+
+					
+						
+						
+							
+								
+								
+									<ul class="nav">
+								
+								
+
+										<li class="nav-item">
+						 					<a class="nav-link" href="#deepchat-%e5%a4%9a%e7%aa%97%e5%8f%a3%e5%a4%9a%e6%a0%87%e7%ad%be%e6%9e%b6%e6%9e%84%e8%ae%be%e8%ae%a1">
+												 DeepChat 多窗口多标签架构设计
+											</a>
+										</li>
+						 
+								
+								
+									</ul>
+								
+							
+						
+				 
+						
+						
+							
+								
+								
+									<ul class="nav">
+								
+									<ul class="nav">
+								
+								
+
+										<li class="nav-item">
+						 					<a class="nav-link" href="#%e5%bc%95%e8%a8%80">
+												 引言
+											</a>
+										</li>
+						 
+								
+								
+									</ul>
+								
+									</ul>
+								
+							
+						
+				 
+						
+						
+							
+								
+								
+									<ul class="nav">
+								
+									<ul class="nav">
+								
+								
+
+										<li class="nav-item">
+						 					<a class="nav-link" href="#%e5%a4%9a%e7%aa%97%e5%8f%a3%e5%a4%9a%e6%a0%87%e7%ad%be%e6%9e%b6%e6%9e%84%e6%a6%82%e8%bf%b0">
+												 多窗口多标签架构概述
+											</a>
+										</li>
+						 
+								
+								
+									</ul>
+								
+									</ul>
+								
+							
+						
+				 
+						
+						
+							
+								
+								
+									<ul class="nav">
+								
+									<ul class="nav">
+								
+									<ul class="nav">
+								
+								
+
+										<li class="nav-item">
+						 					<a class="nav-link" href="#%e8%ae%be%e8%ae%a1%e7%90%86%e5%bf%b5">
+												 设计理念
+											</a>
+										</li>
+						 
+								
+								
+									</ul>
+								
+									</ul>
+								
+									</ul>
+								
+							
+						
+				 
+						
+						
+							
+								
+								
+									<ul class="nav">
+								
+									<ul class="nav">
+								
+									<ul class="nav">
+								
+								
+
+										<li class="nav-item">
+						 					<a class="nav-link" href="#%e6%9e%b6%e6%9e%84%e5%9b%be%e7%a4%ba">
+												 架构图示
+											</a>
+										</li>
+						 
+								
+								
+									</ul>
+								
+									</ul>
+								
+									</ul>
+								
+							
+						
+				 
+						
+						
+							
+								
+								
+									<ul class="nav">
+								
+									<ul class="nav">
+								
+								
+
+										<li class="nav-item">
+						 					<a class="nav-link" href="#%e4%bc%9a%e8%af%9d%e7%ae%a1%e7%90%86%e6%9c%ba%e5%88%b6">
+												 会话管理机制
+											</a>
+										</li>
+						 
+								
+								
+									</ul>
+								
+									</ul>
+								
+							
+						
+				 
+						
+						
+							
+								
+								
+									<ul class="nav">
+								
+									<ul class="nav">
+								
+									<ul class="nav">
+								
+								
+
+										<li class="nav-item">
+						 					<a class="nav-link" href="#%e4%bc%9a%e8%af%9d%e6%95%b0%e6%8d%ae%e7%bb%93%e6%9e%84">
+												 会话数据结构
+											</a>
+										</li>
+						 
+								
+								
+									</ul>
+								
+									</ul>
+								
+									</ul>
+								
+							
+						
+				 
+						
+						
+							
+								
+								
+									<ul class="nav">
+								
+									<ul class="nav">
+								
+									<ul class="nav">
+								
+								
+
+										<li class="nav-item">
+						 					<a class="nav-link" href="#%e4%bc%9a%e8%af%9d%e7%94%9f%e5%91%bd%e5%91%a8%e6%9c%9f%e7%ae%a1%e7%90%86">
+												 会话生命周期管理
+											</a>
+										</li>
+						 
+								
+								
+									</ul>
+								
+									</ul>
+								
+									</ul>
+								
+							
+						
+				 
+						
+						
+							
+								
+								
+									<ul class="nav">
+								
+									<ul class="nav">
+								
+								
+
+										<li class="nav-item">
+						 					<a class="nav-link" href="#%e7%aa%97%e5%8f%a3%e7%ae%a1%e7%90%86%e7%b3%bb%e7%bb%9f">
+												 窗口管理系统
+											</a>
+										</li>
+						 
+								
+								
+									</ul>
+								
+									</ul>
+								
+							
+						
+				 
+						
+						
+							
+								
+								
+									<ul class="nav">
+								
+									<ul class="nav">
+								
+									<ul class="nav">
+								
+								
+
+										<li class="nav-item">
+						 					<a class="nav-link" href="#%e7%aa%97%e5%8f%a3%e6%95%b0%e6%8d%ae%e7%bb%93%e6%9e%84">
+												 窗口数据结构
+											</a>
+										</li>
+						 
+								
+								
+									</ul>
+								
+									</ul>
+								
+									</ul>
+								
+							
+						
+				 
+						
+						
+							
+								
+								
+									<ul class="nav">
+								
+									<ul class="nav">
+								
+								
+
+										<li class="nav-item">
+						 					<a class="nav-link" href="#%e6%95%b0%e6%8d%ae%e5%90%8c%e6%ad%a5%e4%b8%8e%e7%8a%b6%e6%80%81%e7%ae%a1%e7%90%86">
+												 数据同步与状态管理
+											</a>
+										</li>
+						 
+								
+								
+									</ul>
+								
+									</ul>
+								
+							
+						
+				 
+						
+						
+							
+								
+								
+									<ul class="nav">
+								
+									<ul class="nav">
+								
+									<ul class="nav">
+								
+								
+
+										<li class="nav-item">
+						 					<a class="nav-link" href="#%e8%b7%a8%e7%aa%97%e5%8f%a3%e7%8a%b6%e6%80%81%e5%90%8c%e6%ad%a5">
+												 跨窗口状态同步
+											</a>
+										</li>
+						 
+								
+								
+									</ul>
+								
+									</ul>
+								
+									</ul>
+								
+							
+						
+				 
+						
+						
+							
+								
+								
+									<ul class="nav">
+								
+									<ul class="nav">
+								
+								
+
+										<li class="nav-item">
+						 					<a class="nav-link" href="#%e7%94%a8%e6%88%b7%e7%95%8c%e9%9d%a2%e8%ae%be%e8%ae%a1%e4%b8%8e%e4%ba%a4%e4%ba%92%e4%bd%93%e9%aa%8c">
+												 用户界面设计与交互体验
+											</a>
+										</li>
+						 
+								
+								
+									</ul>
+								
+									</ul>
+								
+							
+						
+				 
+						
+						
+							
+								
+								
+									<ul class="nav">
+								
+									<ul class="nav">
+								
+									<ul class="nav">
+								
+								
+
+										<li class="nav-item">
+						 					<a class="nav-link" href="#%e6%a0%87%e7%ad%be%e9%a1%b5%e7%95%8c%e9%9d%a2%e8%ae%be%e8%ae%a1">
+												 标签页界面设计
+											</a>
+										</li>
+						 
+								
+								
+									</ul>
+								
+									</ul>
+								
+									</ul>
+								
+							
+						
+				 
+						
+						
+							
+								
+								
+									<ul class="nav">
+								
+									<ul class="nav">
+								
+								
+
+										<li class="nav-item">
+						 					<a class="nav-link" href="#%e6%80%a7%e8%83%bd%e4%bc%98%e5%8c%96%e7%ad%96%e7%95%a5">
+												 性能优化策略
+											</a>
+										</li>
+						 
+								
+								
+									</ul>
+								
+									</ul>
+								
+							
+						
+				 
+						
+						
+							
+								
+								
+									<ul class="nav">
+								
+									<ul class="nav">
+								
+									<ul class="nav">
+								
+								
+
+										<li class="nav-item">
+						 					<a class="nav-link" href="#%e5%86%85%e5%ad%98%e7%ae%a1%e7%90%86">
+												 内存管理
+											</a>
+										</li>
+						 
+								
+								
+									</ul>
+								
+									</ul>
+								
+									</ul>
+								
+							
+						
+				 
+						
+						
+							
+								
+								
+									<ul class="nav">
+								
+									<ul class="nav">
+								
+								
+
+										<li class="nav-item">
+						 					<a class="nav-link" href="#%e5%b0%8f%e7%bb%93">
+												 小结
+											</a>
+										</li>
+						 
+								
+								
+									</ul>
+								
+									</ul>
+								
+							
+						
+				 
+
+				</ul>
+			</div>
+			
+
+		</div>
+		
+	
+
+    </div>
+    
+
+
+  </main>
+  
+
+
+    
+    
+<footer class="page-footer text-center font-small mt-4 wow fadeIn">
+
+
+  
+  <div class="pb-2 mt-5 pt-5">
+    
+    <a href="//github.com/axfinn " target="_blank" rel="noopener"><i class="fab fa-github mr-3"
+        aria-hidden="true"></i></a>
+    
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+
+    
+    <a href="mailto:521very@email.com"><i class="far fa-envelope-open mr-3" aria-hidden="true"></i></a>
+    
+
+    
+
+    
+
+  </div>
+  
+
+  
+  <div class="copyright py-4">
+    
+    <span> 2016 - 2026 &copy; | Theme <a href='https://github.com/orianna-zzo/AllinOne'
+        target="_blank">AllinOne</a> by <a href='https://github.com/orianna-zzo' target="_blank">Orianna</a> </span>
+  </div>
+  
+
+</footer>
+
+    
+
+
+
+
+<script type="text/javascript" src="https://blog.jaxiu.cn/js/vendors/jquery/jquery-3.3.1.min.js"></script>
+<script type="text/javascript" src="https://blog.jaxiu.cn/js/vendors/jquery/jquery.smooth-scroll.min.js"></script>
+
+
+
+<script type="text/javascript" src="https://blog.jaxiu.cn/js/vendors/popper.min.js"></script>
+<script type="text/javascript" src="https://blog.jaxiu.cn/js/vendors/holder.min.js"></script>
+<script type="text/javascript" src="https://blog.jaxiu.cn/js/vendors-extensions/bootstrap4/bootstrap.js" ></script>
+
+<script type="text/javascript" src="https://blog.jaxiu.cn/js/vendors/mdb/mdb.min.js"></script>
+
+<script type="text/javascript" src="https://blog.jaxiu.cn/js/main.js"></script>
+<script type="text/javascript" src="https://blog.jaxiu.cn/js/search.js"></script>
+
+
+
+
+  <script src="https://blog.jaxiu.cn/js/vendors/highlight.pack.js"> </script>
+  <script>hljs.initHighlightingOnLoad();</script>
+
+
+
+
+
+  <script src="https://blog.jaxiu.cn/js/vendors/katex/katex.min.js"> </script>
+  <script src="https://blog.jaxiu.cn/js/vendors/katex/contrib/auto-render.min.js"></script>
+
+  <script>
+      document.addEventListener("DOMContentLoaded", function () {
+          renderMathInElement(document.body);
+      });
+  </script>
+
+
+
+
+
+
+
+
+<script type="text/javascript">
+  
+  new WOW().init();
+</script>
+  </body>
+</html>

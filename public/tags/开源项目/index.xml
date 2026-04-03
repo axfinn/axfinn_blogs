@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>开源项目 on jaxiu He</title>
+    <link>https://blog.jaxiu.cn/tags/%E5%BC%80%E6%BA%90%E9%A1%B9%E7%9B%AE/</link>
+    <description>Recent content in 开源项目 on jaxiu He</description>
+    <generator>Hugo</generator>
+    <language>zn-Hans</language>
+    <lastBuildDate>Tue, 12 Aug 2025 14:00:00 +0800</lastBuildDate>
+    <atom:link href="https://blog.jaxiu.cn/tags/%E5%BC%80%E6%BA%90%E9%A1%B9%E7%9B%AE/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>fcopy - 一个全平台剪贴板同步工具</title>
+      <link>https://blog.jaxiu.cn/blog/2025-08/fcopy-%E4%B8%80%E4%B8%AA%E5%85%A8%E5%B9%B3%E5%8F%B0%E5%89%AA%E8%B4%B4%E6%9D%BF%E5%90%8C%E6%AD%A5%E5%B7%A5%E5%85%B7/</link>
+      <pubDate>Tue, 12 Aug 2025 14:00:00 +0800</pubDate>
+      <guid>https://blog.jaxiu.cn/blog/2025-08/fcopy-%E4%B8%80%E4%B8%AA%E5%85%A8%E5%B9%B3%E5%8F%B0%E5%89%AA%E8%B4%B4%E6%9D%BF%E5%90%8C%E6%AD%A5%E5%B7%A5%E5%85%B7/</guid>
+      <description>&lt;p&gt;在日常工作中，我们经常需要在不同设备之间复制粘贴文本、图片或文件。虽然有很多商业解决方案，但我还是希望能有一个简单、安全、自托管的解决方案。因此，我开发了 &lt;a href=&#34;https://github.com/axfinn/fcopy&#34;&gt;fcopy&lt;/a&gt; - 一个全平台剪贴板同步工具。&lt;/p&gt;&#xA;&lt;h2 id=&#34;项目介绍&#34;&gt;项目介绍&lt;/h2&gt;&#xA;&lt;p&gt;&lt;a href=&#34;https://github.com/axfinn/fcopy&#34;&gt;fcopy&lt;/a&gt; 是一个基于 Web 的剪贴板同步工具，支持文本和文件的跨设备同步。它采用现代化的技术栈构建，具有响应式设计，可以在桌面端和移动端使用。&lt;/p&gt;&#xA;&lt;p&gt;项目的主要特性包括：&lt;/p&gt;&#xA;&lt;ul&gt;&#xA;&lt;li&gt;📋 文本和文件剪贴板同步&lt;/li&gt;&#xA;&lt;li&gt;🔐 安全的API密钥认证机制&lt;/li&gt;&#xA;&lt;li&gt;🖼️ 图片预览和文件下载&lt;/li&gt;&#xA;&lt;li&gt;📱 响应式设计，支持移动端使用&lt;/li&gt;&#xA;&lt;li&gt;🌐 Socket.IO实时同步&lt;/li&gt;&#xA;&lt;li&gt;📊 访问统计和监控面板&lt;/li&gt;&#xA;&lt;li&gt;👤 用户管理和数据隔离&lt;/li&gt;&#xA;&lt;li&gt;🐳 Docker容器化部署支持&lt;/li&gt;&#xA;&lt;/ul&gt;&#xA;&lt;h2 id=&#34;项目背景和动机&#34;&gt;项目背景和动机&lt;/h2&gt;&#xA;&lt;p&gt;在日常工作中，我经常需要在不同的设备之间复制粘贴内容，比如在电脑上复制一段代码，然后在远程服务器上粘贴；或者在手机上看到一段文字，想要快速发送到电脑上处理。虽然系统自带的剪贴板功能可以在单一设备上使用，但在跨设备场景下却显得力不从心。&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>todoIng 项目概览：像管理代码一样管理你的任务</title>
+      <link>https://blog.jaxiu.cn/blog/2025-08/todoing-project-overview/</link>
+      <pubDate>Fri, 01 Aug 2025 10:00:00 +0800</pubDate>
+      <guid>https://blog.jaxiu.cn/blog/2025-08/todoing-project-overview/</guid>
+      <description>&lt;h1 id=&#34;todoing-项目概览像管理代码一样管理你的任务&#34;&gt;todoIng 项目概览：像管理代码一样管理你的任务&lt;/h1&gt;&#xA;&lt;p&gt;在当今快节奏的工作环境中，任务管理工具已成为我们日常工作不可或缺的一部分。然而，大多数任务管理工具只能记录任务的当前状态，缺乏对任务完整生命周期的追踪。为了解决这个问题，我开发了 todoIng - 一个创新的任务管理系统，它不仅提供基本的任务管理功能，还为每个任务提供完整的生命周期追踪和变更历史记录，就像 Git 管理代码变更一样管理任务。&lt;/p&gt;&#xA;&lt;h2 id=&#34;什么是-todoing&#34;&gt;什么是 todoIng？&lt;/h2&gt;&#xA;&lt;p&gt;todoIng 是一个现代化的任务管理系统，其核心理念是将软件开发中的版本控制概念应用到任务管理中。正如 Git 能够追踪代码的每一次变更一样，todoIng 能够追踪任务从创建到完成的每一个状态变化，为用户提供完整的任务历史记录。&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>DeepChat 系列总结：构建下一代 AI 交互平台的完整解析</title>
+      <link>https://blog.jaxiu.cn/blog/2025-07/deepchat-series-summary/</link>
+      <pubDate>Thu, 31 Jul 2025 22:00:00 +0800</pubDate>
+      <guid>https://blog.jaxiu.cn/blog/2025-07/deepchat-series-summary/</guid>
+      <description>&lt;h1 id=&#34;deepchat-系列总结构建下一代-ai-交互平台的完整解析&#34;&gt;DeepChat 系列总结：构建下一代 AI 交互平台的完整解析&lt;/h1&gt;&#xA;&lt;h2 id=&#34;引言&#34;&gt;引言&lt;/h2&gt;&#xA;&lt;p&gt;在过去的一系列文章中，我们深入探讨了 &lt;a href=&#34;file:///Volumes/M20/code/docs/axfinn_blogs/content/blog/deepchat-mcp-support.md#L27-L27&#34;&gt;DeepChat&lt;/a&gt; 这一开源 AI 聊天平台的各个方面。从项目概览到具体的技术实现，从架构设计到企业级应用，我们全面剖析了这个功能强大的多模型 AI 对话平台。本文将对整个系列进行总结，并展望 AI 交互平台的未来发展趋势。&lt;/p&gt;&#xA;&lt;h2 id=&#34;系列文章回顾&#34;&gt;系列文章回顾&lt;/h2&gt;&#xA;&lt;p&gt;我们一共发布了 8 篇关于 DeepChat 的深度分析文章，涵盖了以下关键主题：&lt;/p&gt;&#xA;&lt;h3 id=&#34;1-项目概览与核心特性&#34;&gt;1. 项目概览与核心特性&lt;/h3&gt;&#xA;&lt;p&gt;在&lt;a href=&#34;file:///Volumes/M20/code/docs/axfinn_blogs/content/blog/deepchat-project-overview.md&#34;&gt;第一篇文章&lt;/a&gt;中，我们介绍了 DeepChat 的基本概念和核心特性。DeepChat 作为一个多模型 AI 聊天平台，支持几乎所有主流的大语言模型，包括云端模型（如 OpenAI、Gemini、Anthropic）和本地模型（通过 Ollama）。其统一的接口设计让用户可以在一个应用中无缝切换不同的 AI 模型。&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>DeepChat 项目概览：多模型AI对话平台介绍</title>
+      <link>https://blog.jaxiu.cn/blog/2025-07/deepchat-project-overview/</link>
+      <pubDate>Thu, 31 Jul 2025 18:00:00 +0800</pubDate>
+      <guid>https://blog.jaxiu.cn/blog/2025-07/deepchat-project-overview/</guid>
+      <description>&lt;h1 id=&#34;deepchat-项目概览多模型ai对话平台介绍&#34;&gt;DeepChat 项目概览：多模型AI对话平台介绍&lt;/h1&gt;&#xA;&lt;h2 id=&#34;什么是-deepchat&#34;&gt;什么是 DeepChat？&lt;/h2&gt;&#xA;&lt;p&gt;DeepChat 是一个功能丰富的开源 AI 聊天平台，支持多种云端和本地大语言模型，具备强大的搜索增强和工具调用能力。作为一个跨平台的 AI 助手应用程序，DeepChat 不仅支持基本的聊天功能，还提供了诸如搜索增强、工具调用和多模态交互等高级功能，让 AI 能力更加触手可及和高效。&lt;/p&gt;&#xA;&lt;p&gt;无论您是使用 OpenAI、Gemini、Anthropic 等云 API，还是本地部署的 Ollama 模型，DeepChat 都能提供流畅的用户体验。&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>NPS项目近期重要更新解析</title>
+      <link>https://blog.jaxiu.cn/blog/2025-07/nps%E9%A1%B9%E7%9B%AE%E8%BF%91%E6%9C%9F%E9%87%8D%E8%A6%81%E6%9B%B4%E6%96%B0%E8%A7%A3%E6%9E%90/</link>
+      <pubDate>Wed, 30 Jul 2025 10:00:00 +0800</pubDate>
+      <guid>https://blog.jaxiu.cn/blog/2025-07/nps%E9%A1%B9%E7%9B%AE%E8%BF%91%E6%9C%9F%E9%87%8D%E8%A6%81%E6%9B%B4%E6%96%B0%E8%A7%A3%E6%9E%90/</guid>
+      <description>&lt;h2 id=&#34;nps项目近期重要更新解析&#34;&gt;NPS项目近期重要更新解析&lt;/h2&gt;&#xA;&lt;p&gt;NPS（Network Penetration Suite）是一个轻量级、高性能、功能强大的内网穿透代理服务器，支持TCP、UDP、HTTP、HTTPS等协议。近期该项目进行了多次重要更新，本文将为您详细解析这些更新内容。&lt;/p&gt;&#xA;&lt;h2 id=&#34;最新版本概览&#34;&gt;最新版本概览&lt;/h2&gt;&#xA;&lt;p&gt;在过去的一个月中，NPS项目发布了多个版本，从v0.26.37到最新的v0.26.63，主要集中在稳定性提升、错误修复和用户体验改进等方面。&lt;/p&gt;&#xA;&lt;h3 id=&#34;核心版本更新&#34;&gt;核心版本更新&lt;/h3&gt;&#xA;&lt;h4 id=&#34;v02663---关键错误修复&#34;&gt;v0.26.63 - 关键错误修复&lt;/h4&gt;&#xA;&lt;p&gt;最新发布的v0.26.63版本重点解决了客户端和服务端握手过程中出现的EOF错误问题。这个问题可能导致连接不稳定或连接失败，特别是在网络环境较差的情况下。&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>深入解析NPS项目近期重大更新：从代码层面看技术演进</title>
+      <link>https://blog.jaxiu.cn/blog/2025-07/%E6%B7%B1%E5%85%A5%E8%A7%A3%E6%9E%90nps%E9%A1%B9%E7%9B%AE%E8%BF%91%E6%9C%9F%E9%87%8D%E5%A4%A7%E6%9B%B4%E6%96%B0%E4%BB%8E%E4%BB%A3%E7%A0%81%E5%B1%82%E9%9D%A2%E7%9C%8B%E6%8A%80%E6%9C%AF%E6%BC%94%E8%BF%9B/</link>
+      <pubDate>Wed, 30 Jul 2025 10:00:00 +0800</pubDate>
+      <guid>https://blog.jaxiu.cn/blog/2025-07/%E6%B7%B1%E5%85%A5%E8%A7%A3%E6%9E%90nps%E9%A1%B9%E7%9B%AE%E8%BF%91%E6%9C%9F%E9%87%8D%E5%A4%A7%E6%9B%B4%E6%96%B0%E4%BB%8E%E4%BB%A3%E7%A0%81%E5%B1%82%E9%9D%A2%E7%9C%8B%E6%8A%80%E6%9C%AF%E6%BC%94%E8%BF%9B/</guid>
+      <description>&lt;h2 id=&#34;深入解析nps项目近期重大更新从代码层面看技术演进&#34;&gt;深入解析NPS项目近期重大更新：从代码层面看技术演进&lt;/h2&gt;&#xA;&lt;p&gt;NPS（Network Penetration Suite）作为一个轻量级、高性能、功能强大的内网穿透代理服务器，近期进行了多次重要更新。本文将从源码层面深入剖析这些更新的技术细节和实现原理，帮助读者更好地理解项目的演进过程。&lt;/p&gt;&#xA;&lt;h2 id=&#34;最新版本更新概览&#34;&gt;最新版本更新概览&lt;/h2&gt;&#xA;&lt;p&gt;在过去的一个月中，NPS项目发布了多个版本，主要集中在解决客户端和服务端握手过程中的EOF错误、优化多语言支持、改进Docker部署配置等方面。其中最重要的更新是v0.26.63版本，它解决了长期困扰用户的关键连接问题。&lt;/p&gt;</description>
+    </item>
+  </channel>
+</rss>

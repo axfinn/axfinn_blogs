@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>AI入门 on jaxiu He</title>
+    <link>https://blog.jaxiu.cn/tags/ai%E5%85%A5%E9%97%A8/</link>
+    <description>Recent content in AI入门 on jaxiu He</description>
+    <generator>Hugo</generator>
+    <language>zn-Hans</language>
+    <lastBuildDate>Thu, 26 Feb 2026 10:45:00 +0800</lastBuildDate>
+    <atom:link href="https://blog.jaxiu.cn/tags/ai%E5%85%A5%E9%97%A8/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>人工智能入门：什么是AI？</title>
+      <link>https://blog.jaxiu.cn/blog/2026-02/%E4%BA%BA%E5%B7%A5%E6%99%BA%E8%83%BD%E5%85%A5%E9%97%A8%E4%BB%80%E4%B9%88%E6%98%AFai/</link>
+      <pubDate>Thu, 26 Feb 2026 10:45:00 +0800</pubDate>
+      <guid>https://blog.jaxiu.cn/blog/2026-02/%E4%BA%BA%E5%B7%A5%E6%99%BA%E8%83%BD%E5%85%A5%E9%97%A8%E4%BB%80%E4%B9%88%E6%98%AFai/</guid>
+      <description>&lt;h2 id=&#34;什么是人工智能&#34;&gt;什么是人工智能？&lt;/h2&gt;&#xA;&lt;p&gt;人工智能（Artificial Intelligence，简称AI）是计算机科学的一个分支，致力于开发能够模拟、延伸和扩展人类智能的技术和系统。简单来说，AI让机器能够&amp;quot;思考&amp;quot;和&amp;quot;学习&amp;quot;，像人类一样处理信息、解决问题。&lt;/p&gt;&#xA;&lt;h2 id=&#34;ai的核心概念&#34;&gt;AI的核心概念&lt;/h2&gt;&#xA;&lt;h3 id=&#34;机器学习machine-learning&#34;&gt;机器学习（Machine Learning）&lt;/h3&gt;&#xA;&lt;p&gt;机器学习是AI的核心技术之一，它让计算机通过数据学习规律，而无需明确的编程指令。就像孩子通过大量观察学会识别猫和狗一样，机器学习算法通过分析大量数据来发现模式。&lt;/p&gt;</description>
+    </item>
+  </channel>
+</rss>

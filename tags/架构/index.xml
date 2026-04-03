@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>架构 on jaxiu He</title>
+    <link>https://blog.jaxiu.cn/tags/%E6%9E%B6%E6%9E%84/</link>
+    <description>Recent content in 架构 on jaxiu He</description>
+    <generator>Hugo</generator>
+    <language>zn-Hans</language>
+    <lastBuildDate>Fri, 18 Jul 2025 19:10:00 +0800</lastBuildDate>
+    <atom:link href="https://blog.jaxiu.cn/tags/%E6%9E%B6%E6%9E%84/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>NPS 核心探秘：配置加载与数据持久化</title>
+      <link>https://blog.jaxiu.cn/blog/2025-07/nps-%E6%A0%B8%E5%BF%83%E6%8E%A2%E7%A7%98%E9%85%8D%E7%BD%AE%E5%8A%A0%E8%BD%BD%E4%B8%8E%E6%95%B0%E6%8D%AE%E6%8C%81%E4%B9%85%E5%8C%96/</link>
+      <pubDate>Fri, 18 Jul 2025 19:10:00 +0800</pubDate>
+      <guid>https://blog.jaxiu.cn/blog/2025-07/nps-%E6%A0%B8%E5%BF%83%E6%8E%A2%E7%A7%98%E9%85%8D%E7%BD%AE%E5%8A%A0%E8%BD%BD%E4%B8%8E%E6%95%B0%E6%8D%AE%E6%8C%81%E4%B9%85%E5%8C%96/</guid>
+      <description>&lt;h2 id=&#34;引言&#34;&gt;引言&lt;/h2&gt;&#xA;&lt;p&gt;一个稳定可靠的服务，离不开健全的配置管理和数据持久化机制。NPS 作为一个需要长期运行的内网穿透服务器，必须能够加载启动配置、在运行时动态修改配置，并在服务重启后恢复所有任务和客户端信息。这一切都由 &lt;code&gt;nps/file&lt;/code&gt; 目录下的代码实现。本篇文章将深入这一模块，剖析 NPS 是如何通过简单的 JSON 文件，构建出一个轻量级且高效的“数据库”，并实现对客户端、隧道、主机等所有配置的增删改查和持久化存储。&lt;/p&gt;&#xA;&lt;hr&gt;&#xA;&lt;h2 id=&#34;filegonps-的数据中枢&#34;&gt;&lt;code&gt;file.go&lt;/code&gt;：NPS 的数据中枢&lt;/h2&gt;&#xA;&lt;p&gt;&lt;code&gt;nps/file&lt;/code&gt; 目录的核心是 &lt;code&gt;file.go&lt;/code&gt; 文件，它定义了 NPS 的数据模型和所有数据操作的接口。NPS 并未采用传统的关系型数据库或 NoSQL 数据库，而是选择使用 JSON 文件作为其数据存储后端，这使得 NPS 非常轻量、易于部署和迁移。&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>NPS 核心组件：深入剖析 Bridge 模块</title>
+      <link>https://blog.jaxiu.cn/blog/2025-07/nps-%E6%A0%B8%E5%BF%83%E7%BB%84%E4%BB%B6%E6%B7%B1%E5%85%A5%E5%89%96%E6%9E%90-bridge-%E6%A8%A1%E5%9D%97/</link>
+      <pubDate>Fri, 18 Jul 2025 19:00:00 +0800</pubDate>
+      <guid>https://blog.jaxiu.cn/blog/2025-07/nps-%E6%A0%B8%E5%BF%83%E7%BB%84%E4%BB%B6%E6%B7%B1%E5%85%A5%E5%89%96%E6%9E%90-bridge-%E6%A8%A1%E5%9D%97/</guid>
+      <description>&lt;h2 id=&#34;引言&#34;&gt;引言&lt;/h2&gt;&#xA;&lt;p&gt;在 NPS 的服务端架构中，&lt;code&gt;proxy&lt;/code&gt; 模块负责监听公网端口并处理各种协议的流量，而 &lt;code&gt;client&lt;/code&gt; 模块则在内网中连接本地服务。那么，当一个公网请求到达 &lt;code&gt;proxy&lt;/code&gt; 模块后，它是如何精确地找到对应的内网客户端，并与之建立一条数据通道的呢？答案就是 &lt;strong&gt;&lt;code&gt;Bridge&lt;/code&gt; 模块&lt;/strong&gt;。&lt;code&gt;Bridge&lt;/code&gt; 是 NPS 服务端的核心枢纽，它负责维护所有客户端的长连接，并在此之上建立控制和数据隧道，是整个 NPS 体系的“交通总指挥”。&lt;/p&gt;&#xA;&lt;h2 id=&#34;bridge-结构体通信枢纽的核心&#34;&gt;&lt;code&gt;Bridge&lt;/code&gt; 结构体：通信枢纽的核心&lt;/h2&gt;&#xA;&lt;p&gt;&lt;code&gt;bridge.go&lt;/code&gt; 文件首先定义了 &lt;code&gt;Bridge&lt;/code&gt; 结构体，它包含了 &lt;code&gt;Bridge&lt;/code&gt; 模块运行所需的所有关键信息：&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>NPS 服务端核心解析：架构与流量管理</title>
+      <link>https://blog.jaxiu.cn/blog/2025-07/nps-%E6%9C%8D%E5%8A%A1%E7%AB%AF%E6%A0%B8%E5%BF%83%E8%A7%A3%E6%9E%90%E6%9E%B6%E6%9E%84%E4%B8%8E%E6%B5%81%E9%87%8F%E7%AE%A1%E7%90%86/</link>
+      <pubDate>Fri, 18 Jul 2025 15:30:00 +0800</pubDate>
+      <guid>https://blog.jaxiu.cn/blog/2025-07/nps-%E6%9C%8D%E5%8A%A1%E7%AB%AF%E6%A0%B8%E5%BF%83%E8%A7%A3%E6%9E%90%E6%9E%B6%E6%9E%84%E4%B8%8E%E6%B5%81%E9%87%8F%E7%AE%A1%E7%90%86/</guid>
+      <description>&lt;h2 id=&#34;引言&#34;&gt;引言&lt;/h2&gt;&#xA;&lt;p&gt;在 NPS 项目概述中，我们对这款强大的内网穿透工具进行了宏观的介绍。本篇文章将深入 NPS 的服务端（Server）核心，从 &lt;code&gt;nps/server/server.go&lt;/code&gt; 文件入手，详细剖析其架构设计、任务管理、流量处理以及系统监控等关键功能。理解 &lt;code&gt;server.go&lt;/code&gt; 的运作机制，是掌握 NPS 核心原理的基石。&lt;/p&gt;&#xA;&lt;h2 id=&#34;servergo服务端的大脑&#34;&gt;&lt;code&gt;server.go&lt;/code&gt;：服务端的&amp;quot;大脑&amp;quot;&lt;/h2&gt;&#xA;&lt;p&gt;&lt;code&gt;server.go&lt;/code&gt; 文件是 NPS 服务端的启动入口和主要协调者。它负责初始化各项服务、管理客户端连接、调度隧道任务以及收集系统运行状态。&lt;/p&gt;&#xA;&lt;h3 id=&#34;核心组件概览&#34;&gt;核心组件概览&lt;/h3&gt;&#xA;&lt;p&gt;在 &lt;code&gt;server.go&lt;/code&gt; 中，我们可以看到几个关键的全局变量和结构：&lt;/p&gt;&#xA;&lt;ul&gt;&#xA;&lt;li&gt;&lt;code&gt;Bridge *bridge.Bridge&lt;/code&gt;：这是服务端与客户端之间通信的核心桥梁。它负责维护客户端连接、处理客户端发送的指令以及转发数据。&lt;/li&gt;&#xA;&lt;li&gt;&lt;code&gt;RunList sync.Map&lt;/code&gt;：一个并发安全的 Map，用于存储当前正在运行的所有隧道（&lt;code&gt;proxy.Service&lt;/code&gt; 实例）。通过 &lt;code&gt;sync.Map&lt;/code&gt;，NPS 能够高效地管理和访问多个并发的隧道服务。&lt;/li&gt;&#xA;&lt;li&gt;&lt;code&gt;once sync.Once&lt;/code&gt;：用于确保某些初始化操作（如 &lt;code&gt;flowSession&lt;/code&gt;）只执行一次。&lt;/li&gt;&#xA;&lt;/ul&gt;&#xA;&lt;p&gt;NPS 服务端核心组件架构可以用下图表示：&lt;/p&gt;</description>
+    </item>
+  </channel>
+</rss>

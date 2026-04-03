@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>跨平台 on jaxiu He</title>
+    <link>https://blog.jaxiu.cn/tags/%E8%B7%A8%E5%B9%B3%E5%8F%B0/</link>
+    <description>Recent content in 跨平台 on jaxiu He</description>
+    <generator>Hugo</generator>
+    <language>zn-Hans</language>
+    <lastBuildDate>Thu, 31 Jul 2025 18:30:00 +0800</lastBuildDate>
+    <atom:link href="https://blog.jaxiu.cn/tags/%E8%B7%A8%E5%B9%B3%E5%8F%B0/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>DeepChat 跨平台实现机制详解：构建真正跨系统的 Electron 应用</title>
+      <link>https://blog.jaxiu.cn/blog/2025-07/deepchat-cross-platform-implementation/</link>
+      <pubDate>Thu, 31 Jul 2025 18:30:00 +0800</pubDate>
+      <guid>https://blog.jaxiu.cn/blog/2025-07/deepchat-cross-platform-implementation/</guid>
+      <description>&lt;h1 id=&#34;deepchat-跨平台实现机制详解构建真正跨系统的-electron-应用&#34;&gt;DeepChat 跨平台实现机制详解：构建真正跨系统的 Electron 应用&lt;/h1&gt;&#xA;&lt;h2 id=&#34;引言&#34;&gt;引言&lt;/h2&gt;&#xA;&lt;p&gt;在当今多样化的计算环境中，用户使用着不同操作系统的设备，包括 macOS、Windows 和 Linux。为了让应用程序能够触及更广泛的用户群体，跨平台支持已成为现代桌面应用开发的基本要求。DeepChat 作为一个功能丰富的 AI 聊天平台，成功实现了对三大主流操作系统的支持，为用户提供了统一而优质的使用体验。&lt;/p&gt;&#xA;&lt;p&gt;本文将深入解析 DeepChat 的跨平台实现机制，从构建系统、平台适配到发布流程，全面剖析其背后的技术细节和工程实践。&lt;/p&gt;</description>
+    </item>
+  </channel>
+</rss>

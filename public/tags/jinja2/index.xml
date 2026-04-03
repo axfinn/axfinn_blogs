@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Jinja2 on jaxiu He</title>
+    <link>https://blog.jaxiu.cn/tags/jinja2/</link>
+    <description>Recent content in Jinja2 on jaxiu He</description>
+    <generator>Hugo</generator>
+    <language>zn-Hans</language>
+    <lastBuildDate>Sat, 19 Jul 2025 11:00:00 +0800</lastBuildDate>
+    <atom:link href="https://blog.jaxiu.cn/tags/jinja2/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>从零到一：用 Flask &#43; SQLite 打造一个轻量级酒店管理系统（前后端详解）</title>
+      <link>https://blog.jaxiu.cn/blog/2025-07/flask-sqlite-hotel-system-tutorial/</link>
+      <pubDate>Sat, 19 Jul 2025 11:00:00 +0800</pubDate>
+      <guid>https://blog.jaxiu.cn/blog/2025-07/flask-sqlite-hotel-system-tutorial/</guid>
+      <description>&lt;h2 id=&#34;前言&#34;&gt;前言&lt;/h2&gt;&#xA;&lt;p&gt;对于许多编程初学者来说，理论知识和实际项目之间总有一道鸿沟。今天，我将带领大家跨越这道鸿沟，通过一个真实的项目——&lt;code&gt;hotel&lt;/code&gt; 轻量级酒店管理系统，来学习如何将技术应用到实践中。&lt;/p&gt;&#xA;&lt;p&gt;这个项目非常适合初学者，它功能完整、代码清晰，并且覆盖了 Web 开发的方方面面：从后端逻辑、数据库设计，到前端页面渲染和用户交互。最棒的是，它还支持 Docker 一键部署！&lt;/p&gt;&#xA;&lt;p&gt;&lt;strong&gt;项目地址&lt;/strong&gt;: &lt;a href=&#34;git@github.com:axfinn/hotel.git&#34;&gt;git@github.com:axfinn/hotel.git&lt;/a&gt;&lt;/p&gt;&#xA;&lt;p&gt;我将从环境搭建开始，详细剖析前后端代码，让你不仅能看懂，更能学会如何构建一个属于自己的 Web 应用。&lt;/p&gt;</description>
+    </item>
+  </channel>
+</rss>

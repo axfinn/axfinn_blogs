@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>UDP代理 on jaxiu He</title>
+    <link>https://blog.jaxiu.cn/tags/udp%E4%BB%A3%E7%90%86/</link>
+    <description>Recent content in UDP代理 on jaxiu He</description>
+    <generator>Hugo</generator>
+    <language>zn-Hans</language>
+    <lastBuildDate>Fri, 18 Jul 2025 16:45:00 +0800</lastBuildDate>
+    <atom:link href="https://blog.jaxiu.cn/tags/udp%E4%BB%A3%E7%90%86/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>NPS 代理实现：UDP 代理与数据转发</title>
+      <link>https://blog.jaxiu.cn/blog/2025-07/nps-%E4%BB%A3%E7%90%86%E5%AE%9E%E7%8E%B0udp-%E4%BB%A3%E7%90%86%E4%B8%8E%E6%95%B0%E6%8D%AE%E8%BD%AC%E5%8F%91/</link>
+      <pubDate>Fri, 18 Jul 2025 16:45:00 +0800</pubDate>
+      <guid>https://blog.jaxiu.cn/blog/2025-07/nps-%E4%BB%A3%E7%90%86%E5%AE%9E%E7%8E%B0udp-%E4%BB%A3%E7%90%86%E4%B8%8E%E6%95%B0%E6%8D%AE%E8%BD%AC%E5%8F%91/</guid>
+      <description>&lt;h2 id=&#34;引言&#34;&gt;引言&lt;/h2&gt;&#xA;&lt;p&gt;在 NPS 系列文章中，我们已经探讨了 NPS 的整体架构、服务端核心以及多种 TCP 相关的代理模式（TCP 隧道、HTTP 代理、SOCKS5 代理）和 P2P 代理。本篇文章将聚焦于 NPS 的 &lt;strong&gt;UDP 代理&lt;/strong&gt;实现。我们将通过分析 &lt;code&gt;nps/server/proxy/udp.go&lt;/code&gt; 文件，揭示 NPS 如何处理 UDP 流量，实现内网 UDP 服务的穿透。&lt;/p&gt;&#xA;&lt;h2 id=&#34;udp-代理的需求与挑战&#34;&gt;UDP 代理的需求与挑战&lt;/h2&gt;&#xA;&lt;p&gt;UDP（User Datagram Protocol）是一种无连接的传输协议，常用于对实时性要求较高、允许少量丢包的应用，如 DNS 查询、在线游戏、音视频通话等。由于 UDP 的无连接特性，其代理实现与 TCP 代理有所不同，主要挑战在于：&lt;/p&gt;</description>
+    </item>
+  </channel>
+</rss>

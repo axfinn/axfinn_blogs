@@ -1,0 +1,481 @@
+<!DOCTYPE html>
+<html lang="zn-Hans">
+  <head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge, chrome=1">
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no, maximum-scale=1" />
+  
+  <meta name="author" content="jaxiu He">
+  <meta name="description"
+    content="Be myself. Love the wonderful world. Do the right things and be a better man.">
+
+  <meta property="og:url" content="https://blog.jaxiu.cn/moment/">
+  <meta property="og:site_name" content="jaxiu He">
+  <meta property="og:title" content="动态">
+  <meta property="og:description" content="这里是我记录日常思考、技术随笔和生活点滴的地方。没有固定的主题，只有灵感的瞬间。
+2025年12月25日 🎄 圣诞快乐！今天为博客添加了一个有趣的节日特效系统：
+❄️ 圣诞节雪花飘落 &#43; 圣诞树装饰 🎆 元旦烟花 &#43; 新年倒计时 🎵 节日背景音乐（Jingle Bells / Auld Lang Syne） 🎊 智能日期检测，节日过后自动恢复 同时发布了 2025 年终总结，回顾这一年在 AI 浪潮中的技术探索和成长。感谢每一位读者的陪伴，新年快乐！✨
+2025年8月12日 最近开源了一个新项目：fcopy - 一个全平台剪贴板同步工具。这个工具可以实现在不同设备间实时同步文本和文件，支持 Docker 部署，具有安全的 API 密钥认证机制和用户数据隔离功能。解决了我自己在多设备办公时频繁复制粘贴的痛点，也许也能帮到有同样需求的朋友。">
+  <meta property="og:locale" content="zn_Hans">
+  <meta property="og:type" content="website">
+
+
+  <title>
+    
+     动态 | jaxiu He 
+    
+  </title>
+
+  <link rel="canonical" href="https://blog.jaxiu.cn/moment/">
+
+  
+  
+
+  
+  
+  
+  <meta name="baidu-site-verification" content="your-baidu-verify-code" />
+  
+
+  
+  
+  <meta name="google-site-verification" content="your-google-verify-code" />
+  
+
+  
+  <link href="https://blog.jaxiu.cn/css/vendors-extensions/fontawesome/all.min.css" rel="stylesheet">
+
+  
+  <link rel="stylesheet"
+    href="https://fonts.googleapis.com/css?family=Open+Sans:400,700|Ubuntu+Mono:400,400i,700,700i|Raleway:300,400,500,600">
+  <link href="https://blog.jaxiu.cn/css/font.css" rel="stylesheet">
+
+  
+  <link href="https://blog.jaxiu.cn/css/vendors/bootstrap4/bootstrap.min.css" rel="stylesheet">
+  <link href="https://blog.jaxiu.cn/css/vendors-extensions/mdb/mdb.min.css" rel="stylesheet">
+  <link href="https://blog.jaxiu.cn/css/vendors/mdb/style.min.css" rel="stylesheet">
+  <link href="https://blog.jaxiu.cn/css/main.css" rel="stylesheet">
+
+
+  
+  <link rel="shortcut icon"  href="https://blog.jaxiu.cn/img/logo.png" >
+
+
+  
+  
+
+  <style type="text/css">
+    @media (min-width: 800px) and (max-width: 850px) {
+      .navbar:not(.top-nav-collapse) {
+        background: #1C2331 !important;
+      }
+    }
+  </style>
+
+
+  
+  
+  <link rel="stylesheet" href="https://blog.jaxiu.cn/js/vendors/katex/katex.min.css">
+  
+  
+
+  
+  
+  <link rel="stylesheet" href="https://blog.jaxiu.cn/css/vendors/highlight/github-gist.css">
+  
+
+  
+  
+  <script type="module">
+    import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.esm.min.mjs';
+    mermaid.initialize({ startOnLoad: true });
+  </script>
+  
+  
+
+  
+  <link href="https://blog.jaxiu.cn/css/holiday-effects.css" rel="stylesheet">
+  <script src="https://blog.jaxiu.cn/js/holiday-effects.js"></script>
+
+  
+  <script src="https://blog.jaxiu.cn/js/dynamic-bg.js"></script>
+  <link href="https://blog.jaxiu.cn/css/dynamic-bg-control.css" rel="stylesheet">
+
+</head>
+  <body class="bg-light" data-spy="scroll" data-target="#page-scrollspy" data-offset="90">
+  
+    
+    
+
+    
+      
+
+
+<nav class="navbar fixed-top navbar-expand-lg navbar-dark scrolling-navbar">
+    <div class="container">
+
+      
+      <a class="navbar-brand" href="https://blog.jaxiu.cn/">
+          
+        <img class="avatar" src="https://blog.jaxiu.cn/img/logo.png" style="width: 40px!important;height: auto;"  class="d-inline-block align-top" alt="" >
+        
+        <strong> jaxiu He</strong>
+      </a>
+
+      
+      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
+        aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+
+      
+      <div class="collapse navbar-collapse" id="navbarSupportedContent">
+
+        
+        <ul class="navbar-nav mr-auto ">
+          <li class="nav-item ">
+            <a class="nav-link" href="https://blog.jaxiu.cn/">Home</a>
+          </li>
+          
+            <li class="nav-item ">
+              <a class="nav-link" href="https://blog.jaxiu.cn/blog/" >博客  </a>
+            </li>
+
+          
+            <li class="nav-item ">
+              <a class="nav-link" href="https://blog.jaxiu.cn/moment/" >动态  </a>
+            </li>
+
+          
+            <li class="nav-item ">
+              <a class="nav-link" href="https://blog.jaxiu.cn/blog/prenatal-stories/" >胎教故事  </a>
+            </li>
+
+          
+            <li class="nav-item ">
+              <a class="nav-link" href="https://blog.jaxiu.cn/about/" >关于  </a>
+            </li>
+
+          
+        </ul>
+
+        
+        <ul class="navbar-nav">
+          <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" href="#" id="searchDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+              <i class="fas fa-search"></i> 搜索
+            </a>
+            <div class="dropdown-menu dropdown-menu-right p-3" aria-labelledby="searchDropdown" style="min-width: 300px; max-width: 400px;">
+              <form class="search-form" onsubmit="return false;">
+                <div class="input-group">
+                  <input type="text" id="search-query" class="form-control" placeholder="搜索文章标题或内容..." autocomplete="off">
+                  <div class="input-group-append">
+                    <button class="btn btn-outline-secondary" type="button" onclick="document.getElementById('search-query').focus();">
+                      <i class="fas fa-search"></i>
+                    </button>
+                  </div>
+                </div>
+              </form>
+              <ul id="search-results" class="list-unstyled mt-2 mb-0" style="max-height: 400px; overflow-y: auto;"></ul>
+            </div>
+          </li>
+        </ul>
+
+      </div>
+
+    </div>
+  </nav>
+   
+      
+
+
+
+
+
+
+
+<div id="site-header" class="carousel slide carousel-fade" data-ride="carousel" style="height: 18rem;">
+  
+
+  
+  
+  
+
+  
+  <div class="carousel-inner" role="listbox">
+    
+    
+
+    
+    <div class="carousel-item active">
+      <div class="view"
+        style="background-image: url('https://blog.jaxiu.cn/img/header-slides/raw_1515691746.jpg'); background-repeat: no-repeat; background-size: cover;">
+
+        
+        <div class="mask rgba-black-light d-flex justify-content-center align-items-center">
+
+          
+          
+          
+
+        </div>
+        
+
+      </div>
+    </div>
+    
+    
+    
+    
+
+    
+    <div class="carousel-item">
+      <div class="view"
+        style="background-image: url('https://blog.jaxiu.cn/img/header-slides//raw_1515847341.jpg'); background-repeat: no-repeat; background-size: cover;">
+
+        
+        <div class="mask rgba-black-light d-flex justify-content-center align-items-center">
+
+
+
+        </div>
+        
+
+      </div>
+    </div>
+    
+    
+    
+
+
+  </div>
+  
+
+  
+  <div class="carousel-content text-center white-text wow fadeIn">
+    <div class="row mx-0 headfont mt-3 pt-4">
+      
+      <div class="col-12 col-sm-5 align-middle">
+        <a href="https://blog.jaxiu.cn/">
+          
+          <img class="pull-right avatar avatar-md" src="https://blog.jaxiu.cn/img/logo.png" alt="">
+          
+        </a>
+      </div>
+
+      <div class="col-12 col-sm-7 text-left pl-2">
+        <a href="https://blog.jaxiu.cn/">
+          <h1 class="mb-2 h1" style="font-weight: 300;">
+            <strong>jaxiu He</strong>
+          </h1>
+        </a>
+
+
+        
+        <div class="mt-2" style="font-size: 1rem; color: white;">
+          
+          <a href="//github.com/axfinn" target="_blank" rel="noopener"><i class="fab fa-github pr-1"
+              aria-hidden="true"></i></a>
+          
+          
+
+          
+
+          
+
+          
+
+          
+
+          
+
+
+          
+          <a href="mailto:521very@email.com"><i class="far fa-envelope-open pr-1" aria-hidden="true"></i></a>
+          
+
+          
+
+
+        </div>
+      </div>
+    </div>
+  </div>
+  
+
+  
+  
+  
+
+</div>
+  
+    
+
+    
+  <main class="post-main-wrapper px-5">
+    
+    <div class="row">
+
+      
+      
+        <div class="container content mt-3">  
+      
+          <ul>
+            <div class="div-x">
+              <div class='post-heading'>
+  
+      动态
+  
+</div>
+
+              
+              
+            </div>
+
+            
+              <div class="post-content markdown">
+                <p>这里是我记录日常思考、技术随笔和生活点滴的地方。没有固定的主题，只有灵感的瞬间。</p>
+<h3 id="2025年12月25日-">2025年12月25日 🎄</h3>
+<p>圣诞快乐！今天为博客添加了一个有趣的节日特效系统：</p>
+<ul>
+<li>❄️ 圣诞节雪花飘落 + 圣诞树装饰</li>
+<li>🎆 元旦烟花 + 新年倒计时</li>
+<li>🎵 节日背景音乐（Jingle Bells / Auld Lang Syne）</li>
+<li>🎊 智能日期检测，节日过后自动恢复</li>
+</ul>
+<p>同时发布了 <a href="https://blog.jaxiu.cn/blog/2025-12/2025-%E5%B9%B4%E7%BB%88%E6%80%BB%E7%BB%93ai-%E6%B5%AA%E6%BD%AE%E4%B8%AD%E7%9A%84%E6%88%90%E9%95%BF%E4%B8%8E%E6%8E%A2%E7%B4%A2/">2025 年终总结</a>，回顾这一年在 AI 浪潮中的技术探索和成长。感谢每一位读者的陪伴，新年快乐！✨</p>
+<h3 id="2025年8月12日">2025年8月12日</h3>
+<p>最近开源了一个新项目：<a href="https://github.com/axfinn/fcopy">fcopy</a> - 一个全平台剪贴板同步工具。这个工具可以实现在不同设备间实时同步文本和文件，支持 Docker 部署，具有安全的 API 密钥认证机制和用户数据隔离功能。解决了我自己在多设备办公时频繁复制粘贴的痛点，也许也能帮到有同样需求的朋友。</p>
+<h3 id="2025年7月23日">2025年7月23日</h3>
+<p>今天为博客添加了 Mermaid 图表支持！现在技术博客文章可以包含各种类型的图表，包括流程图、序列图、架构图等，使复杂的技术概念更容易理解。同时继续完善了博客宠物功能，让博客更加生动有趣。</p>
+<h3 id="2025年7月21日">2025年7月21日</h3>
+<p>对博客的搜索功能进行了优化，改进了搜索框的视觉对齐和显示逻辑。现在搜索体验更加流畅，用户可以更方便地找到感兴趣的内容。持续的小改进积累起来，会让整个博客体验越来越好。</p>
+<h3 id="2025年7月19日">2025年7月19日</h3>
+<p>回顾了我的NPS项目系列文章，发现已经积累了相当丰富的技术分析内容。这个系列从项目概述到各种代理实现的细节，形成了一个完整的技术文档集。计划在未来将这些内容整理成一个更系统的技术指南，可能会考虑制作成PDF电子书，方便读者系统学习。技术写作不仅是分享，也是自我梳理的过程。</p>
+<h3 id="2025年7月17日">2025年7月17日</h3>
+<p>最近深入研究了大型语言模型代理（LLM Agents）的构建方法，对AI的发展方向有了新的思考。相比单纯的对话模型，具有规划能力和工具使用能力的AI代理似乎更接近通用人工智能的愿景。在博客中分享了一些初步想法，但这个领域发展太快，感觉每周都有新的突破。作为开发者，既兴奋又有些应接不暇。计划建立一个更系统的学习和实验框架，跟踪这个领域的进展。</p>
+<h3 id="2024年7月18日">2024年7月18日</h3>
+<p>今天又解决了一个 Hugo 博客的主题兼容性问题，感觉自己又变强了一点！技术的世界真是充满挑战和乐趣。</p>
+<h3 id="2024年7月15日">2024年7月15日</h3>
+<p>最近在研究大模型智能体的多模态感知能力，发现图像识别和语音识别的结合能带来很多有趣的应用场景。未来已来！</p>
+<h3 id="2024年7月10日">2024年7月10日</h3>
+<p>周末尝试用 Vue 3 写了一个小工具，虽然功能简单，但从零开始搭建一个项目并看到它跑起来的感觉真棒。</p>
+<h3 id="2024年7月5日">2024年7月5日</h3>
+<p>一杯咖啡，一段代码，一个下午。享受这种沉浸在技术世界里的感觉。</p>
+
+              </div>
+            
+        </ul>
+        <div>
+          <div class="pagination pagination-outline justify-content-end active-color">
+            
+            
+          </div>
+
+          
+            
+        </div>
+      </div>
+      
+
+    </div>
+  </main>
+
+    
+    
+<footer class="page-footer text-center font-small mt-4 wow fadeIn">
+
+
+  
+  <div class="pb-2 mt-5 pt-5">
+    
+    <a href="//github.com/axfinn " target="_blank" rel="noopener"><i class="fab fa-github mr-3"
+        aria-hidden="true"></i></a>
+    
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+
+    
+    <a href="mailto:521very@email.com"><i class="far fa-envelope-open mr-3" aria-hidden="true"></i></a>
+    
+
+    
+
+    
+
+  </div>
+  
+
+  
+  <div class="copyright py-4">
+    
+    <span> 2016 - 2026 &copy; | Theme <a href='https://github.com/orianna-zzo/AllinOne'
+        target="_blank">AllinOne</a> by <a href='https://github.com/orianna-zzo' target="_blank">Orianna</a> </span>
+  </div>
+  
+
+</footer>
+
+    
+
+
+
+
+<script type="text/javascript" src="https://blog.jaxiu.cn/js/vendors/jquery/jquery-3.3.1.min.js"></script>
+<script type="text/javascript" src="https://blog.jaxiu.cn/js/vendors/jquery/jquery.smooth-scroll.min.js"></script>
+
+
+
+<script type="text/javascript" src="https://blog.jaxiu.cn/js/vendors/popper.min.js"></script>
+<script type="text/javascript" src="https://blog.jaxiu.cn/js/vendors/holder.min.js"></script>
+<script type="text/javascript" src="https://blog.jaxiu.cn/js/vendors-extensions/bootstrap4/bootstrap.js" ></script>
+
+<script type="text/javascript" src="https://blog.jaxiu.cn/js/vendors/mdb/mdb.min.js"></script>
+
+<script type="text/javascript" src="https://blog.jaxiu.cn/js/main.js"></script>
+<script type="text/javascript" src="https://blog.jaxiu.cn/js/search.js"></script>
+
+
+
+
+  <script src="https://blog.jaxiu.cn/js/vendors/highlight.pack.js"> </script>
+  <script>hljs.initHighlightingOnLoad();</script>
+
+
+
+
+
+  <script src="https://blog.jaxiu.cn/js/vendors/katex/katex.min.js"> </script>
+  <script src="https://blog.jaxiu.cn/js/vendors/katex/contrib/auto-render.min.js"></script>
+
+  <script>
+      document.addEventListener("DOMContentLoaded", function () {
+          renderMathInElement(document.body);
+      });
+  </script>
+
+
+
+
+
+
+
+
+<script type="text/javascript">
+  
+  new WOW().init();
+</script>
+  </body>
+</html>

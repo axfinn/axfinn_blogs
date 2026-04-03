@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>开源 on jaxiu He</title>
+    <link>https://blog.jaxiu.cn/tags/%E5%BC%80%E6%BA%90/</link>
+    <description>Recent content in 开源 on jaxiu He</description>
+    <generator>Hugo</generator>
+    <language>zn-Hans</language>
+    <lastBuildDate>Thu, 05 Mar 2026 07:52:00 +0800</lastBuildDate>
+    <atom:link href="https://blog.jaxiu.cn/tags/%E5%BC%80%E6%BA%90/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>我开发了一个超实用的开发者工具箱</title>
+      <link>https://blog.jaxiu.cn/blog/2026-03/%E6%88%91%E5%BC%80%E5%8F%91%E4%BA%86%E4%B8%80%E4%B8%AA%E8%B6%85%E5%AE%9E%E7%94%A8%E7%9A%84%E5%BC%80%E5%8F%91%E8%80%85%E5%B7%A5%E5%85%B7%E7%AE%B1/</link>
+      <pubDate>Thu, 05 Mar 2026 07:52:00 +0800</pubDate>
+      <guid>https://blog.jaxiu.cn/blog/2026-03/%E6%88%91%E5%BC%80%E5%8F%91%E4%BA%86%E4%B8%80%E4%B8%AA%E8%B6%85%E5%AE%9E%E7%94%A8%E7%9A%84%E5%BC%80%E5%8F%91%E8%80%85%E5%B7%A5%E5%85%B7%E7%AE%B1/</guid>
+      <description>&lt;p&gt;作为一名开发者，日常工作中有太多琐碎但必不可少的小工具：JSON 格式化、URL 编解码、正则测试、Diff 对比……每次都要打开不同的网站，甚至有些还要付费才能使用。&lt;/p&gt;&#xA;&lt;p&gt;于是我干脆自己动手，花了些时间做了一个&lt;strong&gt;开发者工具箱&lt;/strong&gt;——现在它已经基本成型了，今天来给大家介绍一下！&lt;/p&gt;&#xA;&lt;h2 id=&#34;-在线体验&#34;&gt;🌐 在线体验&lt;/h2&gt;&#xA;&lt;p&gt;&lt;strong&gt;在线地址&lt;/strong&gt;：https://t.jaxiu.cn&lt;/p&gt;&#xA;&lt;p&gt;&lt;strong&gt;GitHub&lt;/strong&gt;：https://github.com/axfinn/devtools&lt;/p&gt;&#xA;&lt;h2 id=&#34;-核心功能一览&#34;&gt;🎯 核心功能一览&lt;/h2&gt;&#xA;&lt;p&gt;这个工具箱目前包含 &lt;strong&gt;20+&lt;/strong&gt; 实用工具，涵盖了开发过程中的各种场景：&lt;/p&gt;</description>
+    </item>
+  </channel>
+</rss>

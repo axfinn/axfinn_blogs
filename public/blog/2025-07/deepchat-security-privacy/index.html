@@ -1,0 +1,1657 @@
+<!DOCTYPE html>
+<html lang="zn-Hans">
+  <head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge, chrome=1">
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no, maximum-scale=1" />
+  
+  <meta name="author" content="jaxiu He">
+  <meta name="description"
+    content="DeepChat 安全与隐私保护机制
+引言
+在当今数字化时代，用户对个人数据的安全和隐私保护越来越关注。作为一个 AI 聊天平台，DeepChat 处理着大量敏感的用户对话数据，因此必须建立完善的安全和隐私保护机制。本文将深入分析 DeepChat 在数据安全、隐私保护和访问控制等方面的实现。
+安全架构设计
+整体安全架构
+DeepChat 采用了分层的安全架构设计：
+┌─────────────────────────────────────────────────────────────────────┐
+│                        DeepChat 安全架构                            │
+├─────────────────────────────────────────────────────────────────────┤
+│  ┌─────────────────────────────────────────────────────────────────┐│
+│  │                    应用层安全                                   ││
+│  │  ┌─────────────┐  ┌─────────────┐  ┌─────────────────────────┐ ││
+│  │  │ 用户认证     │  │ 权限控制     │  │ 数据加密与隐私保护       │ ││
+│  │  └─────────────┘  └─────────────┘  └─────────────────────────┘ ││
+│  └─────────────────────────────────────────────────────────────────┘│
+│                              │                                      │
+│  ┌─────────────────────────────────────────────────────────────────┐│
+│  │                    传输层安全                                   ││
+│  │  ┌─────────────┐  ┌─────────────┐  ┌─────────────────────────┐ ││
+│  │  │ HTTPS/TLS   │  │ 网络代理     │  │ API 密钥安全管理         │ ││
+│  │  └─────────────┘  └─────────────┘  └─────────────────────────┘ ││
+│  └─────────────────────────────────────────────────────────────────┘│
+│                              │                                      │
+│  ┌─────────────────────────────────────────────────────────────────┐│
+│  │                    存储层安全                                   ││
+│  │  ┌─────────────┐  ┌─────────────┐  ┌─────────────────────────┐ ││
+│  │  │ 本地存储加密 │  │ 配置文件保护 │  │ 会话数据访问控制         │ ││
+│  │  └─────────────┘  └─────────────┘  └─────────────────────────┘ ││
+│  └─────────────────────────────────────────────────────────────────┘│
+└─────────────────────────────────────────────────────────────────────┘
+数据加密机制
+本地数据存储加密
+DeepChat 对本地存储的敏感数据进行加密处理：">
+
+  <meta property="og:url" content="https://blog.jaxiu.cn/blog/2025-07/deepchat-security-privacy/">
+  <meta property="og:site_name" content="jaxiu He">
+  <meta property="og:title" content="DeepChat 安全与隐私保护机制">
+  <meta property="og:description" content="DeepChat 安全与隐私保护机制 引言 在当今数字化时代，用户对个人数据的安全和隐私保护越来越关注。作为一个 AI 聊天平台，DeepChat 处理着大量敏感的用户对话数据，因此必须建立完善的安全和隐私保护机制。本文将深入分析 DeepChat 在数据安全、隐私保护和访问控制等方面的实现。
+安全架构设计 整体安全架构 DeepChat 采用了分层的安全架构设计：
+┌─────────────────────────────────────────────────────────────────────┐ │ DeepChat 安全架构 │ ├─────────────────────────────────────────────────────────────────────┤ │ ┌─────────────────────────────────────────────────────────────────┐│ │ │ 应用层安全 ││ │ │ ┌─────────────┐ ┌─────────────┐ ┌─────────────────────────┐ ││ │ │ │ 用户认证 │ │ 权限控制 │ │ 数据加密与隐私保护 │ ││ │ │ └─────────────┘ └─────────────┘ └─────────────────────────┘ ││ │ └─────────────────────────────────────────────────────────────────┘│ │ │ │ │ ┌─────────────────────────────────────────────────────────────────┐│ │ │ 传输层安全 ││ │ │ ┌─────────────┐ ┌─────────────┐ ┌─────────────────────────┐ ││ │ │ │ HTTPS/TLS │ │ 网络代理 │ │ API 密钥安全管理 │ ││ │ │ └─────────────┘ └─────────────┘ └─────────────────────────┘ ││ │ └─────────────────────────────────────────────────────────────────┘│ │ │ │ │ ┌─────────────────────────────────────────────────────────────────┐│ │ │ 存储层安全 ││ │ │ ┌─────────────┐ ┌─────────────┐ ┌─────────────────────────┐ ││ │ │ │ 本地存储加密 │ │ 配置文件保护 │ │ 会话数据访问控制 │ ││ │ │ └─────────────┘ └─────────────┘ └─────────────────────────┘ ││ │ └─────────────────────────────────────────────────────────────────┘│ └─────────────────────────────────────────────────────────────────────┘ 数据加密机制 本地数据存储加密 DeepChat 对本地存储的敏感数据进行加密处理：">
+  <meta property="og:locale" content="zn_Hans">
+  <meta property="og:type" content="article">
+    <meta property="article:section" content="blog">
+    <meta property="article:published_time" content="2025-07-31T21:00:00+08:00">
+    <meta property="article:modified_time" content="2025-07-31T21:00:00+08:00">
+    <meta property="article:tag" content="DeepChat">
+    <meta property="article:tag" content="AI">
+    <meta property="article:tag" content="安全">
+    <meta property="article:tag" content="隐私保护">
+    <meta property="article:tag" content="数据加密">
+
+
+  <title>
+    
+     DeepChat 安全与隐私保护机制 | jaxiu He 
+    
+  </title>
+
+  <link rel="canonical" href="https://blog.jaxiu.cn/blog/2025-07/deepchat-security-privacy/">
+
+  
+  
+
+  
+  
+  
+  <meta name="baidu-site-verification" content="your-baidu-verify-code" />
+  
+
+  
+  
+  <meta name="google-site-verification" content="your-google-verify-code" />
+  
+
+  
+  <link href="https://blog.jaxiu.cn/css/vendors-extensions/fontawesome/all.min.css" rel="stylesheet">
+
+  
+  <link rel="stylesheet"
+    href="https://fonts.googleapis.com/css?family=Open+Sans:400,700|Ubuntu+Mono:400,400i,700,700i|Raleway:300,400,500,600">
+  <link href="https://blog.jaxiu.cn/css/font.css" rel="stylesheet">
+
+  
+  <link href="https://blog.jaxiu.cn/css/vendors/bootstrap4/bootstrap.min.css" rel="stylesheet">
+  <link href="https://blog.jaxiu.cn/css/vendors-extensions/mdb/mdb.min.css" rel="stylesheet">
+  <link href="https://blog.jaxiu.cn/css/vendors/mdb/style.min.css" rel="stylesheet">
+  <link href="https://blog.jaxiu.cn/css/main.css" rel="stylesheet">
+
+
+  
+  <link rel="shortcut icon"  href="https://blog.jaxiu.cn/img/logo.png" >
+
+
+  
+  
+
+  <style type="text/css">
+    @media (min-width: 800px) and (max-width: 850px) {
+      .navbar:not(.top-nav-collapse) {
+        background: #1C2331 !important;
+      }
+    }
+  </style>
+
+
+  
+  
+  <link rel="stylesheet" href="https://blog.jaxiu.cn/js/vendors/katex/katex.min.css">
+  
+  
+
+  
+  
+  <link rel="stylesheet" href="https://blog.jaxiu.cn/css/vendors/highlight/github-gist.css">
+  
+
+  
+  
+  <script type="module">
+    import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.esm.min.mjs';
+    mermaid.initialize({ startOnLoad: true });
+  </script>
+  
+  
+
+  
+  <link href="https://blog.jaxiu.cn/css/holiday-effects.css" rel="stylesheet">
+  <script src="https://blog.jaxiu.cn/js/holiday-effects.js"></script>
+
+  
+  <script src="https://blog.jaxiu.cn/js/dynamic-bg.js"></script>
+  <link href="https://blog.jaxiu.cn/css/dynamic-bg-control.css" rel="stylesheet">
+
+</head>
+  <body class="bg-light" data-spy="scroll" data-target="#page-scrollspy" data-offset="90">
+  
+    
+    
+
+    
+      
+
+
+<nav class="navbar fixed-top navbar-expand-lg navbar-dark scrolling-navbar">
+    <div class="container">
+
+      
+      <a class="navbar-brand" href="https://blog.jaxiu.cn/">
+          
+        <img class="avatar" src="https://blog.jaxiu.cn/img/logo.png" style="width: 40px!important;height: auto;"  class="d-inline-block align-top" alt="" >
+        
+        <strong> jaxiu He</strong>
+      </a>
+
+      
+      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
+        aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+
+      
+      <div class="collapse navbar-collapse" id="navbarSupportedContent">
+
+        
+        <ul class="navbar-nav mr-auto ">
+          <li class="nav-item ">
+            <a class="nav-link" href="https://blog.jaxiu.cn/">Home</a>
+          </li>
+          
+            <li class="nav-item ">
+              <a class="nav-link" href="https://blog.jaxiu.cn/blog/" >博客  </a>
+            </li>
+
+          
+            <li class="nav-item ">
+              <a class="nav-link" href="https://blog.jaxiu.cn/moment/" >动态  </a>
+            </li>
+
+          
+            <li class="nav-item ">
+              <a class="nav-link" href="https://blog.jaxiu.cn/blog/prenatal-stories/" >胎教故事  </a>
+            </li>
+
+          
+            <li class="nav-item ">
+              <a class="nav-link" href="https://blog.jaxiu.cn/about/" >关于  </a>
+            </li>
+
+          
+        </ul>
+
+        
+        <ul class="navbar-nav">
+          <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" href="#" id="searchDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+              <i class="fas fa-search"></i> 搜索
+            </a>
+            <div class="dropdown-menu dropdown-menu-right p-3" aria-labelledby="searchDropdown" style="min-width: 300px; max-width: 400px;">
+              <form class="search-form" onsubmit="return false;">
+                <div class="input-group">
+                  <input type="text" id="search-query" class="form-control" placeholder="搜索文章标题或内容..." autocomplete="off">
+                  <div class="input-group-append">
+                    <button class="btn btn-outline-secondary" type="button" onclick="document.getElementById('search-query').focus();">
+                      <i class="fas fa-search"></i>
+                    </button>
+                  </div>
+                </div>
+              </form>
+              <ul id="search-results" class="list-unstyled mt-2 mb-0" style="max-height: 400px; overflow-y: auto;"></ul>
+            </div>
+          </li>
+        </ul>
+
+      </div>
+
+    </div>
+  </nav>
+   
+      
+
+
+
+
+
+
+
+<div id="site-header" class="carousel slide carousel-fade" data-ride="carousel" style="height: 18rem;">
+  
+
+  
+  
+  
+
+  
+  <div class="carousel-inner" role="listbox">
+    
+    
+
+    
+    <div class="carousel-item active">
+      <div class="view"
+        style="background-image: url('https://blog.jaxiu.cn/img/header-slides/raw_1515691746.jpg'); background-repeat: no-repeat; background-size: cover;">
+
+        
+        <div class="mask rgba-black-light d-flex justify-content-center align-items-center">
+
+          
+          
+          
+
+        </div>
+        
+
+      </div>
+    </div>
+    
+    
+    
+    
+
+    
+    <div class="carousel-item">
+      <div class="view"
+        style="background-image: url('https://blog.jaxiu.cn/img/header-slides//raw_1515847341.jpg'); background-repeat: no-repeat; background-size: cover;">
+
+        
+        <div class="mask rgba-black-light d-flex justify-content-center align-items-center">
+
+
+
+        </div>
+        
+
+      </div>
+    </div>
+    
+    
+    
+
+
+  </div>
+  
+
+  
+  <div class="carousel-content text-center white-text wow fadeIn">
+    <div class="row mx-0 headfont mt-3 pt-4">
+      
+      <div class="col-12 col-sm-5 align-middle">
+        <a href="https://blog.jaxiu.cn/">
+          
+          <img class="pull-right avatar avatar-md" src="https://blog.jaxiu.cn/img/logo.png" alt="">
+          
+        </a>
+      </div>
+
+      <div class="col-12 col-sm-7 text-left pl-2">
+        <a href="https://blog.jaxiu.cn/">
+          <h1 class="mb-2 h1" style="font-weight: 300;">
+            <strong>jaxiu He</strong>
+          </h1>
+        </a>
+
+
+        
+        <div class="mt-2" style="font-size: 1rem; color: white;">
+          
+          <a href="//github.com/axfinn" target="_blank" rel="noopener"><i class="fab fa-github pr-1"
+              aria-hidden="true"></i></a>
+          
+          
+
+          
+
+          
+
+          
+
+          
+
+          
+
+
+          
+          <a href="mailto:521very@email.com"><i class="far fa-envelope-open pr-1" aria-hidden="true"></i></a>
+          
+
+          
+
+
+        </div>
+      </div>
+    </div>
+  </div>
+  
+
+  
+  
+  
+
+</div>
+  
+    
+
+    
+  
+  <main class="post-main-wrapper">
+    
+    
+    <div class="row">
+
+      
+
+      
+      <div class="col-md-10">
+      
+
+        
+        <div class="z-depth-1  post-wrapper white-bg single-post">
+
+          <div class="post-header text-center" >
+  <ul class="post-meta li-x">
+    
+      
+        <li><a href="https://blog.jaxiu.cn/categories/%E6%8A%80%E6%9C%AF"><i class="fas fa-folder-open pr-1" aria-hidden="true"></i> 技术 </a></li>
+      
+        <li><a href="https://blog.jaxiu.cn/categories/%E5%AE%89%E5%85%A8"><i class="fas fa-folder-open pr-1" aria-hidden="true"></i> 安全 </a></li>
+      
+    
+    
+  </ul>
+
+  <div class="px-4 post-heading">DeepChat 安全与隐私保护机制</div>
+
+  <ul class="post-meta li-x mt-1">
+    
+      <li>Jul 31, 2025</li>
+    
+
+    
+      <li class="middot"></li>
+      <li>7 minutes read</li>
+    
+  </ul>
+  
+
+</div>
+
+
+          <div class="post-content markdown">
+            <h1 id="deepchat-安全与隐私保护机制">DeepChat 安全与隐私保护机制</h1>
+<h2 id="引言">引言</h2>
+<p>在当今数字化时代，用户对个人数据的安全和隐私保护越来越关注。作为一个 AI 聊天平台，DeepChat 处理着大量敏感的用户对话数据，因此必须建立完善的安全和隐私保护机制。本文将深入分析 DeepChat 在数据安全、隐私保护和访问控制等方面的实现。</p>
+<h2 id="安全架构设计">安全架构设计</h2>
+<h3 id="整体安全架构">整体安全架构</h3>
+<p>DeepChat 采用了分层的安全架构设计：</p>
+<pre tabindex="0"><code>┌─────────────────────────────────────────────────────────────────────┐
+│                        DeepChat 安全架构                            │
+├─────────────────────────────────────────────────────────────────────┤
+│  ┌─────────────────────────────────────────────────────────────────┐│
+│  │                    应用层安全                                   ││
+│  │  ┌─────────────┐  ┌─────────────┐  ┌─────────────────────────┐ ││
+│  │  │ 用户认证     │  │ 权限控制     │  │ 数据加密与隐私保护       │ ││
+│  │  └─────────────┘  └─────────────┘  └─────────────────────────┘ ││
+│  └─────────────────────────────────────────────────────────────────┘│
+│                              │                                      │
+│  ┌─────────────────────────────────────────────────────────────────┐│
+│  │                    传输层安全                                   ││
+│  │  ┌─────────────┐  ┌─────────────┐  ┌─────────────────────────┐ ││
+│  │  │ HTTPS/TLS   │  │ 网络代理     │  │ API 密钥安全管理         │ ││
+│  │  └─────────────┘  └─────────────┘  └─────────────────────────┘ ││
+│  └─────────────────────────────────────────────────────────────────┘│
+│                              │                                      │
+│  ┌─────────────────────────────────────────────────────────────────┐│
+│  │                    存储层安全                                   ││
+│  │  ┌─────────────┐  ┌─────────────┐  ┌─────────────────────────┐ ││
+│  │  │ 本地存储加密 │  │ 配置文件保护 │  │ 会话数据访问控制         │ ││
+│  │  └─────────────┘  └─────────────┘  └─────────────────────────┘ ││
+│  └─────────────────────────────────────────────────────────────────┘│
+└─────────────────────────────────────────────────────────────────────┘
+</code></pre><h2 id="数据加密机制">数据加密机制</h2>
+<h3 id="本地数据存储加密">本地数据存储加密</h3>
+<p>DeepChat 对本地存储的敏感数据进行加密处理：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-typescript" data-lang="typescript"><span class="line"><span class="cl"><span class="kr">class</span> <span class="nx">DataEncryption</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">  <span class="kr">private</span> <span class="nx">encryptionKey</span>: <span class="kt">string</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">  
+</span></span><span class="line"><span class="cl">  <span class="kr">constructor</span><span class="p">()</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="k">this</span><span class="p">.</span><span class="nx">encryptionKey</span> <span class="o">=</span> <span class="k">this</span><span class="p">.</span><span class="nx">getOrGenerateEncryptionKey</span><span class="p">();</span>
+</span></span><span class="line"><span class="cl">  <span class="p">}</span>
+</span></span><span class="line"><span class="cl">  
+</span></span><span class="line"><span class="cl">  <span class="c1">// 加密数据
+</span></span></span><span class="line"><span class="cl">  <span class="nx">encrypt</span><span class="p">(</span><span class="nx">data</span>: <span class="kt">string</span><span class="p">)</span><span class="o">:</span> <span class="kt">string</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="kr">const</span> <span class="nx">iv</span> <span class="o">=</span> <span class="nx">crypto</span><span class="p">.</span><span class="nx">randomBytes</span><span class="p">(</span><span class="mi">16</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">    <span class="kr">const</span> <span class="nx">cipher</span> <span class="o">=</span> <span class="nx">crypto</span><span class="p">.</span><span class="nx">createCipher</span><span class="p">(</span><span class="s1">&#39;aes-256-gcm&#39;</span><span class="p">,</span> <span class="k">this</span><span class="p">.</span><span class="nx">encryptionKey</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">    <span class="nx">cipher</span><span class="p">.</span><span class="nx">setAAD</span><span class="p">(</span><span class="nx">iv</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">    
+</span></span><span class="line"><span class="cl">    <span class="kd">let</span> <span class="nx">encrypted</span> <span class="o">=</span> <span class="nx">cipher</span><span class="p">.</span><span class="nx">update</span><span class="p">(</span><span class="nx">data</span><span class="p">,</span> <span class="s1">&#39;utf8&#39;</span><span class="p">,</span> <span class="s1">&#39;hex&#39;</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">    <span class="nx">encrypted</span> <span class="o">+=</span> <span class="nx">cipher</span><span class="p">.</span><span class="nx">final</span><span class="p">(</span><span class="s1">&#39;hex&#39;</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">    
+</span></span><span class="line"><span class="cl">    <span class="kr">const</span> <span class="nx">authTag</span> <span class="o">=</span> <span class="nx">cipher</span><span class="p">.</span><span class="nx">getAuthTag</span><span class="p">();</span>
+</span></span><span class="line"><span class="cl">    
+</span></span><span class="line"><span class="cl">    <span class="k">return</span> <span class="nx">JSON</span><span class="p">.</span><span class="nx">stringify</span><span class="p">({</span>
+</span></span><span class="line"><span class="cl">      <span class="nx">encrypted</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">      <span class="nx">iv</span>: <span class="kt">iv.toString</span><span class="p">(</span><span class="s1">&#39;hex&#39;</span><span class="p">),</span>
+</span></span><span class="line"><span class="cl">      <span class="nx">authTag</span>: <span class="kt">authTag.toString</span><span class="p">(</span><span class="s1">&#39;hex&#39;</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="p">});</span>
+</span></span><span class="line"><span class="cl">  <span class="p">}</span>
+</span></span><span class="line"><span class="cl">  
+</span></span><span class="line"><span class="cl">  <span class="c1">// 解密数据
+</span></span></span><span class="line"><span class="cl">  <span class="nx">decrypt</span><span class="p">(</span><span class="nx">encryptedData</span>: <span class="kt">string</span><span class="p">)</span><span class="o">:</span> <span class="kt">string</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="kr">const</span> <span class="p">{</span> <span class="nx">encrypted</span><span class="p">,</span> <span class="nx">iv</span><span class="p">,</span> <span class="nx">authTag</span> <span class="p">}</span> <span class="o">=</span> <span class="nx">JSON</span><span class="p">.</span><span class="nx">parse</span><span class="p">(</span><span class="nx">encryptedData</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">    
+</span></span><span class="line"><span class="cl">    <span class="kr">const</span> <span class="nx">decipher</span> <span class="o">=</span> <span class="nx">crypto</span><span class="p">.</span><span class="nx">createDecipher</span><span class="p">(</span><span class="s1">&#39;aes-256-gcm&#39;</span><span class="p">,</span> <span class="k">this</span><span class="p">.</span><span class="nx">encryptionKey</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">    <span class="nx">decipher</span><span class="p">.</span><span class="nx">setAAD</span><span class="p">(</span><span class="nx">Buffer</span><span class="p">.</span><span class="kr">from</span><span class="p">(</span><span class="nx">iv</span><span class="p">,</span> <span class="s1">&#39;hex&#39;</span><span class="p">));</span>
+</span></span><span class="line"><span class="cl">    <span class="nx">decipher</span><span class="p">.</span><span class="nx">setAuthTag</span><span class="p">(</span><span class="nx">Buffer</span><span class="p">.</span><span class="kr">from</span><span class="p">(</span><span class="nx">authTag</span><span class="p">,</span> <span class="s1">&#39;hex&#39;</span><span class="p">));</span>
+</span></span><span class="line"><span class="cl">    
+</span></span><span class="line"><span class="cl">    <span class="kd">let</span> <span class="nx">decrypted</span> <span class="o">=</span> <span class="nx">decipher</span><span class="p">.</span><span class="nx">update</span><span class="p">(</span><span class="nx">encrypted</span><span class="p">,</span> <span class="s1">&#39;hex&#39;</span><span class="p">,</span> <span class="s1">&#39;utf8&#39;</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">    <span class="nx">decrypted</span> <span class="o">+=</span> <span class="nx">decipher</span><span class="p">.</span><span class="nx">final</span><span class="p">(</span><span class="s1">&#39;utf8&#39;</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">    
+</span></span><span class="line"><span class="cl">    <span class="k">return</span> <span class="nx">decrypted</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">  <span class="p">}</span>
+</span></span><span class="line"><span class="cl">  
+</span></span><span class="line"><span class="cl">  <span class="c1">// 获取或生成加密密钥
+</span></span></span><span class="line"><span class="cl">  <span class="kr">private</span> <span class="nx">getOrGenerateEncryptionKey</span><span class="p">()</span><span class="o">:</span> <span class="kt">string</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="c1">// 尝试从安全存储中获取密钥
+</span></span></span><span class="line"><span class="cl">    <span class="kd">let</span> <span class="nx">key</span> <span class="o">=</span> <span class="nx">secureStorage</span><span class="p">.</span><span class="kr">get</span><span class="p">(</span><span class="s1">&#39;encryption_key&#39;</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">    
+</span></span><span class="line"><span class="cl">    <span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="nx">key</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">      <span class="c1">// 生成新的密钥
+</span></span></span><span class="line"><span class="cl">      <span class="nx">key</span> <span class="o">=</span> <span class="nx">crypto</span><span class="p">.</span><span class="nx">randomBytes</span><span class="p">(</span><span class="mi">32</span><span class="p">).</span><span class="nx">toString</span><span class="p">(</span><span class="s1">&#39;hex&#39;</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">      <span class="nx">secureStorage</span><span class="p">.</span><span class="kr">set</span><span class="p">(</span><span class="s1">&#39;encryption_key&#39;</span><span class="p">,</span> <span class="nx">key</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl">    
+</span></span><span class="line"><span class="cl">    <span class="k">return</span> <span class="nx">key</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">  <span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></div><h3 id="敏感配置信息保护">敏感配置信息保护</h3>
+<p>API 密钥等敏感配置信息采用加密存储：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-typescript" data-lang="typescript"><span class="line"><span class="cl"><span class="kr">class</span> <span class="nx">SecureConfigManager</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">  <span class="kr">private</span> <span class="nx">encryption</span>: <span class="kt">DataEncryption</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">  
+</span></span><span class="line"><span class="cl">  <span class="kr">constructor</span><span class="p">()</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="k">this</span><span class="p">.</span><span class="nx">encryption</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">DataEncryption</span><span class="p">();</span>
+</span></span><span class="line"><span class="cl">  <span class="p">}</span>
+</span></span><span class="line"><span class="cl">  
+</span></span><span class="line"><span class="cl">  <span class="c1">// 保存敏感配置
+</span></span></span><span class="line"><span class="cl">  <span class="nx">saveSensitiveConfig</span><span class="p">(</span><span class="nx">key</span>: <span class="kt">string</span><span class="p">,</span> <span class="nx">value</span>: <span class="kt">string</span><span class="p">)</span><span class="o">:</span> <span class="k">void</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="kr">const</span> <span class="nx">encryptedValue</span> <span class="o">=</span> <span class="k">this</span><span class="p">.</span><span class="nx">encryption</span><span class="p">.</span><span class="nx">encrypt</span><span class="p">(</span><span class="nx">value</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">    <span class="nx">localStorage</span><span class="p">.</span><span class="nx">setItem</span><span class="p">(</span><span class="sb">`secure_config_</span><span class="si">${</span><span class="nx">key</span><span class="si">}</span><span class="sb">`</span><span class="p">,</span> <span class="nx">encryptedValue</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">  <span class="p">}</span>
+</span></span><span class="line"><span class="cl">  
+</span></span><span class="line"><span class="cl">  <span class="c1">// 获取敏感配置
+</span></span></span><span class="line"><span class="cl">  <span class="nx">getSensitiveConfig</span><span class="p">(</span><span class="nx">key</span>: <span class="kt">string</span><span class="p">)</span><span class="o">:</span> <span class="kt">string</span> <span class="o">|</span> <span class="kc">null</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="kr">const</span> <span class="nx">encryptedValue</span> <span class="o">=</span> <span class="nx">localStorage</span><span class="p">.</span><span class="nx">getItem</span><span class="p">(</span><span class="sb">`secure_config_</span><span class="si">${</span><span class="nx">key</span><span class="si">}</span><span class="sb">`</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">    <span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="nx">encryptedValue</span><span class="p">)</span> <span class="k">return</span> <span class="kc">null</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    
+</span></span><span class="line"><span class="cl">    <span class="k">try</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">      <span class="k">return</span> <span class="k">this</span><span class="p">.</span><span class="nx">encryption</span><span class="p">.</span><span class="nx">decrypt</span><span class="p">(</span><span class="nx">encryptedValue</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span> <span class="k">catch</span> <span class="p">(</span><span class="nx">error</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">      <span class="nx">console</span><span class="p">.</span><span class="nx">error</span><span class="p">(</span><span class="s1">&#39;Failed to decrypt config:&#39;</span><span class="p">,</span> <span class="nx">error</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">      <span class="k">return</span> <span class="kc">null</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl">  <span class="p">}</span>
+</span></span><span class="line"><span class="cl">  
+</span></span><span class="line"><span class="cl">  <span class="c1">// 删除敏感配置
+</span></span></span><span class="line"><span class="cl">  <span class="nx">removeSensitiveConfig</span><span class="p">(</span><span class="nx">key</span>: <span class="kt">string</span><span class="p">)</span><span class="o">:</span> <span class="k">void</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="nx">localStorage</span><span class="p">.</span><span class="nx">removeItem</span><span class="p">(</span><span class="sb">`secure_config_</span><span class="si">${</span><span class="nx">key</span><span class="si">}</span><span class="sb">`</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">  <span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></div><h2 id="网络安全与隐私保护">网络安全与隐私保护</h2>
+<h3 id="网络代理支持">网络代理支持</h3>
+<p>DeepChat 支持通过代理服务器进行网络请求，增强隐私保护：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-typescript" data-lang="typescript"><span class="line"><span class="cl"><span class="kr">class</span> <span class="nx">ProxyManager</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">  <span class="kr">private</span> <span class="nx">proxyConfig</span>: <span class="kt">ProxyConfig</span> <span class="o">|</span> <span class="kc">null</span> <span class="o">=</span> <span class="kc">null</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">  
+</span></span><span class="line"><span class="cl">  <span class="c1">// 设置代理配置
+</span></span></span><span class="line"><span class="cl">  <span class="nx">setProxy</span><span class="p">(</span><span class="nx">config</span>: <span class="kt">ProxyConfig</span><span class="p">)</span><span class="o">:</span> <span class="k">void</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="k">this</span><span class="p">.</span><span class="nx">proxyConfig</span> <span class="o">=</span> <span class="nx">config</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    
+</span></span><span class="line"><span class="cl">    <span class="c1">// 配置 HTTP 客户端使用代理
+</span></span></span><span class="line"><span class="cl">    <span class="nx">httpClient</span><span class="p">.</span><span class="nx">setProxy</span><span class="p">(</span><span class="nx">config</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">    
+</span></span><span class="line"><span class="cl">    <span class="c1">// 配置 WebSocket 连接使用代理
+</span></span></span><span class="line"><span class="cl">    <span class="nx">websocketClient</span><span class="p">.</span><span class="nx">setProxy</span><span class="p">(</span><span class="nx">config</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">  <span class="p">}</span>
+</span></span><span class="line"><span class="cl">  
+</span></span><span class="line"><span class="cl">  <span class="c1">// 获取当前代理配置
+</span></span></span><span class="line"><span class="cl">  <span class="nx">getProxy</span><span class="p">()</span><span class="o">:</span> <span class="nx">ProxyConfig</span> <span class="o">|</span> <span class="kc">null</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="k">return</span> <span class="k">this</span><span class="p">.</span><span class="nx">proxyConfig</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">  <span class="p">}</span>
+</span></span><span class="line"><span class="cl">  
+</span></span><span class="line"><span class="cl">  <span class="c1">// 禁用代理
+</span></span></span><span class="line"><span class="cl">  <span class="nx">disableProxy</span><span class="p">()</span><span class="o">:</span> <span class="k">void</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="k">this</span><span class="p">.</span><span class="nx">proxyConfig</span> <span class="o">=</span> <span class="kc">null</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="nx">httpClient</span><span class="p">.</span><span class="nx">disableProxy</span><span class="p">();</span>
+</span></span><span class="line"><span class="cl">    <span class="nx">websocketClient</span><span class="p">.</span><span class="nx">disableProxy</span><span class="p">();</span>
+</span></span><span class="line"><span class="cl">  <span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="kr">interface</span> <span class="nx">ProxyConfig</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">  <span class="nx">host</span>: <span class="kt">string</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">  <span class="nx">port</span>: <span class="kt">number</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">  <span class="nx">username?</span>: <span class="kt">string</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">  <span class="nx">password?</span>: <span class="kt">string</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">  <span class="nx">protocol</span><span class="o">:</span> <span class="s1">&#39;http&#39;</span> <span class="o">|</span> <span class="s1">&#39;https&#39;</span> <span class="o">|</span> <span class="s1">&#39;socks5&#39;</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></div><h3 id="httpstls-配置">HTTPS/TLS 配置</h3>
+<p>确保所有外部通信都通过 HTTPS 进行：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-typescript" data-lang="typescript"><span class="line"><span class="cl"><span class="kr">class</span> <span class="nx">SecureHttpClient</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">  <span class="kr">private</span> <span class="nx">axiosInstance</span>: <span class="kt">AxiosInstance</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">  
+</span></span><span class="line"><span class="cl">  <span class="kr">constructor</span><span class="p">()</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="k">this</span><span class="p">.</span><span class="nx">axiosInstance</span> <span class="o">=</span> <span class="nx">axios</span><span class="p">.</span><span class="nx">create</span><span class="p">({</span>
+</span></span><span class="line"><span class="cl">      <span class="c1">// 强制使用 HTTPS
+</span></span></span><span class="line"><span class="cl">      <span class="nx">baseURL</span><span class="o">:</span> <span class="s1">&#39;https://&#39;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">      <span class="c1">// 验证 SSL 证书
+</span></span></span><span class="line"><span class="cl">      <span class="nx">httpsAgent</span>: <span class="kt">new</span> <span class="nx">https</span><span class="p">.</span><span class="nx">Agent</span><span class="p">({</span>
+</span></span><span class="line"><span class="cl">        <span class="nx">rejectUnauthorized</span>: <span class="kt">true</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">        <span class="c1">// 可以指定自定义 CA 证书
+</span></span></span><span class="line"><span class="cl">        <span class="nx">ca</span>: <span class="kt">this.loadCustomCACertificates</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl">      <span class="p">})</span>
+</span></span><span class="line"><span class="cl">    <span class="p">});</span>
+</span></span><span class="line"><span class="cl">    
+</span></span><span class="line"><span class="cl">    <span class="c1">// 添加请求拦截器
+</span></span></span><span class="line"><span class="cl">    <span class="k">this</span><span class="p">.</span><span class="nx">axiosInstance</span><span class="p">.</span><span class="nx">interceptors</span><span class="p">.</span><span class="nx">request</span><span class="p">.</span><span class="nx">use</span><span class="p">(</span>
+</span></span><span class="line"><span class="cl">      <span class="k">this</span><span class="p">.</span><span class="nx">requestInterceptor</span><span class="p">.</span><span class="nx">bind</span><span class="p">(</span><span class="k">this</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="p">);</span>
+</span></span><span class="line"><span class="cl">  <span class="p">}</span>
+</span></span><span class="line"><span class="cl">  
+</span></span><span class="line"><span class="cl">  <span class="kr">private</span> <span class="nx">requestInterceptor</span><span class="p">(</span><span class="nx">config</span>: <span class="kt">AxiosRequestConfig</span><span class="p">)</span><span class="o">:</span> <span class="nx">AxiosRequestConfig</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="c1">// 确保使用 HTTPS
+</span></span></span><span class="line"><span class="cl">    <span class="k">if</span> <span class="p">(</span><span class="nx">config</span><span class="p">.</span><span class="nx">url</span> <span class="o">&amp;&amp;</span> <span class="o">!</span><span class="nx">config</span><span class="p">.</span><span class="nx">url</span><span class="p">.</span><span class="nx">startsWith</span><span class="p">(</span><span class="s1">&#39;https://&#39;</span><span class="p">))</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">      <span class="k">throw</span> <span class="k">new</span> <span class="nb">Error</span><span class="p">(</span><span class="s1">&#39;Only HTTPS connections are allowed&#39;</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl">    
+</span></span><span class="line"><span class="cl">    <span class="c1">// 添加安全头部
+</span></span></span><span class="line"><span class="cl">    <span class="nx">config</span><span class="p">.</span><span class="nx">headers</span> <span class="o">=</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">      <span class="p">...</span><span class="nx">config</span><span class="p">.</span><span class="nx">headers</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">      <span class="s1">&#39;User-Agent&#39;</span><span class="o">:</span> <span class="k">this</span><span class="p">.</span><span class="nx">getSecureUserAgent</span><span class="p">(),</span>
+</span></span><span class="line"><span class="cl">      <span class="s1">&#39;X-Content-Type-Options&#39;</span><span class="o">:</span> <span class="s1">&#39;nosniff&#39;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">      <span class="s1">&#39;X-Frame-Options&#39;</span><span class="o">:</span> <span class="s1">&#39;DENY&#39;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">      <span class="s1">&#39;X-XSS-Protection&#39;</span><span class="o">:</span> <span class="s1">&#39;1; mode=block&#39;</span>
+</span></span><span class="line"><span class="cl">    <span class="p">};</span>
+</span></span><span class="line"><span class="cl">    
+</span></span><span class="line"><span class="cl">    <span class="k">return</span> <span class="nx">config</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">  <span class="p">}</span>
+</span></span><span class="line"><span class="cl">  
+</span></span><span class="line"><span class="cl">  <span class="kr">private</span> <span class="nx">loadCustomCACertificates</span><span class="p">()</span><span class="o">:</span> <span class="nx">Buffer</span><span class="p">[]</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="c1">// 加载自定义 CA 证书（如果有的话）
+</span></span></span><span class="line"><span class="cl">    <span class="kr">const</span> <span class="nx">caPaths</span> <span class="o">=</span> <span class="k">this</span><span class="p">.</span><span class="nx">getCustomCACertificatePaths</span><span class="p">();</span>
+</span></span><span class="line"><span class="cl">    <span class="k">return</span> <span class="nx">caPaths</span><span class="p">.</span><span class="nx">map</span><span class="p">(</span><span class="nx">path</span> <span class="o">=&gt;</span> <span class="nx">fs</span><span class="p">.</span><span class="nx">readFileSync</span><span class="p">(</span><span class="nx">path</span><span class="p">));</span>
+</span></span><span class="line"><span class="cl">  <span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></div><h2 id="访问控制与权限管理">访问控制与权限管理</h2>
+<h3 id="用户认证机制">用户认证机制</h3>
+<p>DeepChat 实现了基本的用户认证机制：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-typescript" data-lang="typescript"><span class="line"><span class="cl"><span class="kr">class</span> <span class="nx">AuthenticationManager</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">  <span class="kr">private</span> <span class="nx">currentUser</span>: <span class="kt">User</span> <span class="o">|</span> <span class="kc">null</span> <span class="o">=</span> <span class="kc">null</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">  <span class="kr">private</span> <span class="nx">token</span>: <span class="kt">string</span> <span class="o">|</span> <span class="kc">null</span> <span class="o">=</span> <span class="kc">null</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">  
+</span></span><span class="line"><span class="cl">  <span class="c1">// 用户登录
+</span></span></span><span class="line"><span class="cl">  <span class="kr">async</span> <span class="nx">login</span><span class="p">(</span><span class="nx">username</span>: <span class="kt">string</span><span class="p">,</span> <span class="nx">password</span>: <span class="kt">string</span><span class="p">)</span><span class="o">:</span> <span class="nx">Promise</span><span class="p">&lt;</span><span class="nt">boolean</span><span class="p">&gt;</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="k">try</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">      <span class="kr">const</span> <span class="nx">response</span> <span class="o">=</span> <span class="k">await</span> <span class="nx">httpClient</span><span class="p">.</span><span class="nx">post</span><span class="p">(</span><span class="s1">&#39;/auth/login&#39;</span><span class="p">,</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="nx">username</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">        <span class="nx">password</span>: <span class="kt">this.hashPassword</span><span class="p">(</span><span class="nx">password</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">      <span class="p">});</span>
+</span></span><span class="line"><span class="cl">      
+</span></span><span class="line"><span class="cl">      <span class="k">this</span><span class="p">.</span><span class="nx">token</span> <span class="o">=</span> <span class="nx">response</span><span class="p">.</span><span class="nx">data</span><span class="p">.</span><span class="nx">token</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">      <span class="k">this</span><span class="p">.</span><span class="nx">currentUser</span> <span class="o">=</span> <span class="nx">response</span><span class="p">.</span><span class="nx">data</span><span class="p">.</span><span class="nx">user</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">      
+</span></span><span class="line"><span class="cl">      <span class="c1">// 保存认证信息（加密存储）
+</span></span></span><span class="line"><span class="cl">      <span class="nx">secureStorage</span><span class="p">.</span><span class="kr">set</span><span class="p">(</span><span class="s1">&#39;auth_token&#39;</span><span class="p">,</span> <span class="k">this</span><span class="p">.</span><span class="nx">token</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">      
+</span></span><span class="line"><span class="cl">      <span class="k">return</span> <span class="kc">true</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span> <span class="k">catch</span> <span class="p">(</span><span class="nx">error</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">      <span class="nx">console</span><span class="p">.</span><span class="nx">error</span><span class="p">(</span><span class="s1">&#39;Login failed:&#39;</span><span class="p">,</span> <span class="nx">error</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">      <span class="k">return</span> <span class="kc">false</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl">  <span class="p">}</span>
+</span></span><span class="line"><span class="cl">  
+</span></span><span class="line"><span class="cl">  <span class="c1">// 检查认证状态
+</span></span></span><span class="line"><span class="cl">  <span class="nx">isAuthenticated</span><span class="p">()</span><span class="o">:</span> <span class="kr">boolean</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="k">if</span> <span class="p">(</span><span class="k">this</span><span class="p">.</span><span class="nx">token</span> <span class="o">&amp;&amp;</span> <span class="k">this</span><span class="p">.</span><span class="nx">currentUser</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">      <span class="k">return</span> <span class="kc">true</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl">    
+</span></span><span class="line"><span class="cl">    <span class="c1">// 尝试从存储中恢复认证信息
+</span></span></span><span class="line"><span class="cl">    <span class="kr">const</span> <span class="nx">storedToken</span> <span class="o">=</span> <span class="nx">secureStorage</span><span class="p">.</span><span class="kr">get</span><span class="p">(</span><span class="s1">&#39;auth_token&#39;</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">    <span class="k">if</span> <span class="p">(</span><span class="nx">storedToken</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">      <span class="k">this</span><span class="p">.</span><span class="nx">token</span> <span class="o">=</span> <span class="nx">storedToken</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">      <span class="c1">// 验证令牌有效性
+</span></span></span><span class="line"><span class="cl">      <span class="k">return</span> <span class="k">this</span><span class="p">.</span><span class="nx">validateToken</span><span class="p">(</span><span class="nx">storedToken</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl">    
+</span></span><span class="line"><span class="cl">    <span class="k">return</span> <span class="kc">false</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">  <span class="p">}</span>
+</span></span><span class="line"><span class="cl">  
+</span></span><span class="line"><span class="cl">  <span class="c1">// 用户登出
+</span></span></span><span class="line"><span class="cl">  <span class="nx">logout</span><span class="p">()</span><span class="o">:</span> <span class="k">void</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="k">this</span><span class="p">.</span><span class="nx">currentUser</span> <span class="o">=</span> <span class="kc">null</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="k">this</span><span class="p">.</span><span class="nx">token</span> <span class="o">=</span> <span class="kc">null</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="nx">secureStorage</span><span class="p">.</span><span class="nx">remove</span><span class="p">(</span><span class="s1">&#39;auth_token&#39;</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">  <span class="p">}</span>
+</span></span><span class="line"><span class="cl">  
+</span></span><span class="line"><span class="cl">  <span class="kr">private</span> <span class="nx">hashPassword</span><span class="p">(</span><span class="nx">password</span>: <span class="kt">string</span><span class="p">)</span><span class="o">:</span> <span class="kt">string</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="k">return</span> <span class="nx">crypto</span><span class="p">.</span><span class="nx">createHash</span><span class="p">(</span><span class="s1">&#39;sha256&#39;</span><span class="p">).</span><span class="nx">update</span><span class="p">(</span><span class="nx">password</span><span class="p">).</span><span class="nx">digest</span><span class="p">(</span><span class="s1">&#39;hex&#39;</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">  <span class="p">}</span>
+</span></span><span class="line"><span class="cl">  
+</span></span><span class="line"><span class="cl">  <span class="kr">private</span> <span class="nx">validateToken</span><span class="p">(</span><span class="nx">token</span>: <span class="kt">string</span><span class="p">)</span><span class="o">:</span> <span class="kr">boolean</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="c1">// 验证 JWT 令牌或其他类型的令牌
+</span></span></span><span class="line"><span class="cl">    <span class="k">try</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">      <span class="kr">const</span> <span class="nx">decoded</span> <span class="o">=</span> <span class="nx">jwt</span><span class="p">.</span><span class="nx">verify</span><span class="p">(</span><span class="nx">token</span><span class="p">,</span> <span class="k">this</span><span class="p">.</span><span class="nx">getJWTSecret</span><span class="p">());</span>
+</span></span><span class="line"><span class="cl">      <span class="k">return</span> <span class="nx">decoded</span><span class="p">.</span><span class="nx">exp</span> <span class="o">&gt;</span> <span class="nb">Date</span><span class="p">.</span><span class="nx">now</span><span class="p">()</span> <span class="o">/</span> <span class="mi">1000</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span> <span class="k">catch</span> <span class="p">(</span><span class="nx">error</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">      <span class="k">return</span> <span class="kc">false</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl">  <span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></div><h3 id="功能权限控制">功能权限控制</h3>
+<p>对不同功能模块实现细粒度的权限控制：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-typescript" data-lang="typescript"><span class="line"><span class="cl"><span class="kr">class</span> <span class="nx">PermissionManager</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">  <span class="kr">private</span> <span class="nx">userPermissions</span>: <span class="kt">Set</span><span class="p">&lt;</span><span class="nt">string</span><span class="p">&gt;</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">Set</span><span class="p">();</span>
+</span></span><span class="line"><span class="cl">  
+</span></span><span class="line"><span class="cl">  <span class="c1">// 检查用户是否有特定权限
+</span></span></span><span class="line"><span class="cl">  <span class="nx">hasPermission</span><span class="p">(</span><span class="nx">permission</span>: <span class="kt">string</span><span class="p">)</span><span class="o">:</span> <span class="kr">boolean</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="c1">// 未启用认证时，默认允许所有权限
+</span></span></span><span class="line"><span class="cl">    <span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="nx">AuthenticationManager</span><span class="p">.</span><span class="nx">getInstance</span><span class="p">().</span><span class="nx">isAuthenticated</span><span class="p">())</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">      <span class="k">return</span> <span class="kc">true</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl">    
+</span></span><span class="line"><span class="cl">    <span class="k">return</span> <span class="k">this</span><span class="p">.</span><span class="nx">userPermissions</span><span class="p">.</span><span class="nx">has</span><span class="p">(</span><span class="nx">permission</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">  <span class="p">}</span>
+</span></span><span class="line"><span class="cl">  
+</span></span><span class="line"><span class="cl">  <span class="c1">// 检查多个权限
+</span></span></span><span class="line"><span class="cl">  <span class="nx">hasPermissions</span><span class="p">(</span><span class="nx">permissions</span>: <span class="kt">string</span><span class="p">[],</span> <span class="nx">operator</span><span class="o">:</span> <span class="s1">&#39;AND&#39;</span> <span class="o">|</span> <span class="s1">&#39;OR&#39;</span> <span class="o">=</span> <span class="s1">&#39;AND&#39;</span><span class="p">)</span><span class="o">:</span> <span class="kr">boolean</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="k">if</span> <span class="p">(</span><span class="nx">operator</span> <span class="o">===</span> <span class="s1">&#39;AND&#39;</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">      <span class="k">return</span> <span class="nx">permissions</span><span class="p">.</span><span class="nx">every</span><span class="p">(</span><span class="nx">p</span> <span class="o">=&gt;</span> <span class="k">this</span><span class="p">.</span><span class="nx">hasPermission</span><span class="p">(</span><span class="nx">p</span><span class="p">));</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">      <span class="k">return</span> <span class="nx">permissions</span><span class="p">.</span><span class="nx">some</span><span class="p">(</span><span class="nx">p</span> <span class="o">=&gt;</span> <span class="k">this</span><span class="p">.</span><span class="nx">hasPermission</span><span class="p">(</span><span class="nx">p</span><span class="p">));</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl">  <span class="p">}</span>
+</span></span><span class="line"><span class="cl">  
+</span></span><span class="line"><span class="cl">  <span class="c1">// 请求权限
+</span></span></span><span class="line"><span class="cl">  <span class="kr">async</span> <span class="nx">requestPermission</span><span class="p">(</span><span class="nx">permission</span>: <span class="kt">string</span><span class="p">)</span><span class="o">:</span> <span class="nx">Promise</span><span class="p">&lt;</span><span class="nt">boolean</span><span class="p">&gt;</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="c1">// 检查是否已拥有权限
+</span></span></span><span class="line"><span class="cl">    <span class="k">if</span> <span class="p">(</span><span class="k">this</span><span class="p">.</span><span class="nx">hasPermission</span><span class="p">(</span><span class="nx">permission</span><span class="p">))</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">      <span class="k">return</span> <span class="kc">true</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl">    
+</span></span><span class="line"><span class="cl">    <span class="c1">// 显示权限请求对话框
+</span></span></span><span class="line"><span class="cl">    <span class="kr">const</span> <span class="nx">granted</span> <span class="o">=</span> <span class="k">await</span> <span class="k">this</span><span class="p">.</span><span class="nx">showPermissionDialog</span><span class="p">(</span><span class="nx">permission</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">    <span class="k">if</span> <span class="p">(</span><span class="nx">granted</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">      <span class="k">this</span><span class="p">.</span><span class="nx">userPermissions</span><span class="p">.</span><span class="nx">add</span><span class="p">(</span><span class="nx">permission</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">      <span class="k">this</span><span class="p">.</span><span class="nx">savePermissions</span><span class="p">();</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl">    
+</span></span><span class="line"><span class="cl">    <span class="k">return</span> <span class="nx">granted</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">  <span class="p">}</span>
+</span></span><span class="line"><span class="cl">  
+</span></span><span class="line"><span class="cl">  <span class="kr">private</span> <span class="kr">async</span> <span class="nx">showPermissionDialog</span><span class="p">(</span><span class="nx">permission</span>: <span class="kt">string</span><span class="p">)</span><span class="o">:</span> <span class="nx">Promise</span><span class="p">&lt;</span><span class="nt">boolean</span><span class="p">&gt;</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="c1">// 在 UI 中显示权限请求对话框
+</span></span></span><span class="line"><span class="cl">    <span class="k">return</span> <span class="nx">ipcRenderer</span><span class="p">.</span><span class="nx">invoke</span><span class="p">(</span><span class="s1">&#39;show-permission-dialog&#39;</span><span class="p">,</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">      <span class="nx">permission</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">      <span class="nx">description</span>: <span class="kt">this.getPermissionDescription</span><span class="p">(</span><span class="nx">permission</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="p">});</span>
+</span></span><span class="line"><span class="cl">  <span class="p">}</span>
+</span></span><span class="line"><span class="cl">  
+</span></span><span class="line"><span class="cl">  <span class="kr">private</span> <span class="nx">getPermissionDescription</span><span class="p">(</span><span class="nx">permission</span>: <span class="kt">string</span><span class="p">)</span><span class="o">:</span> <span class="kt">string</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="kr">const</span> <span class="nx">descriptions</span>: <span class="kt">Record</span><span class="p">&lt;</span><span class="nt">string</span><span class="p">,</span> <span class="na">string</span><span class="p">&gt;</span> <span class="o">=</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">      <span class="s1">&#39;file-access&#39;</span><span class="o">:</span> <span class="s1">&#39;访问本地文件系统&#39;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">      <span class="s1">&#39;network-access&#39;</span><span class="o">:</span> <span class="s1">&#39;访问网络资源&#39;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">      <span class="s1">&#39;camera-access&#39;</span><span class="o">:</span> <span class="s1">&#39;访问摄像头&#39;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">      <span class="s1">&#39;microphone-access&#39;</span><span class="o">:</span> <span class="s1">&#39;访问麦克风&#39;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">      <span class="s1">&#39;mcp-tools&#39;</span><span class="o">:</span> <span class="s1">&#39;执行 MCP 工具&#39;</span>
+</span></span><span class="line"><span class="cl">    <span class="p">};</span>
+</span></span><span class="line"><span class="cl">    
+</span></span><span class="line"><span class="cl">    <span class="k">return</span> <span class="nx">descriptions</span><span class="p">[</span><span class="nx">permission</span><span class="p">]</span> <span class="o">||</span> <span class="s1">&#39;访问特定功能&#39;</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">  <span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></div><h2 id="屏幕投影隐藏功能">屏幕投影隐藏功能</h2>
+<h3 id="隐私模式实现">隐私模式实现</h3>
+<p>DeepChat 提供了隐私模式，可以在屏幕共享或投影时隐藏敏感内容：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-typescript" data-lang="typescript"><span class="line"><span class="cl"><span class="kr">class</span> <span class="nx">PrivacyModeManager</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">  <span class="kr">private</span> <span class="nx">isEnabled</span>: <span class="kt">boolean</span> <span class="o">=</span> <span class="kc">false</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">  <span class="kr">private</span> <span class="nx">originalContent</span>: <span class="kt">WeakMap</span><span class="p">&lt;</span><span class="nt">Element</span><span class="p">,</span> <span class="na">string</span><span class="p">&gt;</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">WeakMap</span><span class="p">();</span>
+</span></span><span class="line"><span class="cl">  
+</span></span><span class="line"><span class="cl">  <span class="c1">// 启用隐私模式
+</span></span></span><span class="line"><span class="cl">  <span class="nx">enablePrivacyMode</span><span class="p">()</span><span class="o">:</span> <span class="k">void</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="k">if</span> <span class="p">(</span><span class="k">this</span><span class="p">.</span><span class="nx">isEnabled</span><span class="p">)</span> <span class="k">return</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    
+</span></span><span class="line"><span class="cl">    <span class="k">this</span><span class="p">.</span><span class="nx">isEnabled</span> <span class="o">=</span> <span class="kc">true</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    
+</span></span><span class="line"><span class="cl">    <span class="c1">// 隐藏敏感元素
+</span></span></span><span class="line"><span class="cl">    <span class="k">this</span><span class="p">.</span><span class="nx">hideSensitiveElements</span><span class="p">();</span>
+</span></span><span class="line"><span class="cl">    
+</span></span><span class="line"><span class="cl">    <span class="c1">// 监听新创建的元素
+</span></span></span><span class="line"><span class="cl">    <span class="k">this</span><span class="p">.</span><span class="nx">observeDOMChanges</span><span class="p">();</span>
+</span></span><span class="line"><span class="cl">    
+</span></span><span class="line"><span class="cl">    <span class="c1">// 发送事件通知
+</span></span></span><span class="line"><span class="cl">    <span class="k">this</span><span class="p">.</span><span class="nx">dispatchPrivacyModeEvent</span><span class="p">(</span><span class="kc">true</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">  <span class="p">}</span>
+</span></span><span class="line"><span class="cl">  
+</span></span><span class="line"><span class="cl">  <span class="c1">// 禁用隐私模式
+</span></span></span><span class="line"><span class="cl">  <span class="nx">disablePrivacyMode</span><span class="p">()</span><span class="o">:</span> <span class="k">void</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="k">this</span><span class="p">.</span><span class="nx">isEnabled</span><span class="p">)</span> <span class="k">return</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    
+</span></span><span class="line"><span class="cl">    <span class="k">this</span><span class="p">.</span><span class="nx">isEnabled</span> <span class="o">=</span> <span class="kc">false</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    
+</span></span><span class="line"><span class="cl">    <span class="c1">// 恢复原始内容
+</span></span></span><span class="line"><span class="cl">    <span class="k">this</span><span class="p">.</span><span class="nx">restoreSensitiveElements</span><span class="p">();</span>
+</span></span><span class="line"><span class="cl">    
+</span></span><span class="line"><span class="cl">    <span class="c1">// 停止监听 DOM 变化
+</span></span></span><span class="line"><span class="cl">    <span class="k">this</span><span class="p">.</span><span class="nx">stopObservingDOMChanges</span><span class="p">();</span>
+</span></span><span class="line"><span class="cl">    
+</span></span><span class="line"><span class="cl">    <span class="c1">// 发送事件通知
+</span></span></span><span class="line"><span class="cl">    <span class="k">this</span><span class="p">.</span><span class="nx">dispatchPrivacyModeEvent</span><span class="p">(</span><span class="kc">false</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">  <span class="p">}</span>
+</span></span><span class="line"><span class="cl">  
+</span></span><span class="line"><span class="cl">  <span class="kr">private</span> <span class="nx">hideSensitiveElements</span><span class="p">()</span><span class="o">:</span> <span class="k">void</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="c1">// 查找所有敏感元素
+</span></span></span><span class="line"><span class="cl">    <span class="kr">const</span> <span class="nx">sensitiveElements</span> <span class="o">=</span> <span class="nb">document</span><span class="p">.</span><span class="nx">querySelectorAll</span><span class="p">(</span>
+</span></span><span class="line"><span class="cl">      <span class="s1">&#39;.api-key, .password, .sensitive-data, [data-sensitive=&#34;true&#34;]&#39;</span>
+</span></span><span class="line"><span class="cl">    <span class="p">);</span>
+</span></span><span class="line"><span class="cl">    
+</span></span><span class="line"><span class="cl">    <span class="nx">sensitiveElements</span><span class="p">.</span><span class="nx">forEach</span><span class="p">(</span><span class="nx">element</span> <span class="o">=&gt;</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">      <span class="c1">// 保存原始内容
+</span></span></span><span class="line"><span class="cl">      <span class="k">this</span><span class="p">.</span><span class="nx">originalContent</span><span class="p">.</span><span class="kr">set</span><span class="p">(</span><span class="nx">element</span><span class="p">,</span> <span class="nx">element</span><span class="p">.</span><span class="nx">textContent</span> <span class="o">||</span> <span class="s1">&#39;&#39;</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">      
+</span></span><span class="line"><span class="cl">      <span class="c1">// 替换为隐藏内容
+</span></span></span><span class="line"><span class="cl">      <span class="nx">element</span><span class="p">.</span><span class="nx">textContent</span> <span class="o">=</span> <span class="s1">&#39;••••••••&#39;</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">      <span class="nx">element</span><span class="p">.</span><span class="nx">classList</span><span class="p">.</span><span class="nx">add</span><span class="p">(</span><span class="s1">&#39;privacy-mode-hidden&#39;</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">    <span class="p">});</span>
+</span></span><span class="line"><span class="cl">  <span class="p">}</span>
+</span></span><span class="line"><span class="cl">  
+</span></span><span class="line"><span class="cl">  <span class="kr">private</span> <span class="nx">restoreSensitiveElements</span><span class="p">()</span><span class="o">:</span> <span class="k">void</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="c1">// 恢复所有被隐藏的元素
+</span></span></span><span class="line"><span class="cl">    <span class="nb">document</span><span class="p">.</span><span class="nx">querySelectorAll</span><span class="p">(</span><span class="s1">&#39;.privacy-mode-hidden&#39;</span><span class="p">).</span><span class="nx">forEach</span><span class="p">(</span><span class="nx">element</span> <span class="o">=&gt;</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">      <span class="kr">const</span> <span class="nx">originalContent</span> <span class="o">=</span> <span class="k">this</span><span class="p">.</span><span class="nx">originalContent</span><span class="p">.</span><span class="kr">get</span><span class="p">(</span><span class="nx">element</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">      <span class="k">if</span> <span class="p">(</span><span class="nx">originalContent</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="nx">element</span><span class="p">.</span><span class="nx">textContent</span> <span class="o">=</span> <span class="nx">originalContent</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">        <span class="nx">element</span><span class="p">.</span><span class="nx">classList</span><span class="p">.</span><span class="nx">remove</span><span class="p">(</span><span class="s1">&#39;privacy-mode-hidden&#39;</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">      <span class="p">}</span>
+</span></span><span class="line"><span class="cl">    <span class="p">});</span>
+</span></span><span class="line"><span class="cl">    
+</span></span><span class="line"><span class="cl">    <span class="k">this</span><span class="p">.</span><span class="nx">originalContent</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">WeakMap</span><span class="p">();</span>
+</span></span><span class="line"><span class="cl">  <span class="p">}</span>
+</span></span><span class="line"><span class="cl">  
+</span></span><span class="line"><span class="cl">  <span class="kr">private</span> <span class="nx">dispatchPrivacyModeEvent</span><span class="p">(</span><span class="nx">enabled</span>: <span class="kt">boolean</span><span class="p">)</span><span class="o">:</span> <span class="k">void</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="kr">const</span> <span class="nx">event</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">CustomEvent</span><span class="p">(</span><span class="s1">&#39;privacy-mode-change&#39;</span><span class="p">,</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">      <span class="nx">detail</span><span class="o">:</span> <span class="p">{</span> <span class="nx">enabled</span> <span class="p">}</span>
+</span></span><span class="line"><span class="cl">    <span class="p">});</span>
+</span></span><span class="line"><span class="cl">    <span class="nb">document</span><span class="p">.</span><span class="nx">dispatchEvent</span><span class="p">(</span><span class="nx">event</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">  <span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></div><h3 id="快捷键支持">快捷键支持</h3>
+<p>提供快捷键快速切换隐私模式：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-typescript" data-lang="typescript"><span class="line"><span class="cl"><span class="kr">class</span> <span class="nx">KeyboardShortcutManager</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">  <span class="kr">private</span> <span class="nx">shortcuts</span>: <span class="kt">Map</span><span class="p">&lt;</span><span class="nt">string</span><span class="p">,</span> <span class="err">()</span> <span class="err">=</span><span class="p">&gt;</span> <span class="k">void</span><span class="o">&gt;</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">Map</span><span class="p">();</span>
+</span></span><span class="line"><span class="cl">  
+</span></span><span class="line"><span class="cl">  <span class="kr">constructor</span><span class="p">()</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="k">this</span><span class="p">.</span><span class="nx">registerDefaultShortcuts</span><span class="p">();</span>
+</span></span><span class="line"><span class="cl">    <span class="k">this</span><span class="p">.</span><span class="nx">setupGlobalShortcutListener</span><span class="p">();</span>
+</span></span><span class="line"><span class="cl">  <span class="p">}</span>
+</span></span><span class="line"><span class="cl">  
+</span></span><span class="line"><span class="cl">  <span class="kr">private</span> <span class="nx">registerDefaultShortcuts</span><span class="p">()</span><span class="o">:</span> <span class="k">void</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="c1">// 注册隐私模式切换快捷键 (Ctrl+Shift+H)
+</span></span></span><span class="line"><span class="cl">    <span class="k">this</span><span class="p">.</span><span class="nx">registerShortcut</span><span class="p">(</span><span class="s1">&#39;Ctrl+Shift+H&#39;</span><span class="p">,</span> <span class="p">()</span> <span class="o">=&gt;</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">      <span class="kr">const</span> <span class="nx">privacyManager</span> <span class="o">=</span> <span class="nx">PrivacyModeManager</span><span class="p">.</span><span class="nx">getInstance</span><span class="p">();</span>
+</span></span><span class="line"><span class="cl">      <span class="k">if</span> <span class="p">(</span><span class="nx">privacyManager</span><span class="p">.</span><span class="nx">isEnabled</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="nx">privacyManager</span><span class="p">.</span><span class="nx">disablePrivacyMode</span><span class="p">();</span>
+</span></span><span class="line"><span class="cl">      <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="nx">privacyManager</span><span class="p">.</span><span class="nx">enablePrivacyMode</span><span class="p">();</span>
+</span></span><span class="line"><span class="cl">      <span class="p">}</span>
+</span></span><span class="line"><span class="cl">    <span class="p">});</span>
+</span></span><span class="line"><span class="cl">    
+</span></span><span class="line"><span class="cl">    <span class="c1">// 注册其他快捷键...
+</span></span></span><span class="line"><span class="cl">  <span class="p">}</span>
+</span></span><span class="line"><span class="cl">  
+</span></span><span class="line"><span class="cl">  <span class="kr">private</span> <span class="nx">registerShortcut</span><span class="p">(</span><span class="nx">combination</span>: <span class="kt">string</span><span class="p">,</span> <span class="nx">callback</span><span class="o">:</span> <span class="p">()</span> <span class="o">=&gt;</span> <span class="k">void</span><span class="p">)</span><span class="o">:</span> <span class="k">void</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="k">this</span><span class="p">.</span><span class="nx">shortcuts</span><span class="p">.</span><span class="kr">set</span><span class="p">(</span><span class="nx">combination</span><span class="p">.</span><span class="nx">toLowerCase</span><span class="p">(),</span> <span class="nx">callback</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">  <span class="p">}</span>
+</span></span><span class="line"><span class="cl">  
+</span></span><span class="line"><span class="cl">  <span class="kr">private</span> <span class="nx">setupGlobalShortcutListener</span><span class="p">()</span><span class="o">:</span> <span class="k">void</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="nb">document</span><span class="p">.</span><span class="nx">addEventListener</span><span class="p">(</span><span class="s1">&#39;keydown&#39;</span><span class="p">,</span> <span class="p">(</span><span class="nx">event</span>: <span class="kt">KeyboardEvent</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">      <span class="kr">const</span> <span class="nx">combination</span> <span class="o">=</span> <span class="k">this</span><span class="p">.</span><span class="nx">getPressedKeys</span><span class="p">(</span><span class="nx">event</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">      <span class="kr">const</span> <span class="nx">callback</span> <span class="o">=</span> <span class="k">this</span><span class="p">.</span><span class="nx">shortcuts</span><span class="p">.</span><span class="kr">get</span><span class="p">(</span><span class="nx">combination</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">      
+</span></span><span class="line"><span class="cl">      <span class="k">if</span> <span class="p">(</span><span class="nx">callback</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="nx">event</span><span class="p">.</span><span class="nx">preventDefault</span><span class="p">();</span>
+</span></span><span class="line"><span class="cl">        <span class="nx">callback</span><span class="p">();</span>
+</span></span><span class="line"><span class="cl">      <span class="p">}</span>
+</span></span><span class="line"><span class="cl">    <span class="p">});</span>
+</span></span><span class="line"><span class="cl">  <span class="p">}</span>
+</span></span><span class="line"><span class="cl">  
+</span></span><span class="line"><span class="cl">  <span class="kr">private</span> <span class="nx">getPressedKeys</span><span class="p">(</span><span class="nx">event</span>: <span class="kt">KeyboardEvent</span><span class="p">)</span><span class="o">:</span> <span class="kt">string</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="kr">const</span> <span class="nx">keys</span>: <span class="kt">string</span><span class="p">[]</span> <span class="o">=</span> <span class="p">[];</span>
+</span></span><span class="line"><span class="cl">    
+</span></span><span class="line"><span class="cl">    <span class="k">if</span> <span class="p">(</span><span class="nx">event</span><span class="p">.</span><span class="nx">ctrlKey</span><span class="p">)</span> <span class="nx">keys</span><span class="p">.</span><span class="nx">push</span><span class="p">(</span><span class="s1">&#39;ctrl&#39;</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">    <span class="k">if</span> <span class="p">(</span><span class="nx">event</span><span class="p">.</span><span class="nx">shiftKey</span><span class="p">)</span> <span class="nx">keys</span><span class="p">.</span><span class="nx">push</span><span class="p">(</span><span class="s1">&#39;shift&#39;</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">    <span class="k">if</span> <span class="p">(</span><span class="nx">event</span><span class="p">.</span><span class="nx">altKey</span><span class="p">)</span> <span class="nx">keys</span><span class="p">.</span><span class="nx">push</span><span class="p">(</span><span class="s1">&#39;alt&#39;</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">    <span class="k">if</span> <span class="p">(</span><span class="nx">event</span><span class="p">.</span><span class="nx">metaKey</span><span class="p">)</span> <span class="nx">keys</span><span class="p">.</span><span class="nx">push</span><span class="p">(</span><span class="s1">&#39;meta&#39;</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">    
+</span></span><span class="line"><span class="cl">    <span class="c1">// 添加主键
+</span></span></span><span class="line"><span class="cl">    <span class="k">if</span> <span class="p">(</span><span class="nx">event</span><span class="p">.</span><span class="nx">key</span> <span class="o">&amp;&amp;</span> <span class="o">!</span><span class="p">[</span><span class="s1">&#39;Control&#39;</span><span class="p">,</span> <span class="s1">&#39;Shift&#39;</span><span class="p">,</span> <span class="s1">&#39;Alt&#39;</span><span class="p">,</span> <span class="s1">&#39;Meta&#39;</span><span class="p">].</span><span class="nx">includes</span><span class="p">(</span><span class="nx">event</span><span class="p">.</span><span class="nx">key</span><span class="p">))</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">      <span class="nx">keys</span><span class="p">.</span><span class="nx">push</span><span class="p">(</span><span class="nx">event</span><span class="p">.</span><span class="nx">key</span><span class="p">.</span><span class="nx">toLowerCase</span><span class="p">());</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl">    
+</span></span><span class="line"><span class="cl">    <span class="k">return</span> <span class="nx">keys</span><span class="p">.</span><span class="nx">join</span><span class="p">(</span><span class="s1">&#39;+&#39;</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">  <span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></div><h2 id="安全审计与监控">安全审计与监控</h2>
+<h3 id="操作日志记录">操作日志记录</h3>
+<p>记录关键安全相关操作：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-typescript" data-lang="typescript"><span class="line"><span class="cl"><span class="kr">class</span> <span class="nx">SecurityAuditLogger</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">  <span class="kr">private</span> <span class="nx">logFile</span>: <span class="kt">string</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">  
+</span></span><span class="line"><span class="cl">  <span class="kr">constructor</span><span class="p">()</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="k">this</span><span class="p">.</span><span class="nx">logFile</span> <span class="o">=</span> <span class="nx">path</span><span class="p">.</span><span class="nx">join</span><span class="p">(</span><span class="nx">app</span><span class="p">.</span><span class="nx">getPath</span><span class="p">(</span><span class="s1">&#39;userData&#39;</span><span class="p">),</span> <span class="s1">&#39;security.log&#39;</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">  <span class="p">}</span>
+</span></span><span class="line"><span class="cl">  
+</span></span><span class="line"><span class="cl">  <span class="c1">// 记录安全事件
+</span></span></span><span class="line"><span class="cl">  <span class="nx">logSecurityEvent</span><span class="p">(</span><span class="nx">event</span>: <span class="kt">SecurityEvent</span><span class="p">)</span><span class="o">:</span> <span class="k">void</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="kr">const</span> <span class="nx">logEntry</span>: <span class="kt">LogEntry</span> <span class="o">=</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">      <span class="nx">timestamp</span>: <span class="kt">new</span> <span class="nb">Date</span><span class="p">().</span><span class="nx">toISOString</span><span class="p">(),</span>
+</span></span><span class="line"><span class="cl">      <span class="nx">eventType</span>: <span class="kt">event.type</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">      <span class="nx">description</span>: <span class="kt">event.description</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">      <span class="nx">userId</span>: <span class="kt">event.userId</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">      <span class="nx">ip</span>: <span class="kt">event.ip</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">      <span class="nx">userAgent</span>: <span class="kt">event.userAgent</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">      <span class="nx">severity</span>: <span class="kt">event.severity</span>
+</span></span><span class="line"><span class="cl">    <span class="p">};</span>
+</span></span><span class="line"><span class="cl">    
+</span></span><span class="line"><span class="cl">    <span class="c1">// 写入日志文件
+</span></span></span><span class="line"><span class="cl">    <span class="nx">fs</span><span class="p">.</span><span class="nx">appendFileSync</span><span class="p">(</span>
+</span></span><span class="line"><span class="cl">      <span class="k">this</span><span class="p">.</span><span class="nx">logFile</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">      <span class="nx">JSON</span><span class="p">.</span><span class="nx">stringify</span><span class="p">(</span><span class="nx">logEntry</span><span class="p">)</span> <span class="o">+</span> <span class="s1">&#39;\n&#39;</span>
+</span></span><span class="line"><span class="cl">    <span class="p">);</span>
+</span></span><span class="line"><span class="cl">    
+</span></span><span class="line"><span class="cl">    <span class="c1">// 如果是高严重性事件，发送通知
+</span></span></span><span class="line"><span class="cl">    <span class="k">if</span> <span class="p">(</span><span class="nx">event</span><span class="p">.</span><span class="nx">severity</span> <span class="o">===</span> <span class="s1">&#39;high&#39;</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">      <span class="k">this</span><span class="p">.</span><span class="nx">sendSecurityAlert</span><span class="p">(</span><span class="nx">logEntry</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl">  <span class="p">}</span>
+</span></span><span class="line"><span class="cl">  
+</span></span><span class="line"><span class="cl">  <span class="c1">// 发送安全警报
+</span></span></span><span class="line"><span class="cl">  <span class="kr">private</span> <span class="nx">sendSecurityAlert</span><span class="p">(</span><span class="nx">logEntry</span>: <span class="kt">LogEntry</span><span class="p">)</span><span class="o">:</span> <span class="k">void</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="c1">// 可以通过邮件、系统通知等方式发送警报
+</span></span></span><span class="line"><span class="cl">    <span class="nx">ipcRenderer</span><span class="p">.</span><span class="nx">send</span><span class="p">(</span><span class="s1">&#39;security-alert&#39;</span><span class="p">,</span> <span class="nx">logEntry</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">  <span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="kr">interface</span> <span class="nx">SecurityEvent</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">  <span class="kr">type</span><span class="o">:</span> <span class="s1">&#39;login&#39;</span> <span class="o">|</span> <span class="s1">&#39;logout&#39;</span> <span class="o">|</span> <span class="s1">&#39;permission-denied&#39;</span> <span class="o">|</span> <span class="s1">&#39;suspicious-activity&#39;</span> <span class="o">|</span> <span class="s1">&#39;data-access&#39;</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">  <span class="nx">description</span>: <span class="kt">string</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">  <span class="nx">userId?</span>: <span class="kt">string</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">  <span class="nx">ip?</span>: <span class="kt">string</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">  <span class="nx">userAgent?</span>: <span class="kt">string</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">  <span class="nx">severity</span><span class="o">:</span> <span class="s1">&#39;low&#39;</span> <span class="o">|</span> <span class="s1">&#39;medium&#39;</span> <span class="o">|</span> <span class="s1">&#39;high&#39;</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></div><h2 id="小结">小结</h2>
+<p>DeepChat 的安全与隐私保护机制涵盖了数据加密、网络安全、访问控制和隐私保护等多个方面：</p>
+<ol>
+<li><strong>数据加密</strong> - 对本地存储的敏感数据进行加密保护</li>
+<li><strong>网络安全</strong> - 通过 HTTPS/TLS 和代理支持确保通信安全</li>
+<li><strong>访问控制</strong> - 实现用户认证和细粒度权限管理</li>
+<li><strong>隐私保护</strong> - 提供隐私模式和屏幕投影隐藏功能</li>
+<li><strong>安全审计</strong> - 记录安全事件并发送警报</li>
+</ol>
+<p>这些机制共同构成了 DeepChat 的安全防护体系，确保用户数据的安全和隐私。通过这些措施，用户可以在享受 AI 助手强大功能的同时，不必担心敏感信息的泄露。</p>
+<p>在下一篇文章中，我们将探讨 DeepChat 的性能优化与企业级应用实践。</p>
+
+          </div>
+
+          
+          <div class="row">
+            <div class="col-md-8">
+            
+              <div class="mb-5">
+                
+<div class="li-x div-x post-meta">
+  <li class="pr-0"><a href="https://blog.jaxiu.cn/tags/"><i class="fas fa-tags"></i></a></li>
+  <div class="tags-sm">
+    
+      <li><a href="https://blog.jaxiu.cn/tags/deepchat" role="button">DeepChat </a></li>
+      
+    
+      <li><a href="https://blog.jaxiu.cn/tags/ai" role="button">AI </a></li>
+      
+    
+      <li><a href="https://blog.jaxiu.cn/tags/%E5%AE%89%E5%85%A8" role="button">安全 </a></li>
+      
+    
+      <li><a href="https://blog.jaxiu.cn/tags/%E9%9A%90%E7%A7%81%E4%BF%9D%E6%8A%A4" role="button">隐私保护 </a></li>
+      
+    
+      <li><a href="https://blog.jaxiu.cn/tags/%E6%95%B0%E6%8D%AE%E5%8A%A0%E5%AF%86" role="button">数据加密 </a></li>
+      
+    
+  </div>
+</div>
+              </div>
+            
+            </div>
+            
+          </div>
+          
+
+          
+          <div class="row pt-3">
+            <div class="col-md-6">
+              
+                <a href=https://blog.jaxiu.cn/blog/2025-07/deepchat-multi-window-tabs/ class="post-meta">Previous
+                  <div class="pt-2 pb-5 d-flex">
+                    <i class="fas fa-angle-left text-grey font-weight-bold mr-2 active-color"></i>
+                    <span>DeepChat 多窗口多标签架构设计</span>
+                  </div>
+                </a>
+              
+            </div>
+            
+            <div class="col-md-6 text-right" >
+              
+                <a href=https://blog.jaxiu.cn/blog/2025-07/deepchat-performance-enterprise/ class="post-meta">Next
+                  <div class="pt-2 pb-5 flex-reverse">
+                    <i class="fas fa-angle-right text-grey font-weight-bold ml-2 active-color"></i>
+                    <span>DeepChat 性能优化与企业级应用</span>
+                  </div>
+                </a>
+              
+            </div>
+          </div>
+
+          
+
+        </div>
+        
+
+      </div>
+      
+
+      
+	
+	
+	
+	
+		
+		
+		
+	
+
+		
+		<div class="col-md-2 pl-0">
+
+			
+			<div id="page-scrollspy" class="toc-nav">
+				
+				<ul class="nav nav-pills ml-0">
+					
+					<li class="nav-item pb-3 text-center">
+						<span class="font-weight-bold mb-2">- CATALOG - </span>
+					</li>
+
+					
+						
+						
+							
+								
+								
+									<ul class="nav">
+								
+								
+
+										<li class="nav-item">
+						 					<a class="nav-link" href="#deepchat-%e5%ae%89%e5%85%a8%e4%b8%8e%e9%9a%90%e7%a7%81%e4%bf%9d%e6%8a%a4%e6%9c%ba%e5%88%b6">
+												 DeepChat 安全与隐私保护机制
+											</a>
+										</li>
+						 
+								
+								
+									</ul>
+								
+							
+						
+				 
+						
+						
+							
+								
+								
+									<ul class="nav">
+								
+									<ul class="nav">
+								
+								
+
+										<li class="nav-item">
+						 					<a class="nav-link" href="#%e5%bc%95%e8%a8%80">
+												 引言
+											</a>
+										</li>
+						 
+								
+								
+									</ul>
+								
+									</ul>
+								
+							
+						
+				 
+						
+						
+							
+								
+								
+									<ul class="nav">
+								
+									<ul class="nav">
+								
+								
+
+										<li class="nav-item">
+						 					<a class="nav-link" href="#%e5%ae%89%e5%85%a8%e6%9e%b6%e6%9e%84%e8%ae%be%e8%ae%a1">
+												 安全架构设计
+											</a>
+										</li>
+						 
+								
+								
+									</ul>
+								
+									</ul>
+								
+							
+						
+				 
+						
+						
+							
+								
+								
+									<ul class="nav">
+								
+									<ul class="nav">
+								
+									<ul class="nav">
+								
+								
+
+										<li class="nav-item">
+						 					<a class="nav-link" href="#%e6%95%b4%e4%bd%93%e5%ae%89%e5%85%a8%e6%9e%b6%e6%9e%84">
+												 整体安全架构
+											</a>
+										</li>
+						 
+								
+								
+									</ul>
+								
+									</ul>
+								
+									</ul>
+								
+							
+						
+				 
+						
+						
+							
+								
+								
+									<ul class="nav">
+								
+									<ul class="nav">
+								
+								
+
+										<li class="nav-item">
+						 					<a class="nav-link" href="#%e6%95%b0%e6%8d%ae%e5%8a%a0%e5%af%86%e6%9c%ba%e5%88%b6">
+												 数据加密机制
+											</a>
+										</li>
+						 
+								
+								
+									</ul>
+								
+									</ul>
+								
+							
+						
+				 
+						
+						
+							
+								
+								
+									<ul class="nav">
+								
+									<ul class="nav">
+								
+									<ul class="nav">
+								
+								
+
+										<li class="nav-item">
+						 					<a class="nav-link" href="#%e6%9c%ac%e5%9c%b0%e6%95%b0%e6%8d%ae%e5%ad%98%e5%82%a8%e5%8a%a0%e5%af%86">
+												 本地数据存储加密
+											</a>
+										</li>
+						 
+								
+								
+									</ul>
+								
+									</ul>
+								
+									</ul>
+								
+							
+						
+				 
+						
+						
+							
+								
+								
+									<ul class="nav">
+								
+									<ul class="nav">
+								
+									<ul class="nav">
+								
+								
+
+										<li class="nav-item">
+						 					<a class="nav-link" href="#%e6%95%8f%e6%84%9f%e9%85%8d%e7%bd%ae%e4%bf%a1%e6%81%af%e4%bf%9d%e6%8a%a4">
+												 敏感配置信息保护
+											</a>
+										</li>
+						 
+								
+								
+									</ul>
+								
+									</ul>
+								
+									</ul>
+								
+							
+						
+				 
+						
+						
+							
+								
+								
+									<ul class="nav">
+								
+									<ul class="nav">
+								
+								
+
+										<li class="nav-item">
+						 					<a class="nav-link" href="#%e7%bd%91%e7%bb%9c%e5%ae%89%e5%85%a8%e4%b8%8e%e9%9a%90%e7%a7%81%e4%bf%9d%e6%8a%a4">
+												 网络安全与隐私保护
+											</a>
+										</li>
+						 
+								
+								
+									</ul>
+								
+									</ul>
+								
+							
+						
+				 
+						
+						
+							
+								
+								
+									<ul class="nav">
+								
+									<ul class="nav">
+								
+									<ul class="nav">
+								
+								
+
+										<li class="nav-item">
+						 					<a class="nav-link" href="#%e7%bd%91%e7%bb%9c%e4%bb%a3%e7%90%86%e6%94%af%e6%8c%81">
+												 网络代理支持
+											</a>
+										</li>
+						 
+								
+								
+									</ul>
+								
+									</ul>
+								
+									</ul>
+								
+							
+						
+				 
+						
+						
+							
+								
+								
+									<ul class="nav">
+								
+									<ul class="nav">
+								
+									<ul class="nav">
+								
+								
+
+										<li class="nav-item">
+						 					<a class="nav-link" href="#httpstls-%e9%85%8d%e7%bd%ae">
+												 HTTPS/TLS 配置
+											</a>
+										</li>
+						 
+								
+								
+									</ul>
+								
+									</ul>
+								
+									</ul>
+								
+							
+						
+				 
+						
+						
+							
+								
+								
+									<ul class="nav">
+								
+									<ul class="nav">
+								
+								
+
+										<li class="nav-item">
+						 					<a class="nav-link" href="#%e8%ae%bf%e9%97%ae%e6%8e%a7%e5%88%b6%e4%b8%8e%e6%9d%83%e9%99%90%e7%ae%a1%e7%90%86">
+												 访问控制与权限管理
+											</a>
+										</li>
+						 
+								
+								
+									</ul>
+								
+									</ul>
+								
+							
+						
+				 
+						
+						
+							
+								
+								
+									<ul class="nav">
+								
+									<ul class="nav">
+								
+									<ul class="nav">
+								
+								
+
+										<li class="nav-item">
+						 					<a class="nav-link" href="#%e7%94%a8%e6%88%b7%e8%ae%a4%e8%af%81%e6%9c%ba%e5%88%b6">
+												 用户认证机制
+											</a>
+										</li>
+						 
+								
+								
+									</ul>
+								
+									</ul>
+								
+									</ul>
+								
+							
+						
+				 
+						
+						
+							
+								
+								
+									<ul class="nav">
+								
+									<ul class="nav">
+								
+									<ul class="nav">
+								
+								
+
+										<li class="nav-item">
+						 					<a class="nav-link" href="#%e5%8a%9f%e8%83%bd%e6%9d%83%e9%99%90%e6%8e%a7%e5%88%b6">
+												 功能权限控制
+											</a>
+										</li>
+						 
+								
+								
+									</ul>
+								
+									</ul>
+								
+									</ul>
+								
+							
+						
+				 
+						
+						
+							
+								
+								
+									<ul class="nav">
+								
+									<ul class="nav">
+								
+								
+
+										<li class="nav-item">
+						 					<a class="nav-link" href="#%e5%b1%8f%e5%b9%95%e6%8a%95%e5%bd%b1%e9%9a%90%e8%97%8f%e5%8a%9f%e8%83%bd">
+												 屏幕投影隐藏功能
+											</a>
+										</li>
+						 
+								
+								
+									</ul>
+								
+									</ul>
+								
+							
+						
+				 
+						
+						
+							
+								
+								
+									<ul class="nav">
+								
+									<ul class="nav">
+								
+									<ul class="nav">
+								
+								
+
+										<li class="nav-item">
+						 					<a class="nav-link" href="#%e9%9a%90%e7%a7%81%e6%a8%a1%e5%bc%8f%e5%ae%9e%e7%8e%b0">
+												 隐私模式实现
+											</a>
+										</li>
+						 
+								
+								
+									</ul>
+								
+									</ul>
+								
+									</ul>
+								
+							
+						
+				 
+						
+						
+							
+								
+								
+									<ul class="nav">
+								
+									<ul class="nav">
+								
+									<ul class="nav">
+								
+								
+
+										<li class="nav-item">
+						 					<a class="nav-link" href="#%e5%bf%ab%e6%8d%b7%e9%94%ae%e6%94%af%e6%8c%81">
+												 快捷键支持
+											</a>
+										</li>
+						 
+								
+								
+									</ul>
+								
+									</ul>
+								
+									</ul>
+								
+							
+						
+				 
+						
+						
+							
+								
+								
+									<ul class="nav">
+								
+									<ul class="nav">
+								
+								
+
+										<li class="nav-item">
+						 					<a class="nav-link" href="#%e5%ae%89%e5%85%a8%e5%ae%a1%e8%ae%a1%e4%b8%8e%e7%9b%91%e6%8e%a7">
+												 安全审计与监控
+											</a>
+										</li>
+						 
+								
+								
+									</ul>
+								
+									</ul>
+								
+							
+						
+				 
+						
+						
+							
+								
+								
+									<ul class="nav">
+								
+									<ul class="nav">
+								
+									<ul class="nav">
+								
+								
+
+										<li class="nav-item">
+						 					<a class="nav-link" href="#%e6%93%8d%e4%bd%9c%e6%97%a5%e5%bf%97%e8%ae%b0%e5%bd%95">
+												 操作日志记录
+											</a>
+										</li>
+						 
+								
+								
+									</ul>
+								
+									</ul>
+								
+									</ul>
+								
+							
+						
+				 
+						
+						
+							
+								
+								
+									<ul class="nav">
+								
+									<ul class="nav">
+								
+								
+
+										<li class="nav-item">
+						 					<a class="nav-link" href="#%e5%b0%8f%e7%bb%93">
+												 小结
+											</a>
+										</li>
+						 
+								
+								
+									</ul>
+								
+									</ul>
+								
+							
+						
+				 
+
+				</ul>
+			</div>
+			
+
+		</div>
+		
+	
+
+    </div>
+    
+
+
+  </main>
+  
+
+
+    
+    
+<footer class="page-footer text-center font-small mt-4 wow fadeIn">
+
+
+  
+  <div class="pb-2 mt-5 pt-5">
+    
+    <a href="//github.com/axfinn " target="_blank" rel="noopener"><i class="fab fa-github mr-3"
+        aria-hidden="true"></i></a>
+    
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+
+    
+    <a href="mailto:521very@email.com"><i class="far fa-envelope-open mr-3" aria-hidden="true"></i></a>
+    
+
+    
+
+    
+
+  </div>
+  
+
+  
+  <div class="copyright py-4">
+    
+    <span> 2016 - 2026 &copy; | Theme <a href='https://github.com/orianna-zzo/AllinOne'
+        target="_blank">AllinOne</a> by <a href='https://github.com/orianna-zzo' target="_blank">Orianna</a> </span>
+  </div>
+  
+
+</footer>
+
+    
+
+
+
+
+<script type="text/javascript" src="https://blog.jaxiu.cn/js/vendors/jquery/jquery-3.3.1.min.js"></script>
+<script type="text/javascript" src="https://blog.jaxiu.cn/js/vendors/jquery/jquery.smooth-scroll.min.js"></script>
+
+
+
+<script type="text/javascript" src="https://blog.jaxiu.cn/js/vendors/popper.min.js"></script>
+<script type="text/javascript" src="https://blog.jaxiu.cn/js/vendors/holder.min.js"></script>
+<script type="text/javascript" src="https://blog.jaxiu.cn/js/vendors-extensions/bootstrap4/bootstrap.js" ></script>
+
+<script type="text/javascript" src="https://blog.jaxiu.cn/js/vendors/mdb/mdb.min.js"></script>
+
+<script type="text/javascript" src="https://blog.jaxiu.cn/js/main.js"></script>
+<script type="text/javascript" src="https://blog.jaxiu.cn/js/search.js"></script>
+
+
+
+
+  <script src="https://blog.jaxiu.cn/js/vendors/highlight.pack.js"> </script>
+  <script>hljs.initHighlightingOnLoad();</script>
+
+
+
+
+
+  <script src="https://blog.jaxiu.cn/js/vendors/katex/katex.min.js"> </script>
+  <script src="https://blog.jaxiu.cn/js/vendors/katex/contrib/auto-render.min.js"></script>
+
+  <script>
+      document.addEventListener("DOMContentLoaded", function () {
+          renderMathInElement(document.body);
+      });
+  </script>
+
+
+
+
+
+
+
+
+<script type="text/javascript">
+  
+  new WOW().init();
+</script>
+  </body>
+</html>

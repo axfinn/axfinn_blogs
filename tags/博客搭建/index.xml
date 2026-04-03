@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>博客搭建 on jaxiu He</title>
+    <link>https://blog.jaxiu.cn/tags/%E5%8D%9A%E5%AE%A2%E6%90%AD%E5%BB%BA/</link>
+    <description>Recent content in 博客搭建 on jaxiu He</description>
+    <generator>Hugo</generator>
+    <language>zn-Hans</language>
+    <lastBuildDate>Sat, 19 Jul 2025 00:00:00 +0800</lastBuildDate>
+    <atom:link href="https://blog.jaxiu.cn/tags/%E5%8D%9A%E5%AE%A2%E6%90%AD%E5%BB%BA/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>从零到一：使用 Hugo 和 GitHub Pages 搭建个人博客</title>
+      <link>https://blog.jaxiu.cn/blog/2025-07/%E4%BB%8E%E9%9B%B6%E5%88%B0%E4%B8%80%E4%BD%BF%E7%94%A8-hugo-%E5%92%8C-github-pages-%E6%90%AD%E5%BB%BA%E4%B8%AA%E4%BA%BA%E5%8D%9A%E5%AE%A2/</link>
+      <pubDate>Sat, 19 Jul 2025 00:00:00 +0800</pubDate>
+      <guid>https://blog.jaxiu.cn/blog/2025-07/%E4%BB%8E%E9%9B%B6%E5%88%B0%E4%B8%80%E4%BD%BF%E7%94%A8-hugo-%E5%92%8C-github-pages-%E6%90%AD%E5%BB%BA%E4%B8%AA%E4%BA%BA%E5%8D%9A%E5%AE%A2/</guid>
+      <description>&lt;h2 id=&#34;前言&#34;&gt;前言&lt;/h2&gt;&#xA;&lt;p&gt;拥有一个个人博客是分享知识、记录学习和展示作品的绝佳方式。本文将详细介绍如何使用强大的静态网站生成器 Hugo 和免费的 GitHub Pages 服务，从零开始搭建一个属于你自己的、功能完善且高度可定制的个人博客。&lt;/p&gt;&#xA;&lt;h2 id=&#34;为什么选择-hugo-和-github-pages&#34;&gt;为什么选择 Hugo 和 GitHub Pages？&lt;/h2&gt;&#xA;&lt;ul&gt;&#xA;&lt;li&gt;&lt;strong&gt;Hugo&lt;/strong&gt;: Go 语言编写的静态网站生成器，以其惊人的构建速度和灵活性而闻名。它拥有丰富的主题和强大的功能，让你可以专注于内容创作。&lt;/li&gt;&#xA;&lt;li&gt;&lt;strong&gt;GitHub Pages&lt;/strong&gt;: GitHub 提供的免费静态网站托管服务。它与 Git 无缝集成，非常适合托管个人博客、项目文档等。&lt;/li&gt;&#xA;&lt;/ul&gt;&#xA;&lt;h2 id=&#34;准备工作&#34;&gt;准备工作&lt;/h2&gt;&#xA;&lt;p&gt;在开始之前，请确保你的电脑上已经安装了以下软件：&lt;/p&gt;</description>
+    </item>
+  </channel>
+</rss>

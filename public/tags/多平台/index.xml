@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>多平台 on jaxiu He</title>
+    <link>https://blog.jaxiu.cn/tags/%E5%A4%9A%E5%B9%B3%E5%8F%B0/</link>
+    <description>Recent content in 多平台 on jaxiu He</description>
+    <generator>Hugo</generator>
+    <language>zn-Hans</language>
+    <lastBuildDate>Thu, 31 Jul 2025 18:30:00 +0800</lastBuildDate>
+    <atom:link href="https://blog.jaxiu.cn/tags/%E5%A4%9A%E5%B9%B3%E5%8F%B0/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>DeepChat 架构设计解析：Electron 多平台实现原理</title>
+      <link>https://blog.jaxiu.cn/blog/2025-07/deepchat-architecture-design/</link>
+      <pubDate>Thu, 31 Jul 2025 18:30:00 +0800</pubDate>
+      <guid>https://blog.jaxiu.cn/blog/2025-07/deepchat-architecture-design/</guid>
+      <description>&lt;h1 id=&#34;deepchat-架构设计解析electron-多平台实现原理&#34;&gt;DeepChat 架构设计解析：Electron 多平台实现原理&lt;/h1&gt;&#xA;&lt;h2 id=&#34;引言&#34;&gt;引言&lt;/h2&gt;&#xA;&lt;p&gt;在当今快速发展的 AI 时代，跨平台应用程序的需求日益增长。DeepChat 作为一个支持多种大语言模型的 AI 聊天平台，能够在 Windows、macOS 和 Linux 三大主流操作系统上运行，这得益于其基于 Electron 的架构设计。本文将深入解析 DeepChat 的架构设计，特别是其多平台实现原理。&lt;/p&gt;&#xA;&lt;h2 id=&#34;electron-在-deepchat-中的应用&#34;&gt;Electron 在 DeepChat 中的应用&lt;/h2&gt;&#xA;&lt;p&gt;Electron 是一个使用 Web 技术构建跨平台桌面应用程序的开源框架。DeepChat 选择 Electron 作为其基础框架，主要原因包括：&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>DeepChat 多平台构建实现详解：从代码到发布</title>
+      <link>https://blog.jaxiu.cn/blog/2025-07/deepchat-multi-platform-build/</link>
+      <pubDate>Thu, 31 Jul 2025 18:10:00 +0800</pubDate>
+      <guid>https://blog.jaxiu.cn/blog/2025-07/deepchat-multi-platform-build/</guid>
+      <description>&lt;h1 id=&#34;deepchat-多平台构建实现详解从代码到发布&#34;&gt;DeepChat 多平台构建实现详解：从代码到发布&lt;/h1&gt;&#xA;&lt;h2 id=&#34;引言&#34;&gt;引言&lt;/h2&gt;&#xA;&lt;p&gt;在现代软件开发中，跨平台支持已成为许多应用程序的基本要求。DeepChat 作为一个开源的 AI 聊天平台，支持 Windows、macOS 和 Linux 三大主流操作系统。实现这一目标的关键在于其精心设计的构建系统。本文将深入分析 DeepChat 的多平台构建实现机制，包括构建配置、平台特定处理以及自动化发布流程。&lt;/p&gt;&#xA;&lt;h2 id=&#34;构建系统概览&#34;&gt;构建系统概览&lt;/h2&gt;&#xA;&lt;p&gt;DeepChat 使用 &lt;a href=&#34;file:///Volumes/M20/code/docs/axfinn_blogs/node_modules/electron-builder/out/cli/cli.js#L1-L2&#34;&gt;electron-builder&lt;/a&gt; 作为其主要的构建工具，配合 &lt;a href=&#34;file:///Volumes/M20/code/docs/axfinn_blogs/node_modules/electron-vite/bin/electron-vite.js#L1-L2&#34;&gt;electron-vite&lt;/a&gt; 进行代码打包和优化。整个构建流程可以分为以下几个阶段：&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>DeepChat 项目概览：多模型AI对话平台介绍</title>
+      <link>https://blog.jaxiu.cn/blog/2025-07/deepchat-project-overview/</link>
+      <pubDate>Thu, 31 Jul 2025 18:00:00 +0800</pubDate>
+      <guid>https://blog.jaxiu.cn/blog/2025-07/deepchat-project-overview/</guid>
+      <description>&lt;h1 id=&#34;deepchat-项目概览多模型ai对话平台介绍&#34;&gt;DeepChat 项目概览：多模型AI对话平台介绍&lt;/h1&gt;&#xA;&lt;h2 id=&#34;什么是-deepchat&#34;&gt;什么是 DeepChat？&lt;/h2&gt;&#xA;&lt;p&gt;DeepChat 是一个功能丰富的开源 AI 聊天平台，支持多种云端和本地大语言模型，具备强大的搜索增强和工具调用能力。作为一个跨平台的 AI 助手应用程序，DeepChat 不仅支持基本的聊天功能，还提供了诸如搜索增强、工具调用和多模态交互等高级功能，让 AI 能力更加触手可及和高效。&lt;/p&gt;&#xA;&lt;p&gt;无论您是使用 OpenAI、Gemini、Anthropic 等云 API，还是本地部署的 Ollama 模型，DeepChat 都能提供流畅的用户体验。&lt;/p&gt;</description>
+    </item>
+  </channel>
+</rss>

@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>动态注册 on jaxiu He</title>
+    <link>https://blog.jaxiu.cn/tags/%E5%8A%A8%E6%80%81%E6%B3%A8%E5%86%8C/</link>
+    <description>Recent content in 动态注册 on jaxiu He</description>
+    <generator>Hugo</generator>
+    <language>zn-Hans</language>
+    <lastBuildDate>Fri, 18 Jul 2025 19:05:00 +0800</lastBuildDate>
+    <atom:link href="https://blog.jaxiu.cn/tags/%E5%8A%A8%E6%80%81%E6%B3%A8%E5%86%8C/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>NPS 客户端深度解析：健康检查与动态注册</title>
+      <link>https://blog.jaxiu.cn/blog/2025-07/nps-%E5%AE%A2%E6%88%B7%E7%AB%AF%E6%B7%B1%E5%BA%A6%E8%A7%A3%E6%9E%90%E5%81%A5%E5%BA%B7%E6%A3%80%E6%9F%A5%E4%B8%8E%E5%8A%A8%E6%80%81%E6%B3%A8%E5%86%8C/</link>
+      <pubDate>Fri, 18 Jul 2025 19:05:00 +0800</pubDate>
+      <guid>https://blog.jaxiu.cn/blog/2025-07/nps-%E5%AE%A2%E6%88%B7%E7%AB%AF%E6%B7%B1%E5%BA%A6%E8%A7%A3%E6%9E%90%E5%81%A5%E5%BA%B7%E6%A3%80%E6%9F%A5%E4%B8%8E%E5%8A%A8%E6%80%81%E6%B3%A8%E5%86%8C/</guid>
+      <description>&lt;h2 id=&#34;引言&#34;&gt;引言&lt;/h2&gt;&#xA;&lt;p&gt;在前面的文章中，我们已经剖析了 NPS 客户端的核心逻辑（&lt;code&gt;client.go&lt;/code&gt;）和控制模块（&lt;code&gt;control.go&lt;/code&gt;）。我们了解到客户端如何与服务端建立连接、如何通过多路复用隧道转发流量，以及如何从配置文件启动。然而，一个成熟的系统不仅需要核心功能，还需要完善的辅助机制来保证其在复杂多变的生产环境中的稳定性和灵活性。本篇文章将深入 NPS 客户端的另外两个重要文件：&lt;code&gt;nps/client/health.go&lt;/code&gt; 和 &lt;code&gt;nps/client/register.go&lt;/code&gt;，探讨 NPS 是如何实现对后端服务的健康检查以及支持客户端动态注册的。&lt;/p&gt;</description>
+    </item>
+  </channel>
+</rss>

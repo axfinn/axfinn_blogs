@@ -1,0 +1,1369 @@
+<!DOCTYPE html>
+<html lang="zn-Hans">
+  <head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge, chrome=1">
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no, maximum-scale=1" />
+  
+  <meta name="author" content="jaxiu He">
+  <meta name="description"
+    content="DevTools 孕期管理模块：全栈实现一个云端孕期工具套件
+在 DevTools 开发者工具平台上新增了一个有温度的功能——孕期管理模块（/yun）。这个模块提供完整的孕期管理工具套件，包括待产包清单、宝宝用品清单、产检时间表、体重记录、胎动计数和孕期知识库，所有数据云端存储、密码保护。
+功能概览
+
+
+graph LR
+    A[&#34;孕期管理 /yun&#34;] --&gt; B[&#34;概览面板&#34;]
+    A --&gt; C[&#34;待产包&#34;]
+    A --&gt; D[&#34;宝宝用品&#34;]
+    A --&gt; E[&#34;产检时间表&#34;]
+    A --&gt; F[&#34;体重记录&#34;]
+    A --&gt; G[&#34;胎动计数&#34;]
+    A --&gt; H[&#34;知识库&#34;]
+
+    B --- B1[&#34;孕周 &#43; 倒计时 &#43; 宝宝大小&#34;]
+    C --- C1[&#34;4类 31项预置 &#43; 自定义&#34;]
+    D --- D1[&#34;6类 33项预置 &#43; 自定义&#34;]
+    E --- E1[&#34;14次产检时间轴 &#43; 备注&#34;]
+    F --- F1[&#34;SVG折线图 &#43; 变化追踪&#34;]
+    G --- G1[&#34;大按钮计数器 &#43; 计时&#34;]
+    H --- H1[&#34;20篇孕周 &#43; 7篇专题&#34;]
+
+
+架构设计
+
+
+graph TB
+    subgraph 前端[&#34;前端 Vue3 &#43; Element Plus&#34;]
+        UI[&#34;PregnancyTool.vue&#34;] --&gt;|debounce 2s| API_CALL[&#34;fetch PUT /api/pregnancy/:id&#34;]
+        LS[&#34;localStorage&#34;] -.-&gt;|creatorKey 免密加载| UI
+    end
+
+    subgraph 后端[&#34;后端 Go &#43; Gin&#34;]
+        ROUTER[&#34;/api/pregnancy&#34;] --&gt; HANDLER[&#34;PregnancyHandler&#34;]
+        HANDLER --&gt;|bcrypt 验证| AUTH[&#34;密码/CreatorKey 鉴权&#34;]
+        HANDLER --&gt;|IP 限流| RATE[&#34;5次/IP/小时&#34;]
+        HANDLER --&gt; DB_OP[&#34;CRUD 操作&#34;]
+    end
+
+    subgraph 数据库[&#34;SQLite&#34;]
+        TABLE[&#34;pregnancy_profiles&#34;]
+        TABLE --&gt;|&#34;单行 = 一个用户&#34;| JSON[&#34;data JSON blob&#34;]
+        JSON --&gt; J1[&#34;hospital_bag&#34;]
+        JSON --&gt; J2[&#34;baby_essentials&#34;]
+        JSON --&gt; J3[&#34;prenatal_checks&#34;]
+        JSON --&gt; J4[&#34;weight_records&#34;]
+        JSON --&gt; J5[&#34;fetal_movements&#34;]
+    end
+
+    API_CALL --&gt; ROUTER
+    DB_OP --&gt; TABLE
+    CLEANUP[&#34;定时清理 goroutine&#34;] --&gt;|每小时| TABLE
+
+
+单表 &#43; JSON Blob 模式
+最核心的设计决策是采用单表 &#43; JSON data 列的方案，而非为每种数据（清单、产检、体重、胎动）创建独立表：">
+
+  <meta property="og:url" content="https://blog.jaxiu.cn/blog/2026-02/devtools-pregnancy-module/">
+  <meta property="og:site_name" content="jaxiu He">
+  <meta property="og:title" content="DevTools 孕期管理模块：全栈实现一个云端孕期工具套件">
+  <meta property="og:description" content="DevTools 孕期管理模块：全栈实现一个云端孕期工具套件 在 DevTools 开发者工具平台上新增了一个有温度的功能——孕期管理模块（/yun）。这个模块提供完整的孕期管理工具套件，包括待产包清单、宝宝用品清单、产检时间表、体重记录、胎动计数和孕期知识库，所有数据云端存储、密码保护。
+功能概览 graph LR A[&#34;孕期管理 /yun&#34;] --&gt; B[&#34;概览面板&#34;] A --&gt; C[&#34;待产包&#34;] A --&gt; D[&#34;宝宝用品&#34;] A --&gt; E[&#34;产检时间表&#34;] A --&gt; F[&#34;体重记录&#34;] A --&gt; G[&#34;胎动计数&#34;] A --&gt; H[&#34;知识库&#34;] B --- B1[&#34;孕周 &#43; 倒计时 &#43; 宝宝大小&#34;] C --- C1[&#34;4类 31项预置 &#43; 自定义&#34;] D --- D1[&#34;6类 33项预置 &#43; 自定义&#34;] E --- E1[&#34;14次产检时间轴 &#43; 备注&#34;] F --- F1[&#34;SVG折线图 &#43; 变化追踪&#34;] G --- G1[&#34;大按钮计数器 &#43; 计时&#34;] H --- H1[&#34;20篇孕周 &#43; 7篇专题&#34;] 架构设计 graph TB subgraph 前端[&#34;前端 Vue3 &#43; Element Plus&#34;] UI[&#34;PregnancyTool.vue&#34;] --&gt;|debounce 2s| API_CALL[&#34;fetch PUT /api/pregnancy/:id&#34;] LS[&#34;localStorage&#34;] -.-&gt;|creatorKey 免密加载| UI end subgraph 后端[&#34;后端 Go &#43; Gin&#34;] ROUTER[&#34;/api/pregnancy&#34;] --&gt; HANDLER[&#34;PregnancyHandler&#34;] HANDLER --&gt;|bcrypt 验证| AUTH[&#34;密码/CreatorKey 鉴权&#34;] HANDLER --&gt;|IP 限流| RATE[&#34;5次/IP/小时&#34;] HANDLER --&gt; DB_OP[&#34;CRUD 操作&#34;] end subgraph 数据库[&#34;SQLite&#34;] TABLE[&#34;pregnancy_profiles&#34;] TABLE --&gt;|&#34;单行 = 一个用户&#34;| JSON[&#34;data JSON blob&#34;] JSON --&gt; J1[&#34;hospital_bag&#34;] JSON --&gt; J2[&#34;baby_essentials&#34;] JSON --&gt; J3[&#34;prenatal_checks&#34;] JSON --&gt; J4[&#34;weight_records&#34;] JSON --&gt; J5[&#34;fetal_movements&#34;] end API_CALL --&gt; ROUTER DB_OP --&gt; TABLE CLEANUP[&#34;定时清理 goroutine&#34;] --&gt;|每小时| TABLE 单表 &#43; JSON Blob 模式 最核心的设计决策是采用单表 &#43; JSON data 列的方案，而非为每种数据（清单、产检、体重、胎动）创建独立表：">
+  <meta property="og:locale" content="zn_Hans">
+  <meta property="og:type" content="article">
+    <meta property="article:section" content="blog">
+    <meta property="article:published_time" content="2026-02-09T20:00:00+08:00">
+    <meta property="article:modified_time" content="2026-02-09T20:00:00+08:00">
+    <meta property="article:tag" content="Devtools">
+    <meta property="article:tag" content="Vue3">
+    <meta property="article:tag" content="Go">
+    <meta property="article:tag" content="SQLite">
+    <meta property="article:tag" content="全栈开发">
+    <meta property="article:tag" content="Element Plus">
+      <meta property="og:see_also" content="https://blog.jaxiu.cn/blog/2026-01/devtools-fullstack-guide/">
+
+
+  <title>
+    
+     DevTools 孕期管理模块：全栈实现一个云端孕期工具套件 | jaxiu He 
+    
+  </title>
+
+  <link rel="canonical" href="https://blog.jaxiu.cn/blog/2026-02/devtools-pregnancy-module/">
+
+  
+  
+
+  
+  
+  
+  <meta name="baidu-site-verification" content="your-baidu-verify-code" />
+  
+
+  
+  
+  <meta name="google-site-verification" content="your-google-verify-code" />
+  
+
+  
+  <link href="https://blog.jaxiu.cn/css/vendors-extensions/fontawesome/all.min.css" rel="stylesheet">
+
+  
+  <link rel="stylesheet"
+    href="https://fonts.googleapis.com/css?family=Open+Sans:400,700|Ubuntu+Mono:400,400i,700,700i|Raleway:300,400,500,600">
+  <link href="https://blog.jaxiu.cn/css/font.css" rel="stylesheet">
+
+  
+  <link href="https://blog.jaxiu.cn/css/vendors/bootstrap4/bootstrap.min.css" rel="stylesheet">
+  <link href="https://blog.jaxiu.cn/css/vendors-extensions/mdb/mdb.min.css" rel="stylesheet">
+  <link href="https://blog.jaxiu.cn/css/vendors/mdb/style.min.css" rel="stylesheet">
+  <link href="https://blog.jaxiu.cn/css/main.css" rel="stylesheet">
+
+
+  
+  <link rel="shortcut icon"  href="https://blog.jaxiu.cn/img/logo.png" >
+
+
+  
+  
+
+  <style type="text/css">
+    @media (min-width: 800px) and (max-width: 850px) {
+      .navbar:not(.top-nav-collapse) {
+        background: #1C2331 !important;
+      }
+    }
+  </style>
+
+
+  
+  
+  <link rel="stylesheet" href="https://blog.jaxiu.cn/js/vendors/katex/katex.min.css">
+  
+  
+
+  
+  
+  <link rel="stylesheet" href="https://blog.jaxiu.cn/css/vendors/highlight/github-gist.css">
+  
+
+  
+  
+  <script type="module">
+    import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.esm.min.mjs';
+    mermaid.initialize({ startOnLoad: true });
+  </script>
+  
+  
+
+  
+  <link href="https://blog.jaxiu.cn/css/holiday-effects.css" rel="stylesheet">
+  <script src="https://blog.jaxiu.cn/js/holiday-effects.js"></script>
+
+  
+  <script src="https://blog.jaxiu.cn/js/dynamic-bg.js"></script>
+  <link href="https://blog.jaxiu.cn/css/dynamic-bg-control.css" rel="stylesheet">
+
+</head>
+  <body class="bg-light" data-spy="scroll" data-target="#page-scrollspy" data-offset="90">
+  
+    
+    
+
+    
+      
+
+
+<nav class="navbar fixed-top navbar-expand-lg navbar-dark scrolling-navbar">
+    <div class="container">
+
+      
+      <a class="navbar-brand" href="https://blog.jaxiu.cn/">
+          
+        <img class="avatar" src="https://blog.jaxiu.cn/img/logo.png" style="width: 40px!important;height: auto;"  class="d-inline-block align-top" alt="" >
+        
+        <strong> jaxiu He</strong>
+      </a>
+
+      
+      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
+        aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+
+      
+      <div class="collapse navbar-collapse" id="navbarSupportedContent">
+
+        
+        <ul class="navbar-nav mr-auto ">
+          <li class="nav-item ">
+            <a class="nav-link" href="https://blog.jaxiu.cn/">Home</a>
+          </li>
+          
+            <li class="nav-item ">
+              <a class="nav-link" href="https://blog.jaxiu.cn/blog/" >博客  </a>
+            </li>
+
+          
+            <li class="nav-item ">
+              <a class="nav-link" href="https://blog.jaxiu.cn/moment/" >动态  </a>
+            </li>
+
+          
+            <li class="nav-item ">
+              <a class="nav-link" href="https://blog.jaxiu.cn/blog/prenatal-stories/" >胎教故事  </a>
+            </li>
+
+          
+            <li class="nav-item ">
+              <a class="nav-link" href="https://blog.jaxiu.cn/about/" >关于  </a>
+            </li>
+
+          
+        </ul>
+
+        
+        <ul class="navbar-nav">
+          <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" href="#" id="searchDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+              <i class="fas fa-search"></i> 搜索
+            </a>
+            <div class="dropdown-menu dropdown-menu-right p-3" aria-labelledby="searchDropdown" style="min-width: 300px; max-width: 400px;">
+              <form class="search-form" onsubmit="return false;">
+                <div class="input-group">
+                  <input type="text" id="search-query" class="form-control" placeholder="搜索文章标题或内容..." autocomplete="off">
+                  <div class="input-group-append">
+                    <button class="btn btn-outline-secondary" type="button" onclick="document.getElementById('search-query').focus();">
+                      <i class="fas fa-search"></i>
+                    </button>
+                  </div>
+                </div>
+              </form>
+              <ul id="search-results" class="list-unstyled mt-2 mb-0" style="max-height: 400px; overflow-y: auto;"></ul>
+            </div>
+          </li>
+        </ul>
+
+      </div>
+
+    </div>
+  </nav>
+   
+      
+
+
+
+
+
+
+
+<div id="site-header" class="carousel slide carousel-fade" data-ride="carousel" style="height: 18rem;">
+  
+
+  
+  
+  
+
+  
+  <div class="carousel-inner" role="listbox">
+    
+    
+
+    
+    <div class="carousel-item active">
+      <div class="view"
+        style="background-image: url('https://blog.jaxiu.cn/img/header-slides/raw_1515691746.jpg'); background-repeat: no-repeat; background-size: cover;">
+
+        
+        <div class="mask rgba-black-light d-flex justify-content-center align-items-center">
+
+          
+          
+          
+
+        </div>
+        
+
+      </div>
+    </div>
+    
+    
+    
+    
+
+    
+    <div class="carousel-item">
+      <div class="view"
+        style="background-image: url('https://blog.jaxiu.cn/img/header-slides//raw_1515847341.jpg'); background-repeat: no-repeat; background-size: cover;">
+
+        
+        <div class="mask rgba-black-light d-flex justify-content-center align-items-center">
+
+
+
+        </div>
+        
+
+      </div>
+    </div>
+    
+    
+    
+
+
+  </div>
+  
+
+  
+  <div class="carousel-content text-center white-text wow fadeIn">
+    <div class="row mx-0 headfont mt-3 pt-4">
+      
+      <div class="col-12 col-sm-5 align-middle">
+        <a href="https://blog.jaxiu.cn/">
+          
+          <img class="pull-right avatar avatar-md" src="https://blog.jaxiu.cn/img/logo.png" alt="">
+          
+        </a>
+      </div>
+
+      <div class="col-12 col-sm-7 text-left pl-2">
+        <a href="https://blog.jaxiu.cn/">
+          <h1 class="mb-2 h1" style="font-weight: 300;">
+            <strong>jaxiu He</strong>
+          </h1>
+        </a>
+
+
+        
+        <div class="mt-2" style="font-size: 1rem; color: white;">
+          
+          <a href="//github.com/axfinn" target="_blank" rel="noopener"><i class="fab fa-github pr-1"
+              aria-hidden="true"></i></a>
+          
+          
+
+          
+
+          
+
+          
+
+          
+
+          
+
+
+          
+          <a href="mailto:521very@email.com"><i class="far fa-envelope-open pr-1" aria-hidden="true"></i></a>
+          
+
+          
+
+
+        </div>
+      </div>
+    </div>
+  </div>
+  
+
+  
+  
+  
+
+</div>
+  
+    
+
+    
+  
+  <main class="post-main-wrapper">
+    
+    
+    <div class="row">
+
+      
+
+      
+      <div class="col-md-10">
+      
+
+        
+        <div class="z-depth-1  post-wrapper white-bg single-post">
+
+          <div class="post-header text-center" >
+  <ul class="post-meta li-x">
+    
+      
+        <li><a href="https://blog.jaxiu.cn/categories/%E6%8A%80%E6%9C%AF"><i class="fas fa-folder-open pr-1" aria-hidden="true"></i> 技术 </a></li>
+      
+        <li><a href="https://blog.jaxiu.cn/categories/%E9%A1%B9%E7%9B%AE%E5%88%86%E6%9E%90"><i class="fas fa-folder-open pr-1" aria-hidden="true"></i> 项目分析 </a></li>
+      
+    
+    
+      
+        <li><a href="https://blog.jaxiu.cn/series/devtools"><i class="fas fa-bookmark pr-1" aria-hidden="true"></i>DevTools</a></li>
+      
+    
+  </ul>
+
+  <div class="px-4 post-heading">DevTools 孕期管理模块：全栈实现一个云端孕期工具套件</div>
+
+  <ul class="post-meta li-x mt-1">
+    
+      <li>Feb 9, 2026</li>
+    
+
+    
+      <li class="middot"></li>
+      <li>5 minutes read</li>
+    
+  </ul>
+  
+
+</div>
+
+
+          <div class="post-content markdown">
+            <h1 id="devtools-孕期管理模块全栈实现一个云端孕期工具套件">DevTools 孕期管理模块：全栈实现一个云端孕期工具套件</h1>
+<p>在 DevTools 开发者工具平台上新增了一个有温度的功能——孕期管理模块（<code>/yun</code>）。这个模块提供完整的孕期管理工具套件，包括待产包清单、宝宝用品清单、产检时间表、体重记录、胎动计数和孕期知识库，所有数据云端存储、密码保护。</p>
+<h2 id="功能概览">功能概览</h2>
+<div class="mermaid">
+
+graph LR
+    A["孕期管理 /yun"] --> B["概览面板"]
+    A --> C["待产包"]
+    A --> D["宝宝用品"]
+    A --> E["产检时间表"]
+    A --> F["体重记录"]
+    A --> G["胎动计数"]
+    A --> H["知识库"]
+
+    B --- B1["孕周 + 倒计时 + 宝宝大小"]
+    C --- C1["4类 31项预置 + 自定义"]
+    D --- D1["6类 33项预置 + 自定义"]
+    E --- E1["14次产检时间轴 + 备注"]
+    F --- F1["SVG折线图 + 变化追踪"]
+    G --- G1["大按钮计数器 + 计时"]
+    H --- H1["20篇孕周 + 7篇专题"]
+
+</div>
+<h2 id="架构设计">架构设计</h2>
+<div class="mermaid">
+
+graph TB
+    subgraph 前端["前端 Vue3 + Element Plus"]
+        UI["PregnancyTool.vue"] -->|debounce 2s| API_CALL["fetch PUT /api/pregnancy/:id"]
+        LS["localStorage"] -.->|creatorKey 免密加载| UI
+    end
+
+    subgraph 后端["后端 Go + Gin"]
+        ROUTER["/api/pregnancy"] --> HANDLER["PregnancyHandler"]
+        HANDLER -->|bcrypt 验证| AUTH["密码/CreatorKey 鉴权"]
+        HANDLER -->|IP 限流| RATE["5次/IP/小时"]
+        HANDLER --> DB_OP["CRUD 操作"]
+    end
+
+    subgraph 数据库["SQLite"]
+        TABLE["pregnancy_profiles"]
+        TABLE -->|"单行 = 一个用户"| JSON["data JSON blob"]
+        JSON --> J1["hospital_bag"]
+        JSON --> J2["baby_essentials"]
+        JSON --> J3["prenatal_checks"]
+        JSON --> J4["weight_records"]
+        JSON --> J5["fetal_movements"]
+    end
+
+    API_CALL --> ROUTER
+    DB_OP --> TABLE
+    CLEANUP["定时清理 goroutine"] -->|每小时| TABLE
+
+</div>
+<h3 id="单表--json-blob-模式">单表 + JSON Blob 模式</h3>
+<p>最核心的设计决策是采用<strong>单表 + JSON data 列</strong>的方案，而非为每种数据（清单、产检、体重、胎动）创建独立表：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sql" data-lang="sql"><span class="line"><span class="cl"><span class="k">CREATE</span><span class="w"> </span><span class="k">TABLE</span><span class="w"> </span><span class="k">IF</span><span class="w"> </span><span class="k">NOT</span><span class="w"> </span><span class="k">EXISTS</span><span class="w"> </span><span class="n">pregnancy_profiles</span><span class="w"> </span><span class="p">(</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="n">id</span><span class="w"> </span><span class="nb">TEXT</span><span class="w"> </span><span class="k">PRIMARY</span><span class="w"> </span><span class="k">KEY</span><span class="p">,</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="n">edd</span><span class="w"> </span><span class="nb">TEXT</span><span class="w"> </span><span class="k">NOT</span><span class="w"> </span><span class="k">NULL</span><span class="p">,</span><span class="w">           </span><span class="c1">-- 预产期
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="n">password</span><span class="w"> </span><span class="nb">TEXT</span><span class="w"> </span><span class="k">NOT</span><span class="w"> </span><span class="k">NULL</span><span class="p">,</span><span class="w">      </span><span class="c1">-- bcrypt 哈希
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="n">creator_key</span><span class="w"> </span><span class="nb">TEXT</span><span class="w"> </span><span class="k">NOT</span><span class="w"> </span><span class="k">NULL</span><span class="p">,</span><span class="w">   </span><span class="c1">-- 创建者密钥
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="k">data</span><span class="w"> </span><span class="nb">TEXT</span><span class="w"> </span><span class="k">NOT</span><span class="w"> </span><span class="k">NULL</span><span class="w"> </span><span class="k">DEFAULT</span><span class="w"> </span><span class="s1">&#39;{}&#39;</span><span class="p">,</span><span class="w">  </span><span class="c1">-- JSON blob
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="n">expires_at</span><span class="w"> </span><span class="n">DATETIME</span><span class="p">,</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="n">created_at</span><span class="w"> </span><span class="n">DATETIME</span><span class="w"> </span><span class="k">DEFAULT</span><span class="w"> </span><span class="k">CURRENT_TIMESTAMP</span><span class="p">,</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="n">updated_at</span><span class="w"> </span><span class="n">DATETIME</span><span class="w"> </span><span class="k">DEFAULT</span><span class="w"> </span><span class="k">CURRENT_TIMESTAMP</span><span class="p">,</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="n">creator_ip</span><span class="w"> </span><span class="nb">TEXT</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="p">);</span><span class="w">
+</span></span></span></code></pre></div><p><code>data</code> 列存储一个完整的 JSON 对象：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-json" data-lang="json"><span class="line"><span class="cl"><span class="p">{</span>
+</span></span><span class="line"><span class="cl">  <span class="nt">&#34;hospital_bag&#34;</span><span class="p">:</span> <span class="p">{</span> <span class="nt">&#34;mom&#34;</span><span class="p">:</span> <span class="p">[</span><span class="err">...</span><span class="p">],</span> <span class="nt">&#34;baby&#34;</span><span class="p">:</span> <span class="p">[</span><span class="err">...</span><span class="p">],</span> <span class="nt">&#34;documents&#34;</span><span class="p">:</span> <span class="p">[</span><span class="err">...</span><span class="p">],</span> <span class="nt">&#34;other&#34;</span><span class="p">:</span> <span class="p">[</span><span class="err">...</span><span class="p">]</span> <span class="p">},</span>
+</span></span><span class="line"><span class="cl">  <span class="nt">&#34;baby_essentials&#34;</span><span class="p">:</span> <span class="p">{</span> <span class="nt">&#34;feeding&#34;</span><span class="p">:</span> <span class="p">[</span><span class="err">...</span><span class="p">],</span> <span class="nt">&#34;diaper&#34;</span><span class="p">:</span> <span class="p">[</span><span class="err">...</span><span class="p">],</span> <span class="err">...</span> <span class="p">},</span>
+</span></span><span class="line"><span class="cl">  <span class="nt">&#34;prenatal_checks&#34;</span><span class="p">:</span> <span class="p">[</span><span class="err">...</span><span class="p">],</span>
+</span></span><span class="line"><span class="cl">  <span class="nt">&#34;weight_records&#34;</span><span class="p">:</span> <span class="p">[</span><span class="err">...</span><span class="p">],</span>
+</span></span><span class="line"><span class="cl">  <span class="nt">&#34;fetal_movements&#34;</span><span class="p">:</span> <span class="p">[</span><span class="err">...</span><span class="p">]</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></div><p><strong>为什么选择这个方案？</strong></p>
+<ol>
+<li><strong>简单高效</strong>：一个用户就是一行记录，一次读取获得全部数据</li>
+<li><strong>灵活扩展</strong>：新增数据类型只需修改 JSON 结构，无需 ALTER TABLE</li>
+<li><strong>前端友好</strong>：前端直接操作 JSON 对象，debounce 后整体 PUT 回后端</li>
+<li><strong>适合场景</strong>：孕期数据量有限（几百条记录），不需要复杂查询</li>
+</ol>
+<h3 id="遵循-excalidraw-模块模式">遵循 Excalidraw 模块模式</h3>
+<p>后端完全遵循已有的 Excalidraw 模块设计模式：</p>
+<ul>
+<li>Handler 结构体持有 db 和配置</li>
+<li>bcrypt 密码哈希（非 SHA256）</li>
+<li>creatorKey 机制实现免密码快速加载</li>
+<li>IP 限流防止滥用</li>
+<li>过期自动清理</li>
+</ul>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-go" data-lang="go"><span class="line"><span class="cl"><span class="kd">type</span><span class="w"> </span><span class="nx">PregnancyHandler</span><span class="w"> </span><span class="kd">struct</span><span class="w"> </span><span class="p">{</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nx">db</span><span class="w">             </span><span class="o">*</span><span class="nx">models</span><span class="p">.</span><span class="nx">DB</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nx">defaultExpDays</span><span class="w"> </span><span class="kt">int</span><span class="w">    </span><span class="c1">// 默认365天</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nx">maxDataSize</span><span class="w">    </span><span class="kt">int</span><span class="w">    </span><span class="c1">// 默认1MB</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nx">maxPerIP</span><span class="w">       </span><span class="kt">int</span><span class="w">    </span><span class="c1">// 每IP每小时5个</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nx">ipWindow</span><span class="w">       </span><span class="nx">time</span><span class="p">.</span><span class="nx">Duration</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="p">}</span><span class="w">
+</span></span></span></code></pre></div><h2 id="api-设计">API 设计</h2>
+<p>5 个端点，简洁清晰：</p>
+<table>
+  <thead>
+      <tr>
+          <th>方法</th>
+          <th>路径</th>
+          <th>说明</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td>POST</td>
+          <td><code>/api/pregnancy</code></td>
+          <td>创建档案（EDD + 密码）</td>
+      </tr>
+      <tr>
+          <td>GET</td>
+          <td><code>/api/pregnancy/:id?password=xxx</code></td>
+          <td>密码访问</td>
+      </tr>
+      <tr>
+          <td>GET</td>
+          <td><code>/api/pregnancy/:id/creator?creator_key=xxx</code></td>
+          <td>创建者免密访问</td>
+      </tr>
+      <tr>
+          <td>PUT</td>
+          <td><code>/api/pregnancy/:id</code></td>
+          <td>更新（update_data / update_edd / extend）</td>
+      </tr>
+      <tr>
+          <td>DELETE</td>
+          <td><code>/api/pregnancy/:id?creator_key=xxx</code></td>
+          <td>删除档案</td>
+      </tr>
+  </tbody>
+</table>
+<p>PUT 请求通过 <code>action</code> 字段分发不同操作：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-json" data-lang="json"><span class="line"><span class="cl"><span class="c1">// 更新数据（前端 debounce 2秒自动保存）
+</span></span></span><span class="line"><span class="cl"><span class="p">{</span> <span class="nt">&#34;action&#34;</span><span class="p">:</span> <span class="s2">&#34;update_data&#34;</span><span class="p">,</span> <span class="nt">&#34;creator_key&#34;</span><span class="p">:</span> <span class="s2">&#34;xxx&#34;</span><span class="p">,</span> <span class="nt">&#34;data&#34;</span><span class="p">:</span> <span class="p">{</span> <span class="err">...</span> <span class="p">}</span> <span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1">// 修改预产期
+</span></span></span><span class="line"><span class="cl"><span class="p">{</span> <span class="nt">&#34;action&#34;</span><span class="p">:</span> <span class="s2">&#34;update_edd&#34;</span><span class="p">,</span> <span class="nt">&#34;creator_key&#34;</span><span class="p">:</span> <span class="s2">&#34;xxx&#34;</span><span class="p">,</span> <span class="nt">&#34;edd&#34;</span><span class="p">:</span> <span class="s2">&#34;2025-08-15&#34;</span> <span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1">// 延期
+</span></span></span><span class="line"><span class="cl"><span class="p">{</span> <span class="nt">&#34;action&#34;</span><span class="p">:</span> <span class="s2">&#34;extend&#34;</span><span class="p">,</span> <span class="nt">&#34;creator_key&#34;</span><span class="p">:</span> <span class="s2">&#34;xxx&#34;</span><span class="p">,</span> <span class="nt">&#34;expires_in&#34;</span><span class="p">:</span> <span class="mi">365</span> <span class="p">}</span>
+</span></span></code></pre></div><h2 id="前端实现亮点">前端实现亮点</h2>
+<h3 id="1-孕周计算">1. 孕周计算</h3>
+<p>从预产期（EDD）反推末次月经（LMP），再计算当前孕周：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-javascript" data-lang="javascript"><span class="line"><span class="cl"><span class="kr">const</span> <span class="nx">currentWeek</span> <span class="o">=</span> <span class="nx">computed</span><span class="p">(()</span> <span class="p">=&gt;</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">  <span class="kr">const</span> <span class="nx">edd</span> <span class="o">=</span> <span class="k">new</span> <span class="nb">Date</span><span class="p">(</span><span class="nx">profileEDD</span><span class="p">.</span><span class="nx">value</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">  <span class="kr">const</span> <span class="nx">lmp</span> <span class="o">=</span> <span class="k">new</span> <span class="nb">Date</span><span class="p">(</span><span class="nx">edd</span><span class="p">.</span><span class="nx">getTime</span><span class="p">()</span> <span class="o">-</span> <span class="mi">280</span> <span class="o">*</span> <span class="mi">86400000</span><span class="p">)</span> <span class="c1">// 280天 = 40周
+</span></span></span><span class="line"><span class="cl">  <span class="kr">const</span> <span class="nx">days</span> <span class="o">=</span> <span class="nb">Math</span><span class="p">.</span><span class="nx">floor</span><span class="p">((</span><span class="nb">Date</span><span class="p">.</span><span class="nx">now</span><span class="p">()</span> <span class="o">-</span> <span class="nx">lmp</span><span class="p">)</span> <span class="o">/</span> <span class="mi">86400000</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">  <span class="k">return</span> <span class="nb">Math</span><span class="p">.</span><span class="nx">max</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="nb">Math</span><span class="p">.</span><span class="nx">floor</span><span class="p">(</span><span class="nx">days</span> <span class="o">/</span> <span class="mi">7</span><span class="p">))</span>
+</span></span><span class="line"><span class="cl"><span class="p">})</span>
+</span></span></code></pre></div><h3 id="2-宝宝大小比喻">2. 宝宝大小比喻</h3>
+<p>从 4 周的&quot;罂粟籽&quot;到 40 周的&quot;西瓜&quot;，每周一个水果/蔬菜比喻：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-javascript" data-lang="javascript"><span class="line"><span class="cl"><span class="kr">const</span> <span class="nx">babySizeData</span> <span class="o">=</span> <span class="p">[</span>
+</span></span><span class="line"><span class="cl">  <span class="p">{</span> <span class="nx">week</span><span class="o">:</span> <span class="mi">4</span><span class="p">,</span> <span class="nx">size</span><span class="o">:</span> <span class="s1">&#39;罂粟籽&#39;</span> <span class="p">},</span> <span class="p">{</span> <span class="nx">week</span><span class="o">:</span> <span class="mi">8</span><span class="p">,</span> <span class="nx">size</span><span class="o">:</span> <span class="s1">&#39;覆盆子&#39;</span> <span class="p">},</span>
+</span></span><span class="line"><span class="cl">  <span class="p">{</span> <span class="nx">week</span><span class="o">:</span> <span class="mi">12</span><span class="p">,</span> <span class="nx">size</span><span class="o">:</span> <span class="s1">&#39;青柠&#39;</span> <span class="p">},</span> <span class="p">{</span> <span class="nx">week</span><span class="o">:</span> <span class="mi">16</span><span class="p">,</span> <span class="nx">size</span><span class="o">:</span> <span class="s1">&#39;牛油果&#39;</span> <span class="p">},</span>
+</span></span><span class="line"><span class="cl">  <span class="p">{</span> <span class="nx">week</span><span class="o">:</span> <span class="mi">20</span><span class="p">,</span> <span class="nx">size</span><span class="o">:</span> <span class="s1">&#39;香蕉&#39;</span> <span class="p">},</span> <span class="p">{</span> <span class="nx">week</span><span class="o">:</span> <span class="mi">24</span><span class="p">,</span> <span class="nx">size</span><span class="o">:</span> <span class="s1">&#39;玉米&#39;</span> <span class="p">},</span>
+</span></span><span class="line"><span class="cl">  <span class="p">{</span> <span class="nx">week</span><span class="o">:</span> <span class="mi">28</span><span class="p">,</span> <span class="nx">size</span><span class="o">:</span> <span class="s1">&#39;茄子&#39;</span> <span class="p">},</span> <span class="p">{</span> <span class="nx">week</span><span class="o">:</span> <span class="mi">32</span><span class="p">,</span> <span class="nx">size</span><span class="o">:</span> <span class="s1">&#39;哈密瓜&#39;</span> <span class="p">},</span>
+</span></span><span class="line"><span class="cl">  <span class="p">{</span> <span class="nx">week</span><span class="o">:</span> <span class="mi">36</span><span class="p">,</span> <span class="nx">size</span><span class="o">:</span> <span class="s1">&#39;长生果&#39;</span> <span class="p">},</span> <span class="p">{</span> <span class="nx">week</span><span class="o">:</span> <span class="mi">40</span><span class="p">,</span> <span class="nx">size</span><span class="o">:</span> <span class="s1">&#39;西瓜&#39;</span> <span class="p">}</span>
+</span></span><span class="line"><span class="cl">  <span class="c1">// ... 共37个水果
+</span></span></span><span class="line"><span class="cl"><span class="p">]</span>
+</span></span></code></pre></div><h3 id="3-纯-svg-体重折线图">3. 纯 SVG 体重折线图</h3>
+<p>没有引入 ECharts 等图表库，而是用计算属性直接生成 SVG：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-javascript" data-lang="javascript"><span class="line"><span class="cl"><span class="kr">const</span> <span class="nx">chartPoints</span> <span class="o">=</span> <span class="nx">computed</span><span class="p">(()</span> <span class="p">=&gt;</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">  <span class="kr">const</span> <span class="p">{</span> <span class="nx">sorted</span><span class="p">,</span> <span class="nx">min</span><span class="p">,</span> <span class="nx">max</span> <span class="p">}</span> <span class="o">=</span> <span class="nx">chartData</span><span class="p">.</span><span class="nx">value</span>
+</span></span><span class="line"><span class="cl">  <span class="k">return</span> <span class="nx">sorted</span><span class="p">.</span><span class="nx">map</span><span class="p">((</span><span class="nx">r</span><span class="p">,</span> <span class="nx">i</span><span class="p">)</span> <span class="p">=&gt;</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="kr">const</span> <span class="nx">x</span> <span class="o">=</span> <span class="nx">padding</span><span class="p">.</span><span class="nx">left</span> <span class="o">+</span> <span class="p">(</span><span class="nx">innerW</span> <span class="o">/</span> <span class="p">(</span><span class="nx">sorted</span><span class="p">.</span><span class="nx">length</span> <span class="o">-</span> <span class="mi">1</span><span class="p">))</span> <span class="o">*</span> <span class="nx">i</span>
+</span></span><span class="line"><span class="cl">    <span class="kr">const</span> <span class="nx">y</span> <span class="o">=</span> <span class="nx">padding</span><span class="p">.</span><span class="nx">top</span> <span class="o">+</span> <span class="nx">innerH</span> <span class="o">-</span> <span class="p">((</span><span class="nx">r</span><span class="p">.</span><span class="nx">value</span> <span class="o">-</span> <span class="nx">min</span><span class="p">)</span> <span class="o">/</span> <span class="p">(</span><span class="nx">max</span> <span class="o">-</span> <span class="nx">min</span><span class="p">))</span> <span class="o">*</span> <span class="nx">innerH</span>
+</span></span><span class="line"><span class="cl">    <span class="k">return</span> <span class="sb">`</span><span class="si">${</span><span class="nx">x</span><span class="si">}</span><span class="sb">,</span><span class="si">${</span><span class="nx">y</span><span class="si">}</span><span class="sb">`</span>
+</span></span><span class="line"><span class="cl">  <span class="p">}).</span><span class="nx">join</span><span class="p">(</span><span class="s1">&#39; &#39;</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="p">})</span>
+</span></span></code></pre></div><p>渲染为 <code>&lt;polyline&gt;</code> + <code>&lt;circle&gt;</code> 点 + 网格线 + Y轴标签，零依赖。</p>
+<h3 id="4-自动保存机制">4. 自动保存机制</h3>
+<p>数据变更后 debounce 2 秒自动 PUT 保存，带状态指示：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-javascript" data-lang="javascript"><span class="line"><span class="cl"><span class="kd">let</span> <span class="nx">autoSaveTimer</span> <span class="o">=</span> <span class="kc">null</span>
+</span></span><span class="line"><span class="cl"><span class="kd">function</span> <span class="nx">scheduleAutoSave</span><span class="p">()</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">  <span class="nx">saveStatus</span><span class="p">.</span><span class="nx">value</span> <span class="o">=</span> <span class="s1">&#39;saving&#39;</span>
+</span></span><span class="line"><span class="cl">  <span class="k">if</span> <span class="p">(</span><span class="nx">autoSaveTimer</span><span class="p">)</span> <span class="nx">clearTimeout</span><span class="p">(</span><span class="nx">autoSaveTimer</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">  <span class="nx">autoSaveTimer</span> <span class="o">=</span> <span class="nx">setTimeout</span><span class="p">(()</span> <span class="p">=&gt;</span> <span class="nx">saveData</span><span class="p">(),</span> <span class="mi">2000</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></div><p>UI 上显示 <code>el-tag</code> 状态：保存中&hellip; / 已保存。</p>
+<h3 id="5-localstorage-免密快速加载">5. localStorage 免密快速加载</h3>
+<p>创建档案时将 <code>id -&gt; creatorKey</code> 映射存入 <code>localStorage</code>，下次打开页面自动加载：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-javascript" data-lang="javascript"><span class="line"><span class="cl"><span class="nx">onMounted</span><span class="p">(()</span> <span class="p">=&gt;</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">  <span class="nx">loadLocalProfiles</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl">  <span class="kr">const</span> <span class="nx">ids</span> <span class="o">=</span> <span class="nb">Object</span><span class="p">.</span><span class="nx">keys</span><span class="p">(</span><span class="nx">localProfiles</span><span class="p">.</span><span class="nx">value</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">  <span class="k">if</span> <span class="p">(</span><span class="nx">ids</span><span class="p">.</span><span class="nx">length</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="nx">loadByCreatorKey</span><span class="p">(</span><span class="nx">ids</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="nx">profiles</span><span class="p">[</span><span class="nx">ids</span><span class="p">[</span><span class="mi">0</span><span class="p">]])</span>
+</span></span><span class="line"><span class="cl">  <span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="p">})</span>
+</span></span></code></pre></div><h2 id="知识库内容">知识库内容</h2>
+<p>知识库是纯前端静态数据，共 <strong>27 篇</strong>内容。同时我们也将完整内容发布为博客系列文章，方便阅读和分享：</p>
+<div class="mermaid">
+
+graph LR
+    subgraph 孕早期["孕早期 1-12周"]
+        E1["1-4周 受精着床"]
+        E2["5-6周 确认怀孕"]
+        E3["7-8周 首次胎心"]
+        E4["9-10周 胚胎→胎儿"]
+        E5["11-12周 NT检查"]
+    end
+
+    subgraph 孕中期["孕中期 13-28周"]
+        M1["13-14周 黄金期"]
+        M2["15-16周 唐筛"]
+        M3["17-18周 初感胎动"]
+        M4["19-20周 大排畸"]
+        M5["21-28周 快速成长"]
+    end
+
+    subgraph 孕晚期["孕晚期 29-40周"]
+        L1["29-32周 冲刺准备"]
+        L2["33-36周 临近足月"]
+        L3["37-40周 等待分娩"]
+        L4["41周+ 过预产期"]
+    end
+
+    subgraph 专题["专题指南"]
+        G1["分娩方式选择"]
+        G2["母乳喂养"]
+        G3["产后恢复"]
+        G4["新生儿护理"]
+        G5["饮食指南"]
+        G6["心理健康"]
+        G7["办事清单"]
+    end
+
+</div>
+<h3 id="系列文章索引">系列文章索引</h3>
+<p><strong>孕早期（1-12周）</strong>：<a href="https://blog.jaxiu.cn/blog/2026-02/pregnancy-early-trimester/">孕早期完全指南</a> — 从受精着床到 NT 检查，5 个关键阶段详解</p>
+<p><strong>孕中期（13-28周）</strong>：<a href="https://blog.jaxiu.cn/blog/2026-02/pregnancy-mid-trimester/">孕中期完全指南</a> — 黄金蜜月期，唐筛、大排畸、糖耐量三大关卡</p>
+<p><strong>孕晚期（29-40周）</strong>：<a href="https://blog.jaxiu.cn/blog/2026-02/pregnancy-late-trimester/">孕晚期完全指南</a> — 冲刺阶段到分娩倒计时</p>
+<p><strong>专题指南</strong>：<a href="https://blog.jaxiu.cn/blog/2026-02/pregnancy-delivery-postpartum/">分娩与产后指南</a> — 分娩方式选择、母乳喂养、产后恢复、新生儿护理</p>
+<p><strong>实用工具</strong>：<a href="https://blog.jaxiu.cn/blog/2026-02/pregnancy-diet-checklist/">孕期饮食与办事清单</a> — 完整饮食禁忌 + 孕期全阶段办事清单</p>
+<h2 id="文件变更清单">文件变更清单</h2>
+<table>
+  <thead>
+      <tr>
+          <th>文件</th>
+          <th>操作</th>
+          <th>说明</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td><code>backend/models/pregnancy.go</code></td>
+          <td>新建</td>
+          <td>数据模型 + 8 个 CRUD 方法</td>
+      </tr>
+      <tr>
+          <td><code>backend/handlers/pregnancy.go</code></td>
+          <td>新建</td>
+          <td>5 个 API 处理器 + 预置数据初始化</td>
+      </tr>
+      <tr>
+          <td><code>backend/config/config.go</code></td>
+          <td>修改</td>
+          <td>添加 PregnancyConfig</td>
+      </tr>
+      <tr>
+          <td><code>backend/main.go</code></td>
+          <td>修改</td>
+          <td>初始化 + 路由 + 清理</td>
+      </tr>
+      <tr>
+          <td><code>backend/config.example.yaml</code></td>
+          <td>修改</td>
+          <td>添加配置段</td>
+      </tr>
+      <tr>
+          <td><code>frontend/src/views/PregnancyTool.vue</code></td>
+          <td>新建</td>
+          <td>~1100行 Vue 组件</td>
+      </tr>
+      <tr>
+          <td><code>frontend/src/router/index.js</code></td>
+          <td>修改</td>
+          <td>添加 /yun 路由</td>
+      </tr>
+  </tbody>
+</table>
+<h2 id="总结">总结</h2>
+<p>这个模块展示了 DevTools 项目&quot;单表 JSON blob&quot;模式在新场景中的应用。相比为每种数据建单独表，这种方式更适合用户维度的个人数据管理——数据量可控、读写模式简单、前端开发效率高。</p>
+<p>整体开发遵循了项目已有的设计模式（Excalidraw handler 模式、bcrypt 密码、creatorKey 机制、IP 限流、过期清理），确保代码风格一致性。前端选择纯 SVG 替代图表库、纯静态数据替代后端知识 API，在功能完整的同时保持了零额外依赖。</p>
+
+          </div>
+
+          
+          <div class="row">
+            <div class="col-md-8">
+            
+              <div class="mb-5">
+                
+<div class="li-x div-x post-meta">
+  <li class="pr-0"><a href="https://blog.jaxiu.cn/tags/"><i class="fas fa-tags"></i></a></li>
+  <div class="tags-sm">
+    
+      <li><a href="https://blog.jaxiu.cn/tags/devtools" role="button">DevTools </a></li>
+      
+    
+      <li><a href="https://blog.jaxiu.cn/tags/vue3" role="button">Vue3 </a></li>
+      
+    
+      <li><a href="https://blog.jaxiu.cn/tags/go" role="button">Go </a></li>
+      
+    
+      <li><a href="https://blog.jaxiu.cn/tags/sqlite" role="button">SQLite </a></li>
+      
+    
+      <li><a href="https://blog.jaxiu.cn/tags/%E5%85%A8%E6%A0%88%E5%BC%80%E5%8F%91" role="button">全栈开发 </a></li>
+      
+    
+      <li><a href="https://blog.jaxiu.cn/tags/element-plus" role="button">Element Plus </a></li>
+      
+    
+  </div>
+</div>
+              </div>
+            
+            </div>
+            
+          </div>
+          
+
+          
+          <div class="row pt-3">
+            <div class="col-md-6">
+              
+                <a href=https://blog.jaxiu.cn/blog/2026-01/devtools-fullstack-guide/ class="post-meta">Previous
+                  <div class="pt-2 pb-5 d-flex">
+                    <i class="fas fa-angle-left text-grey font-weight-bold mr-2 active-color"></i>
+                    <span>DevTools：从零构建全栈开发者工具站</span>
+                  </div>
+                </a>
+              
+            </div>
+            
+            <div class="col-md-6 text-right" >
+              
+                <a href=https://blog.jaxiu.cn/blog/2026-02/pregnancy-early-trimester/ class="post-meta">Next
+                  <div class="pt-2 pb-5 flex-reverse">
+                    <i class="fas fa-angle-right text-grey font-weight-bold ml-2 active-color"></i>
+                    <span>孕早期完全指南（1-12周）：从验孕到 NT 检查</span>
+                  </div>
+                </a>
+              
+            </div>
+          </div>
+
+          
+
+        </div>
+        
+
+      </div>
+      
+
+      
+	
+	
+	
+	
+		
+		
+		
+	
+
+		
+		<div class="col-md-2 pl-0">
+
+			
+			<div id="page-scrollspy" class="toc-nav">
+				
+				<ul class="nav nav-pills ml-0">
+					
+					<li class="nav-item pb-3 text-center">
+						<span class="font-weight-bold mb-2">- CATALOG - </span>
+					</li>
+
+					
+						
+						
+							
+								
+								
+									<ul class="nav">
+								
+								
+
+										<li class="nav-item">
+						 					<a class="nav-link" href="#devtools-%e5%ad%95%e6%9c%9f%e7%ae%a1%e7%90%86%e6%a8%a1%e5%9d%97%e5%85%a8%e6%a0%88%e5%ae%9e%e7%8e%b0%e4%b8%80%e4%b8%aa%e4%ba%91%e7%ab%af%e5%ad%95%e6%9c%9f%e5%b7%a5%e5%85%b7%e5%a5%97%e4%bb%b6">
+												 DevTools 孕期管理模块：全栈实现一个云端孕期工具套件
+											</a>
+										</li>
+						 
+								
+								
+									</ul>
+								
+							
+						
+				 
+						
+						
+							
+								
+								
+									<ul class="nav">
+								
+									<ul class="nav">
+								
+								
+
+										<li class="nav-item">
+						 					<a class="nav-link" href="#%e5%8a%9f%e8%83%bd%e6%a6%82%e8%a7%88">
+												 功能概览
+											</a>
+										</li>
+						 
+								
+								
+									</ul>
+								
+									</ul>
+								
+							
+						
+				 
+						
+						
+							
+								
+								
+									<ul class="nav">
+								
+									<ul class="nav">
+								
+								
+
+										<li class="nav-item">
+						 					<a class="nav-link" href="#%e6%9e%b6%e6%9e%84%e8%ae%be%e8%ae%a1">
+												 架构设计
+											</a>
+										</li>
+						 
+								
+								
+									</ul>
+								
+									</ul>
+								
+							
+						
+				 
+						
+						
+							
+								
+								
+									<ul class="nav">
+								
+									<ul class="nav">
+								
+									<ul class="nav">
+								
+								
+
+										<li class="nav-item">
+						 					<a class="nav-link" href="#%e5%8d%95%e8%a1%a8--json-blob-%e6%a8%a1%e5%bc%8f">
+												 单表 &#43; JSON Blob 模式
+											</a>
+										</li>
+						 
+								
+								
+									</ul>
+								
+									</ul>
+								
+									</ul>
+								
+							
+						
+				 
+						
+						
+							
+								
+								
+									<ul class="nav">
+								
+									<ul class="nav">
+								
+									<ul class="nav">
+								
+								
+
+										<li class="nav-item">
+						 					<a class="nav-link" href="#%e9%81%b5%e5%be%aa-excalidraw-%e6%a8%a1%e5%9d%97%e6%a8%a1%e5%bc%8f">
+												 遵循 Excalidraw 模块模式
+											</a>
+										</li>
+						 
+								
+								
+									</ul>
+								
+									</ul>
+								
+									</ul>
+								
+							
+						
+				 
+						
+						
+							
+								
+								
+									<ul class="nav">
+								
+									<ul class="nav">
+								
+								
+
+										<li class="nav-item">
+						 					<a class="nav-link" href="#api-%e8%ae%be%e8%ae%a1">
+												 API 设计
+											</a>
+										</li>
+						 
+								
+								
+									</ul>
+								
+									</ul>
+								
+							
+						
+				 
+						
+						
+							
+								
+								
+									<ul class="nav">
+								
+									<ul class="nav">
+								
+								
+
+										<li class="nav-item">
+						 					<a class="nav-link" href="#%e5%89%8d%e7%ab%af%e5%ae%9e%e7%8e%b0%e4%ba%ae%e7%82%b9">
+												 前端实现亮点
+											</a>
+										</li>
+						 
+								
+								
+									</ul>
+								
+									</ul>
+								
+							
+						
+				 
+						
+						
+							
+								
+								
+									<ul class="nav">
+								
+									<ul class="nav">
+								
+									<ul class="nav">
+								
+								
+
+										<li class="nav-item">
+						 					<a class="nav-link" href="#1-%e5%ad%95%e5%91%a8%e8%ae%a1%e7%ae%97">
+												 1. 孕周计算
+											</a>
+										</li>
+						 
+								
+								
+									</ul>
+								
+									</ul>
+								
+									</ul>
+								
+							
+						
+				 
+						
+						
+							
+								
+								
+									<ul class="nav">
+								
+									<ul class="nav">
+								
+									<ul class="nav">
+								
+								
+
+										<li class="nav-item">
+						 					<a class="nav-link" href="#2-%e5%ae%9d%e5%ae%9d%e5%a4%a7%e5%b0%8f%e6%af%94%e5%96%bb">
+												 2. 宝宝大小比喻
+											</a>
+										</li>
+						 
+								
+								
+									</ul>
+								
+									</ul>
+								
+									</ul>
+								
+							
+						
+				 
+						
+						
+							
+								
+								
+									<ul class="nav">
+								
+									<ul class="nav">
+								
+									<ul class="nav">
+								
+								
+
+										<li class="nav-item">
+						 					<a class="nav-link" href="#3-%e7%ba%af-svg-%e4%bd%93%e9%87%8d%e6%8a%98%e7%ba%bf%e5%9b%be">
+												 3. 纯 SVG 体重折线图
+											</a>
+										</li>
+						 
+								
+								
+									</ul>
+								
+									</ul>
+								
+									</ul>
+								
+							
+						
+				 
+						
+						
+							
+								
+								
+									<ul class="nav">
+								
+									<ul class="nav">
+								
+									<ul class="nav">
+								
+								
+
+										<li class="nav-item">
+						 					<a class="nav-link" href="#4-%e8%87%aa%e5%8a%a8%e4%bf%9d%e5%ad%98%e6%9c%ba%e5%88%b6">
+												 4. 自动保存机制
+											</a>
+										</li>
+						 
+								
+								
+									</ul>
+								
+									</ul>
+								
+									</ul>
+								
+							
+						
+				 
+						
+						
+							
+								
+								
+									<ul class="nav">
+								
+									<ul class="nav">
+								
+									<ul class="nav">
+								
+								
+
+										<li class="nav-item">
+						 					<a class="nav-link" href="#5-localstorage-%e5%85%8d%e5%af%86%e5%bf%ab%e9%80%9f%e5%8a%a0%e8%bd%bd">
+												 5. localStorage 免密快速加载
+											</a>
+										</li>
+						 
+								
+								
+									</ul>
+								
+									</ul>
+								
+									</ul>
+								
+							
+						
+				 
+						
+						
+							
+								
+								
+									<ul class="nav">
+								
+									<ul class="nav">
+								
+								
+
+										<li class="nav-item">
+						 					<a class="nav-link" href="#%e7%9f%a5%e8%af%86%e5%ba%93%e5%86%85%e5%ae%b9">
+												 知识库内容
+											</a>
+										</li>
+						 
+								
+								
+									</ul>
+								
+									</ul>
+								
+							
+						
+				 
+						
+						
+							
+								
+								
+									<ul class="nav">
+								
+									<ul class="nav">
+								
+									<ul class="nav">
+								
+								
+
+										<li class="nav-item">
+						 					<a class="nav-link" href="#%e7%b3%bb%e5%88%97%e6%96%87%e7%ab%a0%e7%b4%a2%e5%bc%95">
+												 系列文章索引
+											</a>
+										</li>
+						 
+								
+								
+									</ul>
+								
+									</ul>
+								
+									</ul>
+								
+							
+						
+				 
+						
+						
+							
+								
+								
+									<ul class="nav">
+								
+									<ul class="nav">
+								
+								
+
+										<li class="nav-item">
+						 					<a class="nav-link" href="#%e6%96%87%e4%bb%b6%e5%8f%98%e6%9b%b4%e6%b8%85%e5%8d%95">
+												 文件变更清单
+											</a>
+										</li>
+						 
+								
+								
+									</ul>
+								
+									</ul>
+								
+							
+						
+				 
+						
+						
+							
+								
+								
+									<ul class="nav">
+								
+									<ul class="nav">
+								
+								
+
+										<li class="nav-item">
+						 					<a class="nav-link" href="#%e6%80%bb%e7%bb%93">
+												 总结
+											</a>
+										</li>
+						 
+								
+								
+									</ul>
+								
+									</ul>
+								
+							
+						
+				 
+
+				</ul>
+			</div>
+			
+
+		</div>
+		
+	
+
+    </div>
+    
+
+
+  </main>
+  
+
+
+    
+    
+<footer class="page-footer text-center font-small mt-4 wow fadeIn">
+
+
+  
+  <div class="pb-2 mt-5 pt-5">
+    
+    <a href="//github.com/axfinn " target="_blank" rel="noopener"><i class="fab fa-github mr-3"
+        aria-hidden="true"></i></a>
+    
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+
+    
+    <a href="mailto:521very@email.com"><i class="far fa-envelope-open mr-3" aria-hidden="true"></i></a>
+    
+
+    
+
+    
+
+  </div>
+  
+
+  
+  <div class="copyright py-4">
+    
+    <span> 2016 - 2026 &copy; | Theme <a href='https://github.com/orianna-zzo/AllinOne'
+        target="_blank">AllinOne</a> by <a href='https://github.com/orianna-zzo' target="_blank">Orianna</a> </span>
+  </div>
+  
+
+</footer>
+
+    
+
+
+
+
+<script type="text/javascript" src="https://blog.jaxiu.cn/js/vendors/jquery/jquery-3.3.1.min.js"></script>
+<script type="text/javascript" src="https://blog.jaxiu.cn/js/vendors/jquery/jquery.smooth-scroll.min.js"></script>
+
+
+
+<script type="text/javascript" src="https://blog.jaxiu.cn/js/vendors/popper.min.js"></script>
+<script type="text/javascript" src="https://blog.jaxiu.cn/js/vendors/holder.min.js"></script>
+<script type="text/javascript" src="https://blog.jaxiu.cn/js/vendors-extensions/bootstrap4/bootstrap.js" ></script>
+
+<script type="text/javascript" src="https://blog.jaxiu.cn/js/vendors/mdb/mdb.min.js"></script>
+
+<script type="text/javascript" src="https://blog.jaxiu.cn/js/main.js"></script>
+<script type="text/javascript" src="https://blog.jaxiu.cn/js/search.js"></script>
+
+
+
+
+  <script src="https://blog.jaxiu.cn/js/vendors/highlight.pack.js"> </script>
+  <script>hljs.initHighlightingOnLoad();</script>
+
+
+
+
+
+  <script src="https://blog.jaxiu.cn/js/vendors/katex/katex.min.js"> </script>
+  <script src="https://blog.jaxiu.cn/js/vendors/katex/contrib/auto-render.min.js"></script>
+
+  <script>
+      document.addEventListener("DOMContentLoaded", function () {
+          renderMathInElement(document.body);
+      });
+  </script>
+
+
+
+
+
+
+
+
+<script type="text/javascript">
+  
+  new WOW().init();
+</script>
+  </body>
+</html>

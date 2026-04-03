@@ -1,0 +1,1019 @@
+<!DOCTYPE html>
+<html lang="zn-Hans">
+  <head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge, chrome=1">
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no, maximum-scale=1" />
+  
+  <meta name="author" content="jaxiu He">
+  <meta name="description"
+    content="作为一名开发者，日常工作中有太多琐碎但必不可少的小工具：JSON 格式化、URL 编解码、正则测试、Diff 对比……每次都要打开不同的网站，甚至有些还要付费才能使用。
+于是我干脆自己动手，花了些时间做了一个开发者工具箱——现在它已经基本成型了，今天来给大家介绍一下！
+🌐 在线体验
+在线地址：https://t.jaxiu.cn
+GitHub：https://github.com/axfinn/devtools
+🎯 核心功能一览
+这个工具箱目前包含 20&#43; 实用工具，涵盖了开发过程中的各种场景：">
+
+  <meta property="og:url" content="https://blog.jaxiu.cn/blog/2026-03/%E6%88%91%E5%BC%80%E5%8F%91%E4%BA%86%E4%B8%80%E4%B8%AA%E8%B6%85%E5%AE%9E%E7%94%A8%E7%9A%84%E5%BC%80%E5%8F%91%E8%80%85%E5%B7%A5%E5%85%B7%E7%AE%B1/">
+  <meta property="og:site_name" content="jaxiu He">
+  <meta property="og:title" content="我开发了一个超实用的开发者工具箱">
+  <meta property="og:description" content="作为一名开发者，日常工作中有太多琐碎但必不可少的小工具：JSON 格式化、URL 编解码、正则测试、Diff 对比……每次都要打开不同的网站，甚至有些还要付费才能使用。
+于是我干脆自己动手，花了些时间做了一个开发者工具箱——现在它已经基本成型了，今天来给大家介绍一下！
+🌐 在线体验 在线地址：https://t.jaxiu.cn
+GitHub：https://github.com/axfinn/devtools
+🎯 核心功能一览 这个工具箱目前包含 20&#43; 实用工具，涵盖了开发过程中的各种场景：">
+  <meta property="og:locale" content="zn_Hans">
+  <meta property="og:type" content="article">
+    <meta property="article:section" content="blog">
+    <meta property="article:published_time" content="2026-03-05T07:52:00+08:00">
+    <meta property="article:modified_time" content="2026-03-05T07:52:00+08:00">
+    <meta property="article:tag" content="Devtools">
+    <meta property="article:tag" content="开发者工具">
+    <meta property="article:tag" content="工具箱">
+    <meta property="article:tag" content="开源">
+
+
+  <title>
+    
+     我开发了一个超实用的开发者工具箱 | jaxiu He 
+    
+  </title>
+
+  <link rel="canonical" href="https://blog.jaxiu.cn/blog/2026-03/%E6%88%91%E5%BC%80%E5%8F%91%E4%BA%86%E4%B8%80%E4%B8%AA%E8%B6%85%E5%AE%9E%E7%94%A8%E7%9A%84%E5%BC%80%E5%8F%91%E8%80%85%E5%B7%A5%E5%85%B7%E7%AE%B1/">
+
+  
+  
+
+  
+  
+  
+  <meta name="baidu-site-verification" content="your-baidu-verify-code" />
+  
+
+  
+  
+  <meta name="google-site-verification" content="your-google-verify-code" />
+  
+
+  
+  <link href="https://blog.jaxiu.cn/css/vendors-extensions/fontawesome/all.min.css" rel="stylesheet">
+
+  
+  <link rel="stylesheet"
+    href="https://fonts.googleapis.com/css?family=Open+Sans:400,700|Ubuntu+Mono:400,400i,700,700i|Raleway:300,400,500,600">
+  <link href="https://blog.jaxiu.cn/css/font.css" rel="stylesheet">
+
+  
+  <link href="https://blog.jaxiu.cn/css/vendors/bootstrap4/bootstrap.min.css" rel="stylesheet">
+  <link href="https://blog.jaxiu.cn/css/vendors-extensions/mdb/mdb.min.css" rel="stylesheet">
+  <link href="https://blog.jaxiu.cn/css/vendors/mdb/style.min.css" rel="stylesheet">
+  <link href="https://blog.jaxiu.cn/css/main.css" rel="stylesheet">
+
+
+  
+  <link rel="shortcut icon"  href="https://blog.jaxiu.cn/img/logo.png" >
+
+
+  
+  
+
+  <style type="text/css">
+    @media (min-width: 800px) and (max-width: 850px) {
+      .navbar:not(.top-nav-collapse) {
+        background: #1C2331 !important;
+      }
+    }
+  </style>
+
+
+  
+  
+  <link rel="stylesheet" href="https://blog.jaxiu.cn/js/vendors/katex/katex.min.css">
+  
+  
+
+  
+  
+  <link rel="stylesheet" href="https://blog.jaxiu.cn/css/vendors/highlight/github-gist.css">
+  
+
+  
+  
+  <script type="module">
+    import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.esm.min.mjs';
+    mermaid.initialize({ startOnLoad: true });
+  </script>
+  
+  
+
+  
+  <link href="https://blog.jaxiu.cn/css/holiday-effects.css" rel="stylesheet">
+  <script src="https://blog.jaxiu.cn/js/holiday-effects.js"></script>
+
+  
+  <script src="https://blog.jaxiu.cn/js/dynamic-bg.js"></script>
+  <link href="https://blog.jaxiu.cn/css/dynamic-bg-control.css" rel="stylesheet">
+
+</head>
+  <body class="bg-light" data-spy="scroll" data-target="#page-scrollspy" data-offset="90">
+  
+    
+    
+
+    
+      
+
+
+<nav class="navbar fixed-top navbar-expand-lg navbar-dark scrolling-navbar">
+    <div class="container">
+
+      
+      <a class="navbar-brand" href="https://blog.jaxiu.cn/">
+          
+        <img class="avatar" src="https://blog.jaxiu.cn/img/logo.png" style="width: 40px!important;height: auto;"  class="d-inline-block align-top" alt="" >
+        
+        <strong> jaxiu He</strong>
+      </a>
+
+      
+      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
+        aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+
+      
+      <div class="collapse navbar-collapse" id="navbarSupportedContent">
+
+        
+        <ul class="navbar-nav mr-auto ">
+          <li class="nav-item ">
+            <a class="nav-link" href="https://blog.jaxiu.cn/">Home</a>
+          </li>
+          
+            <li class="nav-item ">
+              <a class="nav-link" href="https://blog.jaxiu.cn/blog/" >博客  </a>
+            </li>
+
+          
+            <li class="nav-item ">
+              <a class="nav-link" href="https://blog.jaxiu.cn/moment/" >动态  </a>
+            </li>
+
+          
+            <li class="nav-item ">
+              <a class="nav-link" href="https://blog.jaxiu.cn/blog/prenatal-stories/" >胎教故事  </a>
+            </li>
+
+          
+            <li class="nav-item ">
+              <a class="nav-link" href="https://blog.jaxiu.cn/about/" >关于  </a>
+            </li>
+
+          
+        </ul>
+
+        
+        <ul class="navbar-nav">
+          <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" href="#" id="searchDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+              <i class="fas fa-search"></i> 搜索
+            </a>
+            <div class="dropdown-menu dropdown-menu-right p-3" aria-labelledby="searchDropdown" style="min-width: 300px; max-width: 400px;">
+              <form class="search-form" onsubmit="return false;">
+                <div class="input-group">
+                  <input type="text" id="search-query" class="form-control" placeholder="搜索文章标题或内容..." autocomplete="off">
+                  <div class="input-group-append">
+                    <button class="btn btn-outline-secondary" type="button" onclick="document.getElementById('search-query').focus();">
+                      <i class="fas fa-search"></i>
+                    </button>
+                  </div>
+                </div>
+              </form>
+              <ul id="search-results" class="list-unstyled mt-2 mb-0" style="max-height: 400px; overflow-y: auto;"></ul>
+            </div>
+          </li>
+        </ul>
+
+      </div>
+
+    </div>
+  </nav>
+   
+      
+
+
+
+
+
+
+
+<div id="site-header" class="carousel slide carousel-fade" data-ride="carousel" style="height: 18rem;">
+  
+
+  
+  
+  
+
+  
+  <div class="carousel-inner" role="listbox">
+    
+    
+
+    
+    <div class="carousel-item active">
+      <div class="view"
+        style="background-image: url('https://blog.jaxiu.cn/img/header-slides/raw_1515691746.jpg'); background-repeat: no-repeat; background-size: cover;">
+
+        
+        <div class="mask rgba-black-light d-flex justify-content-center align-items-center">
+
+          
+          
+          
+
+        </div>
+        
+
+      </div>
+    </div>
+    
+    
+    
+    
+
+    
+    <div class="carousel-item">
+      <div class="view"
+        style="background-image: url('https://blog.jaxiu.cn/img/header-slides//raw_1515847341.jpg'); background-repeat: no-repeat; background-size: cover;">
+
+        
+        <div class="mask rgba-black-light d-flex justify-content-center align-items-center">
+
+
+
+        </div>
+        
+
+      </div>
+    </div>
+    
+    
+    
+
+
+  </div>
+  
+
+  
+  <div class="carousel-content text-center white-text wow fadeIn">
+    <div class="row mx-0 headfont mt-3 pt-4">
+      
+      <div class="col-12 col-sm-5 align-middle">
+        <a href="https://blog.jaxiu.cn/">
+          
+          <img class="pull-right avatar avatar-md" src="https://blog.jaxiu.cn/img/logo.png" alt="">
+          
+        </a>
+      </div>
+
+      <div class="col-12 col-sm-7 text-left pl-2">
+        <a href="https://blog.jaxiu.cn/">
+          <h1 class="mb-2 h1" style="font-weight: 300;">
+            <strong>jaxiu He</strong>
+          </h1>
+        </a>
+
+
+        
+        <div class="mt-2" style="font-size: 1rem; color: white;">
+          
+          <a href="//github.com/axfinn" target="_blank" rel="noopener"><i class="fab fa-github pr-1"
+              aria-hidden="true"></i></a>
+          
+          
+
+          
+
+          
+
+          
+
+          
+
+          
+
+
+          
+          <a href="mailto:521very@email.com"><i class="far fa-envelope-open pr-1" aria-hidden="true"></i></a>
+          
+
+          
+
+
+        </div>
+      </div>
+    </div>
+  </div>
+  
+
+  
+  
+  
+
+</div>
+  
+    
+
+    
+  
+  <main class="post-main-wrapper">
+    
+    
+    <div class="row">
+
+      
+
+      
+      <div class="col-md-10">
+      
+
+        
+        <div class="z-depth-1  post-wrapper white-bg single-post">
+
+          <div class="post-header text-center" >
+  <ul class="post-meta li-x">
+    
+      
+        <li><a href="https://blog.jaxiu.cn/categories/%E5%B7%A5%E5%85%B7%E6%8E%A8%E8%8D%90"><i class="fas fa-folder-open pr-1" aria-hidden="true"></i> 工具推荐 </a></li>
+      
+    
+    
+  </ul>
+
+  <div class="px-4 post-heading">我开发了一个超实用的开发者工具箱</div>
+
+  <ul class="post-meta li-x mt-1">
+    
+      <li>Mar 5, 2026</li>
+    
+
+    
+      <li class="middot"></li>
+      <li>2 minutes read</li>
+    
+  </ul>
+  
+
+</div>
+
+
+          <div class="post-content markdown">
+            <p>作为一名开发者，日常工作中有太多琐碎但必不可少的小工具：JSON 格式化、URL 编解码、正则测试、Diff 对比……每次都要打开不同的网站，甚至有些还要付费才能使用。</p>
+<p>于是我干脆自己动手，花了些时间做了一个<strong>开发者工具箱</strong>——现在它已经基本成型了，今天来给大家介绍一下！</p>
+<h2 id="-在线体验">🌐 在线体验</h2>
+<p><strong>在线地址</strong>：https://t.jaxiu.cn</p>
+<p><strong>GitHub</strong>：https://github.com/axfinn/devtools</p>
+<h2 id="-核心功能一览">🎯 核心功能一览</h2>
+<p>这个工具箱目前包含 <strong>20+</strong> 实用工具，涵盖了开发过程中的各种场景：</p>
+<h3 id="开发必备">开发必备</h3>
+<table>
+  <thead>
+      <tr>
+          <th>工具</th>
+          <th>功能</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td>JSON 工具</td>
+          <td>格式化、压缩、校验、转 Go Struct / TypeScript Interface、JSON Path 查询</td>
+      </tr>
+      <tr>
+          <td>Diff 对比</td>
+          <td>文本对比，支持字符级、单词级、行级差异高亮</td>
+      </tr>
+      <tr>
+          <td>正则测试</td>
+          <td>实时匹配测试、常用正则模板</td>
+      </tr>
+      <tr>
+          <td>SSH 终端</td>
+          <td>远程 SSH 连接，支持密码/密钥认证</td>
+      </tr>
+      <tr>
+          <td>Base64</td>
+          <td>文本/图片 Base64 编解码</td>
+      </tr>
+      <tr>
+          <td>URL 编解码</td>
+          <td>URL Encode/Decode、参数构建</td>
+      </tr>
+      <tr>
+          <td>时间戳转换</td>
+          <td>Unix 时间戳与日期时间互转</td>
+      </tr>
+  </tbody>
+</table>
+<h3 id="文本处理">文本处理</h3>
+<table>
+  <thead>
+      <tr>
+          <th>工具</th>
+          <th>功能</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td>文本转换</td>
+          <td>大小写转换、排序、去重、行处理</td>
+      </tr>
+      <tr>
+          <td>批量替换</td>
+          <td>多规则同时应用，支持正则表达式</td>
+      </tr>
+  </tbody>
+</table>
+<h3 id="在线工具">在线工具</h3>
+<table>
+  <thead>
+      <tr>
+          <th>工具</th>
+          <th>功能</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td>Mock API</td>
+          <td>创建 Mock 端点，自定义响应状态码和响应体</td>
+      </tr>
+      <tr>
+          <td>Markdown</td>
+          <td>实时预览、导出 HTML/PDF，支持创建分享链接</td>
+      </tr>
+      <tr>
+          <td>Mermaid 图表</td>
+          <td>实时渲染、导出 SVG/PNG</td>
+      </tr>
+      <tr>
+          <td>Excalidraw 画图</td>
+          <td>云端保存、密码保护、导出 PNG/SVG</td>
+      </tr>
+      <tr>
+          <td>共享粘贴板</td>
+          <td>临时分享，支持过期时间和访问次数限制</td>
+      </tr>
+      <tr>
+          <td>短链生成</td>
+          <td>自定义 ID、访问次数限制、过期时间</td>
+      </tr>
+  </tbody>
+</table>
+<h3 id="生活小工具">生活小工具</h3>
+<table>
+  <thead>
+      <tr>
+          <th>工具</th>
+          <th>功能</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td>IP/DNS 查询</td>
+          <td>查看当前 IP、域名 DNS 解析</td>
+      </tr>
+      <tr>
+          <td>孕期管理</td>
+          <td>孕周计算、产检提醒</td>
+      </tr>
+      <tr>
+          <td>每日菜谱</td>
+          <td>菜谱推荐、分类浏览</td>
+      </tr>
+      <tr>
+          <td>生活记账</td>
+          <td>收支记录、趋势分析</td>
+      </tr>
+      <tr>
+          <td>血糖监测</td>
+          <td>血糖记录、达标率统计</td>
+      </tr>
+      <tr>
+          <td>二维码</td>
+          <td>生成器 + 图片中二维码识别</td>
+      </tr>
+  </tbody>
+</table>
+<h3 id="社交功能">社交功能</h3>
+<table>
+  <thead>
+      <tr>
+          <th>工具</th>
+          <th>功能</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td>聊天室</td>
+          <td>实时聊天，密码保护，图片/视频上传</td>
+      </tr>
+  </tbody>
+</table>
+<h2 id="-安全与限流">🔒 安全与限流</h2>
+<p>我也很重视安全问题，所以内置了这些保护机制：</p>
+<ul>
+<li><strong>IP 限流</strong>：基于 IP 的速率限制，防止滥用</li>
+<li><strong>密码保护</strong>：粘贴板、聊天室、Markdown 分享、Excalidraw 都支持</li>
+<li><strong>访问次数限制</strong>：可设置查看/点击次数上限</li>
+<li><strong>自动清理</strong>：每小时清理过期数据，7 天前的聊天室自动删除</li>
+</ul>
+<h2 id="-技术栈">🛠️ 技术栈</h2>
+<ul>
+<li><strong>前端</strong>：Vue 3 + Vite + Element Plus + TailwindCSS</li>
+<li><strong>后端</strong>：Go Gin + SQLite</li>
+<li><strong>OCR</strong>：Python FastAPI + RapidOCR + OpenCV</li>
+<li><strong>部署</strong>：Docker + Docker Compose</li>
+</ul>
+<h2 id="-快速部署">🚀 快速部署</h2>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="c1"># 克隆项目</span>
+</span></span><span class="line"><span class="cl">git clone https://github.com/axfinn/devtools.git
+</span></span><span class="line"><span class="cl"><span class="nb">cd</span> devtools
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># 一键启动</span>
+</span></span><span class="line"><span class="cl">docker-compose up -d
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># 访问</span>
+</span></span><span class="line"><span class="cl">open http://localhost:8082
+</span></span></code></pre></div><h2 id="-后续计划">📌 后续计划</h2>
+<p>这个工具箱我会持续维护和更新，欢迎大家提 Issue 和 PR！</p>
+<p>如果你觉得有用，欢迎 <strong>Star</strong> 支持一下～ ⭐</p>
+<p>如果对你有帮助，也可以请我喝杯咖啡 ☕</p>
+<hr>
+<p><em>希望这个工具箱能帮到更多和我一样每天和各种小工具打交道的开发者！</em></p>
+
+          </div>
+
+          
+          <div class="row">
+            <div class="col-md-8">
+            
+              <div class="mb-5">
+                
+<div class="li-x div-x post-meta">
+  <li class="pr-0"><a href="https://blog.jaxiu.cn/tags/"><i class="fas fa-tags"></i></a></li>
+  <div class="tags-sm">
+    
+      <li><a href="https://blog.jaxiu.cn/tags/devtools" role="button">devtools </a></li>
+      
+    
+      <li><a href="https://blog.jaxiu.cn/tags/%E5%BC%80%E5%8F%91%E8%80%85%E5%B7%A5%E5%85%B7" role="button">开发者工具 </a></li>
+      
+    
+      <li><a href="https://blog.jaxiu.cn/tags/%E5%B7%A5%E5%85%B7%E7%AE%B1" role="button">工具箱 </a></li>
+      
+    
+      <li><a href="https://blog.jaxiu.cn/tags/%E5%BC%80%E6%BA%90" role="button">开源 </a></li>
+      
+    
+  </div>
+</div>
+              </div>
+            
+            </div>
+            
+          </div>
+          
+
+          
+          <div class="row pt-3">
+            <div class="col-md-6">
+              
+                <a href=https://blog.jaxiu.cn/blog/2026-02/%E8%B5%9B%E5%8D%9A%E8%A7%89%E9%86%92%E7%AC%AC%E4%B8%83%E7%AB%A0-%E6%96%B0%E9%BB%8E%E6%98%8E%E7%9A%84%E6%8C%91%E6%88%98/ class="post-meta">Previous
+                  <div class="pt-2 pb-5 d-flex">
+                    <i class="fas fa-angle-left text-grey font-weight-bold mr-2 active-color"></i>
+                    <span>赛博觉醒：第七章 - 新黎明的挑战</span>
+                  </div>
+                </a>
+              
+            </div>
+            
+            <div class="col-md-6 text-right" >
+              
+                <a href=https://blog.jaxiu.cn/blog/2026-03/%E6%AF%8F%E6%97%A5%E6%8A%80%E6%9C%AF%E7%83%AD%E7%82%B9-2026%E5%B9%B403%E6%9C%8806%E6%97%A5/ class="post-meta">Next
+                  <div class="pt-2 pb-5 flex-reverse">
+                    <i class="fas fa-angle-right text-grey font-weight-bold ml-2 active-color"></i>
+                    <span>每日技术热点 - 2026年03月06日</span>
+                  </div>
+                </a>
+              
+            </div>
+          </div>
+
+          
+
+        </div>
+        
+
+      </div>
+      
+
+      
+	
+	
+	
+	
+		
+		
+		
+	
+
+		
+		<div class="col-md-2 pl-0">
+
+			
+			<div id="page-scrollspy" class="toc-nav">
+				
+				<ul class="nav nav-pills ml-0">
+					
+					<li class="nav-item pb-3 text-center">
+						<span class="font-weight-bold mb-2">- CATALOG - </span>
+					</li>
+
+					
+						
+						
+							
+								
+								
+									<ul class="nav">
+								
+								
+
+										<li class="nav-item">
+						 					<a class="nav-link" href="#-%e5%9c%a8%e7%ba%bf%e4%bd%93%e9%aa%8c">
+												 🌐 在线体验
+											</a>
+										</li>
+						 
+								
+								
+									</ul>
+								
+							
+						
+				 
+						
+						
+							
+								
+								
+									<ul class="nav">
+								
+								
+
+										<li class="nav-item">
+						 					<a class="nav-link" href="#-%e6%a0%b8%e5%bf%83%e5%8a%9f%e8%83%bd%e4%b8%80%e8%a7%88">
+												 🎯 核心功能一览
+											</a>
+										</li>
+						 
+								
+								
+									</ul>
+								
+							
+						
+				 
+						
+						
+							
+								
+								
+									<ul class="nav">
+								
+									<ul class="nav">
+								
+								
+
+										<li class="nav-item">
+						 					<a class="nav-link" href="#%e5%bc%80%e5%8f%91%e5%bf%85%e5%a4%87">
+												 开发必备
+											</a>
+										</li>
+						 
+								
+								
+									</ul>
+								
+									</ul>
+								
+							
+						
+				 
+						
+						
+							
+								
+								
+									<ul class="nav">
+								
+									<ul class="nav">
+								
+								
+
+										<li class="nav-item">
+						 					<a class="nav-link" href="#%e6%96%87%e6%9c%ac%e5%a4%84%e7%90%86">
+												 文本处理
+											</a>
+										</li>
+						 
+								
+								
+									</ul>
+								
+									</ul>
+								
+							
+						
+				 
+						
+						
+							
+								
+								
+									<ul class="nav">
+								
+									<ul class="nav">
+								
+								
+
+										<li class="nav-item">
+						 					<a class="nav-link" href="#%e5%9c%a8%e7%ba%bf%e5%b7%a5%e5%85%b7">
+												 在线工具
+											</a>
+										</li>
+						 
+								
+								
+									</ul>
+								
+									</ul>
+								
+							
+						
+				 
+						
+						
+							
+								
+								
+									<ul class="nav">
+								
+									<ul class="nav">
+								
+								
+
+										<li class="nav-item">
+						 					<a class="nav-link" href="#%e7%94%9f%e6%b4%bb%e5%b0%8f%e5%b7%a5%e5%85%b7">
+												 生活小工具
+											</a>
+										</li>
+						 
+								
+								
+									</ul>
+								
+									</ul>
+								
+							
+						
+				 
+						
+						
+							
+								
+								
+									<ul class="nav">
+								
+									<ul class="nav">
+								
+								
+
+										<li class="nav-item">
+						 					<a class="nav-link" href="#%e7%a4%be%e4%ba%a4%e5%8a%9f%e8%83%bd">
+												 社交功能
+											</a>
+										</li>
+						 
+								
+								
+									</ul>
+								
+									</ul>
+								
+							
+						
+				 
+						
+						
+							
+								
+								
+									<ul class="nav">
+								
+								
+
+										<li class="nav-item">
+						 					<a class="nav-link" href="#-%e5%ae%89%e5%85%a8%e4%b8%8e%e9%99%90%e6%b5%81">
+												 🔒 安全与限流
+											</a>
+										</li>
+						 
+								
+								
+									</ul>
+								
+							
+						
+				 
+						
+						
+							
+								
+								
+									<ul class="nav">
+								
+								
+
+										<li class="nav-item">
+						 					<a class="nav-link" href="#-%e6%8a%80%e6%9c%af%e6%a0%88">
+												 🛠️ 技术栈
+											</a>
+										</li>
+						 
+								
+								
+									</ul>
+								
+							
+						
+				 
+						
+						
+							
+								
+								
+									<ul class="nav">
+								
+								
+
+										<li class="nav-item">
+						 					<a class="nav-link" href="#-%e5%bf%ab%e9%80%9f%e9%83%a8%e7%bd%b2">
+												 🚀 快速部署
+											</a>
+										</li>
+						 
+								
+								
+									</ul>
+								
+							
+						
+				 
+						
+						
+							
+								
+								
+									<ul class="nav">
+								
+								
+
+										<li class="nav-item">
+						 					<a class="nav-link" href="#-%e5%90%8e%e7%bb%ad%e8%ae%a1%e5%88%92">
+												 📌 后续计划
+											</a>
+										</li>
+						 
+								
+								
+									</ul>
+								
+							
+						
+				 
+
+				</ul>
+			</div>
+			
+
+		</div>
+		
+	
+
+    </div>
+    
+
+
+  </main>
+  
+
+
+    
+    
+<footer class="page-footer text-center font-small mt-4 wow fadeIn">
+
+
+  
+  <div class="pb-2 mt-5 pt-5">
+    
+    <a href="//github.com/axfinn " target="_blank" rel="noopener"><i class="fab fa-github mr-3"
+        aria-hidden="true"></i></a>
+    
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+
+    
+    <a href="mailto:521very@email.com"><i class="far fa-envelope-open mr-3" aria-hidden="true"></i></a>
+    
+
+    
+
+    
+
+  </div>
+  
+
+  
+  <div class="copyright py-4">
+    
+    <span> 2016 - 2026 &copy; | Theme <a href='https://github.com/orianna-zzo/AllinOne'
+        target="_blank">AllinOne</a> by <a href='https://github.com/orianna-zzo' target="_blank">Orianna</a> </span>
+  </div>
+  
+
+</footer>
+
+    
+
+
+
+
+<script type="text/javascript" src="https://blog.jaxiu.cn/js/vendors/jquery/jquery-3.3.1.min.js"></script>
+<script type="text/javascript" src="https://blog.jaxiu.cn/js/vendors/jquery/jquery.smooth-scroll.min.js"></script>
+
+
+
+<script type="text/javascript" src="https://blog.jaxiu.cn/js/vendors/popper.min.js"></script>
+<script type="text/javascript" src="https://blog.jaxiu.cn/js/vendors/holder.min.js"></script>
+<script type="text/javascript" src="https://blog.jaxiu.cn/js/vendors-extensions/bootstrap4/bootstrap.js" ></script>
+
+<script type="text/javascript" src="https://blog.jaxiu.cn/js/vendors/mdb/mdb.min.js"></script>
+
+<script type="text/javascript" src="https://blog.jaxiu.cn/js/main.js"></script>
+<script type="text/javascript" src="https://blog.jaxiu.cn/js/search.js"></script>
+
+
+
+
+  <script src="https://blog.jaxiu.cn/js/vendors/highlight.pack.js"> </script>
+  <script>hljs.initHighlightingOnLoad();</script>
+
+
+
+
+
+  <script src="https://blog.jaxiu.cn/js/vendors/katex/katex.min.js"> </script>
+  <script src="https://blog.jaxiu.cn/js/vendors/katex/contrib/auto-render.min.js"></script>
+
+  <script>
+      document.addEventListener("DOMContentLoaded", function () {
+          renderMathInElement(document.body);
+      });
+  </script>
+
+
+
+
+
+
+
+
+<script type="text/javascript">
+  
+  new WOW().init();
+</script>
+  </body>
+</html>

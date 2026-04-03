@@ -1,0 +1,1643 @@
+<!DOCTYPE html>
+<html lang="zn-Hans">
+  <head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge, chrome=1">
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no, maximum-scale=1" />
+  
+  <meta name="author" content="jaxiu He">
+  <meta name="description"
+    content="在日常工作中，我们经常需要在不同设备之间复制粘贴文本、图片或文件。虽然有很多商业解决方案，但我还是希望能有一个简单、安全、自托管的解决方案。因此，我开发了 fcopy - 一个全平台剪贴板同步工具。
+项目介绍
+fcopy 是一个基于 Web 的剪贴板同步工具，支持文本和文件的跨设备同步。它采用现代化的技术栈构建，具有响应式设计，可以在桌面端和移动端使用。
+项目的主要特性包括：
+
+📋 文本和文件剪贴板同步
+🔐 安全的API密钥认证机制
+🖼️ 图片预览和文件下载
+📱 响应式设计，支持移动端使用
+🌐 Socket.IO实时同步
+📊 访问统计和监控面板
+👤 用户管理和数据隔离
+🐳 Docker容器化部署支持
+
+项目背景和动机
+在日常工作中，我经常需要在不同的设备之间复制粘贴内容，比如在电脑上复制一段代码，然后在远程服务器上粘贴；或者在手机上看到一段文字，想要快速发送到电脑上处理。虽然系统自带的剪贴板功能可以在单一设备上使用，但在跨设备场景下却显得力不从心。">
+
+  <meta property="og:url" content="https://blog.jaxiu.cn/blog/2025-08/fcopy-%E4%B8%80%E4%B8%AA%E5%85%A8%E5%B9%B3%E5%8F%B0%E5%89%AA%E8%B4%B4%E6%9D%BF%E5%90%8C%E6%AD%A5%E5%B7%A5%E5%85%B7/">
+  <meta property="og:site_name" content="jaxiu He">
+  <meta property="og:title" content="fcopy - 一个全平台剪贴板同步工具">
+  <meta property="og:description" content="在日常工作中，我们经常需要在不同设备之间复制粘贴文本、图片或文件。虽然有很多商业解决方案，但我还是希望能有一个简单、安全、自托管的解决方案。因此，我开发了 fcopy - 一个全平台剪贴板同步工具。
+项目介绍 fcopy 是一个基于 Web 的剪贴板同步工具，支持文本和文件的跨设备同步。它采用现代化的技术栈构建，具有响应式设计，可以在桌面端和移动端使用。
+项目的主要特性包括：
+📋 文本和文件剪贴板同步 🔐 安全的API密钥认证机制 🖼️ 图片预览和文件下载 📱 响应式设计，支持移动端使用 🌐 Socket.IO实时同步 📊 访问统计和监控面板 👤 用户管理和数据隔离 🐳 Docker容器化部署支持 项目背景和动机 在日常工作中，我经常需要在不同的设备之间复制粘贴内容，比如在电脑上复制一段代码，然后在远程服务器上粘贴；或者在手机上看到一段文字，想要快速发送到电脑上处理。虽然系统自带的剪贴板功能可以在单一设备上使用，但在跨设备场景下却显得力不从心。">
+  <meta property="og:locale" content="zn_Hans">
+  <meta property="og:type" content="article">
+    <meta property="article:section" content="blog">
+    <meta property="article:published_time" content="2025-08-12T14:00:00+08:00">
+    <meta property="article:modified_time" content="2025-08-12T14:00:00+08:00">
+    <meta property="article:tag" content="开源项目">
+    <meta property="article:tag" content="剪贴板">
+    <meta property="article:tag" content="工具">
+    <meta property="article:tag" content="Node.js">
+    <meta property="article:tag" content="Vue">
+
+
+  <title>
+    
+     fcopy - 一个全平台剪贴板同步工具 | jaxiu He 
+    
+  </title>
+
+  <link rel="canonical" href="https://blog.jaxiu.cn/blog/2025-08/fcopy-%E4%B8%80%E4%B8%AA%E5%85%A8%E5%B9%B3%E5%8F%B0%E5%89%AA%E8%B4%B4%E6%9D%BF%E5%90%8C%E6%AD%A5%E5%B7%A5%E5%85%B7/">
+
+  
+  
+
+  
+  
+  
+  <meta name="baidu-site-verification" content="your-baidu-verify-code" />
+  
+
+  
+  
+  <meta name="google-site-verification" content="your-google-verify-code" />
+  
+
+  
+  <link href="https://blog.jaxiu.cn/css/vendors-extensions/fontawesome/all.min.css" rel="stylesheet">
+
+  
+  <link rel="stylesheet"
+    href="https://fonts.googleapis.com/css?family=Open+Sans:400,700|Ubuntu+Mono:400,400i,700,700i|Raleway:300,400,500,600">
+  <link href="https://blog.jaxiu.cn/css/font.css" rel="stylesheet">
+
+  
+  <link href="https://blog.jaxiu.cn/css/vendors/bootstrap4/bootstrap.min.css" rel="stylesheet">
+  <link href="https://blog.jaxiu.cn/css/vendors-extensions/mdb/mdb.min.css" rel="stylesheet">
+  <link href="https://blog.jaxiu.cn/css/vendors/mdb/style.min.css" rel="stylesheet">
+  <link href="https://blog.jaxiu.cn/css/main.css" rel="stylesheet">
+
+
+  
+  <link rel="shortcut icon"  href="https://blog.jaxiu.cn/img/logo.png" >
+
+
+  
+  
+
+  <style type="text/css">
+    @media (min-width: 800px) and (max-width: 850px) {
+      .navbar:not(.top-nav-collapse) {
+        background: #1C2331 !important;
+      }
+    }
+  </style>
+
+
+  
+  
+  <link rel="stylesheet" href="https://blog.jaxiu.cn/js/vendors/katex/katex.min.css">
+  
+  
+
+  
+  
+  <link rel="stylesheet" href="https://blog.jaxiu.cn/css/vendors/highlight/github-gist.css">
+  
+
+  
+  
+  <script type="module">
+    import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.esm.min.mjs';
+    mermaid.initialize({ startOnLoad: true });
+  </script>
+  
+  
+
+  
+  <link href="https://blog.jaxiu.cn/css/holiday-effects.css" rel="stylesheet">
+  <script src="https://blog.jaxiu.cn/js/holiday-effects.js"></script>
+
+  
+  <script src="https://blog.jaxiu.cn/js/dynamic-bg.js"></script>
+  <link href="https://blog.jaxiu.cn/css/dynamic-bg-control.css" rel="stylesheet">
+
+</head>
+  <body class="bg-light" data-spy="scroll" data-target="#page-scrollspy" data-offset="90">
+  
+    
+    
+
+    
+      
+
+
+<nav class="navbar fixed-top navbar-expand-lg navbar-dark scrolling-navbar">
+    <div class="container">
+
+      
+      <a class="navbar-brand" href="https://blog.jaxiu.cn/">
+          
+        <img class="avatar" src="https://blog.jaxiu.cn/img/logo.png" style="width: 40px!important;height: auto;"  class="d-inline-block align-top" alt="" >
+        
+        <strong> jaxiu He</strong>
+      </a>
+
+      
+      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
+        aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+
+      
+      <div class="collapse navbar-collapse" id="navbarSupportedContent">
+
+        
+        <ul class="navbar-nav mr-auto ">
+          <li class="nav-item ">
+            <a class="nav-link" href="https://blog.jaxiu.cn/">Home</a>
+          </li>
+          
+            <li class="nav-item ">
+              <a class="nav-link" href="https://blog.jaxiu.cn/blog/" >博客  </a>
+            </li>
+
+          
+            <li class="nav-item ">
+              <a class="nav-link" href="https://blog.jaxiu.cn/moment/" >动态  </a>
+            </li>
+
+          
+            <li class="nav-item ">
+              <a class="nav-link" href="https://blog.jaxiu.cn/blog/prenatal-stories/" >胎教故事  </a>
+            </li>
+
+          
+            <li class="nav-item ">
+              <a class="nav-link" href="https://blog.jaxiu.cn/about/" >关于  </a>
+            </li>
+
+          
+        </ul>
+
+        
+        <ul class="navbar-nav">
+          <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" href="#" id="searchDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+              <i class="fas fa-search"></i> 搜索
+            </a>
+            <div class="dropdown-menu dropdown-menu-right p-3" aria-labelledby="searchDropdown" style="min-width: 300px; max-width: 400px;">
+              <form class="search-form" onsubmit="return false;">
+                <div class="input-group">
+                  <input type="text" id="search-query" class="form-control" placeholder="搜索文章标题或内容..." autocomplete="off">
+                  <div class="input-group-append">
+                    <button class="btn btn-outline-secondary" type="button" onclick="document.getElementById('search-query').focus();">
+                      <i class="fas fa-search"></i>
+                    </button>
+                  </div>
+                </div>
+              </form>
+              <ul id="search-results" class="list-unstyled mt-2 mb-0" style="max-height: 400px; overflow-y: auto;"></ul>
+            </div>
+          </li>
+        </ul>
+
+      </div>
+
+    </div>
+  </nav>
+   
+      
+
+
+
+
+
+
+
+<div id="site-header" class="carousel slide carousel-fade" data-ride="carousel" style="height: 18rem;">
+  
+
+  
+  
+  
+
+  
+  <div class="carousel-inner" role="listbox">
+    
+    
+
+    
+    <div class="carousel-item active">
+      <div class="view"
+        style="background-image: url('https://blog.jaxiu.cn/img/header-slides/raw_1515691746.jpg'); background-repeat: no-repeat; background-size: cover;">
+
+        
+        <div class="mask rgba-black-light d-flex justify-content-center align-items-center">
+
+          
+          
+          
+
+        </div>
+        
+
+      </div>
+    </div>
+    
+    
+    
+    
+
+    
+    <div class="carousel-item">
+      <div class="view"
+        style="background-image: url('https://blog.jaxiu.cn/img/header-slides//raw_1515847341.jpg'); background-repeat: no-repeat; background-size: cover;">
+
+        
+        <div class="mask rgba-black-light d-flex justify-content-center align-items-center">
+
+
+
+        </div>
+        
+
+      </div>
+    </div>
+    
+    
+    
+
+
+  </div>
+  
+
+  
+  <div class="carousel-content text-center white-text wow fadeIn">
+    <div class="row mx-0 headfont mt-3 pt-4">
+      
+      <div class="col-12 col-sm-5 align-middle">
+        <a href="https://blog.jaxiu.cn/">
+          
+          <img class="pull-right avatar avatar-md" src="https://blog.jaxiu.cn/img/logo.png" alt="">
+          
+        </a>
+      </div>
+
+      <div class="col-12 col-sm-7 text-left pl-2">
+        <a href="https://blog.jaxiu.cn/">
+          <h1 class="mb-2 h1" style="font-weight: 300;">
+            <strong>jaxiu He</strong>
+          </h1>
+        </a>
+
+
+        
+        <div class="mt-2" style="font-size: 1rem; color: white;">
+          
+          <a href="//github.com/axfinn" target="_blank" rel="noopener"><i class="fab fa-github pr-1"
+              aria-hidden="true"></i></a>
+          
+          
+
+          
+
+          
+
+          
+
+          
+
+          
+
+
+          
+          <a href="mailto:521very@email.com"><i class="far fa-envelope-open pr-1" aria-hidden="true"></i></a>
+          
+
+          
+
+
+        </div>
+      </div>
+    </div>
+  </div>
+  
+
+  
+  
+  
+
+</div>
+  
+    
+
+    
+  
+  <main class="post-main-wrapper">
+    
+    
+    <div class="row">
+
+      
+
+      
+      <div class="col-md-10">
+      
+
+        
+        <div class="z-depth-1  post-wrapper white-bg single-post">
+
+          <div class="post-header text-center" >
+  <ul class="post-meta li-x">
+    
+      
+        <li><a href="https://blog.jaxiu.cn/categories/%E5%BC%80%E6%BA%90%E9%A1%B9%E7%9B%AE"><i class="fas fa-folder-open pr-1" aria-hidden="true"></i> 开源项目 </a></li>
+      
+    
+    
+      
+        <li><a href="https://blog.jaxiu.cn/series/%E5%BC%80%E6%BA%90%E9%A1%B9%E7%9B%AE"><i class="fas fa-bookmark pr-1" aria-hidden="true"></i>开源项目</a></li>
+      
+    
+  </ul>
+
+  <div class="px-4 post-heading">fcopy - 一个全平台剪贴板同步工具</div>
+
+  <ul class="post-meta li-x mt-1">
+    
+      <li>Aug 12, 2025</li>
+    
+
+    
+      <li class="middot"></li>
+      <li>6 minutes read</li>
+    
+  </ul>
+  
+
+</div>
+
+
+          <div class="post-content markdown">
+            <p>在日常工作中，我们经常需要在不同设备之间复制粘贴文本、图片或文件。虽然有很多商业解决方案，但我还是希望能有一个简单、安全、自托管的解决方案。因此，我开发了 <a href="https://github.com/axfinn/fcopy">fcopy</a> - 一个全平台剪贴板同步工具。</p>
+<h2 id="项目介绍">项目介绍</h2>
+<p><a href="https://github.com/axfinn/fcopy">fcopy</a> 是一个基于 Web 的剪贴板同步工具，支持文本和文件的跨设备同步。它采用现代化的技术栈构建，具有响应式设计，可以在桌面端和移动端使用。</p>
+<p>项目的主要特性包括：</p>
+<ul>
+<li>📋 文本和文件剪贴板同步</li>
+<li>🔐 安全的API密钥认证机制</li>
+<li>🖼️ 图片预览和文件下载</li>
+<li>📱 响应式设计，支持移动端使用</li>
+<li>🌐 Socket.IO实时同步</li>
+<li>📊 访问统计和监控面板</li>
+<li>👤 用户管理和数据隔离</li>
+<li>🐳 Docker容器化部署支持</li>
+</ul>
+<h2 id="项目背景和动机">项目背景和动机</h2>
+<p>在日常工作中，我经常需要在不同的设备之间复制粘贴内容，比如在电脑上复制一段代码，然后在远程服务器上粘贴；或者在手机上看到一段文字，想要快速发送到电脑上处理。虽然系统自带的剪贴板功能可以在单一设备上使用，但在跨设备场景下却显得力不从心。</p>
+<p>市面上虽然有一些商业解决方案，如苹果的通用剪贴板、微软的剪贴板云同步等，但它们通常只支持特定的生态系统，而且数据存储在第三方服务器上，存在隐私风险。因此，我决定开发一个自托管的、跨平台的剪贴板同步工具，既能保证数据隐私，又能支持各种设备。</p>
+<h2 id="技术架构">技术架构</h2>
+<p>fcopy 采用前后端分离的架构设计：</p>
+<h3 id="后端技术栈">后端技术栈：</h3>
+<ul>
+<li><strong>Node.js + Express</strong>：提供 RESTful API 和 WebSocket 服务</li>
+<li><strong>Socket.IO</strong>：实现实时通信功能，确保内容变更能够即时同步到所有连接的设备</li>
+<li><strong>better-sqlite3</strong>：轻量级数据库存储，用于保存剪贴板历史记录和用户信息</li>
+<li><strong>Docker</strong>：容器化部署支持，便于快速部署和迁移</li>
+</ul>
+<h3 id="前端技术栈">前端技术栈：</h3>
+<ul>
+<li><strong>Vue 3</strong>：现代化的前端框架，使用 Composition API 构建响应式界面</li>
+<li><strong>Webpack 5</strong>：模块打包工具，优化资源加载和构建流程</li>
+</ul>
+<h3 id="项目结构">项目结构：</h3>
+<pre tabindex="0"><code>├── client/           # 前端代码
+├── server/           # 后端代码
+├── uploads/          # 上传文件存储目录
+├── nginx.conf        # Nginx 配置示例
+├── docker-compose.yml# Docker Compose 配置
+├── Dockerfile        # Docker 镜像构建文件
+├── deploy.sh         # 部署脚本
+├── package.json      # 项目配置
+└── README.md         # 项目说明
+</code></pre><h2 id="快速开始">快速开始</h2>
+<p>使用 Docker 是最简单的部署方式：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="c1"># 拉取最新版本镜像</span>
+</span></span><span class="line"><span class="cl">docker pull axiu/fcopy:latest
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># 运行容器</span>
+</span></span><span class="line"><span class="cl">docker run -d <span class="se">\
+</span></span></span><span class="line"><span class="cl">--name fcopy <span class="se">\
+</span></span></span><span class="line"><span class="cl">-p 2001:2001 <span class="se">\
+</span></span></span><span class="line"><span class="cl">-v /path/to/your/data:/app/uploads <span class="se">\
+</span></span></span><span class="line"><span class="cl">axiu/fcopy:latest
+</span></span></code></pre></div><p>或者使用 Docker Compose：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-yaml" data-lang="yaml"><span class="line"><span class="cl"><span class="nt">version</span><span class="p">:</span><span class="w"> </span><span class="s1">&#39;3.8&#39;</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="nt">services</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="nt">fcopy</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nt">image</span><span class="p">:</span><span class="w"> </span><span class="l">axiu/fcopy:1.2.16</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nt">container_name</span><span class="p">:</span><span class="w"> </span><span class="l">fcopy</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nt">ports</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">      </span>- <span class="s2">&#34;2001:2001&#34;</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nt">volumes</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">      </span>- <span class="l">./data:/app/data</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nt">environment</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">      </span>- <span class="l">EXPIRE_HOURS=24</span><span class="w">
+</span></span></span></code></pre></div><p>然后访问 <code>http://localhost:2001</code> 即可开始使用。</p>
+<h2 id="安全机制">安全机制</h2>
+<p>fcopy 采用多层安全机制来保护用户数据：</p>
+<h3 id="api-密钥鉴权">API 密钥鉴权</h3>
+<p>为了防止未授权访问和信息泄露，系统采用 API 密钥鉴权机制：</p>
+<ol>
+<li>所有 API 请求都需要在 Header 中包含 <code>X-API-Key</code> 字段</li>
+<li>WebSocket 连接也需要在握手时提供有效的 API 密钥</li>
+<li>密钥验证失败的请求将被拒绝访问</li>
+</ol>
+<p>在生产环境中，应通过环境变量设置密钥：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="nv">CLIPBOARD_API_KEY</span><span class="o">=</span>your_secret_api_key npm run dev
+</span></span></code></pre></div><h3 id="数据隔离">数据隔离</h3>
+<p>系统支持多用户，每个用户的数据完全隔离：</p>
+<ul>
+<li>所有请求都必须通过鉴权才能访问</li>
+<li>不同用户/设备使用不同密钥实现数据隔离</li>
+<li>前端会将密钥存储在 localStorage 中以便下次访问</li>
+</ul>
+<p>默认会创建两个用户：</p>
+<ul>
+<li>普通用户（default）：用于日常剪贴板同步</li>
+<li>管理员用户（admin）：可以创建新用户和查看系统统计信息</li>
+</ul>
+<h3 id="请求频率限制">请求频率限制</h3>
+<p>为了防止恶意请求和滥用，系统实现了请求频率限制：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="c1"># 限制在时间窗口内的请求数量（默认10次）</span>
+</span></span><span class="line"><span class="cl"><span class="nv">RATE_LIMIT_REQUESTS</span><span class="o">=</span><span class="m">10</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># 时间窗口（毫秒，默认60000毫秒即1分钟）</span>
+</span></span><span class="line"><span class="cl"><span class="nv">RATE_LIMIT_WINDOW_MS</span><span class="o">=</span><span class="m">60000</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># 封禁时长（毫秒，默认600000毫秒即10分钟）</span>
+</span></span><span class="line"><span class="cl"><span class="nv">RATE_LIMIT_BLOCK_DURATION_MS</span><span class="o">=</span><span class="m">600000</span>
+</span></span></code></pre></div><h2 id="核心功能详解">核心功能详解</h2>
+<h3 id="1-多平台支持">1. 多平台支持</h3>
+<p>fcopy 基于 Web 技术构建，可以在任何支持现代浏览器的设备上使用，包括：</p>
+<ul>
+<li>Windows、macOS、Linux 桌面系统</li>
+<li>iOS、Android 移动设备</li>
+<li>各种浏览器（Chrome、Firefox、Safari等）</li>
+</ul>
+<p>采用响应式设计，界面会根据设备屏幕大小自动调整布局，确保在各种设备上都有良好的使用体验。</p>
+<h3 id="2-截图粘贴上传">2. 截图粘贴上传</h3>
+<p>用户可以在任何地方截图（如QQ截图、微信截图、系统截图工具等），然后直接在 fcopy 界面按 <code>Ctrl+V</code> (Windows) 或 <code>Cmd+V</code> (Mac) 粘贴上传截图。</p>
+<p>这一功能极大地方便了图片内容的传输，无需保存截图文件再上传，直接粘贴即可完成操作。</p>
+<h3 id="3-实时同步">3. 实时同步</h3>
+<p>通过 Socket.IO 实现实时同步，当在一个设备上添加内容时，其他设备会立即收到更新。这一功能基于 WebSocket 技术，确保了内容变更的即时传播。</p>
+<h3 id="4-数据隔离">4. 数据隔离</h3>
+<p>系统支持多用户，每个用户只能访问自己的数据，确保数据隐私和安全。即使多个用户部署在同一实例上，他们的数据也是完全隔离的。</p>
+<h3 id="5-自动清理">5. 自动清理</h3>
+<p>系统每天凌晨2点会自动清理指定天数前的内容（默认7天），包括数据库记录和存储的文件。这一机制既节省了存储空间，又保护了用户隐私。</p>
+<p>清理天数可通过环境变量 <code>CLEANUP_DAYS</code> 配置，默认为7天。</p>
+<h3 id="6-缓存控制">6. 缓存控制</h3>
+<p>项目实现了智能缓存控制策略：</p>
+<ol>
+<li>HTML文件：不缓存，确保用户始终获取最新版本</li>
+<li>JS/CSS文件：缓存1年，通过内容哈希实现版本控制</li>
+<li>图片文件：缓存1年，通过内容哈希实现版本控制</li>
+</ol>
+<p>这种策略既保证了页面的实时更新，又优化了静态资源的加载速度。</p>
+<h2 id="部署和配置">部署和配置</h2>
+<p>fcopy 支持多种部署方式，推荐使用 Docker 部署以获得最佳体验。</p>
+<h3 id="docker-部署推荐">Docker 部署（推荐）</h3>
+<h4 id="使用-docker-compose推荐">使用 Docker Compose（推荐）</h4>
+<ol>
+<li>确保已安装 Docker 和 Docker Compose</li>
+<li>创建 <code>docker-compose.yml</code> 文件：</li>
+</ol>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-yaml" data-lang="yaml"><span class="line"><span class="cl"><span class="nt">version</span><span class="p">:</span><span class="w"> </span><span class="s1">&#39;3.8&#39;</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="nt">services</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="nt">fcopy</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nt">image</span><span class="p">:</span><span class="w"> </span><span class="l">axiu/fcopy:1.2.16</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nt">container_name</span><span class="p">:</span><span class="w"> </span><span class="l">fcopy</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nt">ports</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">      </span>- <span class="s2">&#34;2001:2001&#34;</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nt">volumes</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">      </span>- <span class="l">./data:/app/data</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nt">environment</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">      </span>- <span class="l">CLIPBOARD_API_KEY=your_secret_api_key</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">      </span>- <span class="l">ADMIN_API_KEY=your_admin_secret_key</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">      </span>- <span class="l">CLEANUP_DAYS=7</span><span class="w">
+</span></span></span></code></pre></div><ol start="3">
+<li>启动服务：</li>
+</ol>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">docker-compose up -d
+</span></span></code></pre></div><ol start="4">
+<li>访问应用：http://localhost:2001</li>
+</ol>
+<h4 id="环境变量配置">环境变量配置</h4>
+<p>支持多种方式设置 API 密钥：</p>
+<ol>
+<li>通过环境变量：</li>
+</ol>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="nb">export</span> <span class="nv">CLIPBOARD_API_KEY</span><span class="o">=</span>your_secret_api_key
+</span></span><span class="line"><span class="cl">docker-compose up -d
+</span></span></code></pre></div><ol start="2">
+<li>通过 <code>.env</code> 文件（会自动生成）：</li>
+</ol>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="nv">CLIPBOARD_API_KEY</span><span class="o">=</span>your_secret_api_key
+</span></span><span class="line"><span class="cl"><span class="nv">ADMIN_API_KEY</span><span class="o">=</span>your_admin_secret_key
+</span></span><span class="line"><span class="cl"><span class="nv">CLEANUP_DAYS</span><span class="o">=</span><span class="m">7</span>
+</span></span></code></pre></div><p>系统会优先使用环境变量中的配置，如果没有设置，则从 <code>.env</code> 文件中读取。</p>
+<h4 id="数据持久化">数据持久化</h4>
+<ul>
+<li>数据库文件 (clipboard.db) 会挂载到本地目录</li>
+<li>上传的文件会保存在 uploads 目录中</li>
+</ul>
+<h3 id="部署脚本">部署脚本</h3>
+<p>项目提供了一个交互式部署脚本 <a href="https://github.com/axfinn/fcopy/blob/main/deploy.sh">deploy.sh</a>，支持以下功能：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">chmod +x deploy.sh
+</span></span><span class="line"><span class="cl">./deploy.sh                <span class="c1"># 交互式部署</span>
+</span></span><span class="line"><span class="cl">./deploy.sh deploy         <span class="c1"># 部署应用</span>
+</span></span><span class="line"><span class="cl">./deploy.sh start          <span class="c1"># 启动服务</span>
+</span></span><span class="line"><span class="cl">./deploy.sh stop           <span class="c1"># 停止服务</span>
+</span></span><span class="line"><span class="cl">./deploy.sh restart        <span class="c1"># 重启服务</span>
+</span></span><span class="line"><span class="cl">./deploy.sh status         <span class="c1"># 查看服务状态</span>
+</span></span><span class="line"><span class="cl">./deploy.sh logs           <span class="c1"># 查看日志</span>
+</span></span><span class="line"><span class="cl">./deploy.sh env            <span class="c1"># 设置环境变量</span>
+</span></span><span class="line"><span class="cl">./deploy.sh show-key       <span class="c1"># 显示当前API密钥</span>
+</span></span><span class="line"><span class="cl">./deploy.sh start-prod     <span class="c1"># 启动生产环境服务</span>
+</span></span></code></pre></div><h3 id="手动部署">手动部署</h3>
+<ol>
+<li>克隆项目代码：</li>
+</ol>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">git clone https://github.com/axfinn/fcopy.git
+</span></span><span class="line"><span class="cl"><span class="nb">cd</span> fcopy
+</span></span></code></pre></div><ol start="2">
+<li>安装依赖：</li>
+</ol>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">npm install
+</span></span></code></pre></div><ol start="3">
+<li>设置 API 密钥并启动开发服务器：</li>
+</ol>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="nv">CLIPBOARD_API_KEY</span><span class="o">=</span>your_secret_api_key npm run dev
+</span></span></code></pre></div><p>或者在 Windows 系统中：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-cmd" data-lang="cmd"><span class="line"><span class="cl"><span class="k">set</span> <span class="nv">CLIPBOARD_API_KEY</span><span class="p">=</span>your_secret_api_key <span class="p">&amp;&amp;</span> npm run dev
+</span></span></code></pre></div><ol start="4">
+<li>访问应用：
+打开浏览器访问 http://localhost:3000</li>
+</ol>
+<h3 id="nginx-配置示例">Nginx 配置示例</h3>
+<p>如果希望通过 Nginx 接入网关，可以参考项目中的 nginx.conf 文件。</p>
+<p>示例配置要点：</p>
+<ol>
+<li>静态文件服务</li>
+<li>API 接口代理</li>
+<li>WebSocket 支持</li>
+<li>文件上传目录访问</li>
+</ol>
+<h2 id="api-接口">API 接口</h2>
+<h3 id="鉴权">鉴权</h3>
+<p>所有 API 请求都需要在 Header 中包含 X-API-Key 字段：</p>
+<pre tabindex="0"><code>X-API-Key: your-api-key-here
+</code></pre><h3 id="接口列表">接口列表</h3>
+<ul>
+<li><code>GET /api/clipboard</code> - 获取剪贴板历史记录（仅当前用户数据）</li>
+<li><code>POST /api/clipboard/text</code> - 添加文本内容</li>
+<li><code>POST /api/clipboard/file</code> - 上传文件</li>
+<li><code>DELETE /api/clipboard/:id</code> - 删除指定内容（仅能删除自己的内容）</li>
+<li><code>GET /api/users</code> - 获取用户列表（仅管理员）</li>
+<li><code>POST /api/users</code> - 创建新用户（仅管理员）</li>
+<li><code>GET /api/access-logs</code> - 获取访问日志（仅管理员）</li>
+<li><code>GET /api/rate-limits</code> - 获取限流状态（仅管理员）</li>
+</ul>
+<h2 id="使用说明">使用说明</h2>
+<ol>
+<li>首次访问：输入 API 密钥进行鉴权</li>
+<li>添加文本：在&quot;添加内容&quot;标签页的文本框中输入内容，点击&quot;添加文本并同步&quot;按钮</li>
+<li>添加文件/图片：在&quot;添加内容&quot;标签页中拖拽文件到上传区域或点击上传按钮选择文件</li>
+<li>查看历史：切换到&quot;内容历史&quot;标签页查看所有同步的内容</li>
+<li>复制文本：在历史记录中点击文本条目旁的&quot;复制文本&quot;按钮</li>
+<li>下载文件：在历史记录中点击文件条目旁的&quot;下载文件&quot;按钮</li>
+<li>删除内容：点击文件条目旁的&quot;删除&quot;按钮删除不需要的内容</li>
+</ol>
+<h2 id="项目地址">项目地址</h2>
+<p>项目已开源在 GitHub 上：<a href="https://github.com/axfinn/fcopy">https://github.com/axfinn/fcopy</a></p>
+<p>欢迎大家使用、反馈和贡献代码！如果你觉得这个项目对你有帮助，欢迎 Star 项目或者通过文章底部的赞赏支持我继续开发。</p>
+<h2 id="未来计划">未来计划</h2>
+<p>我计划继续完善 fcopy，增加以下功能：</p>
+<ol>
+<li>端到端加密：进一步提升数据安全性</li>
+<li>更丰富的文件管理功能</li>
+<li>移动端原生应用</li>
+<li>更详细的使用统计和分析</li>
+</ol>
+<p>如果你有任何建议或想法，欢迎在 GitHub 上提交 Issue 或 PR。</p>
+
+          </div>
+
+          
+          <div class="row">
+            <div class="col-md-8">
+            
+              <div class="mb-5">
+                
+<div class="li-x div-x post-meta">
+  <li class="pr-0"><a href="https://blog.jaxiu.cn/tags/"><i class="fas fa-tags"></i></a></li>
+  <div class="tags-sm">
+    
+      <li><a href="https://blog.jaxiu.cn/tags/%E5%BC%80%E6%BA%90%E9%A1%B9%E7%9B%AE" role="button">开源项目 </a></li>
+      
+    
+      <li><a href="https://blog.jaxiu.cn/tags/%E5%89%AA%E8%B4%B4%E6%9D%BF" role="button">剪贴板 </a></li>
+      
+    
+      <li><a href="https://blog.jaxiu.cn/tags/%E5%B7%A5%E5%85%B7" role="button">工具 </a></li>
+      
+    
+      <li><a href="https://blog.jaxiu.cn/tags/node.js" role="button">Node.js </a></li>
+      
+    
+      <li><a href="https://blog.jaxiu.cn/tags/vue" role="button">Vue </a></li>
+      
+    
+  </div>
+</div>
+              </div>
+            
+            </div>
+            
+          </div>
+          
+
+          
+          <div class="row pt-3">
+            <div class="col-md-6">
+              
+                <a href=https://blog.jaxiu.cn/blog/2025-08/todoing-architecture-and-future/ class="post-meta">Previous
+                  <div class="pt-2 pb-5 d-flex">
+                    <i class="fas fa-angle-left text-grey font-weight-bold mr-2 active-color"></i>
+                    <span>todoIng 架构设计与未来展望</span>
+                  </div>
+                </a>
+              
+            </div>
+            
+            <div class="col-md-6 text-right" >
+              
+                <a href=https://blog.jaxiu.cn/blog/2025-08/hugo%E5%8D%9A%E5%AE%A2%E6%8E%A5%E5%85%A5%E7%99%BE%E5%BA%A6%E5%92%8C%E8%B0%B7%E6%AD%8C%E6%90%9C%E7%B4%A2%E5%BC%95%E6%93%8E%E5%AE%8C%E6%95%B4%E6%8C%87%E5%8D%97/ class="post-meta">Next
+                  <div class="pt-2 pb-5 flex-reverse">
+                    <i class="fas fa-angle-right text-grey font-weight-bold ml-2 active-color"></i>
+                    <span>Hugo博客接入百度和谷歌搜索引擎完整指南</span>
+                  </div>
+                </a>
+              
+            </div>
+          </div>
+
+          
+
+        </div>
+        
+
+      </div>
+      
+
+      
+	
+	
+	
+	
+		
+		
+		
+	
+
+		
+		<div class="col-md-2 pl-0">
+
+			
+			<div id="page-scrollspy" class="toc-nav">
+				
+				<ul class="nav nav-pills ml-0">
+					
+					<li class="nav-item pb-3 text-center">
+						<span class="font-weight-bold mb-2">- CATALOG - </span>
+					</li>
+
+					
+						
+						
+							
+								
+								
+									<ul class="nav">
+								
+								
+
+										<li class="nav-item">
+						 					<a class="nav-link" href="#%e9%a1%b9%e7%9b%ae%e4%bb%8b%e7%bb%8d">
+												 项目介绍
+											</a>
+										</li>
+						 
+								
+								
+									</ul>
+								
+							
+						
+				 
+						
+						
+							
+								
+								
+									<ul class="nav">
+								
+								
+
+										<li class="nav-item">
+						 					<a class="nav-link" href="#%e9%a1%b9%e7%9b%ae%e8%83%8c%e6%99%af%e5%92%8c%e5%8a%a8%e6%9c%ba">
+												 项目背景和动机
+											</a>
+										</li>
+						 
+								
+								
+									</ul>
+								
+							
+						
+				 
+						
+						
+							
+								
+								
+									<ul class="nav">
+								
+								
+
+										<li class="nav-item">
+						 					<a class="nav-link" href="#%e6%8a%80%e6%9c%af%e6%9e%b6%e6%9e%84">
+												 技术架构
+											</a>
+										</li>
+						 
+								
+								
+									</ul>
+								
+							
+						
+				 
+						
+						
+							
+								
+								
+									<ul class="nav">
+								
+									<ul class="nav">
+								
+								
+
+										<li class="nav-item">
+						 					<a class="nav-link" href="#%e5%90%8e%e7%ab%af%e6%8a%80%e6%9c%af%e6%a0%88">
+												 后端技术栈：
+											</a>
+										</li>
+						 
+								
+								
+									</ul>
+								
+									</ul>
+								
+							
+						
+				 
+						
+						
+							
+								
+								
+									<ul class="nav">
+								
+									<ul class="nav">
+								
+								
+
+										<li class="nav-item">
+						 					<a class="nav-link" href="#%e5%89%8d%e7%ab%af%e6%8a%80%e6%9c%af%e6%a0%88">
+												 前端技术栈：
+											</a>
+										</li>
+						 
+								
+								
+									</ul>
+								
+									</ul>
+								
+							
+						
+				 
+						
+						
+							
+								
+								
+									<ul class="nav">
+								
+									<ul class="nav">
+								
+								
+
+										<li class="nav-item">
+						 					<a class="nav-link" href="#%e9%a1%b9%e7%9b%ae%e7%bb%93%e6%9e%84">
+												 项目结构：
+											</a>
+										</li>
+						 
+								
+								
+									</ul>
+								
+									</ul>
+								
+							
+						
+				 
+						
+						
+							
+								
+								
+									<ul class="nav">
+								
+								
+
+										<li class="nav-item">
+						 					<a class="nav-link" href="#%e5%bf%ab%e9%80%9f%e5%bc%80%e5%a7%8b">
+												 快速开始
+											</a>
+										</li>
+						 
+								
+								
+									</ul>
+								
+							
+						
+				 
+						
+						
+							
+								
+								
+									<ul class="nav">
+								
+								
+
+										<li class="nav-item">
+						 					<a class="nav-link" href="#%e5%ae%89%e5%85%a8%e6%9c%ba%e5%88%b6">
+												 安全机制
+											</a>
+										</li>
+						 
+								
+								
+									</ul>
+								
+							
+						
+				 
+						
+						
+							
+								
+								
+									<ul class="nav">
+								
+									<ul class="nav">
+								
+								
+
+										<li class="nav-item">
+						 					<a class="nav-link" href="#api-%e5%af%86%e9%92%a5%e9%89%b4%e6%9d%83">
+												 API 密钥鉴权
+											</a>
+										</li>
+						 
+								
+								
+									</ul>
+								
+									</ul>
+								
+							
+						
+				 
+						
+						
+							
+								
+								
+									<ul class="nav">
+								
+									<ul class="nav">
+								
+								
+
+										<li class="nav-item">
+						 					<a class="nav-link" href="#%e6%95%b0%e6%8d%ae%e9%9a%94%e7%a6%bb">
+												 数据隔离
+											</a>
+										</li>
+						 
+								
+								
+									</ul>
+								
+									</ul>
+								
+							
+						
+				 
+						
+						
+							
+								
+								
+									<ul class="nav">
+								
+									<ul class="nav">
+								
+								
+
+										<li class="nav-item">
+						 					<a class="nav-link" href="#%e8%af%b7%e6%b1%82%e9%a2%91%e7%8e%87%e9%99%90%e5%88%b6">
+												 请求频率限制
+											</a>
+										</li>
+						 
+								
+								
+									</ul>
+								
+									</ul>
+								
+							
+						
+				 
+						
+						
+							
+								
+								
+									<ul class="nav">
+								
+								
+
+										<li class="nav-item">
+						 					<a class="nav-link" href="#%e6%a0%b8%e5%bf%83%e5%8a%9f%e8%83%bd%e8%af%a6%e8%a7%a3">
+												 核心功能详解
+											</a>
+										</li>
+						 
+								
+								
+									</ul>
+								
+							
+						
+				 
+						
+						
+							
+								
+								
+									<ul class="nav">
+								
+									<ul class="nav">
+								
+								
+
+										<li class="nav-item">
+						 					<a class="nav-link" href="#1-%e5%a4%9a%e5%b9%b3%e5%8f%b0%e6%94%af%e6%8c%81">
+												 1. 多平台支持
+											</a>
+										</li>
+						 
+								
+								
+									</ul>
+								
+									</ul>
+								
+							
+						
+				 
+						
+						
+							
+								
+								
+									<ul class="nav">
+								
+									<ul class="nav">
+								
+								
+
+										<li class="nav-item">
+						 					<a class="nav-link" href="#2-%e6%88%aa%e5%9b%be%e7%b2%98%e8%b4%b4%e4%b8%8a%e4%bc%a0">
+												 2. 截图粘贴上传
+											</a>
+										</li>
+						 
+								
+								
+									</ul>
+								
+									</ul>
+								
+							
+						
+				 
+						
+						
+							
+								
+								
+									<ul class="nav">
+								
+									<ul class="nav">
+								
+								
+
+										<li class="nav-item">
+						 					<a class="nav-link" href="#3-%e5%ae%9e%e6%97%b6%e5%90%8c%e6%ad%a5">
+												 3. 实时同步
+											</a>
+										</li>
+						 
+								
+								
+									</ul>
+								
+									</ul>
+								
+							
+						
+				 
+						
+						
+							
+								
+								
+									<ul class="nav">
+								
+									<ul class="nav">
+								
+								
+
+										<li class="nav-item">
+						 					<a class="nav-link" href="#4-%e6%95%b0%e6%8d%ae%e9%9a%94%e7%a6%bb">
+												 4. 数据隔离
+											</a>
+										</li>
+						 
+								
+								
+									</ul>
+								
+									</ul>
+								
+							
+						
+				 
+						
+						
+							
+								
+								
+									<ul class="nav">
+								
+									<ul class="nav">
+								
+								
+
+										<li class="nav-item">
+						 					<a class="nav-link" href="#5-%e8%87%aa%e5%8a%a8%e6%b8%85%e7%90%86">
+												 5. 自动清理
+											</a>
+										</li>
+						 
+								
+								
+									</ul>
+								
+									</ul>
+								
+							
+						
+				 
+						
+						
+							
+								
+								
+									<ul class="nav">
+								
+									<ul class="nav">
+								
+								
+
+										<li class="nav-item">
+						 					<a class="nav-link" href="#6-%e7%bc%93%e5%ad%98%e6%8e%a7%e5%88%b6">
+												 6. 缓存控制
+											</a>
+										</li>
+						 
+								
+								
+									</ul>
+								
+									</ul>
+								
+							
+						
+				 
+						
+						
+							
+								
+								
+									<ul class="nav">
+								
+								
+
+										<li class="nav-item">
+						 					<a class="nav-link" href="#%e9%83%a8%e7%bd%b2%e5%92%8c%e9%85%8d%e7%bd%ae">
+												 部署和配置
+											</a>
+										</li>
+						 
+								
+								
+									</ul>
+								
+							
+						
+				 
+						
+						
+							
+								
+								
+									<ul class="nav">
+								
+									<ul class="nav">
+								
+								
+
+										<li class="nav-item">
+						 					<a class="nav-link" href="#docker-%e9%83%a8%e7%bd%b2%e6%8e%a8%e8%8d%90">
+												 Docker 部署（推荐）
+											</a>
+										</li>
+						 
+								
+								
+									</ul>
+								
+									</ul>
+								
+							
+						
+				 
+						
+						
+							
+								
+								
+									<ul class="nav">
+								
+									<ul class="nav">
+								
+									<ul class="nav">
+								
+								
+
+										<li class="nav-item">
+						 					<a class="nav-link" href="#%e4%bd%bf%e7%94%a8-docker-compose%e6%8e%a8%e8%8d%90">
+												 使用 Docker Compose（推荐）
+											</a>
+										</li>
+						 
+								
+								
+									</ul>
+								
+									</ul>
+								
+									</ul>
+								
+							
+						
+				 
+						
+						
+							
+								
+								
+									<ul class="nav">
+								
+									<ul class="nav">
+								
+									<ul class="nav">
+								
+								
+
+										<li class="nav-item">
+						 					<a class="nav-link" href="#%e7%8e%af%e5%a2%83%e5%8f%98%e9%87%8f%e9%85%8d%e7%bd%ae">
+												 环境变量配置
+											</a>
+										</li>
+						 
+								
+								
+									</ul>
+								
+									</ul>
+								
+									</ul>
+								
+							
+						
+				 
+						
+						
+							
+								
+								
+									<ul class="nav">
+								
+									<ul class="nav">
+								
+									<ul class="nav">
+								
+								
+
+										<li class="nav-item">
+						 					<a class="nav-link" href="#%e6%95%b0%e6%8d%ae%e6%8c%81%e4%b9%85%e5%8c%96">
+												 数据持久化
+											</a>
+										</li>
+						 
+								
+								
+									</ul>
+								
+									</ul>
+								
+									</ul>
+								
+							
+						
+				 
+						
+						
+							
+								
+								
+									<ul class="nav">
+								
+									<ul class="nav">
+								
+								
+
+										<li class="nav-item">
+						 					<a class="nav-link" href="#%e9%83%a8%e7%bd%b2%e8%84%9a%e6%9c%ac">
+												 部署脚本
+											</a>
+										</li>
+						 
+								
+								
+									</ul>
+								
+									</ul>
+								
+							
+						
+				 
+						
+						
+							
+								
+								
+									<ul class="nav">
+								
+									<ul class="nav">
+								
+								
+
+										<li class="nav-item">
+						 					<a class="nav-link" href="#%e6%89%8b%e5%8a%a8%e9%83%a8%e7%bd%b2">
+												 手动部署
+											</a>
+										</li>
+						 
+								
+								
+									</ul>
+								
+									</ul>
+								
+							
+						
+				 
+						
+						
+							
+								
+								
+									<ul class="nav">
+								
+									<ul class="nav">
+								
+								
+
+										<li class="nav-item">
+						 					<a class="nav-link" href="#nginx-%e9%85%8d%e7%bd%ae%e7%a4%ba%e4%be%8b">
+												 Nginx 配置示例
+											</a>
+										</li>
+						 
+								
+								
+									</ul>
+								
+									</ul>
+								
+							
+						
+				 
+						
+						
+							
+								
+								
+									<ul class="nav">
+								
+								
+
+										<li class="nav-item">
+						 					<a class="nav-link" href="#api-%e6%8e%a5%e5%8f%a3">
+												 API 接口
+											</a>
+										</li>
+						 
+								
+								
+									</ul>
+								
+							
+						
+				 
+						
+						
+							
+								
+								
+									<ul class="nav">
+								
+									<ul class="nav">
+								
+								
+
+										<li class="nav-item">
+						 					<a class="nav-link" href="#%e9%89%b4%e6%9d%83">
+												 鉴权
+											</a>
+										</li>
+						 
+								
+								
+									</ul>
+								
+									</ul>
+								
+							
+						
+				 
+						
+						
+							
+								
+								
+									<ul class="nav">
+								
+									<ul class="nav">
+								
+								
+
+										<li class="nav-item">
+						 					<a class="nav-link" href="#%e6%8e%a5%e5%8f%a3%e5%88%97%e8%a1%a8">
+												 接口列表
+											</a>
+										</li>
+						 
+								
+								
+									</ul>
+								
+									</ul>
+								
+							
+						
+				 
+						
+						
+							
+								
+								
+									<ul class="nav">
+								
+								
+
+										<li class="nav-item">
+						 					<a class="nav-link" href="#%e4%bd%bf%e7%94%a8%e8%af%b4%e6%98%8e">
+												 使用说明
+											</a>
+										</li>
+						 
+								
+								
+									</ul>
+								
+							
+						
+				 
+						
+						
+							
+								
+								
+									<ul class="nav">
+								
+								
+
+										<li class="nav-item">
+						 					<a class="nav-link" href="#%e9%a1%b9%e7%9b%ae%e5%9c%b0%e5%9d%80">
+												 项目地址
+											</a>
+										</li>
+						 
+								
+								
+									</ul>
+								
+							
+						
+				 
+						
+						
+							
+								
+								
+									<ul class="nav">
+								
+								
+
+										<li class="nav-item">
+						 					<a class="nav-link" href="#%e6%9c%aa%e6%9d%a5%e8%ae%a1%e5%88%92">
+												 未来计划
+											</a>
+										</li>
+						 
+								
+								
+									</ul>
+								
+							
+						
+				 
+
+				</ul>
+			</div>
+			
+
+		</div>
+		
+	
+
+    </div>
+    
+
+
+  </main>
+  
+
+
+    
+    
+<footer class="page-footer text-center font-small mt-4 wow fadeIn">
+
+
+  
+  <div class="pb-2 mt-5 pt-5">
+    
+    <a href="//github.com/axfinn " target="_blank" rel="noopener"><i class="fab fa-github mr-3"
+        aria-hidden="true"></i></a>
+    
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+
+    
+    <a href="mailto:521very@email.com"><i class="far fa-envelope-open mr-3" aria-hidden="true"></i></a>
+    
+
+    
+
+    
+
+  </div>
+  
+
+  
+  <div class="copyright py-4">
+    
+    <span> 2016 - 2026 &copy; | Theme <a href='https://github.com/orianna-zzo/AllinOne'
+        target="_blank">AllinOne</a> by <a href='https://github.com/orianna-zzo' target="_blank">Orianna</a> </span>
+  </div>
+  
+
+</footer>
+
+    
+
+
+
+
+<script type="text/javascript" src="https://blog.jaxiu.cn/js/vendors/jquery/jquery-3.3.1.min.js"></script>
+<script type="text/javascript" src="https://blog.jaxiu.cn/js/vendors/jquery/jquery.smooth-scroll.min.js"></script>
+
+
+
+<script type="text/javascript" src="https://blog.jaxiu.cn/js/vendors/popper.min.js"></script>
+<script type="text/javascript" src="https://blog.jaxiu.cn/js/vendors/holder.min.js"></script>
+<script type="text/javascript" src="https://blog.jaxiu.cn/js/vendors-extensions/bootstrap4/bootstrap.js" ></script>
+
+<script type="text/javascript" src="https://blog.jaxiu.cn/js/vendors/mdb/mdb.min.js"></script>
+
+<script type="text/javascript" src="https://blog.jaxiu.cn/js/main.js"></script>
+<script type="text/javascript" src="https://blog.jaxiu.cn/js/search.js"></script>
+
+
+
+
+  <script src="https://blog.jaxiu.cn/js/vendors/highlight.pack.js"> </script>
+  <script>hljs.initHighlightingOnLoad();</script>
+
+
+
+
+
+  <script src="https://blog.jaxiu.cn/js/vendors/katex/katex.min.js"> </script>
+  <script src="https://blog.jaxiu.cn/js/vendors/katex/contrib/auto-render.min.js"></script>
+
+  <script>
+      document.addEventListener("DOMContentLoaded", function () {
+          renderMathInElement(document.body);
+      });
+  </script>
+
+
+
+
+
+
+
+
+<script type="text/javascript">
+  
+  new WOW().init();
+</script>
+  </body>
+</html>

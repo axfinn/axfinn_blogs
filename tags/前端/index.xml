@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>前端 on jaxiu He</title>
+    <link>https://blog.jaxiu.cn/tags/%E5%89%8D%E7%AB%AF/</link>
+    <description>Recent content in 前端 on jaxiu He</description>
+    <generator>Hugo</generator>
+    <language>zn-Hans</language>
+    <lastBuildDate>Sat, 19 Jul 2025 11:00:00 +0800</lastBuildDate>
+    <atom:link href="https://blog.jaxiu.cn/tags/%E5%89%8D%E7%AB%AF/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>从零到一：用 Flask &#43; SQLite 打造一个轻量级酒店管理系统（前后端详解）</title>
+      <link>https://blog.jaxiu.cn/blog/2025-07/flask-sqlite-hotel-system-tutorial/</link>
+      <pubDate>Sat, 19 Jul 2025 11:00:00 +0800</pubDate>
+      <guid>https://blog.jaxiu.cn/blog/2025-07/flask-sqlite-hotel-system-tutorial/</guid>
+      <description>&lt;h2 id=&#34;前言&#34;&gt;前言&lt;/h2&gt;&#xA;&lt;p&gt;对于许多编程初学者来说，理论知识和实际项目之间总有一道鸿沟。今天，我将带领大家跨越这道鸿沟，通过一个真实的项目——&lt;code&gt;hotel&lt;/code&gt; 轻量级酒店管理系统，来学习如何将技术应用到实践中。&lt;/p&gt;&#xA;&lt;p&gt;这个项目非常适合初学者，它功能完整、代码清晰，并且覆盖了 Web 开发的方方面面：从后端逻辑、数据库设计，到前端页面渲染和用户交互。最棒的是，它还支持 Docker 一键部署！&lt;/p&gt;&#xA;&lt;p&gt;&lt;strong&gt;项目地址&lt;/strong&gt;: &lt;a href=&#34;git@github.com:axfinn/hotel.git&#34;&gt;git@github.com:axfinn/hotel.git&lt;/a&gt;&lt;/p&gt;&#xA;&lt;p&gt;我将从环境搭建开始，详细剖析前后端代码，让你不仅能看懂，更能学会如何构建一个属于自己的 Web 应用。&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>NPS 全景解析（完结）：揭秘功能强大的 Web 管理界面</title>
+      <link>https://blog.jaxiu.cn/blog/2025-07/nps-%E5%85%A8%E6%99%AF%E8%A7%A3%E6%9E%90%E5%AE%8C%E7%BB%93%E6%8F%AD%E7%A7%98%E5%8A%9F%E8%83%BD%E5%BC%BA%E5%A4%A7%E7%9A%84-web-%E7%AE%A1%E7%90%86%E7%95%8C%E9%9D%A2/</link>
+      <pubDate>Fri, 18 Jul 2025 19:15:00 +0800</pubDate>
+      <guid>https://blog.jaxiu.cn/blog/2025-07/nps-%E5%85%A8%E6%99%AF%E8%A7%A3%E6%9E%90%E5%AE%8C%E7%BB%93%E6%8F%AD%E7%A7%98%E5%8A%9F%E8%83%BD%E5%BC%BA%E5%A4%A7%E7%9A%84-web-%E7%AE%A1%E7%90%86%E7%95%8C%E9%9D%A2/</guid>
+      <description>&lt;h2 id=&#34;引言&#34;&gt;引言&lt;/h2&gt;&#xA;&lt;p&gt;一个工具的强大与否，不仅取决于其核心功能的性能与稳定，也取决于其易用性。NPS 之所以广受欢迎，除了其强大的穿透能力外，一个直观、功能全面的 Web 管理界面功不可没。用户无需编辑复杂的配置文件，只需在浏览器上进行简单的点击操作，就能完成客户端管理、隧道配置、域名绑定等所有操作。在本系列文章的最后一篇，我们将深入 &lt;code&gt;nps/web&lt;/code&gt; 目录，揭秘这个基于 Beego 框架构建的 Web 管理界面是如何与 NPS 核心服务无缝集成，为用户提供流畅体验的。&lt;/p&gt;&#xA;&lt;hr&gt;&#xA;&lt;h2 id=&#34;技术选型beego-框架&#34;&gt;技术选型：Beego 框架&lt;/h2&gt;&#xA;&lt;p&gt;NPS 的 Web 后端采用了 &lt;a href=&#34;https://github.com/beego/beego&#34;&gt;Beego&lt;/a&gt;，一个用 Go 语言编写的高性能 Web 框架。Beego 遵循 MVC（Model-View-Controller）设计模式，提供了路由、模板引擎、ORM、Session 管理等一整套 Web 开发所需的功能，这使得开发者可以快速构建起一个功能完善的 Web 应用。&lt;/p&gt;</description>
+    </item>
+  </channel>
+</rss>

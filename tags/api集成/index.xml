@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>API集成 on jaxiu He</title>
+    <link>https://blog.jaxiu.cn/tags/api%E9%9B%86%E6%88%90/</link>
+    <description>Recent content in API集成 on jaxiu He</description>
+    <generator>Hugo</generator>
+    <language>zn-Hans</language>
+    <lastBuildDate>Thu, 31 Jul 2025 19:00:00 +0800</lastBuildDate>
+    <atom:link href="https://blog.jaxiu.cn/tags/api%E9%9B%86%E6%88%90/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>DeepChat 多模型支持机制详解</title>
+      <link>https://blog.jaxiu.cn/blog/2025-07/deepchat-multi-model-support/</link>
+      <pubDate>Thu, 31 Jul 2025 19:00:00 +0800</pubDate>
+      <guid>https://blog.jaxiu.cn/blog/2025-07/deepchat-multi-model-support/</guid>
+      <description>&lt;h1 id=&#34;deepchat-多模型支持机制详解&#34;&gt;DeepChat 多模型支持机制详解&lt;/h1&gt;&#xA;&lt;h2 id=&#34;引言&#34;&gt;引言&lt;/h2&gt;&#xA;&lt;p&gt;在 AI 领域，不同的大语言模型（LLM）都有各自的优势和适用场景。DeepChat 的核心价值之一就是能够统一管理和使用各种不同的 AI 模型，包括云端模型和本地模型。本文将深入分析 DeepChat 的多模型支持机制，探讨其如何实现对众多 AI 模型提供商的统一管理。&lt;/p&gt;&#xA;&lt;h2 id=&#34;统一接口设计与实现&#34;&gt;统一接口设计与实现&lt;/h2&gt;&#xA;&lt;h3 id=&#34;抽象层设计&#34;&gt;抽象层设计&lt;/h3&gt;&#xA;&lt;p&gt;DeepChat 采用了适配器模式来实现对不同模型提供商的支持。其核心思想是定义一个统一的接口，然后为每个模型提供商实现相应的适配器。&lt;/p&gt;&#xA;&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;┌─────────────────────────────────────────────────────────────┐&#xA;│                    统一接口架构                             │&#xA;├─────────────────────────────────────────────────────────────┤&#xA;│                    ┌──────────────┐                         │&#xA;│                    │  统一接口     │                         │&#xA;│                    │ (API抽象层)   │                         │&#xA;│                    └──────────────┘                         │&#xA;│                            │                                │&#xA;│          ┌─────────────────┼─────────────────┐              │&#xA;│          │                 │                 │              │&#xA;│  ┌──────────────┐  ┌──────────────┐  ┌──────────────┐       │&#xA;│  │ OpenAI 适配器 │  │ Gemini 适配器 │  │ Ollama 适配器 │       │&#xA;│  └──────────────┘  └──────────────┘  └──────────────┘       │&#xA;│          │                 │                 │              │&#xA;│    ┌─────▼─────┐    ┌─────▼─────┐     ┌─────▼─────┐         │&#xA;│    │ OpenAI API│    │Gemini API │     │ Ollama API│         │&#xA;│    └───────────┘    └───────────┘     └───────────┘         │&#xA;└─────────────────────────────────────────────────────────────┘&#xA;&lt;/code&gt;&lt;/pre&gt;&lt;h3 id=&#34;核心接口定义&#34;&gt;核心接口定义&lt;/h3&gt;&#xA;&lt;p&gt;DeepChat 定义了统一的模型接口，所有模型适配器都需要实现这些接口：&lt;/p&gt;</description>
+    </item>
+  </channel>
+</rss>

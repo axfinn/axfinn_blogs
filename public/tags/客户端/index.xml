@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>客户端 on jaxiu He</title>
+    <link>https://blog.jaxiu.cn/tags/%E5%AE%A2%E6%88%B7%E7%AB%AF/</link>
+    <description>Recent content in 客户端 on jaxiu He</description>
+    <generator>Hugo</generator>
+    <language>zn-Hans</language>
+    <lastBuildDate>Fri, 18 Jul 2025 19:05:00 +0800</lastBuildDate>
+    <atom:link href="https://blog.jaxiu.cn/tags/%E5%AE%A2%E6%88%B7%E7%AB%AF/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>NPS 客户端深度解析：健康检查与动态注册</title>
+      <link>https://blog.jaxiu.cn/blog/2025-07/nps-%E5%AE%A2%E6%88%B7%E7%AB%AF%E6%B7%B1%E5%BA%A6%E8%A7%A3%E6%9E%90%E5%81%A5%E5%BA%B7%E6%A3%80%E6%9F%A5%E4%B8%8E%E5%8A%A8%E6%80%81%E6%B3%A8%E5%86%8C/</link>
+      <pubDate>Fri, 18 Jul 2025 19:05:00 +0800</pubDate>
+      <guid>https://blog.jaxiu.cn/blog/2025-07/nps-%E5%AE%A2%E6%88%B7%E7%AB%AF%E6%B7%B1%E5%BA%A6%E8%A7%A3%E6%9E%90%E5%81%A5%E5%BA%B7%E6%A3%80%E6%9F%A5%E4%B8%8E%E5%8A%A8%E6%80%81%E6%B3%A8%E5%86%8C/</guid>
+      <description>&lt;h2 id=&#34;引言&#34;&gt;引言&lt;/h2&gt;&#xA;&lt;p&gt;在前面的文章中，我们已经剖析了 NPS 客户端的核心逻辑（&lt;code&gt;client.go&lt;/code&gt;）和控制模块（&lt;code&gt;control.go&lt;/code&gt;）。我们了解到客户端如何与服务端建立连接、如何通过多路复用隧道转发流量，以及如何从配置文件启动。然而，一个成熟的系统不仅需要核心功能，还需要完善的辅助机制来保证其在复杂多变的生产环境中的稳定性和灵活性。本篇文章将深入 NPS 客户端的另外两个重要文件：&lt;code&gt;nps/client/health.go&lt;/code&gt; 和 &lt;code&gt;nps/client/register.go&lt;/code&gt;，探讨 NPS 是如何实现对后端服务的健康检查以及支持客户端动态注册的。&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>NPS 客户端辅助模块：控制与 P2P 打洞细节</title>
+      <link>https://blog.jaxiu.cn/blog/2025-07/nps-%E5%AE%A2%E6%88%B7%E7%AB%AF%E8%BE%85%E5%8A%A9%E6%A8%A1%E5%9D%97%E6%8E%A7%E5%88%B6%E4%B8%8E-p2p-%E6%89%93%E6%B4%9E%E7%BB%86%E8%8A%82/</link>
+      <pubDate>Fri, 18 Jul 2025 18:00:00 +0800</pubDate>
+      <guid>https://blog.jaxiu.cn/blog/2025-07/nps-%E5%AE%A2%E6%88%B7%E7%AB%AF%E8%BE%85%E5%8A%A9%E6%A8%A1%E5%9D%97%E6%8E%A7%E5%88%B6%E4%B8%8E-p2p-%E6%89%93%E6%B4%9E%E7%BB%86%E8%8A%82/</guid>
+      <description>&lt;h2 id=&#34;引言&#34;&gt;引言&lt;/h2&gt;&#xA;&lt;p&gt;在上一篇文章中，我们深入剖析了 NPS 客户端的核心 &lt;code&gt;client.go&lt;/code&gt;，了解了其连接管理和流量转发机制。本篇文章将继续探索 NPS 客户端的其他辅助模块，特别是 &lt;code&gt;nps/client/control.go&lt;/code&gt; 文件。这个文件包含了客户端的一些控制逻辑，例如获取任务状态、从配置文件启动客户端，以及一些 P2P UDP 打洞相关的辅助函数。&lt;/p&gt;&#xA;&lt;h2 id=&#34;controlgo客户端的控制中心&#34;&gt;&lt;code&gt;control.go&lt;/code&gt;：客户端的控制中心&lt;/h2&gt;&#xA;&lt;p&gt;&lt;code&gt;control.go&lt;/code&gt; 文件提供了客户端的一些高级控制功能，使得用户可以通过配置文件或命令行参数来管理客户端的行为。&lt;/p&gt;&#xA;&lt;h3 id=&#34;tls-加密控制&#34;&gt;TLS 加密控制&lt;/h3&gt;&#xA;&lt;p&gt;&lt;code&gt;control.go&lt;/code&gt; 中定义了 &lt;code&gt;tlsEnable1&lt;/code&gt; 变量以及 &lt;code&gt;SetTlsEnable()&lt;/code&gt; 和 &lt;code&gt;GetTlsEnable()&lt;/code&gt; 函数，用于控制客户端与服务端之间是否启用 TLS 加密。这为用户提供了在客户端层面配置加密传输的灵活性。&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>NPS 客户端核心解析：连接管理与流量转发</title>
+      <link>https://blog.jaxiu.cn/blog/2025-07/nps-%E5%AE%A2%E6%88%B7%E7%AB%AF%E6%A0%B8%E5%BF%83%E8%A7%A3%E6%9E%90%E8%BF%9E%E6%8E%A5%E7%AE%A1%E7%90%86%E4%B8%8E%E6%B5%81%E9%87%8F%E8%BD%AC%E5%8F%91/</link>
+      <pubDate>Fri, 18 Jul 2025 17:45:00 +0800</pubDate>
+      <guid>https://blog.jaxiu.cn/blog/2025-07/nps-%E5%AE%A2%E6%88%B7%E7%AB%AF%E6%A0%B8%E5%BF%83%E8%A7%A3%E6%9E%90%E8%BF%9E%E6%8E%A5%E7%AE%A1%E7%90%86%E4%B8%8E%E6%B5%81%E9%87%8F%E8%BD%AC%E5%8F%91/</guid>
+      <description>&lt;h2 id=&#34;引言&#34;&gt;引言&lt;/h2&gt;&#xA;&lt;p&gt;在 NPS 系列文章的前几篇中，我们详细剖析了 NPS 服务端的各个模块和代理实现。本篇文章将转向 NPS 的 &lt;strong&gt;客户端（Client）&lt;/strong&gt; 模块，深入分析 &lt;code&gt;nps/client/client.go&lt;/code&gt; 文件。这个文件是 NPS 客户端的“大脑”，负责与服务端建立连接、管理隧道、处理不同类型的流量以及维护客户端的生命周期。理解客户端的运作机制，是掌握 NPS 完整内网穿透流程的关键。&lt;/p&gt;&#xA;&lt;h2 id=&#34;clientgo客户端的大脑&#34;&gt;&lt;code&gt;client.go&lt;/code&gt;：客户端的“大脑”&lt;/h2&gt;&#xA;&lt;p&gt;&lt;code&gt;client.go&lt;/code&gt; 文件定义了 &lt;code&gt;TRPClient&lt;/code&gt; 结构体，它是 NPS 客户端的核心。它负责客户端的启动、与服务端的通信、隧道管理以及流量转发。&lt;/p&gt;&#xA;&lt;h3 id=&#34;trpclient-结构体&#34;&gt;&lt;code&gt;TRPClient&lt;/code&gt; 结构体&lt;/h3&gt;&#xA;&lt;p&gt;&lt;code&gt;TRPClient&lt;/code&gt; 结构体包含了客户端运行所需的所有关键信息：&lt;/p&gt;</description>
+    </item>
+  </channel>
+</rss>

@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>技术深度 on jaxiu He</title>
+    <link>https://blog.jaxiu.cn/tags/%E6%8A%80%E6%9C%AF%E6%B7%B1%E5%BA%A6/</link>
+    <description>Recent content in 技术深度 on jaxiu He</description>
+    <generator>Hugo</generator>
+    <language>zn-Hans</language>
+    <lastBuildDate>Wed, 30 Jul 2025 10:00:00 +0800</lastBuildDate>
+    <atom:link href="https://blog.jaxiu.cn/tags/%E6%8A%80%E6%9C%AF%E6%B7%B1%E5%BA%A6/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>深入解析NPS项目近期重大更新：从代码层面看技术演进</title>
+      <link>https://blog.jaxiu.cn/blog/2025-07/%E6%B7%B1%E5%85%A5%E8%A7%A3%E6%9E%90nps%E9%A1%B9%E7%9B%AE%E8%BF%91%E6%9C%9F%E9%87%8D%E5%A4%A7%E6%9B%B4%E6%96%B0%E4%BB%8E%E4%BB%A3%E7%A0%81%E5%B1%82%E9%9D%A2%E7%9C%8B%E6%8A%80%E6%9C%AF%E6%BC%94%E8%BF%9B/</link>
+      <pubDate>Wed, 30 Jul 2025 10:00:00 +0800</pubDate>
+      <guid>https://blog.jaxiu.cn/blog/2025-07/%E6%B7%B1%E5%85%A5%E8%A7%A3%E6%9E%90nps%E9%A1%B9%E7%9B%AE%E8%BF%91%E6%9C%9F%E9%87%8D%E5%A4%A7%E6%9B%B4%E6%96%B0%E4%BB%8E%E4%BB%A3%E7%A0%81%E5%B1%82%E9%9D%A2%E7%9C%8B%E6%8A%80%E6%9C%AF%E6%BC%94%E8%BF%9B/</guid>
+      <description>&lt;h2 id=&#34;深入解析nps项目近期重大更新从代码层面看技术演进&#34;&gt;深入解析NPS项目近期重大更新：从代码层面看技术演进&lt;/h2&gt;&#xA;&lt;p&gt;NPS（Network Penetration Suite）作为一个轻量级、高性能、功能强大的内网穿透代理服务器，近期进行了多次重要更新。本文将从源码层面深入剖析这些更新的技术细节和实现原理，帮助读者更好地理解项目的演进过程。&lt;/p&gt;&#xA;&lt;h2 id=&#34;最新版本更新概览&#34;&gt;最新版本更新概览&lt;/h2&gt;&#xA;&lt;p&gt;在过去的一个月中，NPS项目发布了多个版本，主要集中在解决客户端和服务端握手过程中的EOF错误、优化多语言支持、改进Docker部署配置等方面。其中最重要的更新是v0.26.63版本，它解决了长期困扰用户的关键连接问题。&lt;/p&gt;</description>
+    </item>
+  </channel>
+</rss>

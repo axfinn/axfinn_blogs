@@ -1,0 +1,1971 @@
+<!DOCTYPE html>
+<html lang="zn-Hans">
+  <head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge, chrome=1">
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no, maximum-scale=1" />
+  
+  <meta name="author" content="jaxiu He">
+  <meta name="description"
+    content="AI编程工具深度调研系列（六）
+Google Gemini 完整解析
+一、产品概述
+Google Gemini是Google推出的下一代AI模型，是bard的升级版本。作为科技巨头Google的AI产品，Gemini充分利用了Google在搜索、云计算和AI领域的深厚积累。
+官网: https://gemini.google.com
+最新动态 (截至2026年2月):
+
+Gemini 2.0系列发布
+Gemini Advanced订阅增长
+Google AI Studio完善
+与Google生态深度集成
+
+二、技术架构
+2.1 Gemini模型家族
+
+  
+      
+          模型
+          发布时间
+          主要特点
+      
+  
+  
+      
+          Gemini Pro
+          2023年12月
+          基础版本
+      
+      
+          Gemini Ultra
+          2024年2月
+          最强版本
+      
+      
+          Gemini Nano
+          2024年
+          端侧部署
+      
+      
+          Gemini 1.5 Pro
+          2024年
+          1M上下文
+      
+      
+          Gemini 2.0
+          2025年
+          最新版本
+      
+  
+
+2.2 技术特点
+ Google Gemini 核心技术：
+ │
+ ├─ 多模态原生的
+ │  ├─ 文本理解
+ │  ├─ 图像理解
+ │  ├─ 视频理解
+ │  ├─ 音频理解
+ │  └─ 代码理解
+ │
+ ├─ 超长上下文
+ │  ├─ 128K token (标准)
+ │  └─ 2M token (Gemini 1.5)
+ │
+ ├─ 工具使用
+ │  ├─ Google Search
+ │  ├─ 代码执行
+ │  └─ 第三方API
+ │
+ └─ 推理能力
+    ├─ Chain of Thought
+    ├─ 自我纠错
+    └─ 复杂问题分解
+三、核心功能
+3.1 编程能力
+根据官方基准测试，Gemini的表现：">
+
+  <meta property="og:url" content="https://blog.jaxiu.cn/blog/2026-02/ai%E7%BC%96%E7%A8%8B%E5%B7%A5%E5%85%B7%E6%B7%B1%E5%BA%A6%E8%B0%83%E7%A0%94%E7%B3%BB%E5%88%97%E5%85%ADgoogle-gemini-%E5%AE%8C%E6%95%B4%E8%A7%A3%E6%9E%90/">
+  <meta property="og:site_name" content="jaxiu He">
+  <meta property="og:title" content="AI编程工具深度调研系列（六）：Google Gemini 完整解析">
+  <meta property="og:description" content="AI编程工具深度调研系列（六） Google Gemini 完整解析 一、产品概述 Google Gemini是Google推出的下一代AI模型，是bard的升级版本。作为科技巨头Google的AI产品，Gemini充分利用了Google在搜索、云计算和AI领域的深厚积累。
+官网: https://gemini.google.com
+最新动态 (截至2026年2月):
+Gemini 2.0系列发布 Gemini Advanced订阅增长 Google AI Studio完善 与Google生态深度集成 二、技术架构 2.1 Gemini模型家族 模型 发布时间 主要特点 Gemini Pro 2023年12月 基础版本 Gemini Ultra 2024年2月 最强版本 Gemini Nano 2024年 端侧部署 Gemini 1.5 Pro 2024年 1M上下文 Gemini 2.0 2025年 最新版本 2.2 技术特点 Google Gemini 核心技术： │ ├─ 多模态原生的 │ ├─ 文本理解 │ ├─ 图像理解 │ ├─ 视频理解 │ ├─ 音频理解 │ └─ 代码理解 │ ├─ 超长上下文 │ ├─ 128K token (标准) │ └─ 2M token (Gemini 1.5) │ ├─ 工具使用 │ ├─ Google Search │ ├─ 代码执行 │ └─ 第三方API │ └─ 推理能力 ├─ Chain of Thought ├─ 自我纠错 └─ 复杂问题分解 三、核心功能 3.1 编程能力 根据官方基准测试，Gemini的表现：">
+  <meta property="og:locale" content="zn_Hans">
+  <meta property="og:type" content="article">
+    <meta property="article:section" content="blog">
+    <meta property="article:published_time" content="2026-02-26T11:23:00+08:00">
+    <meta property="article:modified_time" content="2026-02-26T11:23:00+08:00">
+    <meta property="article:tag" content="AI">
+    <meta property="article:tag" content="编程工具">
+    <meta property="article:tag" content="Google">
+    <meta property="article:tag" content="Gemini">
+    <meta property="article:tag" content="编程助手">
+
+
+  <title>
+    
+     AI编程工具深度调研系列（六）：Google Gemini 完整解析 | jaxiu He 
+    
+  </title>
+
+  <link rel="canonical" href="https://blog.jaxiu.cn/blog/2026-02/ai%E7%BC%96%E7%A8%8B%E5%B7%A5%E5%85%B7%E6%B7%B1%E5%BA%A6%E8%B0%83%E7%A0%94%E7%B3%BB%E5%88%97%E5%85%ADgoogle-gemini-%E5%AE%8C%E6%95%B4%E8%A7%A3%E6%9E%90/">
+
+  
+  
+
+  
+  
+  
+  <meta name="baidu-site-verification" content="your-baidu-verify-code" />
+  
+
+  
+  
+  <meta name="google-site-verification" content="your-google-verify-code" />
+  
+
+  
+  <link href="https://blog.jaxiu.cn/css/vendors-extensions/fontawesome/all.min.css" rel="stylesheet">
+
+  
+  <link rel="stylesheet"
+    href="https://fonts.googleapis.com/css?family=Open+Sans:400,700|Ubuntu+Mono:400,400i,700,700i|Raleway:300,400,500,600">
+  <link href="https://blog.jaxiu.cn/css/font.css" rel="stylesheet">
+
+  
+  <link href="https://blog.jaxiu.cn/css/vendors/bootstrap4/bootstrap.min.css" rel="stylesheet">
+  <link href="https://blog.jaxiu.cn/css/vendors-extensions/mdb/mdb.min.css" rel="stylesheet">
+  <link href="https://blog.jaxiu.cn/css/vendors/mdb/style.min.css" rel="stylesheet">
+  <link href="https://blog.jaxiu.cn/css/main.css" rel="stylesheet">
+
+
+  
+  <link rel="shortcut icon"  href="https://blog.jaxiu.cn/img/logo.png" >
+
+
+  
+  
+
+  <style type="text/css">
+    @media (min-width: 800px) and (max-width: 850px) {
+      .navbar:not(.top-nav-collapse) {
+        background: #1C2331 !important;
+      }
+    }
+  </style>
+
+
+  
+  
+  <link rel="stylesheet" href="https://blog.jaxiu.cn/js/vendors/katex/katex.min.css">
+  
+  
+
+  
+  
+  <link rel="stylesheet" href="https://blog.jaxiu.cn/css/vendors/highlight/github-gist.css">
+  
+
+  
+  
+  <script type="module">
+    import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.esm.min.mjs';
+    mermaid.initialize({ startOnLoad: true });
+  </script>
+  
+  
+
+  
+  <link href="https://blog.jaxiu.cn/css/holiday-effects.css" rel="stylesheet">
+  <script src="https://blog.jaxiu.cn/js/holiday-effects.js"></script>
+
+  
+  <script src="https://blog.jaxiu.cn/js/dynamic-bg.js"></script>
+  <link href="https://blog.jaxiu.cn/css/dynamic-bg-control.css" rel="stylesheet">
+
+</head>
+  <body class="bg-light" data-spy="scroll" data-target="#page-scrollspy" data-offset="90">
+  
+    
+    
+
+    
+      
+
+
+<nav class="navbar fixed-top navbar-expand-lg navbar-dark scrolling-navbar">
+    <div class="container">
+
+      
+      <a class="navbar-brand" href="https://blog.jaxiu.cn/">
+          
+        <img class="avatar" src="https://blog.jaxiu.cn/img/logo.png" style="width: 40px!important;height: auto;"  class="d-inline-block align-top" alt="" >
+        
+        <strong> jaxiu He</strong>
+      </a>
+
+      
+      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
+        aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+
+      
+      <div class="collapse navbar-collapse" id="navbarSupportedContent">
+
+        
+        <ul class="navbar-nav mr-auto ">
+          <li class="nav-item ">
+            <a class="nav-link" href="https://blog.jaxiu.cn/">Home</a>
+          </li>
+          
+            <li class="nav-item ">
+              <a class="nav-link" href="https://blog.jaxiu.cn/blog/" >博客  </a>
+            </li>
+
+          
+            <li class="nav-item ">
+              <a class="nav-link" href="https://blog.jaxiu.cn/moment/" >动态  </a>
+            </li>
+
+          
+            <li class="nav-item ">
+              <a class="nav-link" href="https://blog.jaxiu.cn/blog/prenatal-stories/" >胎教故事  </a>
+            </li>
+
+          
+            <li class="nav-item ">
+              <a class="nav-link" href="https://blog.jaxiu.cn/about/" >关于  </a>
+            </li>
+
+          
+        </ul>
+
+        
+        <ul class="navbar-nav">
+          <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" href="#" id="searchDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+              <i class="fas fa-search"></i> 搜索
+            </a>
+            <div class="dropdown-menu dropdown-menu-right p-3" aria-labelledby="searchDropdown" style="min-width: 300px; max-width: 400px;">
+              <form class="search-form" onsubmit="return false;">
+                <div class="input-group">
+                  <input type="text" id="search-query" class="form-control" placeholder="搜索文章标题或内容..." autocomplete="off">
+                  <div class="input-group-append">
+                    <button class="btn btn-outline-secondary" type="button" onclick="document.getElementById('search-query').focus();">
+                      <i class="fas fa-search"></i>
+                    </button>
+                  </div>
+                </div>
+              </form>
+              <ul id="search-results" class="list-unstyled mt-2 mb-0" style="max-height: 400px; overflow-y: auto;"></ul>
+            </div>
+          </li>
+        </ul>
+
+      </div>
+
+    </div>
+  </nav>
+   
+      
+
+
+
+
+
+
+
+<div id="site-header" class="carousel slide carousel-fade" data-ride="carousel" style="height: 18rem;">
+  
+
+  
+  
+  
+
+  
+  <div class="carousel-inner" role="listbox">
+    
+    
+
+    
+    <div class="carousel-item active">
+      <div class="view"
+        style="background-image: url('https://blog.jaxiu.cn/img/header-slides/raw_1515691746.jpg'); background-repeat: no-repeat; background-size: cover;">
+
+        
+        <div class="mask rgba-black-light d-flex justify-content-center align-items-center">
+
+          
+          
+          
+
+        </div>
+        
+
+      </div>
+    </div>
+    
+    
+    
+    
+
+    
+    <div class="carousel-item">
+      <div class="view"
+        style="background-image: url('https://blog.jaxiu.cn/img/header-slides//raw_1515847341.jpg'); background-repeat: no-repeat; background-size: cover;">
+
+        
+        <div class="mask rgba-black-light d-flex justify-content-center align-items-center">
+
+
+
+        </div>
+        
+
+      </div>
+    </div>
+    
+    
+    
+
+
+  </div>
+  
+
+  
+  <div class="carousel-content text-center white-text wow fadeIn">
+    <div class="row mx-0 headfont mt-3 pt-4">
+      
+      <div class="col-12 col-sm-5 align-middle">
+        <a href="https://blog.jaxiu.cn/">
+          
+          <img class="pull-right avatar avatar-md" src="https://blog.jaxiu.cn/img/logo.png" alt="">
+          
+        </a>
+      </div>
+
+      <div class="col-12 col-sm-7 text-left pl-2">
+        <a href="https://blog.jaxiu.cn/">
+          <h1 class="mb-2 h1" style="font-weight: 300;">
+            <strong>jaxiu He</strong>
+          </h1>
+        </a>
+
+
+        
+        <div class="mt-2" style="font-size: 1rem; color: white;">
+          
+          <a href="//github.com/axfinn" target="_blank" rel="noopener"><i class="fab fa-github pr-1"
+              aria-hidden="true"></i></a>
+          
+          
+
+          
+
+          
+
+          
+
+          
+
+          
+
+
+          
+          <a href="mailto:521very@email.com"><i class="far fa-envelope-open pr-1" aria-hidden="true"></i></a>
+          
+
+          
+
+
+        </div>
+      </div>
+    </div>
+  </div>
+  
+
+  
+  
+  
+
+</div>
+  
+    
+
+    
+  
+  <main class="post-main-wrapper">
+    
+    
+    <div class="row">
+
+      
+
+      
+      <div class="col-md-10">
+      
+
+        
+        <div class="z-depth-1  post-wrapper white-bg single-post">
+
+          <div class="post-header text-center" >
+  <ul class="post-meta li-x">
+    
+      
+        <li><a href="https://blog.jaxiu.cn/categories/%E6%8A%80%E6%9C%AF"><i class="fas fa-folder-open pr-1" aria-hidden="true"></i> 技术 </a></li>
+      
+        <li><a href="https://blog.jaxiu.cn/categories/ai"><i class="fas fa-folder-open pr-1" aria-hidden="true"></i> AI </a></li>
+      
+        <li><a href="https://blog.jaxiu.cn/categories/%E7%BC%96%E7%A8%8B%E5%B7%A5%E5%85%B7"><i class="fas fa-folder-open pr-1" aria-hidden="true"></i> 编程工具 </a></li>
+      
+    
+    
+  </ul>
+
+  <div class="px-4 post-heading">AI编程工具深度调研系列（六）：Google Gemini 完整解析</div>
+
+  <ul class="post-meta li-x mt-1">
+    
+      <li>Feb 26, 2026</li>
+    
+
+    
+      <li class="middot"></li>
+      <li>4 minutes read</li>
+    
+  </ul>
+  
+
+</div>
+
+
+          <div class="post-content markdown">
+            <h1 id="ai编程工具深度调研系列六">AI编程工具深度调研系列（六）</h1>
+<h2 id="google-gemini-完整解析">Google Gemini 完整解析</h2>
+<h3 id="一产品概述">一、产品概述</h3>
+<p>Google Gemini是Google推出的下一代AI模型，是bard的升级版本。作为科技巨头Google的AI产品，Gemini充分利用了Google在搜索、云计算和AI领域的深厚积累。</p>
+<p><strong>官网</strong>: <a href="https://gemini.google.com">https://gemini.google.com</a></p>
+<p><strong>最新动态</strong> (截至2026年2月):</p>
+<ul>
+<li>Gemini 2.0系列发布</li>
+<li>Gemini Advanced订阅增长</li>
+<li>Google AI Studio完善</li>
+<li>与Google生态深度集成</li>
+</ul>
+<h3 id="二技术架构">二、技术架构</h3>
+<h4 id="21-gemini模型家族">2.1 Gemini模型家族</h4>
+<table>
+  <thead>
+      <tr>
+          <th>模型</th>
+          <th>发布时间</th>
+          <th>主要特点</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td>Gemini Pro</td>
+          <td>2023年12月</td>
+          <td>基础版本</td>
+      </tr>
+      <tr>
+          <td>Gemini Ultra</td>
+          <td>2024年2月</td>
+          <td>最强版本</td>
+      </tr>
+      <tr>
+          <td>Gemini Nano</td>
+          <td>2024年</td>
+          <td>端侧部署</td>
+      </tr>
+      <tr>
+          <td>Gemini 1.5 Pro</td>
+          <td>2024年</td>
+          <td>1M上下文</td>
+      </tr>
+      <tr>
+          <td>Gemini 2.0</td>
+          <td>2025年</td>
+          <td>最新版本</td>
+      </tr>
+  </tbody>
+</table>
+<h4 id="22-技术特点">2.2 技术特点</h4>
+<pre tabindex="0"><code> Google Gemini 核心技术：
+ │
+ ├─ 多模态原生的
+ │  ├─ 文本理解
+ │  ├─ 图像理解
+ │  ├─ 视频理解
+ │  ├─ 音频理解
+ │  └─ 代码理解
+ │
+ ├─ 超长上下文
+ │  ├─ 128K token (标准)
+ │  └─ 2M token (Gemini 1.5)
+ │
+ ├─ 工具使用
+ │  ├─ Google Search
+ │  ├─ 代码执行
+ │  └─ 第三方API
+ │
+ └─ 推理能力
+    ├─ Chain of Thought
+    ├─ 自我纠错
+    └─ 复杂问题分解
+</code></pre><h3 id="三核心功能">三、核心功能</h3>
+<h4 id="31-编程能力">3.1 编程能力</h4>
+<p>根据官方基准测试，Gemini的表现：</p>
+<table>
+  <thead>
+      <tr>
+          <th>基准测试</th>
+          <th>Gemini Ultra</th>
+          <th>GPT-4</th>
+          <th>说明</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td>HumanEval</td>
+          <td>71.2%</td>
+          <td>67.0%</td>
+          <td>代码生成</td>
+      </tr>
+      <tr>
+          <td>MBPP</td>
+          <td>72.5%</td>
+          <td>67.6%</td>
+          <td>基础编程</td>
+      </tr>
+      <tr>
+          <td>APPS</td>
+          <td>58.3%</td>
+          <td>55.2%</td>
+          <td>问题解决</td>
+      </tr>
+      <tr>
+          <td>RepoBench</td>
+          <td>62.1%</td>
+          <td>58.3%</td>
+          <td>代码库理解</td>
+      </tr>
+  </tbody>
+</table>
+<p><em>数据来源: Google官方技术报告 [1]</em></p>
+<h4 id="32-编程语言支持">3.2 编程语言支持</h4>
+<ul>
+<li>Python ⭐</li>
+<li>JavaScript/TypeScript ⭐</li>
+<li>Java ⭐</li>
+<li>C/C++ ⭐</li>
+<li>Go ⭐</li>
+<li>Rust ⭐</li>
+<li>Ruby</li>
+<li>PHP</li>
+<li>Swift</li>
+<li>Kotlin</li>
+<li>SQL</li>
+<li>Shell</li>
+</ul>
+<h4 id="33-特色功能">3.3 特色功能</h4>
+<p><strong>3.3.1 实时信息</strong></p>
+<ul>
+<li>接入Google Search</li>
+<li>获取最新信息</li>
+<li>实时数据查询</li>
+</ul>
+<p><strong>3.3.2 代码执行</strong></p>
+<ul>
+<li>Python代码执行</li>
+<li>JavaScript沙箱</li>
+<li>结果可视化</li>
+</ul>
+<p><strong>3.3.3 工具调用</strong></p>
+<ul>
+<li>Google Workspace集成</li>
+<li>第三方API调用</li>
+<li>自定义工具</li>
+</ul>
+<h3 id="四产品体系">四、产品体系</h3>
+<h4 id="41-消费者产品">4.1 消费者产品</h4>
+<table>
+  <thead>
+      <tr>
+          <th>产品</th>
+          <th>说明</th>
+          <th>链接</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td>Gemini (Bard)</td>
+          <td>Web版对话</td>
+          <td>gemini.google.com</td>
+      </tr>
+      <tr>
+          <td>Gemini Advanced</td>
+          <td>高级版</td>
+          <td>订阅服务</td>
+      </tr>
+      <tr>
+          <td>Gemini App</td>
+          <td>移动应用</td>
+          <td>iOS/Android</td>
+      </tr>
+  </tbody>
+</table>
+<h4 id="42-开发者产品">4.2 开发者产品</h4>
+<table>
+  <thead>
+      <tr>
+          <th>产品</th>
+          <th>说明</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td>Google AI Studio</td>
+          <td>在线开发环境</td>
+      </tr>
+      <tr>
+          <td>Gemini API</td>
+          <td>API接口</td>
+      </tr>
+      <tr>
+          <td>Vertex AI</td>
+          <td>企业级平台</td>
+      </tr>
+      <tr>
+          <td>Colab</td>
+          <td>云端 notebooks</td>
+      </tr>
+  </tbody>
+</table>
+<h4 id="43-集成产品">4.3 集成产品</h4>
+<ul>
+<li><strong>Android</strong>: 系统级AI助手</li>
+<li><strong>Chrome</strong>: 浏览器集成</li>
+<li><strong>Gmail</strong>: 邮件辅助</li>
+<li><strong>Docs</strong>: 文档辅助</li>
+<li><strong>Sheets</strong>: 表格辅助</li>
+<li><strong>Slides</strong>: 演示辅助</li>
+</ul>
+<h3 id="五google-ai-studio">五、Google AI Studio</h3>
+<h4 id="51-功能特点">5.1 功能特点</h4>
+<p>Google AI Studio是Gemini的官方开发环境：</p>
+<pre tabindex="0"><code> Google AI Studio 功能：
+ │
+ ├─ 在线编辑
+ │  ├─ 代码编辑器
+ │  ├─ 预览窗口
+ │  └─ 参数调整
+ │
+ ├─ API测试
+ │  ├─ REST API
+ │  ├─ SDK
+ │  └─ 流式响应
+ │
+ ├─ 模型配置
+ │  ├─ 温度调节
+ │  ├─ Top-p/p
+ │  ├─ 上下文设定
+ │  └─ 安全等级
+ │
+ └─ 分享协作
+    ├─ 项目分享
+    ├─ 团队协作
+    └─ 社区发现
+</code></pre><h4 id="52-使用示例">5.2 使用示例</h4>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="c1"># Google AI Studio API使用示例</span>
+</span></span><span class="line"><span class="cl"><span class="kn">import</span> <span class="nn">google.generativeai</span> <span class="k">as</span> <span class="nn">genai</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="n">genai</span><span class="o">.</span><span class="n">configure</span><span class="p">(</span><span class="n">api_key</span><span class="o">=</span><span class="s2">&#34;YOUR_API_KEY&#34;</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="n">model</span> <span class="o">=</span> <span class="n">genai</span><span class="o">.</span><span class="n">GenerativeModel</span><span class="p">(</span><span class="s1">&#39;gemini-pro&#39;</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="n">response</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">generate_content</span><span class="p">(</span><span class="s2">&#34;写一个Python快速排序函数&#34;</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="nb">print</span><span class="p">(</span><span class="n">response</span><span class="o">.</span><span class="n">text</span><span class="p">)</span>
+</span></span></code></pre></div><h3 id="六安全性与责任">六、安全性与责任</h3>
+<h4 id="61-安全措施">6.1 安全措施</h4>
+<ul>
+<li><strong>AI安全评估</strong>: 严格的安全测试</li>
+<li><strong>内容过滤</strong>: 多层内容审核</li>
+<li><strong>偏见检测</strong>: 公平性评估</li>
+<li><strong>隐私保护</strong>: 数据处理规范</li>
+</ul>
+<h4 id="62-google-ai原则">6.2 Google AI原则</h4>
+<p>Google承诺：</p>
+<ol>
+<li>对社会有益</li>
+<li>避免偏见</li>
+<li>安全可靠</li>
+<li>保护隐私</li>
+<li>透明可解释</li>
+<li>人类监督</li>
+</ol>
+<h3 id="七定价策略">七、定价策略</h3>
+<h4 id="71-消费者定价">7.1 消费者定价</h4>
+<table>
+  <thead>
+      <tr>
+          <th>计划</th>
+          <th>价格</th>
+          <th>特性</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td>Gemini Free</td>
+          <td>$0</td>
+          <td>基础版</td>
+      </tr>
+      <tr>
+          <td>Gemini Advanced</td>
+          <td>$19.99/月</td>
+          <td>Ultra模型</td>
+      </tr>
+  </tbody>
+</table>
+<h4 id="72-api定价">7.2 API定价</h4>
+<table>
+  <thead>
+      <tr>
+          <th>模型</th>
+          <th>输入</th>
+          <th>输出</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td>Gemini Pro</td>
+          <td>$0.5/1M</td>
+          <td>$1.5/1M</td>
+      </tr>
+      <tr>
+          <td>Gemini Ultra</td>
+          <td>$3.5/1M</td>
+          <td>$10.5/1M</td>
+      </tr>
+      <tr>
+          <td>Gemini Nano</td>
+          <td>免费</td>
+          <td>端侧</td>
+      </tr>
+  </tbody>
+</table>
+<p><em>数据来源: Google AI Studio [2]</em></p>
+<h4 id="73-vertex-ai企业定价">7.3 Vertex AI企业定价</h4>
+<p>企业版根据使用量定制：</p>
+<ul>
+<li>专属算力</li>
+<li>数据隔离</li>
+<li>SLA保障</li>
+<li>技术支持</li>
+</ul>
+<h3 id="八优势与劣势">八、优势与劣势</h3>
+<h4 id="81-优势">8.1 优势</h4>
+<ol>
+<li><strong>Google生态</strong>: 与Google服务深度集成</li>
+<li><strong>搜索能力</strong>: 实时信息获取</li>
+<li><strong>多模态</strong>: 原生多模态设计</li>
+<li><strong>超长上下文</strong>: 最高2M token</li>
+<li><strong>开发者工具</strong>: 完善的开发环境</li>
+<li><strong>云计算</strong>: Vertex AI企业支持</li>
+</ol>
+<h4 id="82-劣势">8.2 劣势</h4>
+<ol>
+<li><strong>区域限制</strong>: 部分地区不可用</li>
+<li><strong>复杂性</strong>: 功能太多，学习曲线陡峭</li>
+<li><strong>定价</strong>: 企业版价格较高</li>
+<li><strong>隐私争议</strong>: Google数据使用政策</li>
+</ol>
+<h3 id="九开发者评价">九、开发者评价</h3>
+<p>根据开发者社区反馈：</p>
+<blockquote>
+<p>&ldquo;Gemini接入Google Search的能力是独一无二的，实时信息查询非常方便。&rdquo; - Reddit开发者</p>
+</blockquote>
+<blockquote>
+<p>&ldquo;Google AI Studio比其他的开发环境更专业，功能也更丰富。&rdquo; - Twitter开发者</p>
+</blockquote>
+<h3 id="十参考来源">十、参考来源</h3>
+<p>[1] Google Gemini技术报告: <a href="https://blog.google/technology/ai/gemini-ai/">https://blog.google/technology/ai/gemini-ai/</a></p>
+<p>[2] Google AI Studio: <a href="https://aistudio.google.com">https://aistudio.google.com</a></p>
+<p>[3] Google AI原则: <a href="https://ai.google/principles">https://ai.google/principles</a></p>
+<h3 id="十一结论">十一、结论</h3>
+<p>Google Gemini凭借Google强大的技术积累和生态优势，在AI编程工具领域占据重要地位。特别是其与Google生态的深度集成，使其成为Google用户的不二选择。</p>
+<p><strong>推荐指数</strong>: ⭐⭐⭐⭐⭐</p>
+<p><strong>适用场景</strong>:</p>
+<ul>
+<li>Google生态用户</li>
+<li>需要实时信息的场景</li>
+<li>企业级应用</li>
+<li>需要超长上下文的场景</li>
+</ul>
+<hr>
+<p><em>下期预告: AI编程工具深度调研系列（七）- Kiro 新兴编程工具解析</em></p>
+
+          </div>
+
+          
+          <div class="row">
+            <div class="col-md-8">
+            
+              <div class="mb-5">
+                
+<div class="li-x div-x post-meta">
+  <li class="pr-0"><a href="https://blog.jaxiu.cn/tags/"><i class="fas fa-tags"></i></a></li>
+  <div class="tags-sm">
+    
+      <li><a href="https://blog.jaxiu.cn/tags/ai" role="button">AI </a></li>
+      
+    
+      <li><a href="https://blog.jaxiu.cn/tags/%E7%BC%96%E7%A8%8B%E5%B7%A5%E5%85%B7" role="button">编程工具 </a></li>
+      
+    
+      <li><a href="https://blog.jaxiu.cn/tags/google" role="button">Google </a></li>
+      
+    
+      <li><a href="https://blog.jaxiu.cn/tags/gemini" role="button">Gemini </a></li>
+      
+    
+      <li><a href="https://blog.jaxiu.cn/tags/%E7%BC%96%E7%A8%8B%E5%8A%A9%E6%89%8B" role="button">编程助手 </a></li>
+      
+    
+  </div>
+</div>
+              </div>
+            
+            </div>
+            
+          </div>
+          
+
+          
+          <div class="row pt-3">
+            <div class="col-md-6">
+              
+                <a href=https://blog.jaxiu.cn/blog/2026-02/ai%E7%BC%96%E7%A8%8B%E5%B7%A5%E5%85%B7%E6%B7%B1%E5%BA%A6%E8%B0%83%E7%A0%94%E7%B3%BB%E5%88%97%E4%BA%94minimax-%E5%A4%9A%E6%A8%A1%E6%80%81ai%E6%96%B0%E7%A7%80%E8%A7%A3%E6%9E%90/ class="post-meta">Previous
+                  <div class="pt-2 pb-5 d-flex">
+                    <i class="fas fa-angle-left text-grey font-weight-bold mr-2 active-color"></i>
+                    <span>AI编程工具深度调研系列（五）：MiniMax 多模态AI新秀解析</span>
+                  </div>
+                </a>
+              
+            </div>
+            
+            <div class="col-md-6 text-right" >
+              
+                <a href=https://blog.jaxiu.cn/blog/2026-02/ai%E7%BC%96%E7%A8%8B%E5%B7%A5%E5%85%B7%E6%B7%B1%E5%BA%A6%E8%B0%83%E7%A0%94%E7%B3%BB%E5%88%97%E4%B8%83kiro-%E6%96%B0%E5%85%B4%E7%BC%96%E7%A8%8B%E5%B7%A5%E5%85%B7%E8%A7%A3%E6%9E%90/ class="post-meta">Next
+                  <div class="pt-2 pb-5 flex-reverse">
+                    <i class="fas fa-angle-right text-grey font-weight-bold ml-2 active-color"></i>
+                    <span>AI编程工具深度调研系列（七）：Kiro 新兴编程工具解析</span>
+                  </div>
+                </a>
+              
+            </div>
+          </div>
+
+          
+
+        </div>
+        
+
+      </div>
+      
+
+      
+	
+	
+	
+	
+		
+		
+		
+	
+
+		
+		<div class="col-md-2 pl-0">
+
+			
+			<div id="page-scrollspy" class="toc-nav">
+				
+				<ul class="nav nav-pills ml-0">
+					
+					<li class="nav-item pb-3 text-center">
+						<span class="font-weight-bold mb-2">- CATALOG - </span>
+					</li>
+
+					
+						
+						
+							
+								
+								
+									<ul class="nav">
+								
+								
+
+										<li class="nav-item">
+						 					<a class="nav-link" href="#ai%e7%bc%96%e7%a8%8b%e5%b7%a5%e5%85%b7%e6%b7%b1%e5%ba%a6%e8%b0%83%e7%a0%94%e7%b3%bb%e5%88%97%e5%85%ad">
+												 AI编程工具深度调研系列（六）
+											</a>
+										</li>
+						 
+								
+								
+									</ul>
+								
+							
+						
+				 
+						
+						
+							
+								
+								
+									<ul class="nav">
+								
+									<ul class="nav">
+								
+								
+
+										<li class="nav-item">
+						 					<a class="nav-link" href="#google-gemini-%e5%ae%8c%e6%95%b4%e8%a7%a3%e6%9e%90">
+												 Google Gemini 完整解析
+											</a>
+										</li>
+						 
+								
+								
+									</ul>
+								
+									</ul>
+								
+							
+						
+				 
+						
+						
+							
+								
+								
+									<ul class="nav">
+								
+									<ul class="nav">
+								
+									<ul class="nav">
+								
+								
+
+										<li class="nav-item">
+						 					<a class="nav-link" href="#%e4%b8%80%e4%ba%a7%e5%93%81%e6%a6%82%e8%bf%b0">
+												 一、产品概述
+											</a>
+										</li>
+						 
+								
+								
+									</ul>
+								
+									</ul>
+								
+									</ul>
+								
+							
+						
+				 
+						
+						
+							
+								
+								
+									<ul class="nav">
+								
+									<ul class="nav">
+								
+									<ul class="nav">
+								
+								
+
+										<li class="nav-item">
+						 					<a class="nav-link" href="#%e4%ba%8c%e6%8a%80%e6%9c%af%e6%9e%b6%e6%9e%84">
+												 二、技术架构
+											</a>
+										</li>
+						 
+								
+								
+									</ul>
+								
+									</ul>
+								
+									</ul>
+								
+							
+						
+				 
+						
+						
+							
+								
+								
+									<ul class="nav">
+								
+									<ul class="nav">
+								
+									<ul class="nav">
+								
+									<ul class="nav">
+								
+								
+
+										<li class="nav-item">
+						 					<a class="nav-link" href="#21-gemini%e6%a8%a1%e5%9e%8b%e5%ae%b6%e6%97%8f">
+												 2.1 Gemini模型家族
+											</a>
+										</li>
+						 
+								
+								
+									</ul>
+								
+									</ul>
+								
+									</ul>
+								
+									</ul>
+								
+							
+						
+				 
+						
+						
+							
+								
+								
+									<ul class="nav">
+								
+									<ul class="nav">
+								
+									<ul class="nav">
+								
+									<ul class="nav">
+								
+								
+
+										<li class="nav-item">
+						 					<a class="nav-link" href="#22-%e6%8a%80%e6%9c%af%e7%89%b9%e7%82%b9">
+												 2.2 技术特点
+											</a>
+										</li>
+						 
+								
+								
+									</ul>
+								
+									</ul>
+								
+									</ul>
+								
+									</ul>
+								
+							
+						
+				 
+						
+						
+							
+								
+								
+									<ul class="nav">
+								
+									<ul class="nav">
+								
+									<ul class="nav">
+								
+								
+
+										<li class="nav-item">
+						 					<a class="nav-link" href="#%e4%b8%89%e6%a0%b8%e5%bf%83%e5%8a%9f%e8%83%bd">
+												 三、核心功能
+											</a>
+										</li>
+						 
+								
+								
+									</ul>
+								
+									</ul>
+								
+									</ul>
+								
+							
+						
+				 
+						
+						
+							
+								
+								
+									<ul class="nav">
+								
+									<ul class="nav">
+								
+									<ul class="nav">
+								
+									<ul class="nav">
+								
+								
+
+										<li class="nav-item">
+						 					<a class="nav-link" href="#31-%e7%bc%96%e7%a8%8b%e8%83%bd%e5%8a%9b">
+												 3.1 编程能力
+											</a>
+										</li>
+						 
+								
+								
+									</ul>
+								
+									</ul>
+								
+									</ul>
+								
+									</ul>
+								
+							
+						
+				 
+						
+						
+							
+								
+								
+									<ul class="nav">
+								
+									<ul class="nav">
+								
+									<ul class="nav">
+								
+									<ul class="nav">
+								
+								
+
+										<li class="nav-item">
+						 					<a class="nav-link" href="#32-%e7%bc%96%e7%a8%8b%e8%af%ad%e8%a8%80%e6%94%af%e6%8c%81">
+												 3.2 编程语言支持
+											</a>
+										</li>
+						 
+								
+								
+									</ul>
+								
+									</ul>
+								
+									</ul>
+								
+									</ul>
+								
+							
+						
+				 
+						
+						
+							
+								
+								
+									<ul class="nav">
+								
+									<ul class="nav">
+								
+									<ul class="nav">
+								
+									<ul class="nav">
+								
+								
+
+										<li class="nav-item">
+						 					<a class="nav-link" href="#33-%e7%89%b9%e8%89%b2%e5%8a%9f%e8%83%bd">
+												 3.3 特色功能
+											</a>
+										</li>
+						 
+								
+								
+									</ul>
+								
+									</ul>
+								
+									</ul>
+								
+									</ul>
+								
+							
+						
+				 
+						
+						
+							
+								
+								
+									<ul class="nav">
+								
+									<ul class="nav">
+								
+									<ul class="nav">
+								
+								
+
+										<li class="nav-item">
+						 					<a class="nav-link" href="#%e5%9b%9b%e4%ba%a7%e5%93%81%e4%bd%93%e7%b3%bb">
+												 四、产品体系
+											</a>
+										</li>
+						 
+								
+								
+									</ul>
+								
+									</ul>
+								
+									</ul>
+								
+							
+						
+				 
+						
+						
+							
+								
+								
+									<ul class="nav">
+								
+									<ul class="nav">
+								
+									<ul class="nav">
+								
+									<ul class="nav">
+								
+								
+
+										<li class="nav-item">
+						 					<a class="nav-link" href="#41-%e6%b6%88%e8%b4%b9%e8%80%85%e4%ba%a7%e5%93%81">
+												 4.1 消费者产品
+											</a>
+										</li>
+						 
+								
+								
+									</ul>
+								
+									</ul>
+								
+									</ul>
+								
+									</ul>
+								
+							
+						
+				 
+						
+						
+							
+								
+								
+									<ul class="nav">
+								
+									<ul class="nav">
+								
+									<ul class="nav">
+								
+									<ul class="nav">
+								
+								
+
+										<li class="nav-item">
+						 					<a class="nav-link" href="#42-%e5%bc%80%e5%8f%91%e8%80%85%e4%ba%a7%e5%93%81">
+												 4.2 开发者产品
+											</a>
+										</li>
+						 
+								
+								
+									</ul>
+								
+									</ul>
+								
+									</ul>
+								
+									</ul>
+								
+							
+						
+				 
+						
+						
+							
+								
+								
+									<ul class="nav">
+								
+									<ul class="nav">
+								
+									<ul class="nav">
+								
+									<ul class="nav">
+								
+								
+
+										<li class="nav-item">
+						 					<a class="nav-link" href="#43-%e9%9b%86%e6%88%90%e4%ba%a7%e5%93%81">
+												 4.3 集成产品
+											</a>
+										</li>
+						 
+								
+								
+									</ul>
+								
+									</ul>
+								
+									</ul>
+								
+									</ul>
+								
+							
+						
+				 
+						
+						
+							
+								
+								
+									<ul class="nav">
+								
+									<ul class="nav">
+								
+									<ul class="nav">
+								
+								
+
+										<li class="nav-item">
+						 					<a class="nav-link" href="#%e4%ba%94google-ai-studio">
+												 五、Google AI Studio
+											</a>
+										</li>
+						 
+								
+								
+									</ul>
+								
+									</ul>
+								
+									</ul>
+								
+							
+						
+				 
+						
+						
+							
+								
+								
+									<ul class="nav">
+								
+									<ul class="nav">
+								
+									<ul class="nav">
+								
+									<ul class="nav">
+								
+								
+
+										<li class="nav-item">
+						 					<a class="nav-link" href="#51-%e5%8a%9f%e8%83%bd%e7%89%b9%e7%82%b9">
+												 5.1 功能特点
+											</a>
+										</li>
+						 
+								
+								
+									</ul>
+								
+									</ul>
+								
+									</ul>
+								
+									</ul>
+								
+							
+						
+				 
+						
+						
+							
+								
+								
+									<ul class="nav">
+								
+									<ul class="nav">
+								
+									<ul class="nav">
+								
+									<ul class="nav">
+								
+								
+
+										<li class="nav-item">
+						 					<a class="nav-link" href="#52-%e4%bd%bf%e7%94%a8%e7%a4%ba%e4%be%8b">
+												 5.2 使用示例
+											</a>
+										</li>
+						 
+								
+								
+									</ul>
+								
+									</ul>
+								
+									</ul>
+								
+									</ul>
+								
+							
+						
+				 
+						
+						
+							
+								
+								
+									<ul class="nav">
+								
+									<ul class="nav">
+								
+									<ul class="nav">
+								
+								
+
+										<li class="nav-item">
+						 					<a class="nav-link" href="#%e5%85%ad%e5%ae%89%e5%85%a8%e6%80%a7%e4%b8%8e%e8%b4%a3%e4%bb%bb">
+												 六、安全性与责任
+											</a>
+										</li>
+						 
+								
+								
+									</ul>
+								
+									</ul>
+								
+									</ul>
+								
+							
+						
+				 
+						
+						
+							
+								
+								
+									<ul class="nav">
+								
+									<ul class="nav">
+								
+									<ul class="nav">
+								
+									<ul class="nav">
+								
+								
+
+										<li class="nav-item">
+						 					<a class="nav-link" href="#61-%e5%ae%89%e5%85%a8%e6%8e%aa%e6%96%bd">
+												 6.1 安全措施
+											</a>
+										</li>
+						 
+								
+								
+									</ul>
+								
+									</ul>
+								
+									</ul>
+								
+									</ul>
+								
+							
+						
+				 
+						
+						
+							
+								
+								
+									<ul class="nav">
+								
+									<ul class="nav">
+								
+									<ul class="nav">
+								
+									<ul class="nav">
+								
+								
+
+										<li class="nav-item">
+						 					<a class="nav-link" href="#62-google-ai%e5%8e%9f%e5%88%99">
+												 6.2 Google AI原则
+											</a>
+										</li>
+						 
+								
+								
+									</ul>
+								
+									</ul>
+								
+									</ul>
+								
+									</ul>
+								
+							
+						
+				 
+						
+						
+							
+								
+								
+									<ul class="nav">
+								
+									<ul class="nav">
+								
+									<ul class="nav">
+								
+								
+
+										<li class="nav-item">
+						 					<a class="nav-link" href="#%e4%b8%83%e5%ae%9a%e4%bb%b7%e7%ad%96%e7%95%a5">
+												 七、定价策略
+											</a>
+										</li>
+						 
+								
+								
+									</ul>
+								
+									</ul>
+								
+									</ul>
+								
+							
+						
+				 
+						
+						
+							
+								
+								
+									<ul class="nav">
+								
+									<ul class="nav">
+								
+									<ul class="nav">
+								
+									<ul class="nav">
+								
+								
+
+										<li class="nav-item">
+						 					<a class="nav-link" href="#71-%e6%b6%88%e8%b4%b9%e8%80%85%e5%ae%9a%e4%bb%b7">
+												 7.1 消费者定价
+											</a>
+										</li>
+						 
+								
+								
+									</ul>
+								
+									</ul>
+								
+									</ul>
+								
+									</ul>
+								
+							
+						
+				 
+						
+						
+							
+								
+								
+									<ul class="nav">
+								
+									<ul class="nav">
+								
+									<ul class="nav">
+								
+									<ul class="nav">
+								
+								
+
+										<li class="nav-item">
+						 					<a class="nav-link" href="#72-api%e5%ae%9a%e4%bb%b7">
+												 7.2 API定价
+											</a>
+										</li>
+						 
+								
+								
+									</ul>
+								
+									</ul>
+								
+									</ul>
+								
+									</ul>
+								
+							
+						
+				 
+						
+						
+							
+								
+								
+									<ul class="nav">
+								
+									<ul class="nav">
+								
+									<ul class="nav">
+								
+									<ul class="nav">
+								
+								
+
+										<li class="nav-item">
+						 					<a class="nav-link" href="#73-vertex-ai%e4%bc%81%e4%b8%9a%e5%ae%9a%e4%bb%b7">
+												 7.3 Vertex AI企业定价
+											</a>
+										</li>
+						 
+								
+								
+									</ul>
+								
+									</ul>
+								
+									</ul>
+								
+									</ul>
+								
+							
+						
+				 
+						
+						
+							
+								
+								
+									<ul class="nav">
+								
+									<ul class="nav">
+								
+									<ul class="nav">
+								
+								
+
+										<li class="nav-item">
+						 					<a class="nav-link" href="#%e5%85%ab%e4%bc%98%e5%8a%bf%e4%b8%8e%e5%8a%a3%e5%8a%bf">
+												 八、优势与劣势
+											</a>
+										</li>
+						 
+								
+								
+									</ul>
+								
+									</ul>
+								
+									</ul>
+								
+							
+						
+				 
+						
+						
+							
+								
+								
+									<ul class="nav">
+								
+									<ul class="nav">
+								
+									<ul class="nav">
+								
+									<ul class="nav">
+								
+								
+
+										<li class="nav-item">
+						 					<a class="nav-link" href="#81-%e4%bc%98%e5%8a%bf">
+												 8.1 优势
+											</a>
+										</li>
+						 
+								
+								
+									</ul>
+								
+									</ul>
+								
+									</ul>
+								
+									</ul>
+								
+							
+						
+				 
+						
+						
+							
+								
+								
+									<ul class="nav">
+								
+									<ul class="nav">
+								
+									<ul class="nav">
+								
+									<ul class="nav">
+								
+								
+
+										<li class="nav-item">
+						 					<a class="nav-link" href="#82-%e5%8a%a3%e5%8a%bf">
+												 8.2 劣势
+											</a>
+										</li>
+						 
+								
+								
+									</ul>
+								
+									</ul>
+								
+									</ul>
+								
+									</ul>
+								
+							
+						
+				 
+						
+						
+							
+								
+								
+									<ul class="nav">
+								
+									<ul class="nav">
+								
+									<ul class="nav">
+								
+								
+
+										<li class="nav-item">
+						 					<a class="nav-link" href="#%e4%b9%9d%e5%bc%80%e5%8f%91%e8%80%85%e8%af%84%e4%bb%b7">
+												 九、开发者评价
+											</a>
+										</li>
+						 
+								
+								
+									</ul>
+								
+									</ul>
+								
+									</ul>
+								
+							
+						
+				 
+						
+						
+							
+								
+								
+									<ul class="nav">
+								
+									<ul class="nav">
+								
+									<ul class="nav">
+								
+								
+
+										<li class="nav-item">
+						 					<a class="nav-link" href="#%e5%8d%81%e5%8f%82%e8%80%83%e6%9d%a5%e6%ba%90">
+												 十、参考来源
+											</a>
+										</li>
+						 
+								
+								
+									</ul>
+								
+									</ul>
+								
+									</ul>
+								
+							
+						
+				 
+						
+						
+							
+								
+								
+									<ul class="nav">
+								
+									<ul class="nav">
+								
+									<ul class="nav">
+								
+								
+
+										<li class="nav-item">
+						 					<a class="nav-link" href="#%e5%8d%81%e4%b8%80%e7%bb%93%e8%ae%ba">
+												 十一、结论
+											</a>
+										</li>
+						 
+								
+								
+									</ul>
+								
+									</ul>
+								
+									</ul>
+								
+							
+						
+				 
+
+				</ul>
+			</div>
+			
+
+		</div>
+		
+	
+
+    </div>
+    
+
+
+  </main>
+  
+
+
+    
+    
+<footer class="page-footer text-center font-small mt-4 wow fadeIn">
+
+
+  
+  <div class="pb-2 mt-5 pt-5">
+    
+    <a href="//github.com/axfinn " target="_blank" rel="noopener"><i class="fab fa-github mr-3"
+        aria-hidden="true"></i></a>
+    
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+
+    
+    <a href="mailto:521very@email.com"><i class="far fa-envelope-open mr-3" aria-hidden="true"></i></a>
+    
+
+    
+
+    
+
+  </div>
+  
+
+  
+  <div class="copyright py-4">
+    
+    <span> 2016 - 2026 &copy; | Theme <a href='https://github.com/orianna-zzo/AllinOne'
+        target="_blank">AllinOne</a> by <a href='https://github.com/orianna-zzo' target="_blank">Orianna</a> </span>
+  </div>
+  
+
+</footer>
+
+    
+
+
+
+
+<script type="text/javascript" src="https://blog.jaxiu.cn/js/vendors/jquery/jquery-3.3.1.min.js"></script>
+<script type="text/javascript" src="https://blog.jaxiu.cn/js/vendors/jquery/jquery.smooth-scroll.min.js"></script>
+
+
+
+<script type="text/javascript" src="https://blog.jaxiu.cn/js/vendors/popper.min.js"></script>
+<script type="text/javascript" src="https://blog.jaxiu.cn/js/vendors/holder.min.js"></script>
+<script type="text/javascript" src="https://blog.jaxiu.cn/js/vendors-extensions/bootstrap4/bootstrap.js" ></script>
+
+<script type="text/javascript" src="https://blog.jaxiu.cn/js/vendors/mdb/mdb.min.js"></script>
+
+<script type="text/javascript" src="https://blog.jaxiu.cn/js/main.js"></script>
+<script type="text/javascript" src="https://blog.jaxiu.cn/js/search.js"></script>
+
+
+
+
+  <script src="https://blog.jaxiu.cn/js/vendors/highlight.pack.js"> </script>
+  <script>hljs.initHighlightingOnLoad();</script>
+
+
+
+
+
+  <script src="https://blog.jaxiu.cn/js/vendors/katex/katex.min.js"> </script>
+  <script src="https://blog.jaxiu.cn/js/vendors/katex/contrib/auto-render.min.js"></script>
+
+  <script>
+      document.addEventListener("DOMContentLoaded", function () {
+          renderMathInElement(document.body);
+      });
+  </script>
+
+
+
+
+
+
+
+
+<script type="text/javascript">
+  
+  new WOW().init();
+</script>
+  </body>
+</html>

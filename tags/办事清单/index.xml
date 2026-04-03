@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>办事清单 on jaxiu He</title>
+    <link>https://blog.jaxiu.cn/tags/%E5%8A%9E%E4%BA%8B%E6%B8%85%E5%8D%95/</link>
+    <description>Recent content in 办事清单 on jaxiu He</description>
+    <generator>Hugo</generator>
+    <language>zn-Hans</language>
+    <lastBuildDate>Mon, 09 Feb 2026 20:50:00 +0800</lastBuildDate>
+    <atom:link href="https://blog.jaxiu.cn/tags/%E5%8A%9E%E4%BA%8B%E6%B8%85%E5%8D%95/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>孕期饮食完全指南与办事清单</title>
+      <link>https://blog.jaxiu.cn/blog/2026-02/pregnancy-diet-checklist/</link>
+      <pubDate>Mon, 09 Feb 2026 20:50:00 +0800</pubDate>
+      <guid>https://blog.jaxiu.cn/blog/2026-02/pregnancy-diet-checklist/</guid>
+      <description>&lt;h1 id=&#34;孕期饮食完全指南与办事清单&#34;&gt;孕期饮食完全指南与办事清单&lt;/h1&gt;&#xA;&lt;p&gt;这是孕期知识系列的实用工具篇——一份完整的饮食指南（吃什么、禁什么、怎么吃）、一份心理健康指南，以及一份覆盖从怀孕到产后的全阶段办事清单。&lt;/p&gt;&#xA;&lt;hr&gt;&#xA;&lt;h2 id=&#34;一必须补充的关键营养素&#34;&gt;一、必须补充的关键营养素&lt;/h2&gt;&#xA;&lt;div class=&#34;mermaid&#34;&gt;&#xA;&#xA;graph LR&#xA;    A[&#34;关键营养素&#34;] --&gt; B[&#34;叶酸 0.4-0.8mg/天&#34;]&#xA;    A --&gt; C[&#34;铁 27mg/天&#34;]&#xA;    A --&gt; D[&#34;钙 1000-1200mg/天&#34;]&#xA;    A --&gt; E[&#34;DHA 200-300mg/天&#34;]&#xA;    A --&gt; F[&#34;碘 230μg/天&#34;]&#xA;    A --&gt; G[&#34;蛋白质 +25g/天&#34;]&#xA;&#xA;    B --&gt; B1[&#34;菠菜 西兰花 豆类&#34;]&#xA;    C --&gt; C1[&#34;红肉 肝脏 黑木耳&#34;]&#xA;    D --&gt; D1[&#34;牛奶 豆腐 小鱼干&#34;]&#xA;    E --&gt; E1[&#34;三文鱼 沙丁鱼 藻油&#34;]&#xA;    F --&gt; F1[&#34;碘盐 海带 紫菜&#34;]&#xA;    G --&gt; G1[&#34;鸡蛋 鱼 肉 豆制品&#34;]&#xA;&#xA;&lt;/div&gt;&#xA;&lt;h3 id=&#34;详细说明&#34;&gt;详细说明&lt;/h3&gt;&#xA;&lt;table&gt;&#xA;  &lt;thead&gt;&#xA;      &lt;tr&gt;&#xA;          &lt;th&gt;营养素&lt;/th&gt;&#xA;          &lt;th&gt;每日需求&lt;/th&gt;&#xA;          &lt;th&gt;最佳食物来源&lt;/th&gt;&#xA;          &lt;th&gt;作用&lt;/th&gt;&#xA;      &lt;/tr&gt;&#xA;  &lt;/thead&gt;&#xA;  &lt;tbody&gt;&#xA;      &lt;tr&gt;&#xA;          &lt;td&gt;&lt;strong&gt;叶酸&lt;/strong&gt;&lt;/td&gt;&#xA;          &lt;td&gt;0.4-0.8mg&lt;/td&gt;&#xA;          &lt;td&gt;菠菜、西兰花、豆类、柑橘&lt;/td&gt;&#xA;          &lt;td&gt;预防神经管缺陷（孕前3月~孕12周必须）&lt;/td&gt;&#xA;      &lt;/tr&gt;&#xA;      &lt;tr&gt;&#xA;          &lt;td&gt;&lt;strong&gt;铁&lt;/strong&gt;&lt;/td&gt;&#xA;          &lt;td&gt;27mg&lt;/td&gt;&#xA;          &lt;td&gt;红肉、动物肝脏、菠菜、黑木耳&lt;/td&gt;&#xA;          &lt;td&gt;造血，预防贫血（配合维C促进吸收）&lt;/td&gt;&#xA;      &lt;/tr&gt;&#xA;      &lt;tr&gt;&#xA;          &lt;td&gt;&lt;strong&gt;钙&lt;/strong&gt;&lt;/td&gt;&#xA;          &lt;td&gt;1000-1200mg&lt;/td&gt;&#xA;          &lt;td&gt;牛奶、酸奶、豆腐、芝麻&lt;/td&gt;&#xA;          &lt;td&gt;骨骼和牙齿发育&lt;/td&gt;&#xA;      &lt;/tr&gt;&#xA;      &lt;tr&gt;&#xA;          &lt;td&gt;&lt;strong&gt;DHA&lt;/strong&gt;&lt;/td&gt;&#xA;          &lt;td&gt;200-300mg&lt;/td&gt;&#xA;          &lt;td&gt;三文鱼、沙丁鱼、鳕鱼、藻油&lt;/td&gt;&#xA;          &lt;td&gt;大脑和视网膜发育&lt;/td&gt;&#xA;      &lt;/tr&gt;&#xA;      &lt;tr&gt;&#xA;          &lt;td&gt;&lt;strong&gt;碘&lt;/strong&gt;&lt;/td&gt;&#xA;          &lt;td&gt;230μg&lt;/td&gt;&#xA;          &lt;td&gt;碘盐、海带、紫菜、虾&lt;/td&gt;&#xA;          &lt;td&gt;甲状腺功能和宝宝大脑发育&lt;/td&gt;&#xA;      &lt;/tr&gt;&#xA;      &lt;tr&gt;&#xA;          &lt;td&gt;&lt;strong&gt;蛋白质&lt;/strong&gt;&lt;/td&gt;&#xA;          &lt;td&gt;孕中晚期+25g&lt;/td&gt;&#xA;          &lt;td&gt;鸡蛋、鱼、肉、豆制品、奶&lt;/td&gt;&#xA;          &lt;td&gt;胎儿生长发育的基本物质&lt;/td&gt;&#xA;      &lt;/tr&gt;&#xA;  &lt;/tbody&gt;&#xA;&lt;/table&gt;&#xA;&lt;hr&gt;&#xA;&lt;h2 id=&#34;二绝对禁止的食物&#34;&gt;二、绝对禁止的食物&lt;/h2&gt;&#xA;&lt;h3 id=&#34;酒精--零容忍&#34;&gt;酒精 — 零容忍&lt;/h3&gt;&#xA;&lt;p&gt;任何剂量都不安全。可能导致&lt;strong&gt;胎儿酒精谱系障碍&lt;/strong&gt;（面部异常、智力障碍、行为问题）。包括料酒做的菜如果酒精未完全挥发也要小心。&lt;/p&gt;</description>
+    </item>
+  </channel>
+</rss>

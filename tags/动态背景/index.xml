@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>动态背景 on jaxiu He</title>
+    <link>https://blog.jaxiu.cn/tags/%E5%8A%A8%E6%80%81%E8%83%8C%E6%99%AF/</link>
+    <description>Recent content in 动态背景 on jaxiu He</description>
+    <generator>Hugo</generator>
+    <language>zn-Hans</language>
+    <lastBuildDate>Wed, 23 Jul 2025 00:00:00 +0000</lastBuildDate>
+    <atom:link href="https://blog.jaxiu.cn/tags/%E5%8A%A8%E6%80%81%E8%83%8C%E6%99%AF/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>使用Qwen Code快速实现动态背景图功能</title>
+      <link>https://blog.jaxiu.cn/blog/2025-07/%E4%BD%BF%E7%94%A8qwen-code%E5%BF%AB%E9%80%9F%E5%AE%9E%E7%8E%B0%E5%8A%A8%E6%80%81%E8%83%8C%E6%99%AF%E5%9B%BE%E5%8A%9F%E8%83%BD/</link>
+      <pubDate>Wed, 23 Jul 2025 00:00:00 +0000</pubDate>
+      <guid>https://blog.jaxiu.cn/blog/2025-07/%E4%BD%BF%E7%94%A8qwen-code%E5%BF%AB%E9%80%9F%E5%AE%9E%E7%8E%B0%E5%8A%A8%E6%80%81%E8%83%8C%E6%99%AF%E5%9B%BE%E5%8A%9F%E8%83%BD/</guid>
+      <description>&lt;p&gt;在现代网站设计中，动态背景图已成为提升用户体验的重要元素之一。本文将详细介绍如何使用Qwen Code智能助手快速实现一个功能丰富的动态背景图系统。&lt;/p&gt;&#xA;&lt;h2 id=&#34;需求分析&#34;&gt;需求分析&lt;/h2&gt;&#xA;&lt;p&gt;在开始编码之前，我们需要明确要实现的功能：&lt;/p&gt;&#xA;&lt;ol&gt;&#xA;&lt;li&gt;背景图片自动轮换（使用外部图片服务）&lt;/li&gt;&#xA;&lt;li&gt;可配置的轮换间隔时间&lt;/li&gt;&#xA;&lt;li&gt;可调节的过渡动画时间&lt;/li&gt;&#xA;&lt;li&gt;手动切换上一张/下一张背景图&lt;/li&gt;&#xA;&lt;li&gt;控制面板，可展开/收起进行设置&lt;/li&gt;&#xA;&lt;li&gt;实时状态显示&lt;/li&gt;&#xA;&lt;/ol&gt;&#xA;&lt;h2 id=&#34;使用qwen-code实现过程&#34;&gt;使用Qwen Code实现过程&lt;/h2&gt;&#xA;&lt;h3 id=&#34;1-项目分析&#34;&gt;1. 项目分析&lt;/h3&gt;&#xA;&lt;p&gt;首先，我们让Qwen Code分析项目结构，了解Hugo网站的组织方式：&lt;/p&gt;</description>
+    </item>
+  </channel>
+</rss>

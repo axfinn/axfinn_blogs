@@ -1,0 +1,917 @@
+<!DOCTYPE html>
+<html lang="zn-Hans">
+  <head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge, chrome=1">
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no, maximum-scale=1" />
+  
+  <meta name="author" content="jaxiu He">
+  <meta name="description"
+    content="引言
+在 NPS 系列文章中，我们已经深入探讨了 NPS 的多种代理模式。本篇文章将聚焦于 NPS 的 HTTP/HTTPS 域名解析功能，这是 NPS 实现 Web 服务穿透的核心。我们将通过分析 nps/server/proxy/http.go 文件，揭示 NPS 如何处理 HTTP 和 HTTPS 请求，并实现缓存、认证、动态后端切换等高级功能。
+HTTP/HTTPS 域名解析的需求
+在实际应用中，我们经常需要将内网的 Web 服务通过域名暴露到公网。这涉及到：
+
+域名到内网 IP 的映射：根据请求的域名，将流量转发到内网中对应的 Web 服务器。
+HTTP/HTTPS 协议处理：NPS 需要能够处理标准的 HTTP 请求，以及加密的 HTTPS 请求。
+高级功能：为了提升性能、安全性和灵活性，通常还需要支持缓存、认证、负载均衡、自动 HTTPS 等功能。
+
+http.go：HTTP/HTTPS 域名解析的实现
+http.go 文件定义了 httpServer 结构体，它是 NPS 实现 HTTP/HTTPS 域名解析的核心。">
+
+  <meta property="og:url" content="https://blog.jaxiu.cn/blog/2025-07/nps-%E4%BB%A3%E7%90%86%E5%AE%9E%E7%8E%B0http/https-%E5%9F%9F%E5%90%8D%E8%A7%A3%E6%9E%90%E4%B8%8E%E9%AB%98%E7%BA%A7%E5%8A%9F%E8%83%BD/">
+  <meta property="og:site_name" content="jaxiu He">
+  <meta property="og:title" content="NPS 代理实现：HTTP/HTTPS 域名解析与高级功能">
+  <meta property="og:description" content="引言 在 NPS 系列文章中，我们已经深入探讨了 NPS 的多种代理模式。本篇文章将聚焦于 NPS 的 HTTP/HTTPS 域名解析功能，这是 NPS 实现 Web 服务穿透的核心。我们将通过分析 nps/server/proxy/http.go 文件，揭示 NPS 如何处理 HTTP 和 HTTPS 请求，并实现缓存、认证、动态后端切换等高级功能。
+HTTP/HTTPS 域名解析的需求 在实际应用中，我们经常需要将内网的 Web 服务通过域名暴露到公网。这涉及到：
+域名到内网 IP 的映射：根据请求的域名，将流量转发到内网中对应的 Web 服务器。 HTTP/HTTPS 协议处理：NPS 需要能够处理标准的 HTTP 请求，以及加密的 HTTPS 请求。 高级功能：为了提升性能、安全性和灵活性，通常还需要支持缓存、认证、负载均衡、自动 HTTPS 等功能。 http.go：HTTP/HTTPS 域名解析的实现 http.go 文件定义了 httpServer 结构体，它是 NPS 实现 HTTP/HTTPS 域名解析的核心。">
+  <meta property="og:locale" content="zn_Hans">
+  <meta property="og:type" content="article">
+    <meta property="article:section" content="blog">
+    <meta property="article:published_time" content="2025-07-18T17:30:00+08:00">
+    <meta property="article:modified_time" content="2025-07-18T17:30:00+08:00">
+    <meta property="article:tag" content="NPS">
+    <meta property="article:tag" content="HTTP">
+    <meta property="article:tag" content="HTTPS">
+    <meta property="article:tag" content="域名解析">
+    <meta property="article:tag" content="反向代理">
+    <meta property="article:tag" content="Go语言">
+
+
+  <title>
+    
+     NPS 代理实现：HTTP/HTTPS 域名解析与高级功能 | jaxiu He 
+    
+  </title>
+
+  <link rel="canonical" href="https://blog.jaxiu.cn/blog/2025-07/nps-%E4%BB%A3%E7%90%86%E5%AE%9E%E7%8E%B0http/https-%E5%9F%9F%E5%90%8D%E8%A7%A3%E6%9E%90%E4%B8%8E%E9%AB%98%E7%BA%A7%E5%8A%9F%E8%83%BD/">
+
+  
+  
+
+  
+  
+  
+  <meta name="baidu-site-verification" content="your-baidu-verify-code" />
+  
+
+  
+  
+  <meta name="google-site-verification" content="your-google-verify-code" />
+  
+
+  
+  <link href="https://blog.jaxiu.cn/css/vendors-extensions/fontawesome/all.min.css" rel="stylesheet">
+
+  
+  <link rel="stylesheet"
+    href="https://fonts.googleapis.com/css?family=Open+Sans:400,700|Ubuntu+Mono:400,400i,700,700i|Raleway:300,400,500,600">
+  <link href="https://blog.jaxiu.cn/css/font.css" rel="stylesheet">
+
+  
+  <link href="https://blog.jaxiu.cn/css/vendors/bootstrap4/bootstrap.min.css" rel="stylesheet">
+  <link href="https://blog.jaxiu.cn/css/vendors-extensions/mdb/mdb.min.css" rel="stylesheet">
+  <link href="https://blog.jaxiu.cn/css/vendors/mdb/style.min.css" rel="stylesheet">
+  <link href="https://blog.jaxiu.cn/css/main.css" rel="stylesheet">
+
+
+  
+  <link rel="shortcut icon"  href="https://blog.jaxiu.cn/img/logo.png" >
+
+
+  
+  
+
+  <style type="text/css">
+    @media (min-width: 800px) and (max-width: 850px) {
+      .navbar:not(.top-nav-collapse) {
+        background: #1C2331 !important;
+      }
+    }
+  </style>
+
+
+  
+  
+  <link rel="stylesheet" href="https://blog.jaxiu.cn/js/vendors/katex/katex.min.css">
+  
+  
+
+  
+  
+  <link rel="stylesheet" href="https://blog.jaxiu.cn/css/vendors/highlight/github-gist.css">
+  
+
+  
+  
+  <script type="module">
+    import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.esm.min.mjs';
+    mermaid.initialize({ startOnLoad: true });
+  </script>
+  
+  
+
+  
+  <link href="https://blog.jaxiu.cn/css/holiday-effects.css" rel="stylesheet">
+  <script src="https://blog.jaxiu.cn/js/holiday-effects.js"></script>
+
+  
+  <script src="https://blog.jaxiu.cn/js/dynamic-bg.js"></script>
+  <link href="https://blog.jaxiu.cn/css/dynamic-bg-control.css" rel="stylesheet">
+
+</head>
+  <body class="bg-light" data-spy="scroll" data-target="#page-scrollspy" data-offset="90">
+  
+    
+    
+
+    
+      
+
+
+<nav class="navbar fixed-top navbar-expand-lg navbar-dark scrolling-navbar">
+    <div class="container">
+
+      
+      <a class="navbar-brand" href="https://blog.jaxiu.cn/">
+          
+        <img class="avatar" src="https://blog.jaxiu.cn/img/logo.png" style="width: 40px!important;height: auto;"  class="d-inline-block align-top" alt="" >
+        
+        <strong> jaxiu He</strong>
+      </a>
+
+      
+      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
+        aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+
+      
+      <div class="collapse navbar-collapse" id="navbarSupportedContent">
+
+        
+        <ul class="navbar-nav mr-auto ">
+          <li class="nav-item ">
+            <a class="nav-link" href="https://blog.jaxiu.cn/">Home</a>
+          </li>
+          
+            <li class="nav-item ">
+              <a class="nav-link" href="https://blog.jaxiu.cn/blog/" >博客  </a>
+            </li>
+
+          
+            <li class="nav-item ">
+              <a class="nav-link" href="https://blog.jaxiu.cn/moment/" >动态  </a>
+            </li>
+
+          
+            <li class="nav-item ">
+              <a class="nav-link" href="https://blog.jaxiu.cn/blog/prenatal-stories/" >胎教故事  </a>
+            </li>
+
+          
+            <li class="nav-item ">
+              <a class="nav-link" href="https://blog.jaxiu.cn/about/" >关于  </a>
+            </li>
+
+          
+        </ul>
+
+        
+        <ul class="navbar-nav">
+          <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" href="#" id="searchDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+              <i class="fas fa-search"></i> 搜索
+            </a>
+            <div class="dropdown-menu dropdown-menu-right p-3" aria-labelledby="searchDropdown" style="min-width: 300px; max-width: 400px;">
+              <form class="search-form" onsubmit="return false;">
+                <div class="input-group">
+                  <input type="text" id="search-query" class="form-control" placeholder="搜索文章标题或内容..." autocomplete="off">
+                  <div class="input-group-append">
+                    <button class="btn btn-outline-secondary" type="button" onclick="document.getElementById('search-query').focus();">
+                      <i class="fas fa-search"></i>
+                    </button>
+                  </div>
+                </div>
+              </form>
+              <ul id="search-results" class="list-unstyled mt-2 mb-0" style="max-height: 400px; overflow-y: auto;"></ul>
+            </div>
+          </li>
+        </ul>
+
+      </div>
+
+    </div>
+  </nav>
+   
+      
+
+
+
+
+
+
+
+<div id="site-header" class="carousel slide carousel-fade" data-ride="carousel" style="height: 18rem;">
+  
+
+  
+  
+  
+
+  
+  <div class="carousel-inner" role="listbox">
+    
+    
+
+    
+    <div class="carousel-item active">
+      <div class="view"
+        style="background-image: url('https://blog.jaxiu.cn/img/header-slides/raw_1515691746.jpg'); background-repeat: no-repeat; background-size: cover;">
+
+        
+        <div class="mask rgba-black-light d-flex justify-content-center align-items-center">
+
+          
+          
+          
+
+        </div>
+        
+
+      </div>
+    </div>
+    
+    
+    
+    
+
+    
+    <div class="carousel-item">
+      <div class="view"
+        style="background-image: url('https://blog.jaxiu.cn/img/header-slides//raw_1515847341.jpg'); background-repeat: no-repeat; background-size: cover;">
+
+        
+        <div class="mask rgba-black-light d-flex justify-content-center align-items-center">
+
+
+
+        </div>
+        
+
+      </div>
+    </div>
+    
+    
+    
+
+
+  </div>
+  
+
+  
+  <div class="carousel-content text-center white-text wow fadeIn">
+    <div class="row mx-0 headfont mt-3 pt-4">
+      
+      <div class="col-12 col-sm-5 align-middle">
+        <a href="https://blog.jaxiu.cn/">
+          
+          <img class="pull-right avatar avatar-md" src="https://blog.jaxiu.cn/img/logo.png" alt="">
+          
+        </a>
+      </div>
+
+      <div class="col-12 col-sm-7 text-left pl-2">
+        <a href="https://blog.jaxiu.cn/">
+          <h1 class="mb-2 h1" style="font-weight: 300;">
+            <strong>jaxiu He</strong>
+          </h1>
+        </a>
+
+
+        
+        <div class="mt-2" style="font-size: 1rem; color: white;">
+          
+          <a href="//github.com/axfinn" target="_blank" rel="noopener"><i class="fab fa-github pr-1"
+              aria-hidden="true"></i></a>
+          
+          
+
+          
+
+          
+
+          
+
+          
+
+          
+
+
+          
+          <a href="mailto:521very@email.com"><i class="far fa-envelope-open pr-1" aria-hidden="true"></i></a>
+          
+
+          
+
+
+        </div>
+      </div>
+    </div>
+  </div>
+  
+
+  
+  
+  
+
+</div>
+  
+    
+
+    
+  
+  <main class="post-main-wrapper">
+    
+    
+    <div class="row">
+
+      
+
+      
+      <div class="col-md-10">
+      
+
+        
+        <div class="z-depth-1  post-wrapper white-bg single-post">
+
+          <div class="post-header text-center" >
+  <ul class="post-meta li-x">
+    
+      
+        <li><a href="https://blog.jaxiu.cn/categories/%E6%8A%80%E6%9C%AF"><i class="fas fa-folder-open pr-1" aria-hidden="true"></i> 技术 </a></li>
+      
+        <li><a href="https://blog.jaxiu.cn/categories/%E9%A1%B9%E7%9B%AE%E5%88%86%E6%9E%90"><i class="fas fa-folder-open pr-1" aria-hidden="true"></i> 项目分析 </a></li>
+      
+    
+    
+  </ul>
+
+  <div class="px-4 post-heading">NPS 代理实现：HTTP/HTTPS 域名解析与高级功能</div>
+
+  <ul class="post-meta li-x mt-1">
+    
+      <li>Jul 18, 2025</li>
+    
+
+    
+      <li class="middot"></li>
+      <li>4 minutes read</li>
+    
+  </ul>
+  
+
+</div>
+
+
+          <div class="post-content markdown">
+            <h2 id="引言">引言</h2>
+<p>在 NPS 系列文章中，我们已经深入探讨了 NPS 的多种代理模式。本篇文章将聚焦于 NPS 的 <strong>HTTP/HTTPS 域名解析</strong>功能，这是 NPS 实现 Web 服务穿透的核心。我们将通过分析 <code>nps/server/proxy/http.go</code> 文件，揭示 NPS 如何处理 HTTP 和 HTTPS 请求，并实现缓存、认证、动态后端切换等高级功能。</p>
+<h2 id="httphttps-域名解析的需求">HTTP/HTTPS 域名解析的需求</h2>
+<p>在实际应用中，我们经常需要将内网的 Web 服务通过域名暴露到公网。这涉及到：</p>
+<ul>
+<li><strong>域名到内网 IP 的映射</strong>：根据请求的域名，将流量转发到内网中对应的 Web 服务器。</li>
+<li><strong>HTTP/HTTPS 协议处理</strong>：NPS 需要能够处理标准的 HTTP 请求，以及加密的 HTTPS 请求。</li>
+<li><strong>高级功能</strong>：为了提升性能、安全性和灵活性，通常还需要支持缓存、认证、负载均衡、自动 HTTPS 等功能。</li>
+</ul>
+<h2 id="httpgohttphttps-域名解析的实现"><code>http.go</code>：HTTP/HTTPS 域名解析的实现</h2>
+<p><code>http.go</code> 文件定义了 <code>httpServer</code> 结构体，它是 NPS 实现 HTTP/HTTPS 域名解析的核心。</p>
+<h3 id="httpserver-结构体"><code>httpServer</code> 结构体</h3>
+<p><code>httpServer</code> 结构体继承了 <code>BaseServer</code>，并包含了 HTTP/HTTPS 代理所需的关键字段：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-go" data-lang="go"><span class="line"><span class="cl"><span class="kd">type</span><span class="w"> </span><span class="nx">httpServer</span><span class="w"> </span><span class="kd">struct</span><span class="w"> </span><span class="p">{</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nx">BaseServer</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nx">httpPort</span><span class="w">      </span><span class="kt">int</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nx">httpsPort</span><span class="w">     </span><span class="kt">int</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nx">httpServer</span><span class="w">    </span><span class="o">*</span><span class="nx">http</span><span class="p">.</span><span class="nx">Server</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nx">httpsServer</span><span class="w">   </span><span class="o">*</span><span class="nx">http</span><span class="p">.</span><span class="nx">Server</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nx">httpsListener</span><span class="w"> </span><span class="nx">net</span><span class="p">.</span><span class="nx">Listener</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nx">useCache</span><span class="w">      </span><span class="kt">bool</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nx">addOrigin</span><span class="w">     </span><span class="kt">bool</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nx">cache</span><span class="w">         </span><span class="o">*</span><span class="nx">cache</span><span class="p">.</span><span class="nx">Cache</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nx">cacheLen</span><span class="w">      </span><span class="kt">int</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="p">}</span><span class="w">
+</span></span></span></code></pre></div><ul>
+<li><code>BaseServer</code>：继承了 <code>base.go</code> 中定义的通用功能。</li>
+<li><code>httpPort int</code> / <code>httpsPort int</code>：HTTP 和 HTTPS 监听端口。</li>
+<li><code>httpServer *http.Server</code> / <code>httpsServer *http.Server</code>：Go 标准库的 HTTP 服务器实例。</li>
+<li><code>httpsListener net.Listener</code>：HTTPS 监听器。</li>
+<li><code>useCache bool</code> / <code>cache *cache.Cache</code> / <code>cacheLen int</code>：用于控制和管理 HTTP 缓存。</li>
+<li><code>addOrigin bool</code>：是否添加 <code>X-Forwarded-For</code> 等原始请求头。</li>
+</ul>
+<p><code>NewHttp()</code> 函数用于创建并初始化一个 <code>httpServer</code> 实例。</p>
+<h3 id="start-方法启动-httphttps-服务"><code>Start()</code> 方法：启动 HTTP/HTTPS 服务</h3>
+<p><code>httpServer</code> 的 <code>Start()</code> 方法负责启动 HTTP 和 HTTPS 监听服务：</p>
+<ol>
+<li><strong>加载错误页面</strong>：从文件中加载 404 错误页面内容。</li>
+<li><strong>启动 HTTP 服务</strong>：如果 <code>httpPort</code> 大于 0，则创建一个 <code>http.Server</code> 实例，并在独立的 goroutine 中启动 HTTP 监听。所有 HTTP 请求都会通过 <code>s.handleTunneling()</code> 方法处理。</li>
+<li><strong>启动 HTTPS 服务</strong>：如果 <code>httpsPort</code> 大于 0，则创建一个 <code>http.Server</code> 实例，并在独立的 goroutine 中启动 HTTPS 监听。这里会调用 <code>NewHttpsServer()</code> 来创建并启动一个 <code>HttpsServer</code> 实例（我们在上一篇文章中详细分析过 <code>https.go</code>），负责处理 HTTPS 流量和 SNI 证书管理。</li>
+</ol>
+<h3 id="handletunnelinghttp-请求的入口与分发"><code>handleTunneling()</code>：HTTP 请求的入口与分发</h3>
+<p><code>handleTunneling()</code> 方法是所有 HTTP 请求（包括 WebSocket 升级请求）进入 <code>httpServer</code> 的入口点。它负责根据请求类型进行分发：</p>
+<ol>
+<li><strong>获取主机信息</strong>：根据请求的 Host 头获取对应的 <code>file.Host</code> 配置信息。</li>
+<li><strong>自动 HTTPS 重定向</strong>：如果主机配置启用了 <code>AutoHttps</code> 并且当前请求是 HTTP，则会进行 301 重定向到 HTTPS。</li>
+<li><strong>WebSocket 升级请求</strong>：如果请求是 WebSocket 升级请求（通过检查 <code>Upgrade</code> 头），则调用 <code>NewHttpReverseProxy(s).ServeHTTP(w, r)</code>，将请求委托给 <code>websocket.go</code> 中定义的 <code>HttpReverseProxy</code> 进行处理。</li>
+<li><strong>普通 HTTP 请求</strong>：如果不是 WebSocket 升级请求，则通过 <code>http.Hijacker</code> 劫持连接，然后调用 <code>s.handleHttp(conn.NewConn(c), r)</code> 处理普通 HTTP 请求。</li>
+</ol>
+<h3 id="handlehttp普通-http-请求的处理"><code>handleHttp()</code>：普通 HTTP 请求的处理</h3>
+<p><code>handleHttp()</code> 方法是处理普通 HTTP 请求的核心逻辑。它负责将客户端的 HTTP 请求转发给后端服务，并将响应返回给客户端：</p>
+<ol>
+<li><strong>黑名单检查</strong>：检查客户端 IP 是否在黑名单中。</li>
+<li><strong>获取主机信息</strong>：根据请求的 Host 头获取对应的 <code>file.Host</code> 配置信息。</li>
+<li><strong>流量和连接数检查</strong>：检查客户端的流量和连接数是否超出限制。</li>
+<li><strong>认证检查</strong>：对请求进行认证。</li>
+<li><strong>获取目标地址</strong>：从主机配置中获取一个随机的目标地址。</li>
+<li><strong>建立隧道连接</strong>：通过 <code>s.bridge.SendLinkInfo()</code> 将连接请求发送给 NPS 的 <code>bridge</code> 模块，由 <code>bridge</code> 负责与客户端建立实际的隧道连接。</li>
+<li><strong>数据转发循环</strong>：
+<ul>
+<li><strong>请求转发</strong>：将客户端的 HTTP 请求写入到隧道连接。</li>
+<li><strong>响应读取与转发</strong>：从隧道连接读取后端响应，并将其写入到客户端连接。</li>
+<li><strong>缓存处理</strong>：如果启用了缓存 (<code>s.useCache</code>) 并且请求在缓存中，则直接从缓存返回响应。</li>
+<li><strong>动态后端切换</strong>：在循环中，如果检测到请求的 Host 发生变化，NPS 会动态地切换到新的后端服务。</li>
+<li><strong>流量统计</strong>：在数据转发过程中，会进行流量统计。</li>
+</ul>
+</li>
+</ol>
+<h3 id="newserver-和-newserverwithtlshttphttps-服务器的创建"><code>NewServer()</code> 和 <code>NewServerWithTls()</code>：HTTP/HTTPS 服务器的创建</h3>
+<p>这两个函数用于创建 Go 标准库的 <code>http.Server</code> 实例。</p>
+<ul>
+<li><code>NewServer()</code>：创建普通的 HTTP 服务器。</li>
+<li><code>NewServerWithTls()</code>：创建支持 TLS 的 HTTPS 服务器，并加载证书。</li>
+</ul>
+<h3 id="resetreqmethod修复请求方法"><code>resetReqMethod()</code>：修复请求方法</h3>
+<p>这个辅助函数用于修复某些情况下 HTTP 请求方法可能被截断的问题（例如 &ldquo;GET&rdquo; 变成 &ldquo;ET&rdquo;）。</p>
+<h2 id="总结">总结</h2>
+<p><code>nps/server/proxy/http.go</code> 文件是 NPS 实现 HTTP/HTTPS 域名解析和高级功能的核心。它通过 <code>httpServer</code> 结构体，结合 Go 标准库的 HTTP 服务器和 NPS 内部的隧道机制，实现了强大的 Web 服务穿透能力。其对缓存、认证、动态后端切换以及自动 HTTPS 等功能的支持，使得 NPS 成为一个功能全面、灵活高效的 HTTP/HTTPS 代理解决方案。</p>
+<p>至此，我们已经详细剖析了 NPS 服务端 <code>proxy</code> 目录下所有主要的代理模式实现。在下一篇文章中，我们将转向 NPS 的客户端（Client）模块，探索其如何与服务端协同工作，实现内网穿透。</p>
+
+          </div>
+
+          
+          <div class="row">
+            <div class="col-md-8">
+            
+              <div class="mb-5">
+                
+<div class="li-x div-x post-meta">
+  <li class="pr-0"><a href="https://blog.jaxiu.cn/tags/"><i class="fas fa-tags"></i></a></li>
+  <div class="tags-sm">
+    
+      <li><a href="https://blog.jaxiu.cn/tags/nps" role="button">NPS </a></li>
+      
+    
+      <li><a href="https://blog.jaxiu.cn/tags/http" role="button">HTTP </a></li>
+      
+    
+      <li><a href="https://blog.jaxiu.cn/tags/https" role="button">HTTPS </a></li>
+      
+    
+      <li><a href="https://blog.jaxiu.cn/tags/%E5%9F%9F%E5%90%8D%E8%A7%A3%E6%9E%90" role="button">域名解析 </a></li>
+      
+    
+      <li><a href="https://blog.jaxiu.cn/tags/%E5%8F%8D%E5%90%91%E4%BB%A3%E7%90%86" role="button">反向代理 </a></li>
+      
+    
+      <li><a href="https://blog.jaxiu.cn/tags/go%E8%AF%AD%E8%A8%80" role="button">Go语言 </a></li>
+      
+    
+      <li><a href="https://blog.jaxiu.cn/tags/%E7%BC%93%E5%AD%98" role="button">缓存 </a></li>
+      
+    
+      <li><a href="https://blog.jaxiu.cn/tags/%E8%AE%A4%E8%AF%81" role="button">认证 </a></li>
+      
+    
+  </div>
+</div>
+              </div>
+            
+            </div>
+            
+          </div>
+          
+
+          
+          <div class="row pt-3">
+            <div class="col-md-6">
+              
+                <a href=https://blog.jaxiu.cn/blog/2025-07/nps-%E4%BB%A3%E7%90%86%E5%AE%9E%E7%8E%B0https-%E4%BB%A3%E7%90%86%E4%B8%8E-sni-%E8%AF%81%E4%B9%A6%E7%AE%A1%E7%90%86/ class="post-meta">Previous
+                  <div class="pt-2 pb-5 d-flex">
+                    <i class="fas fa-angle-left text-grey font-weight-bold mr-2 active-color"></i>
+                    <span>NPS 代理实现：HTTPS 代理与 SNI 证书管理</span>
+                  </div>
+                </a>
+              
+            </div>
+            
+            <div class="col-md-6 text-right" >
+              
+                <a href=https://blog.jaxiu.cn/blog/2025-07/nps-%E5%AE%A2%E6%88%B7%E7%AB%AF%E6%A0%B8%E5%BF%83%E8%A7%A3%E6%9E%90%E8%BF%9E%E6%8E%A5%E7%AE%A1%E7%90%86%E4%B8%8E%E6%B5%81%E9%87%8F%E8%BD%AC%E5%8F%91/ class="post-meta">Next
+                  <div class="pt-2 pb-5 flex-reverse">
+                    <i class="fas fa-angle-right text-grey font-weight-bold ml-2 active-color"></i>
+                    <span>NPS 客户端核心解析：连接管理与流量转发</span>
+                  </div>
+                </a>
+              
+            </div>
+          </div>
+
+          
+
+        </div>
+        
+
+      </div>
+      
+
+      
+	
+	
+	
+	
+		
+		
+		
+	
+
+		
+		<div class="col-md-2 pl-0">
+
+			
+			<div id="page-scrollspy" class="toc-nav">
+				
+				<ul class="nav nav-pills ml-0">
+					
+					<li class="nav-item pb-3 text-center">
+						<span class="font-weight-bold mb-2">- CATALOG - </span>
+					</li>
+
+					
+						
+						
+							
+								
+								
+									<ul class="nav">
+								
+								
+
+										<li class="nav-item">
+						 					<a class="nav-link" href="#%e5%bc%95%e8%a8%80">
+												 引言
+											</a>
+										</li>
+						 
+								
+								
+									</ul>
+								
+							
+						
+				 
+						
+						
+							
+								
+								
+									<ul class="nav">
+								
+								
+
+										<li class="nav-item">
+						 					<a class="nav-link" href="#httphttps-%e5%9f%9f%e5%90%8d%e8%a7%a3%e6%9e%90%e7%9a%84%e9%9c%80%e6%b1%82">
+												 HTTP/HTTPS 域名解析的需求
+											</a>
+										</li>
+						 
+								
+								
+									</ul>
+								
+							
+						
+				 
+						
+						
+							
+								
+								
+									<ul class="nav">
+								
+								
+
+										<li class="nav-item">
+						 					<a class="nav-link" href="#httpgohttphttps-%e5%9f%9f%e5%90%8d%e8%a7%a3%e6%9e%90%e7%9a%84%e5%ae%9e%e7%8e%b0">
+												 http.go：HTTP/HTTPS 域名解析的实现
+											</a>
+										</li>
+						 
+								
+								
+									</ul>
+								
+							
+						
+				 
+						
+						
+							
+								
+								
+									<ul class="nav">
+								
+									<ul class="nav">
+								
+								
+
+										<li class="nav-item">
+						 					<a class="nav-link" href="#httpserver-%e7%bb%93%e6%9e%84%e4%bd%93">
+												 httpServer 结构体
+											</a>
+										</li>
+						 
+								
+								
+									</ul>
+								
+									</ul>
+								
+							
+						
+				 
+						
+						
+							
+								
+								
+									<ul class="nav">
+								
+									<ul class="nav">
+								
+								
+
+										<li class="nav-item">
+						 					<a class="nav-link" href="#start-%e6%96%b9%e6%b3%95%e5%90%af%e5%8a%a8-httphttps-%e6%9c%8d%e5%8a%a1">
+												 Start() 方法：启动 HTTP/HTTPS 服务
+											</a>
+										</li>
+						 
+								
+								
+									</ul>
+								
+									</ul>
+								
+							
+						
+				 
+						
+						
+							
+								
+								
+									<ul class="nav">
+								
+									<ul class="nav">
+								
+								
+
+										<li class="nav-item">
+						 					<a class="nav-link" href="#handletunnelinghttp-%e8%af%b7%e6%b1%82%e7%9a%84%e5%85%a5%e5%8f%a3%e4%b8%8e%e5%88%86%e5%8f%91">
+												 handleTunneling()：HTTP 请求的入口与分发
+											</a>
+										</li>
+						 
+								
+								
+									</ul>
+								
+									</ul>
+								
+							
+						
+				 
+						
+						
+							
+								
+								
+									<ul class="nav">
+								
+									<ul class="nav">
+								
+								
+
+										<li class="nav-item">
+						 					<a class="nav-link" href="#handlehttp%e6%99%ae%e9%80%9a-http-%e8%af%b7%e6%b1%82%e7%9a%84%e5%a4%84%e7%90%86">
+												 handleHttp()：普通 HTTP 请求的处理
+											</a>
+										</li>
+						 
+								
+								
+									</ul>
+								
+									</ul>
+								
+							
+						
+				 
+						
+						
+							
+								
+								
+									<ul class="nav">
+								
+									<ul class="nav">
+								
+								
+
+										<li class="nav-item">
+						 					<a class="nav-link" href="#newserver-%e5%92%8c-newserverwithtlshttphttps-%e6%9c%8d%e5%8a%a1%e5%99%a8%e7%9a%84%e5%88%9b%e5%bb%ba">
+												 NewServer() 和 NewServerWithTls()：HTTP/HTTPS 服务器的创建
+											</a>
+										</li>
+						 
+								
+								
+									</ul>
+								
+									</ul>
+								
+							
+						
+				 
+						
+						
+							
+								
+								
+									<ul class="nav">
+								
+									<ul class="nav">
+								
+								
+
+										<li class="nav-item">
+						 					<a class="nav-link" href="#resetreqmethod%e4%bf%ae%e5%a4%8d%e8%af%b7%e6%b1%82%e6%96%b9%e6%b3%95">
+												 resetReqMethod()：修复请求方法
+											</a>
+										</li>
+						 
+								
+								
+									</ul>
+								
+									</ul>
+								
+							
+						
+				 
+						
+						
+							
+								
+								
+									<ul class="nav">
+								
+								
+
+										<li class="nav-item">
+						 					<a class="nav-link" href="#%e6%80%bb%e7%bb%93">
+												 总结
+											</a>
+										</li>
+						 
+								
+								
+									</ul>
+								
+							
+						
+				 
+
+				</ul>
+			</div>
+			
+
+		</div>
+		
+	
+
+    </div>
+    
+
+
+  </main>
+  
+
+
+    
+    
+<footer class="page-footer text-center font-small mt-4 wow fadeIn">
+
+
+  
+  <div class="pb-2 mt-5 pt-5">
+    
+    <a href="//github.com/axfinn " target="_blank" rel="noopener"><i class="fab fa-github mr-3"
+        aria-hidden="true"></i></a>
+    
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+
+    
+    <a href="mailto:521very@email.com"><i class="far fa-envelope-open mr-3" aria-hidden="true"></i></a>
+    
+
+    
+
+    
+
+  </div>
+  
+
+  
+  <div class="copyright py-4">
+    
+    <span> 2016 - 2026 &copy; | Theme <a href='https://github.com/orianna-zzo/AllinOne'
+        target="_blank">AllinOne</a> by <a href='https://github.com/orianna-zzo' target="_blank">Orianna</a> </span>
+  </div>
+  
+
+</footer>
+
+    
+
+
+
+
+<script type="text/javascript" src="https://blog.jaxiu.cn/js/vendors/jquery/jquery-3.3.1.min.js"></script>
+<script type="text/javascript" src="https://blog.jaxiu.cn/js/vendors/jquery/jquery.smooth-scroll.min.js"></script>
+
+
+
+<script type="text/javascript" src="https://blog.jaxiu.cn/js/vendors/popper.min.js"></script>
+<script type="text/javascript" src="https://blog.jaxiu.cn/js/vendors/holder.min.js"></script>
+<script type="text/javascript" src="https://blog.jaxiu.cn/js/vendors-extensions/bootstrap4/bootstrap.js" ></script>
+
+<script type="text/javascript" src="https://blog.jaxiu.cn/js/vendors/mdb/mdb.min.js"></script>
+
+<script type="text/javascript" src="https://blog.jaxiu.cn/js/main.js"></script>
+<script type="text/javascript" src="https://blog.jaxiu.cn/js/search.js"></script>
+
+
+
+
+  <script src="https://blog.jaxiu.cn/js/vendors/highlight.pack.js"> </script>
+  <script>hljs.initHighlightingOnLoad();</script>
+
+
+
+
+
+  <script src="https://blog.jaxiu.cn/js/vendors/katex/katex.min.js"> </script>
+  <script src="https://blog.jaxiu.cn/js/vendors/katex/contrib/auto-render.min.js"></script>
+
+  <script>
+      document.addEventListener("DOMContentLoaded", function () {
+          renderMathInElement(document.body);
+      });
+  </script>
+
+
+
+
+
+
+
+
+<script type="text/javascript">
+  
+  new WOW().init();
+</script>
+  </body>
+</html>

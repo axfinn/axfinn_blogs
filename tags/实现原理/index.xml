@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>实现原理 on jaxiu He</title>
+    <link>https://blog.jaxiu.cn/tags/%E5%AE%9E%E7%8E%B0%E5%8E%9F%E7%90%86/</link>
+    <description>Recent content in 实现原理 on jaxiu He</description>
+    <generator>Hugo</generator>
+    <language>zn-Hans</language>
+    <lastBuildDate>Wed, 23 Jul 2025 15:55:00 +0800</lastBuildDate>
+    <atom:link href="https://blog.jaxiu.cn/tags/%E5%AE%9E%E7%8E%B0%E5%8E%9F%E7%90%86/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Qwen Code 实现框架深度解析</title>
+      <link>https://blog.jaxiu.cn/blog/2025-07/qwen-code-implementation-framework/</link>
+      <pubDate>Wed, 23 Jul 2025 15:55:00 +0800</pubDate>
+      <guid>https://blog.jaxiu.cn/blog/2025-07/qwen-code-implementation-framework/</guid>
+      <description>&lt;h1 id=&#34;qwen-code-实现框架深度解析&#34;&gt;Qwen Code 实现框架深度解析&lt;/h1&gt;&#xA;&lt;h2 id=&#34;引言&#34;&gt;引言&lt;/h2&gt;&#xA;&lt;p&gt;Qwen Code 是一个基于 AI 的命令行工具，它将大型语言模型的能力与本地开发环境相结合。为了实现这一目标，Qwen Code 采用了复杂而精巧的实现框架，涉及多个技术领域。本文将深入解析 Qwen Code 的实现框架，帮助读者理解其内部工作机制。&lt;/p&gt;&#xA;&lt;h2 id=&#34;整体架构&#34;&gt;整体架构&lt;/h2&gt;&#xA;&lt;p&gt;Qwen Code 的整体架构可以分为以下几个主要层次：&lt;/p&gt;&#xA;&lt;ol&gt;&#xA;&lt;li&gt;&lt;strong&gt;用户接口层&lt;/strong&gt;：提供命令行交互界面&lt;/li&gt;&#xA;&lt;li&gt;&lt;strong&gt;核心逻辑层&lt;/strong&gt;：处理用户请求和 AI 模型交互&lt;/li&gt;&#xA;&lt;li&gt;&lt;strong&gt;工具执行层&lt;/strong&gt;：执行各种本地操作工具&lt;/li&gt;&#xA;&lt;li&gt;&lt;strong&gt;模型接口层&lt;/strong&gt;：与 Qwen 模型进行通信&lt;/li&gt;&#xA;&lt;li&gt;&lt;strong&gt;安全管理层&lt;/strong&gt;：确保操作的安全性&lt;/li&gt;&#xA;&lt;/ol&gt;&#xA;&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;┌─────────────────────────────────────┐&#xA;│           用户接口层                 │&#xA;│         (CLI 界面)                  │&#xA;├─────────────────────────────────────┤&#xA;│           核心逻辑层                 │&#xA;│    (请求处理、响应生成)              │&#xA;├─────────────────────────────────────┤&#xA;│          工具执行层                  │&#xA;│  (文件系统、网络、命令执行等工具)     │&#xA;├─────────────────────────────────────┤&#xA;│          模型接口层                  │&#xA;│      (与 Qwen 模型通信)              │&#xA;├─────────────────────────────────────┤&#xA;│          安全管理层                  │&#xA;│    (权限控制、沙箱隔离等)            │&#xA;└─────────────────────────────────────┘&#xA;&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;为了更直观地理解整体架构，我们可以用 Mermaid 绘制一个架构图：&lt;/p&gt;</description>
+    </item>
+  </channel>
+</rss>

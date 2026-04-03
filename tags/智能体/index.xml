@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>智能体 on jaxiu He</title>
+    <link>https://blog.jaxiu.cn/tags/%E6%99%BA%E8%83%BD%E4%BD%93/</link>
+    <description>Recent content in 智能体 on jaxiu He</description>
+    <generator>Hugo</generator>
+    <language>zn-Hans</language>
+    <lastBuildDate>Mon, 23 Mar 2026 00:00:00 +0000</lastBuildDate>
+    <atom:link href="https://blog.jaxiu.cn/tags/%E6%99%BA%E8%83%BD%E4%BD%93/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>2026年3月第3周科技与AI新闻周报：AI智能体狂飙突进与行业格局重塑</title>
+      <link>https://blog.jaxiu.cn/blog/2026-03/2026%E5%B9%B43%E6%9C%88%E7%AC%AC3%E5%91%A8%E7%A7%91%E6%8A%80%E4%B8%8Eai%E6%96%B0%E9%97%BB%E5%91%A8%E6%8A%A5ai%E6%99%BA%E8%83%BD%E4%BD%93%E7%8B%82%E9%A3%99%E7%AA%81%E8%BF%9B%E4%B8%8E%E8%A1%8C%E4%B8%9A%E6%A0%BC%E5%B1%80%E9%87%8D%E5%A1%91/</link>
+      <pubDate>Mon, 23 Mar 2026 00:00:00 +0000</pubDate>
+      <guid>https://blog.jaxiu.cn/blog/2026-03/2026%E5%B9%B43%E6%9C%88%E7%AC%AC3%E5%91%A8%E7%A7%91%E6%8A%80%E4%B8%8Eai%E6%96%B0%E9%97%BB%E5%91%A8%E6%8A%A5ai%E6%99%BA%E8%83%BD%E4%BD%93%E7%8B%82%E9%A3%99%E7%AA%81%E8%BF%9B%E4%B8%8E%E8%A1%8C%E4%B8%9A%E6%A0%BC%E5%B1%80%E9%87%8D%E5%A1%91/</guid>
+      <description>&lt;h2 id=&#34;引言ai智能体时代的来临&#34;&gt;引言：AI智能体时代的来临&lt;/h2&gt;&#xA;&lt;p&gt;2026年3月第3周（3月16日-22日），全球科技与AI领域经历了前所未有的变革。一周之内，AI智能体（Agent）从极客玩具彻底蜕变为现象级产品，OpenClaw（被称为&amp;quot;龙虾&amp;quot;）的横空出世搅动了整个行业格局：微信指数从零飙升至1.656亿，GitHub斩获32.5万星，全球Token调用占比暴增至17%，鲸吞超六分之一算力。与此同时，曾经的AI霸主OpenAI正经历从巅峰跌落的阵痛，而Anthropic凭借Claude的出色表现抢占70%新企业级AI合约。这不仅是一个产品或一家公司的兴衰，更是整个AI行业从&amp;quot;对话助手&amp;quot;向&amp;quot;智能体&amp;quot;转型的重要节点。本周报将系统梳理这一周国内外科技与AI领域的重大进展，为读者呈现一幅完整的行业图景。&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>大模型智能体构建：从理论到实践</title>
+      <link>https://blog.jaxiu.cn/blog/2025-07/%E5%A4%A7%E6%A8%A1%E5%9E%8B%E6%99%BA%E8%83%BD%E4%BD%93%E6%9E%84%E5%BB%BA%E4%BB%8E%E7%90%86%E8%AE%BA%E5%88%B0%E5%AE%9E%E8%B7%B5/</link>
+      <pubDate>Fri, 18 Jul 2025 18:30:00 +0800</pubDate>
+      <guid>https://blog.jaxiu.cn/blog/2025-07/%E5%A4%A7%E6%A8%A1%E5%9E%8B%E6%99%BA%E8%83%BD%E4%BD%93%E6%9E%84%E5%BB%BA%E4%BB%8E%E7%90%86%E8%AE%BA%E5%88%B0%E5%AE%9E%E8%B7%B5/</guid>
+      <description>&lt;h2 id=&#34;引言&#34;&gt;引言&lt;/h2&gt;&#xA;&lt;p&gt;随着大型语言模型（LLM）的飞速发展，构建能够自主感知、决策和行动的智能体（Agent）成为了人工智能领域的热点。大模型智能体不仅能够理解复杂的指令，还能通过与环境的交互，完成一系列任务。本文将深入探讨大模型智能体的构建原理、核心组件以及实践中的挑战与机遇。&lt;/p&gt;&#xA;&lt;h2 id=&#34;大模型智能体的核心组件&#34;&gt;大模型智能体的核心组件&lt;/h2&gt;&#xA;&lt;p&gt;一个典型的大模型智能体通常包含以下几个核心组件：&lt;/p&gt;&#xA;&lt;ol&gt;&#xA;&lt;li&gt;&#xA;&lt;p&gt;&lt;strong&gt;感知模块（Perception Module）&lt;/strong&gt;：&lt;/p&gt;&#xA;&lt;ul&gt;&#xA;&lt;li&gt;&lt;strong&gt;功能&lt;/strong&gt;：负责从环境中获取信息，并将其转化为LLM可以理解的格式。这是智能体与外部世界交互的第一步。&lt;/li&gt;&#xA;&lt;li&gt;&lt;strong&gt;输入模态&lt;/strong&gt;：可以处理多种模态的数据，包括但不限于：&#xA;&lt;ul&gt;&#xA;&lt;li&gt;&lt;strong&gt;文本&lt;/strong&gt;：网页内容、文档、聊天记录、数据库查询结果等。&lt;/li&gt;&#xA;&lt;li&gt;&lt;strong&gt;图像/视频&lt;/strong&gt;：通过图像识别、OCR（光学字符识别）、视频分析模型提取视觉信息。&lt;/li&gt;&#xA;&lt;li&gt;&lt;strong&gt;音频&lt;/strong&gt;：通过语音识别（ASR）将语音转化为文本。&lt;/li&gt;&#xA;&lt;li&gt;&lt;strong&gt;结构化数据&lt;/strong&gt;：如JSON、XML、CSV等，需要解析并转化为自然语言描述或LLM可理解的格式。&lt;/li&gt;&#xA;&lt;/ul&gt;&#xA;&lt;/li&gt;&#xA;&lt;li&gt;&lt;strong&gt;关键技术&lt;/strong&gt;：数据预处理、特征提取、多模态信息融合、特定领域的解析器。&lt;/li&gt;&#xA;&lt;/ul&gt;&#xA;&lt;/li&gt;&#xA;&lt;li&gt;&#xA;&lt;p&gt;&lt;strong&gt;规划模块（Planning Module）&lt;/strong&gt;：&lt;/p&gt;</description>
+    </item>
+  </channel>
+</rss>

@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>多窗口 on jaxiu He</title>
+    <link>https://blog.jaxiu.cn/tags/%E5%A4%9A%E7%AA%97%E5%8F%A3/</link>
+    <description>Recent content in 多窗口 on jaxiu He</description>
+    <generator>Hugo</generator>
+    <language>zn-Hans</language>
+    <lastBuildDate>Thu, 31 Jul 2025 20:30:00 +0800</lastBuildDate>
+    <atom:link href="https://blog.jaxiu.cn/tags/%E5%A4%9A%E7%AA%97%E5%8F%A3/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>DeepChat 多窗口多标签架构设计</title>
+      <link>https://blog.jaxiu.cn/blog/2025-07/deepchat-multi-window-tabs/</link>
+      <pubDate>Thu, 31 Jul 2025 20:30:00 +0800</pubDate>
+      <guid>https://blog.jaxiu.cn/blog/2025-07/deepchat-multi-window-tabs/</guid>
+      <description>&lt;h1 id=&#34;deepchat-多窗口多标签架构设计&#34;&gt;DeepChat 多窗口多标签架构设计&lt;/h1&gt;&#xA;&lt;h2 id=&#34;引言&#34;&gt;引言&lt;/h2&gt;&#xA;&lt;p&gt;现代用户在使用 AI 工具时往往需要同时处理多个任务或主题，这就要求应用程序具备良好的多任务处理能力。DeepChat 采用了创新的多窗口+多标签架构，支持跨维度的并行多会话操作，让用户能够像使用浏览器一样使用 AI，提供非阻塞的优秀体验。本文将深入分析这一架构的设计与实现。&lt;/p&gt;&#xA;&lt;h2 id=&#34;多窗口多标签架构概述&#34;&gt;多窗口多标签架构概述&lt;/h2&gt;&#xA;&lt;h3 id=&#34;设计理念&#34;&gt;设计理念&lt;/h3&gt;&#xA;&lt;p&gt;DeepChat 的多窗口多标签架构基于以下设计理念：&lt;/p&gt;&#xA;&lt;ol&gt;&#xA;&lt;li&gt;&lt;strong&gt;并行处理&lt;/strong&gt; - 允许用户同时进行多个独立的对话&lt;/li&gt;&#xA;&lt;li&gt;&lt;strong&gt;上下文隔离&lt;/strong&gt; - 每个会话都有独立的上下文，互不干扰&lt;/li&gt;&#xA;&lt;li&gt;&lt;strong&gt;灵活组织&lt;/strong&gt; - 用户可以根据需要组织和管理会话&lt;/li&gt;&#xA;&lt;li&gt;&lt;strong&gt;资源优化&lt;/strong&gt; - 合理管理内存和计算资源&lt;/li&gt;&#xA;&lt;/ol&gt;&#xA;&lt;h3 id=&#34;架构图示&#34;&gt;架构图示&lt;/h3&gt;&#xA;&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;┌─────────────────────────────────────────────────────────────────────┐&#xA;│                        DeepChat 多窗口架构                          │&#xA;├─────────────────────────────────────────────────────────────────────┤&#xA;│  ┌─────────────────┐    ┌─────────────────┐    ┌─────────────────┐  │&#xA;│  │   主窗口         │    │   子窗口A        │    │   子窗口B        │  │&#xA;│  │                 │    │                 │    │                 │  │&#xA;│  │ ┌─────────────┐ │    │ ┌─────────────┐ │    │ ┌─────────────┐ │  │&#xA;│  │ │  标签页1     │ │    │ │  标签页1     │ │    │ │  标签页1     │ │  │&#xA;│  │ ├─────────────┤ │    │ ├─────────────┤ │    │ ├─────────────┤ │  │&#xA;│  │ │  标签页2     │ │    │ │  标签页2     │ │    │ │  标签页2     │ │  │&#xA;│  │ ├─────────────┤ │    │ └─────────────┘ │    │ └─────────────┘ │  │&#xA;│  │ │  标签页3     │ │    │                 │    │                 │  │&#xA;│  │ └─────────────┘ │    │                 │    │                 │  │&#xA;│  └─────────────────┘    └─────────────────┘    └─────────────────┘  │&#xA;└─────────────────────────────────────────────────────────────────────┘&#xA;&lt;/code&gt;&lt;/pre&gt;&lt;h2 id=&#34;会话管理机制&#34;&gt;会话管理机制&lt;/h2&gt;&#xA;&lt;h3 id=&#34;会话数据结构&#34;&gt;会话数据结构&lt;/h3&gt;&#xA;&lt;p&gt;DeepChat 中的会话采用如下数据结构：&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>DeepChat 多窗口多标签架构深度解析</title>
+      <link>https://blog.jaxiu.cn/blog/2025-07/deepchat-multi-window-tabs-architecture/</link>
+      <pubDate>Thu, 31 Jul 2025 18:15:00 +0800</pubDate>
+      <guid>https://blog.jaxiu.cn/blog/2025-07/deepchat-multi-window-tabs-architecture/</guid>
+      <description>&lt;h1 id=&#34;deepchat-多窗口多标签架构深度解析&#34;&gt;DeepChat 多窗口多标签架构深度解析&lt;/h1&gt;&#xA;&lt;h2 id=&#34;引言&#34;&gt;引言&lt;/h2&gt;&#xA;&lt;p&gt;现代桌面应用程序普遍采用多窗口多标签的设计模式，以提升用户的工作效率和使用体验。DeepChat 作为一个功能丰富的 AI 聊天平台，实现了先进的多窗口多标签架构，支持跨窗口的标签页拖拽、独立会话管理等功能。本文将深入解析 DeepChat 的多窗口多标签架构设计，揭示其背后的技术实现原理。&lt;/p&gt;&#xA;&lt;h2 id=&#34;传统-electron-多窗口实现&#34;&gt;传统 Electron 多窗口实现&lt;/h2&gt;&#xA;&lt;p&gt;在传统的 Electron 应用中，创建多个窗口通常有两种方式：&lt;/p&gt;&#xA;&lt;ol&gt;&#xA;&lt;li&gt;&lt;strong&gt;BrowserWindow 方式&lt;/strong&gt; - 每个窗口都是独立的 BrowserWindow 实例&lt;/li&gt;&#xA;&lt;li&gt;&lt;strong&gt;BrowserView 方式&lt;/strong&gt; - 在主窗口中使用 BrowserView 实现标签页效果&lt;/li&gt;&#xA;&lt;/ol&gt;&#xA;&lt;p&gt;这两种方式各有优缺点：&lt;/p&gt;</description>
+    </item>
+  </channel>
+</rss>

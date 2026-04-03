@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Codex on jaxiu He</title>
+    <link>https://blog.jaxiu.cn/tags/codex/</link>
+    <description>Recent content in Codex on jaxiu He</description>
+    <generator>Hugo</generator>
+    <language>zn-Hans</language>
+    <lastBuildDate>Thu, 26 Feb 2026 11:19:00 +0800</lastBuildDate>
+    <atom:link href="https://blog.jaxiu.cn/tags/codex/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>AI编程工具深度调研系列（二）：OpenAI Codex 全面解析</title>
+      <link>https://blog.jaxiu.cn/blog/2026-02/ai%E7%BC%96%E7%A8%8B%E5%B7%A5%E5%85%B7%E6%B7%B1%E5%BA%A6%E8%B0%83%E7%A0%94%E7%B3%BB%E5%88%97%E4%BA%8Copenai-codex-%E5%85%A8%E9%9D%A2%E8%A7%A3%E6%9E%90/</link>
+      <pubDate>Thu, 26 Feb 2026 11:19:00 +0800</pubDate>
+      <guid>https://blog.jaxiu.cn/blog/2026-02/ai%E7%BC%96%E7%A8%8B%E5%B7%A5%E5%85%B7%E6%B7%B1%E5%BA%A6%E8%B0%83%E7%A0%94%E7%B3%BB%E5%88%97%E4%BA%8Copenai-codex-%E5%85%A8%E9%9D%A2%E8%A7%A3%E6%9E%90/</guid>
+      <description>&lt;h1 id=&#34;ai编程工具深度调研系列二&#34;&gt;AI编程工具深度调研系列（二）&lt;/h1&gt;&#xA;&lt;h2 id=&#34;openai-codex-全面解析&#34;&gt;OpenAI Codex 全面解析&lt;/h2&gt;&#xA;&lt;h3 id=&#34;一产品概述&#34;&gt;一、产品概述&lt;/h3&gt;&#xA;&lt;p&gt;OpenAI是AI编程工具领域的开创者和领导者。其核心产品包括ChatGPT和Codex，它们基于GPT系列大型语言模型构建。&lt;/p&gt;&#xA;&lt;p&gt;&lt;strong&gt;官网&lt;/strong&gt;: &lt;a href=&#34;https://openai.com&#34;&gt;https://openai.com&lt;/a&gt;&lt;/p&gt;&#xA;&lt;p&gt;&lt;strong&gt;最新动态&lt;/strong&gt; (截至2026年2月):&lt;/p&gt;&#xA;&lt;ul&gt;&#xA;&lt;li&gt;推出GPT-5.3-Codex&lt;/li&gt;&#xA;&lt;li&gt;推出Codex应用&lt;/li&gt;&#xA;&lt;li&gt;推出OpenAI Frontier&lt;/li&gt;&#xA;&lt;li&gt;测试ChatGPT中的广告功能&lt;/li&gt;&#xA;&lt;/ul&gt;&#xA;&lt;h3 id=&#34;二技术架构&#34;&gt;二、技术架构&lt;/h3&gt;&#xA;&lt;h4 id=&#34;21-模型演进&#34;&gt;2.1 模型演进&lt;/h4&gt;&#xA;&lt;table&gt;&#xA;  &lt;thead&gt;&#xA;      &lt;tr&gt;&#xA;          &lt;th&gt;版本&lt;/th&gt;&#xA;          &lt;th&gt;发布时间&lt;/th&gt;&#xA;          &lt;th&gt;主要特点&lt;/th&gt;&#xA;      &lt;/tr&gt;&#xA;  &lt;/thead&gt;&#xA;  &lt;tbody&gt;&#xA;      &lt;tr&gt;&#xA;          &lt;td&gt;GPT-3&lt;/td&gt;&#xA;          &lt;td&gt;2020年&lt;/td&gt;&#xA;          &lt;td&gt;1750亿参数，奠定基础&lt;/td&gt;&#xA;      &lt;/tr&gt;&#xA;      &lt;tr&gt;&#xA;          &lt;td&gt;GPT-3.5&lt;/td&gt;&#xA;          &lt;td&gt;2022年&lt;/td&gt;&#xA;          &lt;td&gt;引入指令微调&lt;/td&gt;&#xA;      &lt;/tr&gt;&#xA;      &lt;tr&gt;&#xA;          &lt;td&gt;GPT-4&lt;/td&gt;&#xA;          &lt;td&gt;2023年&lt;/td&gt;&#xA;          &lt;td&gt;多模态理解&lt;/td&gt;&#xA;      &lt;/tr&gt;&#xA;      &lt;tr&gt;&#xA;          &lt;td&gt;GPT-4 Turbo&lt;/td&gt;&#xA;          &lt;td&gt;2024年&lt;/td&gt;&#xA;          &lt;td&gt;128K上下文&lt;/td&gt;&#xA;      &lt;/tr&gt;&#xA;      &lt;tr&gt;&#xA;          &lt;td&gt;GPT-5&lt;/td&gt;&#xA;          &lt;td&gt;2025年&lt;/td&gt;&#xA;          &lt;td&gt;更强推理能力&lt;/td&gt;&#xA;      &lt;/tr&gt;&#xA;      &lt;tr&gt;&#xA;          &lt;td&gt;GPT-5.3-Codex&lt;/td&gt;&#xA;          &lt;td&gt;2026年2月&lt;/td&gt;&#xA;          &lt;td&gt;专为编程优化&lt;/td&gt;&#xA;      &lt;/tr&gt;&#xA;  &lt;/tbody&gt;&#xA;&lt;/table&gt;&#xA;&lt;h4 id=&#34;22-codex引擎&#34;&gt;2.2 Codex引擎&lt;/h4&gt;&#xA;&lt;p&gt;Codex是OpenAI专门为编程任务优化的模型家族：&lt;/p&gt;</description>
+    </item>
+  </channel>
+</rss>

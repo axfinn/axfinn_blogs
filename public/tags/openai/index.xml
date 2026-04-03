@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>OpenAI on jaxiu He</title>
+    <link>https://blog.jaxiu.cn/tags/openai/</link>
+    <description>Recent content in OpenAI on jaxiu He</description>
+    <generator>Hugo</generator>
+    <language>zn-Hans</language>
+    <lastBuildDate>Thu, 26 Mar 2026 09:00:00 +0800</lastBuildDate>
+    <atom:link href="https://blog.jaxiu.cn/tags/openai/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>每日技术热点 | 3月26日：OpenAI停运Sora、阿里AI获全球创新力大奖、谷歌TurboQuant降本增效</title>
+      <link>https://blog.jaxiu.cn/blog/2026-03/daily-tech-2026-03-26/</link>
+      <pubDate>Thu, 26 Mar 2026 09:00:00 +0800</pubDate>
+      <guid>https://blog.jaxiu.cn/blog/2026-03/daily-tech-2026-03-26/</guid>
+      <description>&lt;blockquote&gt;&#xA;&lt;p&gt;每天整理当日技术领域重要新闻，带你快速掌握行业动态。数据来源：36kr、Hacker News。&lt;/p&gt;&#xA;&lt;/blockquote&gt;&#xA;&lt;hr&gt;&#xA;&lt;h2 id=&#34;-今日要点60秒速读&#34;&gt;✅ 今日要点（60秒速读）&lt;/h2&gt;&#xA;&lt;ul&gt;&#xA;&lt;li&gt;&lt;strong&gt;OpenAI停运Sora&lt;/strong&gt;：OpenAI正式宣布停止Sora视频生成服务，精简产品线，聚焦核心大模型业务&lt;/li&gt;&#xA;&lt;li&gt;&lt;strong&gt;阿里千问首上车&lt;/strong&gt;：阿里AI助手千问接入红旗汽车智能座舱，首个通用AI完整形态进入车载场景&lt;/li&gt;&#xA;&lt;li&gt;&lt;strong&gt;谷歌TurboQuant&lt;/strong&gt;：发布新型压缩算法，键值缓存压缩至3bit精度，约6倍内存节省&lt;/li&gt;&#xA;&lt;li&gt;&lt;strong&gt;脑机接口融资热&lt;/strong&gt;：傲意科技完成1.5亿元C轮融资，海外收入增速已反超国内&lt;/li&gt;&#xA;&lt;li&gt;&lt;strong&gt;AI健康硬件爆发&lt;/strong&gt;：OdyssLife获红杉中国领投近2亿元，AI健康穿戴成资本新宠&lt;/li&gt;&#xA;&lt;li&gt;&lt;strong&gt;中科曙光超节点&lt;/strong&gt;：scaleX40内置40张GPU，算力超28 PFLOPS，显存超5TB&lt;/li&gt;&#xA;&lt;/ul&gt;&#xA;&lt;hr&gt;&#xA;&lt;h2 id=&#34;-ai--大模型进展&#34;&gt;🤖 AI &amp;amp; 大模型进展&lt;/h2&gt;&#xA;&lt;p&gt;&lt;img src=&#34;https://t.jaxiu.cn/api/paste/files/d1e4da083a2b05e25adbda54c1f407ae.png&#34; alt=&#34;AI大脑&#34;&gt;&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>AI编程工具深度调研系列（二）：OpenAI Codex 全面解析</title>
+      <link>https://blog.jaxiu.cn/blog/2026-02/ai%E7%BC%96%E7%A8%8B%E5%B7%A5%E5%85%B7%E6%B7%B1%E5%BA%A6%E8%B0%83%E7%A0%94%E7%B3%BB%E5%88%97%E4%BA%8Copenai-codex-%E5%85%A8%E9%9D%A2%E8%A7%A3%E6%9E%90/</link>
+      <pubDate>Thu, 26 Feb 2026 11:19:00 +0800</pubDate>
+      <guid>https://blog.jaxiu.cn/blog/2026-02/ai%E7%BC%96%E7%A8%8B%E5%B7%A5%E5%85%B7%E6%B7%B1%E5%BA%A6%E8%B0%83%E7%A0%94%E7%B3%BB%E5%88%97%E4%BA%8Copenai-codex-%E5%85%A8%E9%9D%A2%E8%A7%A3%E6%9E%90/</guid>
+      <description>&lt;h1 id=&#34;ai编程工具深度调研系列二&#34;&gt;AI编程工具深度调研系列（二）&lt;/h1&gt;&#xA;&lt;h2 id=&#34;openai-codex-全面解析&#34;&gt;OpenAI Codex 全面解析&lt;/h2&gt;&#xA;&lt;h3 id=&#34;一产品概述&#34;&gt;一、产品概述&lt;/h3&gt;&#xA;&lt;p&gt;OpenAI是AI编程工具领域的开创者和领导者。其核心产品包括ChatGPT和Codex，它们基于GPT系列大型语言模型构建。&lt;/p&gt;&#xA;&lt;p&gt;&lt;strong&gt;官网&lt;/strong&gt;: &lt;a href=&#34;https://openai.com&#34;&gt;https://openai.com&lt;/a&gt;&lt;/p&gt;&#xA;&lt;p&gt;&lt;strong&gt;最新动态&lt;/strong&gt; (截至2026年2月):&lt;/p&gt;&#xA;&lt;ul&gt;&#xA;&lt;li&gt;推出GPT-5.3-Codex&lt;/li&gt;&#xA;&lt;li&gt;推出Codex应用&lt;/li&gt;&#xA;&lt;li&gt;推出OpenAI Frontier&lt;/li&gt;&#xA;&lt;li&gt;测试ChatGPT中的广告功能&lt;/li&gt;&#xA;&lt;/ul&gt;&#xA;&lt;h3 id=&#34;二技术架构&#34;&gt;二、技术架构&lt;/h3&gt;&#xA;&lt;h4 id=&#34;21-模型演进&#34;&gt;2.1 模型演进&lt;/h4&gt;&#xA;&lt;table&gt;&#xA;  &lt;thead&gt;&#xA;      &lt;tr&gt;&#xA;          &lt;th&gt;版本&lt;/th&gt;&#xA;          &lt;th&gt;发布时间&lt;/th&gt;&#xA;          &lt;th&gt;主要特点&lt;/th&gt;&#xA;      &lt;/tr&gt;&#xA;  &lt;/thead&gt;&#xA;  &lt;tbody&gt;&#xA;      &lt;tr&gt;&#xA;          &lt;td&gt;GPT-3&lt;/td&gt;&#xA;          &lt;td&gt;2020年&lt;/td&gt;&#xA;          &lt;td&gt;1750亿参数，奠定基础&lt;/td&gt;&#xA;      &lt;/tr&gt;&#xA;      &lt;tr&gt;&#xA;          &lt;td&gt;GPT-3.5&lt;/td&gt;&#xA;          &lt;td&gt;2022年&lt;/td&gt;&#xA;          &lt;td&gt;引入指令微调&lt;/td&gt;&#xA;      &lt;/tr&gt;&#xA;      &lt;tr&gt;&#xA;          &lt;td&gt;GPT-4&lt;/td&gt;&#xA;          &lt;td&gt;2023年&lt;/td&gt;&#xA;          &lt;td&gt;多模态理解&lt;/td&gt;&#xA;      &lt;/tr&gt;&#xA;      &lt;tr&gt;&#xA;          &lt;td&gt;GPT-4 Turbo&lt;/td&gt;&#xA;          &lt;td&gt;2024年&lt;/td&gt;&#xA;          &lt;td&gt;128K上下文&lt;/td&gt;&#xA;      &lt;/tr&gt;&#xA;      &lt;tr&gt;&#xA;          &lt;td&gt;GPT-5&lt;/td&gt;&#xA;          &lt;td&gt;2025年&lt;/td&gt;&#xA;          &lt;td&gt;更强推理能力&lt;/td&gt;&#xA;      &lt;/tr&gt;&#xA;      &lt;tr&gt;&#xA;          &lt;td&gt;GPT-5.3-Codex&lt;/td&gt;&#xA;          &lt;td&gt;2026年2月&lt;/td&gt;&#xA;          &lt;td&gt;专为编程优化&lt;/td&gt;&#xA;      &lt;/tr&gt;&#xA;  &lt;/tbody&gt;&#xA;&lt;/table&gt;&#xA;&lt;h4 id=&#34;22-codex引擎&#34;&gt;2.2 Codex引擎&lt;/h4&gt;&#xA;&lt;p&gt;Codex是OpenAI专门为编程任务优化的模型家族：&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>AI编程工具深度调研系列：序言与概述</title>
+      <link>https://blog.jaxiu.cn/blog/2026-02/ai%E7%BC%96%E7%A8%8B%E5%B7%A5%E5%85%B7%E6%B7%B1%E5%BA%A6%E8%B0%83%E7%A0%94%E7%B3%BB%E5%88%97%E5%BA%8F%E8%A8%80%E4%B8%8E%E6%A6%82%E8%BF%B0/</link>
+      <pubDate>Thu, 26 Feb 2026 11:18:00 +0800</pubDate>
+      <guid>https://blog.jaxiu.cn/blog/2026-02/ai%E7%BC%96%E7%A8%8B%E5%B7%A5%E5%85%B7%E6%B7%B1%E5%BA%A6%E8%B0%83%E7%A0%94%E7%B3%BB%E5%88%97%E5%BA%8F%E8%A8%80%E4%B8%8E%E6%A6%82%E8%BF%B0/</guid>
+      <description>&lt;h1 id=&#34;ai编程工具深度调研系列&#34;&gt;AI编程工具深度调研系列&lt;/h1&gt;&#xA;&lt;h2 id=&#34;序言&#34;&gt;序言&lt;/h2&gt;&#xA;&lt;p&gt;随着人工智能技术的飞速发展，AI编程工具已经从概念走向现实，成为开发者日常工作中不可或缺的助手。从简单的代码补全到复杂的项目架构设计，AI正在深刻改变着软件开发的方方面面。&lt;/p&gt;&#xA;&lt;p&gt;本系列调研报告将对当前主流的AI编程工具进行全面分析，包括：&lt;/p&gt;&#xA;&lt;ol&gt;&#xA;&lt;li&gt;&lt;strong&gt;OpenAI&lt;/strong&gt; - 行业开创者&lt;/li&gt;&#xA;&lt;li&gt;&lt;strong&gt;Claude (Anthropic)&lt;/strong&gt; - 安全可靠的编程助手&lt;/li&gt;&#xA;&lt;li&gt;&lt;strong&gt;GLM (智谱AI)&lt;/strong&gt; - 国产大模型代表&lt;/li&gt;&#xA;&lt;li&gt;&lt;strong&gt;MiniMax&lt;/strong&gt; - 多模态AI新秀&lt;/li&gt;&#xA;&lt;li&gt;&lt;strong&gt;Google Gemini&lt;/strong&gt; - 科技巨头布局&lt;/li&gt;&#xA;&lt;li&gt;&lt;strong&gt;Kiro&lt;/strong&gt; - 新兴编程工具&lt;/li&gt;&#xA;&lt;/ol&gt;&#xA;&lt;hr&gt;&#xA;&lt;h2 id=&#34;调研方法论&#34;&gt;调研方法论&lt;/h2&gt;&#xA;&lt;p&gt;本次调研采用以下方法：&lt;/p&gt;&#xA;&lt;ol&gt;&#xA;&lt;li&gt;&lt;strong&gt;官方文档分析&lt;/strong&gt;：深入研究各产品的官方文档和技术博客&lt;/li&gt;&#xA;&lt;li&gt;&lt;strong&gt;实际功能测试&lt;/strong&gt;：通过API调用和实际编程任务测试各工具能力&lt;/li&gt;&#xA;&lt;li&gt;&lt;strong&gt;社区反馈收集&lt;/strong&gt;：整理开发者社区的真实使用体验&lt;/li&gt;&#xA;&lt;li&gt;&lt;strong&gt;性能基准测试&lt;/strong&gt;：在标准化任务上评估各工具表现&lt;/li&gt;&#xA;&lt;/ol&gt;&#xA;&lt;h2 id=&#34;评估维度&#34;&gt;评估维度&lt;/h2&gt;&#xA;&lt;p&gt;我们将围绕以下维度进行评估：&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>todoIng AI 报告生成系统设计与智能应用</title>
+      <link>https://blog.jaxiu.cn/blog/2025-08/todoing-ai-report-generation/</link>
+      <pubDate>Sun, 03 Aug 2025 10:00:00 +0800</pubDate>
+      <guid>https://blog.jaxiu.cn/blog/2025-08/todoing-ai-report-generation/</guid>
+      <description>&lt;h1 id=&#34;todoing-ai-报告生成系统设计与智能应用&#34;&gt;todoIng AI 报告生成系统设计与智能应用&lt;/h1&gt;&#xA;&lt;p&gt;在之前的文章中，我们详细介绍了 todoIng 的核心功能，包括任务管理、历史追踪和团队协作。今天，我们将探讨 todoIng 的一大亮点功能——AI 报告生成。通过集成 OpenAI，todoIng 能够自动生成并润色日报、周报和月报，大大减轻了用户的工作负担。&lt;/p&gt;&#xA;&lt;h2 id=&#34;为什么需要-ai-报告生成&#34;&gt;为什么需要 AI 报告生成？&lt;/h2&gt;&#xA;&lt;p&gt;在现代职场中，定期撰写工作报告是一项常见但耗时的任务。许多人在写报告时面临以下挑战：&lt;/p&gt;&#xA;&lt;ol&gt;&#xA;&lt;li&gt;&lt;strong&gt;时间成本高&lt;/strong&gt;：整理任务完成情况、总结工作成果需要大量时间&lt;/li&gt;&#xA;&lt;li&gt;&lt;strong&gt;表达困难&lt;/strong&gt;：难以用恰当的语言描述工作内容和成果&lt;/li&gt;&#xA;&lt;li&gt;&lt;strong&gt;格式不统一&lt;/strong&gt;：缺乏标准化的报告模板&lt;/li&gt;&#xA;&lt;li&gt;&lt;strong&gt;内容不全面&lt;/strong&gt;：容易遗漏重要信息&lt;/li&gt;&#xA;&lt;/ol&gt;&#xA;&lt;p&gt;为了解决这些问题，todoIng 集成了 AI 报告生成功能，利用人工智能技术自动生成高质量的工作报告。&lt;/p&gt;</description>
+    </item>
+  </channel>
+</rss>

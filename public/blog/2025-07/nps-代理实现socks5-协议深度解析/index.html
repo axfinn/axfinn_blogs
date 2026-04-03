@@ -1,0 +1,973 @@
+<!DOCTYPE html>
+<html lang="zn-Hans">
+  <head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge, chrome=1">
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no, maximum-scale=1" />
+  
+  <meta name="author" content="jaxiu He">
+  <meta name="description"
+    content="引言
+在 NPS 系列文章的前几篇中，我们已经对 NPS 的整体架构、服务端核心以及 TCP 隧道和 HTTP 代理的实现有了初步了解。本篇文章将深入 NPS 的另一个重要代理模式——SOCKS5 代理。我们将通过分析 nps/server/proxy/socks5.go 文件，详细剖析 SOCKS5 协议在 NPS 中的实现细节，包括认证机制、请求处理以及 UDP 转发。
+SOCKS5 协议简介
+SOCKS5 是一种网络代理协议，它允许客户端通过代理服务器间接访问其他服务器。与 HTTP 代理不同，SOCKS5 是一种更底层的协议，它不关心应用层协议（如 HTTP、FTP），而是直接转发 TCP 或 UDP 数据包。这使得 SOCKS5 代理更加通用，可以用于各种网络应用。">
+
+  <meta property="og:url" content="https://blog.jaxiu.cn/blog/2025-07/nps-%E4%BB%A3%E7%90%86%E5%AE%9E%E7%8E%B0socks5-%E5%8D%8F%E8%AE%AE%E6%B7%B1%E5%BA%A6%E8%A7%A3%E6%9E%90/">
+  <meta property="og:site_name" content="jaxiu He">
+  <meta property="og:title" content="NPS 代理实现：SOCKS5 协议深度解析">
+  <meta property="og:description" content="引言 在 NPS 系列文章的前几篇中，我们已经对 NPS 的整体架构、服务端核心以及 TCP 隧道和 HTTP 代理的实现有了初步了解。本篇文章将深入 NPS 的另一个重要代理模式——SOCKS5 代理。我们将通过分析 nps/server/proxy/socks5.go 文件，详细剖析 SOCKS5 协议在 NPS 中的实现细节，包括认证机制、请求处理以及 UDP 转发。
+SOCKS5 协议简介 SOCKS5 是一种网络代理协议，它允许客户端通过代理服务器间接访问其他服务器。与 HTTP 代理不同，SOCKS5 是一种更底层的协议，它不关心应用层协议（如 HTTP、FTP），而是直接转发 TCP 或 UDP 数据包。这使得 SOCKS5 代理更加通用，可以用于各种网络应用。">
+  <meta property="og:locale" content="zn_Hans">
+  <meta property="og:type" content="article">
+    <meta property="article:section" content="blog">
+    <meta property="article:published_time" content="2025-07-18T16:15:00+08:00">
+    <meta property="article:modified_time" content="2025-07-18T16:15:00+08:00">
+    <meta property="article:tag" content="NPS">
+    <meta property="article:tag" content="SOCKS5">
+    <meta property="article:tag" content="代理协议">
+    <meta property="article:tag" content="Go语言">
+    <meta property="article:tag" content="网络安全">
+
+
+  <title>
+    
+     NPS 代理实现：SOCKS5 协议深度解析 | jaxiu He 
+    
+  </title>
+
+  <link rel="canonical" href="https://blog.jaxiu.cn/blog/2025-07/nps-%E4%BB%A3%E7%90%86%E5%AE%9E%E7%8E%B0socks5-%E5%8D%8F%E8%AE%AE%E6%B7%B1%E5%BA%A6%E8%A7%A3%E6%9E%90/">
+
+  
+  
+
+  
+  
+  
+  <meta name="baidu-site-verification" content="your-baidu-verify-code" />
+  
+
+  
+  
+  <meta name="google-site-verification" content="your-google-verify-code" />
+  
+
+  
+  <link href="https://blog.jaxiu.cn/css/vendors-extensions/fontawesome/all.min.css" rel="stylesheet">
+
+  
+  <link rel="stylesheet"
+    href="https://fonts.googleapis.com/css?family=Open+Sans:400,700|Ubuntu+Mono:400,400i,700,700i|Raleway:300,400,500,600">
+  <link href="https://blog.jaxiu.cn/css/font.css" rel="stylesheet">
+
+  
+  <link href="https://blog.jaxiu.cn/css/vendors/bootstrap4/bootstrap.min.css" rel="stylesheet">
+  <link href="https://blog.jaxiu.cn/css/vendors-extensions/mdb/mdb.min.css" rel="stylesheet">
+  <link href="https://blog.jaxiu.cn/css/vendors/mdb/style.min.css" rel="stylesheet">
+  <link href="https://blog.jaxiu.cn/css/main.css" rel="stylesheet">
+
+
+  
+  <link rel="shortcut icon"  href="https://blog.jaxiu.cn/img/logo.png" >
+
+
+  
+  
+
+  <style type="text/css">
+    @media (min-width: 800px) and (max-width: 850px) {
+      .navbar:not(.top-nav-collapse) {
+        background: #1C2331 !important;
+      }
+    }
+  </style>
+
+
+  
+  
+  <link rel="stylesheet" href="https://blog.jaxiu.cn/js/vendors/katex/katex.min.css">
+  
+  
+
+  
+  
+  <link rel="stylesheet" href="https://blog.jaxiu.cn/css/vendors/highlight/github-gist.css">
+  
+
+  
+  
+  <script type="module">
+    import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.esm.min.mjs';
+    mermaid.initialize({ startOnLoad: true });
+  </script>
+  
+  
+
+  
+  <link href="https://blog.jaxiu.cn/css/holiday-effects.css" rel="stylesheet">
+  <script src="https://blog.jaxiu.cn/js/holiday-effects.js"></script>
+
+  
+  <script src="https://blog.jaxiu.cn/js/dynamic-bg.js"></script>
+  <link href="https://blog.jaxiu.cn/css/dynamic-bg-control.css" rel="stylesheet">
+
+</head>
+  <body class="bg-light" data-spy="scroll" data-target="#page-scrollspy" data-offset="90">
+  
+    
+    
+
+    
+      
+
+
+<nav class="navbar fixed-top navbar-expand-lg navbar-dark scrolling-navbar">
+    <div class="container">
+
+      
+      <a class="navbar-brand" href="https://blog.jaxiu.cn/">
+          
+        <img class="avatar" src="https://blog.jaxiu.cn/img/logo.png" style="width: 40px!important;height: auto;"  class="d-inline-block align-top" alt="" >
+        
+        <strong> jaxiu He</strong>
+      </a>
+
+      
+      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
+        aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+
+      
+      <div class="collapse navbar-collapse" id="navbarSupportedContent">
+
+        
+        <ul class="navbar-nav mr-auto ">
+          <li class="nav-item ">
+            <a class="nav-link" href="https://blog.jaxiu.cn/">Home</a>
+          </li>
+          
+            <li class="nav-item ">
+              <a class="nav-link" href="https://blog.jaxiu.cn/blog/" >博客  </a>
+            </li>
+
+          
+            <li class="nav-item ">
+              <a class="nav-link" href="https://blog.jaxiu.cn/moment/" >动态  </a>
+            </li>
+
+          
+            <li class="nav-item ">
+              <a class="nav-link" href="https://blog.jaxiu.cn/blog/prenatal-stories/" >胎教故事  </a>
+            </li>
+
+          
+            <li class="nav-item ">
+              <a class="nav-link" href="https://blog.jaxiu.cn/about/" >关于  </a>
+            </li>
+
+          
+        </ul>
+
+        
+        <ul class="navbar-nav">
+          <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" href="#" id="searchDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+              <i class="fas fa-search"></i> 搜索
+            </a>
+            <div class="dropdown-menu dropdown-menu-right p-3" aria-labelledby="searchDropdown" style="min-width: 300px; max-width: 400px;">
+              <form class="search-form" onsubmit="return false;">
+                <div class="input-group">
+                  <input type="text" id="search-query" class="form-control" placeholder="搜索文章标题或内容..." autocomplete="off">
+                  <div class="input-group-append">
+                    <button class="btn btn-outline-secondary" type="button" onclick="document.getElementById('search-query').focus();">
+                      <i class="fas fa-search"></i>
+                    </button>
+                  </div>
+                </div>
+              </form>
+              <ul id="search-results" class="list-unstyled mt-2 mb-0" style="max-height: 400px; overflow-y: auto;"></ul>
+            </div>
+          </li>
+        </ul>
+
+      </div>
+
+    </div>
+  </nav>
+   
+      
+
+
+
+
+
+
+
+<div id="site-header" class="carousel slide carousel-fade" data-ride="carousel" style="height: 18rem;">
+  
+
+  
+  
+  
+
+  
+  <div class="carousel-inner" role="listbox">
+    
+    
+
+    
+    <div class="carousel-item active">
+      <div class="view"
+        style="background-image: url('https://blog.jaxiu.cn/img/header-slides/raw_1515691746.jpg'); background-repeat: no-repeat; background-size: cover;">
+
+        
+        <div class="mask rgba-black-light d-flex justify-content-center align-items-center">
+
+          
+          
+          
+
+        </div>
+        
+
+      </div>
+    </div>
+    
+    
+    
+    
+
+    
+    <div class="carousel-item">
+      <div class="view"
+        style="background-image: url('https://blog.jaxiu.cn/img/header-slides//raw_1515847341.jpg'); background-repeat: no-repeat; background-size: cover;">
+
+        
+        <div class="mask rgba-black-light d-flex justify-content-center align-items-center">
+
+
+
+        </div>
+        
+
+      </div>
+    </div>
+    
+    
+    
+
+
+  </div>
+  
+
+  
+  <div class="carousel-content text-center white-text wow fadeIn">
+    <div class="row mx-0 headfont mt-3 pt-4">
+      
+      <div class="col-12 col-sm-5 align-middle">
+        <a href="https://blog.jaxiu.cn/">
+          
+          <img class="pull-right avatar avatar-md" src="https://blog.jaxiu.cn/img/logo.png" alt="">
+          
+        </a>
+      </div>
+
+      <div class="col-12 col-sm-7 text-left pl-2">
+        <a href="https://blog.jaxiu.cn/">
+          <h1 class="mb-2 h1" style="font-weight: 300;">
+            <strong>jaxiu He</strong>
+          </h1>
+        </a>
+
+
+        
+        <div class="mt-2" style="font-size: 1rem; color: white;">
+          
+          <a href="//github.com/axfinn" target="_blank" rel="noopener"><i class="fab fa-github pr-1"
+              aria-hidden="true"></i></a>
+          
+          
+
+          
+
+          
+
+          
+
+          
+
+          
+
+
+          
+          <a href="mailto:521very@email.com"><i class="far fa-envelope-open pr-1" aria-hidden="true"></i></a>
+          
+
+          
+
+
+        </div>
+      </div>
+    </div>
+  </div>
+  
+
+  
+  
+  
+
+</div>
+  
+    
+
+    
+  
+  <main class="post-main-wrapper">
+    
+    
+    <div class="row">
+
+      
+
+      
+      <div class="col-md-10">
+      
+
+        
+        <div class="z-depth-1  post-wrapper white-bg single-post">
+
+          <div class="post-header text-center" >
+  <ul class="post-meta li-x">
+    
+      
+        <li><a href="https://blog.jaxiu.cn/categories/%E6%8A%80%E6%9C%AF"><i class="fas fa-folder-open pr-1" aria-hidden="true"></i> 技术 </a></li>
+      
+        <li><a href="https://blog.jaxiu.cn/categories/%E9%A1%B9%E7%9B%AE%E5%88%86%E6%9E%90"><i class="fas fa-folder-open pr-1" aria-hidden="true"></i> 项目分析 </a></li>
+      
+    
+    
+  </ul>
+
+  <div class="px-4 post-heading">NPS 代理实现：SOCKS5 协议深度解析</div>
+
+  <ul class="post-meta li-x mt-1">
+    
+      <li>Jul 18, 2025</li>
+    
+
+    
+      <li class="middot"></li>
+      <li>5 minutes read</li>
+    
+  </ul>
+  
+
+</div>
+
+
+          <div class="post-content markdown">
+            <h2 id="引言">引言</h2>
+<p>在 NPS 系列文章的前几篇中，我们已经对 NPS 的整体架构、服务端核心以及 TCP 隧道和 HTTP 代理的实现有了初步了解。本篇文章将深入 NPS 的另一个重要代理模式——<strong>SOCKS5 代理</strong>。我们将通过分析 <code>nps/server/proxy/socks5.go</code> 文件，详细剖析 SOCKS5 协议在 NPS 中的实现细节，包括认证机制、请求处理以及 UDP 转发。</p>
+<h2 id="socks5-协议简介">SOCKS5 协议简介</h2>
+<p>SOCKS5 是一种网络代理协议，它允许客户端通过代理服务器间接访问其他服务器。与 HTTP 代理不同，SOCKS5 是一种更底层的协议，它不关心应用层协议（如 HTTP、FTP），而是直接转发 TCP 或 UDP 数据包。这使得 SOCKS5 代理更加通用，可以用于各种网络应用。</p>
+<p>SOCKS5 协议主要包括以下几个阶段：</p>
+<ol>
+<li><strong>协商认证方法</strong>：客户端向服务器发送支持的认证方法列表。</li>
+<li><strong>认证</strong>：服务器选择一种认证方法，并与客户端进行认证。</li>
+<li><strong>请求</strong>：客户端向服务器发送连接请求，包括目标地址、端口和连接类型（CONNECT、BIND、UDP ASSOCIATE）。</li>
+<li><strong>响应</strong>：服务器响应请求，表示连接是否成功建立。</li>
+</ol>
+<h2 id="socks5gosocks5-代理的实现"><code>socks5.go</code>：SOCKS5 代理的实现</h2>
+<p><code>socks5.go</code> 文件定义了 <code>Sock5ModeServer</code> 结构体，它是 NPS 实现 SOCKS5 代理的核心。</p>
+<h3 id="sock5modeserver-结构体"><code>Sock5ModeServer</code> 结构体</h3>
+<p><code>Sock5ModeServer</code> 结构体继承了 <code>BaseServer</code>，并增加了 <code>listener</code> 字段：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-go" data-lang="go"><span class="line"><span class="cl"><span class="kd">type</span><span class="w"> </span><span class="nx">Sock5ModeServer</span><span class="w"> </span><span class="kd">struct</span><span class="w"> </span><span class="p">{</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nx">BaseServer</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nx">listener</span><span class="w"> </span><span class="nx">net</span><span class="p">.</span><span class="nx">Listener</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="p">}</span><span class="w">
+</span></span></span></code></pre></div><ul>
+<li><code>BaseServer</code>：继承了 <code>base.go</code> 中定义的通用功能，如流量统计、安全检查等。</li>
+<li><code>listener net.Listener</code>：用于监听传入 SOCKS5 连接的网络监听器。</li>
+</ul>
+<p><code>NewSock5ModeServer()</code> 函数用于创建并初始化一个 <code>Sock5ModeServer</code> 实例。</p>
+<h3 id="start-方法启动-socks5-监听"><code>Start()</code> 方法：启动 SOCKS5 监听</h3>
+<p><code>Sock5ModeServer</code> 的 <code>Start()</code> 方法负责启动 TCP 监听，并为每个传入连接调用 <code>handleConn()</code> 方法进行 SOCKS5 协议的协商和处理：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-go" data-lang="go"><span class="line"><span class="cl"><span class="kd">func</span><span class="w"> </span><span class="p">(</span><span class="nx">s</span><span class="w"> </span><span class="o">*</span><span class="nx">Sock5ModeServer</span><span class="p">)</span><span class="w"> </span><span class="nf">Start</span><span class="p">()</span><span class="w"> </span><span class="kt">error</span><span class="w"> </span><span class="p">{</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="nx">conn</span><span class="p">.</span><span class="nf">NewTcpListenerAndProcess</span><span class="p">(</span><span class="nx">s</span><span class="p">.</span><span class="nx">task</span><span class="p">.</span><span class="nx">ServerIp</span><span class="o">+</span><span class="s">&#34;:&#34;</span><span class="o">+</span><span class="nx">strconv</span><span class="p">.</span><span class="nf">Itoa</span><span class="p">(</span><span class="nx">s</span><span class="p">.</span><span class="nx">task</span><span class="p">.</span><span class="nx">Port</span><span class="p">),</span><span class="w"> </span><span class="kd">func</span><span class="p">(</span><span class="nx">c</span><span class="w"> </span><span class="nx">net</span><span class="p">.</span><span class="nx">Conn</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="nx">err</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nx">s</span><span class="p">.</span><span class="nf">CheckFlowAndConnNum</span><span class="p">(</span><span class="nx">s</span><span class="p">.</span><span class="nx">task</span><span class="p">.</span><span class="nx">Client</span><span class="p">);</span><span class="w"> </span><span class="nx">err</span><span class="w"> </span><span class="o">!=</span><span class="w"> </span><span class="kc">nil</span><span class="w"> </span><span class="p">{</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">            </span><span class="nx">logs</span><span class="p">.</span><span class="nf">Warn</span><span class="p">(</span><span class="s">&#34;client id %d, task id %d, error %s, when socks5 connection&#34;</span><span class="p">,</span><span class="w"> </span><span class="nx">s</span><span class="p">.</span><span class="nx">task</span><span class="p">.</span><span class="nx">Client</span><span class="p">.</span><span class="nx">Id</span><span class="p">,</span><span class="w"> </span><span class="nx">s</span><span class="p">.</span><span class="nx">task</span><span class="p">.</span><span class="nx">Id</span><span class="p">,</span><span class="w"> </span><span class="nx">err</span><span class="p">.</span><span class="nf">Error</span><span class="p">())</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">            </span><span class="nx">c</span><span class="p">.</span><span class="nf">Close</span><span class="p">()</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">            </span><span class="k">return</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">        </span><span class="p">}</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">        </span><span class="nx">logs</span><span class="p">.</span><span class="nf">Trace</span><span class="p">(</span><span class="s">&#34;New socks5 connection,client %d,remote address %s&#34;</span><span class="p">,</span><span class="w"> </span><span class="nx">s</span><span class="p">.</span><span class="nx">task</span><span class="p">.</span><span class="nx">Client</span><span class="p">.</span><span class="nx">Id</span><span class="p">,</span><span class="w"> </span><span class="nx">c</span><span class="p">.</span><span class="nf">RemoteAddr</span><span class="p">())</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">        </span><span class="nx">s</span><span class="p">.</span><span class="nf">handleConn</span><span class="p">(</span><span class="nx">c</span><span class="p">)</span><span class="w"> </span><span class="c1">// 调用 SOCKS5 协议处理函数</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">        </span><span class="nx">s</span><span class="p">.</span><span class="nx">task</span><span class="p">.</span><span class="nx">Client</span><span class="p">.</span><span class="nf">AddConn</span><span class="p">()</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="p">},</span><span class="w"> </span><span class="o">&amp;</span><span class="nx">s</span><span class="p">.</span><span class="nx">listener</span><span class="p">)</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="p">}</span><span class="w">
+</span></span></span></code></pre></div><p>与 <code>TunnelModeServer</code> 类似，这里也进行了流量和连接数检查。核心在于调用 <code>s.handleConn(c)</code> 来处理 SOCKS5 协议的握手和请求。</p>
+<h3 id="handleconnsocks5-协议协商与认证"><code>handleConn()</code>：SOCKS5 协议协商与认证</h3>
+<p><code>handleConn()</code> 方法是 SOCKS5 协议处理的入口点，它负责与客户端进行认证方法的协商和实际的认证过程：</p>
+<ol>
+<li><strong>版本协商</strong>：读取客户端发送的 SOCKS 版本（必须是 5）。</li>
+<li><strong>认证方法协商</strong>：读取客户端支持的认证方法数量和列表。</li>
+<li><strong>认证</strong>：
+<ul>
+<li>如果服务端配置了用户名和密码（<code>s.task.Client.Cnf.U</code> 和 <code>s.task.Client.Cnf.P</code>），或者启用了多用户认证 (<code>s.task.MultiAccount</code>)，则服务端会选择 <code>UserPassAuth</code> (用户名/密码认证) 方法。</li>
+<li>调用 <code>s.Auth(c)</code> 方法进行实际的用户名/密码认证。</li>
+<li>如果认证成功，则发送认证成功响应；否则发送认证失败响应并关闭连接。</li>
+<li>如果未配置认证，则直接选择 <code>No Authentication Required</code> (无需认证) 方法。</li>
+</ul>
+</li>
+<li><strong>请求处理</strong>：认证成功后，调用 <code>s.handleRequest(c)</code> 处理客户端的连接请求。</li>
+</ol>
+<h3 id="auth用户名密码认证"><code>Auth()</code>：用户名/密码认证</h3>
+<p><code>Auth()</code> 方法实现了 SOCKS5 的用户名/密码认证子协议：</p>
+<ol>
+<li><strong>读取用户名和密码长度</strong>：从客户端读取用户名和密码的长度。</li>
+<li><strong>读取用户名和密码</strong>：根据长度读取用户名和密码。</li>
+<li><strong>验证</strong>：
+<ul>
+<li>如果启用了多用户认证，则从 <code>s.task.MultiAccount.AccountMap</code> 中查找用户名和对应的密码进行验证。</li>
+<li>否则，使用 <code>s.task.Client.Cnf.U</code> 和 <code>s.task.Client.Cnf.P</code> 进行验证。</li>
+</ul>
+</li>
+<li><strong>发送认证结果</strong>：根据验证结果发送认证成功 (<code>authSuccess</code>) 或失败 (<code>authFailure</code>) 响应。</li>
+</ol>
+<h3 id="handlerequestsocks5-请求处理"><code>handleRequest()</code>：SOCKS5 请求处理</h3>
+<p><code>handleRequest()</code> 方法负责解析客户端的 SOCKS5 请求，并根据请求类型调用不同的处理函数：</p>
+<ol>
+<li><strong>读取请求头</strong>：读取 SOCKS5 请求的 CMD（命令）、RSV（保留字段）和 ATYP（地址类型）等信息。</li>
+<li><strong>根据 CMD 类型分发</strong>：
+<ul>
+<li><strong><code>connectMethod</code> (1)</strong>：调用 <code>s.handleConnect(c)</code> 处理 TCP 连接请求。</li>
+<li><strong><code>bindMethod</code> (2)</strong>：调用 <code>s.handleBind(c)</code> 处理 BIND 请求（通常用于 FTP 等被动模式）。</li>
+<li><strong><code>associateMethod</code> (3)</strong>：调用 <code>s.handleUDP(c)</code> 处理 UDP 关联请求（用于 UDP 转发）。</li>
+<li><strong>其他</strong>：发送 <code>commandNotSupported</code> 响应并关闭连接。</li>
+</ul>
+</li>
+</ol>
+<h3 id="doconnect处理-connect-请求"><code>doConnect()</code>：处理 CONNECT 请求</h3>
+<p><code>doConnect()</code> 是 <code>handleConnect()</code> 的核心逻辑，它负责解析目标地址和端口，并建立与目标服务的连接：</p>
+<ol>
+<li><strong>解析目标地址类型</strong>：根据 ATYP 字段判断目标地址是 IPv4、IPv6 还是域名。</li>
+<li><strong>解析目标地址和端口</strong>：读取对应的地址和端口信息。</li>
+<li><strong>调用 <code>s.DealClient()</code></strong>：与 TCP 隧道和 HTTP 代理类似，最终都通过 <code>BaseServer</code> 的 <code>DealClient()</code> 方法来建立与目标服务的连接并进行数据转发。在成功建立连接后，会向客户端发送 <code>succeeded</code> 响应。</li>
+</ol>
+<h3 id="handleudp处理-udp-关联请求"><code>handleUDP()</code>：处理 UDP 关联请求</h3>
+<p><code>handleUDP()</code> 方法实现了 SOCKS5 的 UDP 关联功能，允许客户端通过 SOCKS5 代理进行 UDP 流量转发：</p>
+<ol>
+<li><strong>解析目标地址和端口</strong>：与 <code>doConnect()</code> 类似，解析客户端请求中的目标地址和端口。</li>
+<li><strong>本地 UDP 监听</strong>：在服务端本地监听一个 UDP 端口，用于接收来自客户端的 UDP 数据。</li>
+<li><strong>发送 UDP 响应</strong>：向客户端发送 SOCKS5 响应，包含本地监听的 UDP 端口信息。</li>
+<li><strong>建立 UDP 隧道</strong>：通过 <code>s.bridge.SendLinkInfo()</code> 建立一个 UDP 隧道到客户端。</li>
+<li><strong>双向 UDP 数据转发</strong>：启动两个 goroutine，一个负责将本地 UDP 监听到的数据转发给客户端，另一个负责将客户端发送过来的 UDP 数据转发给目标服务。</li>
+</ol>
+<h3 id="handlebind处理-bind-请求"><code>handleBind()</code>：处理 BIND 请求</h3>
+<p><code>handleBind()</code> 方法目前在代码中是空的，这意味着 NPS 尚未实现 SOCKS5 的 BIND 命令。BIND 命令通常用于 FTP 等需要服务器主动连接客户端的场景。</p>
+<h2 id="总结">总结</h2>
+<p><code>nps/server/proxy/socks5.go</code> 文件详细展示了 NPS 如何实现 SOCKS5 代理协议。它涵盖了从认证协商到不同请求类型（CONNECT、UDP ASSOCIATE）的处理流程。通过对 SOCKS5 协议的深入理解和实现，NPS 提供了强大的通用代理能力，使得用户可以灵活地访问内网资源。虽然 BIND 命令尚未实现，但 NPS 已经能够满足绝大多数 SOCKS5 代理的使用场景。</p>
+<p>在下一篇文章中，我们将继续探索 NPS 的其他代理模式，例如 P2P 代理。</p>
+
+          </div>
+
+          
+          <div class="row">
+            <div class="col-md-8">
+            
+              <div class="mb-5">
+                
+<div class="li-x div-x post-meta">
+  <li class="pr-0"><a href="https://blog.jaxiu.cn/tags/"><i class="fas fa-tags"></i></a></li>
+  <div class="tags-sm">
+    
+      <li><a href="https://blog.jaxiu.cn/tags/nps" role="button">NPS </a></li>
+      
+    
+      <li><a href="https://blog.jaxiu.cn/tags/socks5" role="button">SOCKS5 </a></li>
+      
+    
+      <li><a href="https://blog.jaxiu.cn/tags/%E4%BB%A3%E7%90%86%E5%8D%8F%E8%AE%AE" role="button">代理协议 </a></li>
+      
+    
+      <li><a href="https://blog.jaxiu.cn/tags/go%E8%AF%AD%E8%A8%80" role="button">Go语言 </a></li>
+      
+    
+      <li><a href="https://blog.jaxiu.cn/tags/%E7%BD%91%E7%BB%9C%E5%AE%89%E5%85%A8" role="button">网络安全 </a></li>
+      
+    
+  </div>
+</div>
+              </div>
+            
+            </div>
+            
+          </div>
+          
+
+          
+          <div class="row pt-3">
+            <div class="col-md-6">
+              
+                <a href=https://blog.jaxiu.cn/blog/2025-07/nps-%E4%BB%A3%E7%90%86%E5%AE%9E%E7%8E%B0tcp-%E9%9A%A7%E9%81%93%E4%B8%8E-http-%E4%BB%A3%E7%90%86/ class="post-meta">Previous
+                  <div class="pt-2 pb-5 d-flex">
+                    <i class="fas fa-angle-left text-grey font-weight-bold mr-2 active-color"></i>
+                    <span>NPS 代理实现：TCP 隧道与 HTTP 代理</span>
+                  </div>
+                </a>
+              
+            </div>
+            
+            <div class="col-md-6 text-right" >
+              
+                <a href=https://blog.jaxiu.cn/blog/2025-07/nps-%E4%BB%A3%E7%90%86%E5%AE%9E%E7%8E%B0p2p-%E5%8D%8F%E8%AE%AE%E4%B8%8E-udp-%E6%89%93%E6%B4%9E/ class="post-meta">Next
+                  <div class="pt-2 pb-5 flex-reverse">
+                    <i class="fas fa-angle-right text-grey font-weight-bold ml-2 active-color"></i>
+                    <span>NPS 代理实现：P2P 协议与 UDP 打洞</span>
+                  </div>
+                </a>
+              
+            </div>
+          </div>
+
+          
+
+        </div>
+        
+
+      </div>
+      
+
+      
+	
+	
+	
+	
+		
+		
+		
+	
+
+		
+		<div class="col-md-2 pl-0">
+
+			
+			<div id="page-scrollspy" class="toc-nav">
+				
+				<ul class="nav nav-pills ml-0">
+					
+					<li class="nav-item pb-3 text-center">
+						<span class="font-weight-bold mb-2">- CATALOG - </span>
+					</li>
+
+					
+						
+						
+							
+								
+								
+									<ul class="nav">
+								
+								
+
+										<li class="nav-item">
+						 					<a class="nav-link" href="#%e5%bc%95%e8%a8%80">
+												 引言
+											</a>
+										</li>
+						 
+								
+								
+									</ul>
+								
+							
+						
+				 
+						
+						
+							
+								
+								
+									<ul class="nav">
+								
+								
+
+										<li class="nav-item">
+						 					<a class="nav-link" href="#socks5-%e5%8d%8f%e8%ae%ae%e7%ae%80%e4%bb%8b">
+												 SOCKS5 协议简介
+											</a>
+										</li>
+						 
+								
+								
+									</ul>
+								
+							
+						
+				 
+						
+						
+							
+								
+								
+									<ul class="nav">
+								
+								
+
+										<li class="nav-item">
+						 					<a class="nav-link" href="#socks5gosocks5-%e4%bb%a3%e7%90%86%e7%9a%84%e5%ae%9e%e7%8e%b0">
+												 socks5.go：SOCKS5 代理的实现
+											</a>
+										</li>
+						 
+								
+								
+									</ul>
+								
+							
+						
+				 
+						
+						
+							
+								
+								
+									<ul class="nav">
+								
+									<ul class="nav">
+								
+								
+
+										<li class="nav-item">
+						 					<a class="nav-link" href="#sock5modeserver-%e7%bb%93%e6%9e%84%e4%bd%93">
+												 Sock5ModeServer 结构体
+											</a>
+										</li>
+						 
+								
+								
+									</ul>
+								
+									</ul>
+								
+							
+						
+				 
+						
+						
+							
+								
+								
+									<ul class="nav">
+								
+									<ul class="nav">
+								
+								
+
+										<li class="nav-item">
+						 					<a class="nav-link" href="#start-%e6%96%b9%e6%b3%95%e5%90%af%e5%8a%a8-socks5-%e7%9b%91%e5%90%ac">
+												 Start() 方法：启动 SOCKS5 监听
+											</a>
+										</li>
+						 
+								
+								
+									</ul>
+								
+									</ul>
+								
+							
+						
+				 
+						
+						
+							
+								
+								
+									<ul class="nav">
+								
+									<ul class="nav">
+								
+								
+
+										<li class="nav-item">
+						 					<a class="nav-link" href="#handleconnsocks5-%e5%8d%8f%e8%ae%ae%e5%8d%8f%e5%95%86%e4%b8%8e%e8%ae%a4%e8%af%81">
+												 handleConn()：SOCKS5 协议协商与认证
+											</a>
+										</li>
+						 
+								
+								
+									</ul>
+								
+									</ul>
+								
+							
+						
+				 
+						
+						
+							
+								
+								
+									<ul class="nav">
+								
+									<ul class="nav">
+								
+								
+
+										<li class="nav-item">
+						 					<a class="nav-link" href="#auth%e7%94%a8%e6%88%b7%e5%90%8d%e5%af%86%e7%a0%81%e8%ae%a4%e8%af%81">
+												 Auth()：用户名/密码认证
+											</a>
+										</li>
+						 
+								
+								
+									</ul>
+								
+									</ul>
+								
+							
+						
+				 
+						
+						
+							
+								
+								
+									<ul class="nav">
+								
+									<ul class="nav">
+								
+								
+
+										<li class="nav-item">
+						 					<a class="nav-link" href="#handlerequestsocks5-%e8%af%b7%e6%b1%82%e5%a4%84%e7%90%86">
+												 handleRequest()：SOCKS5 请求处理
+											</a>
+										</li>
+						 
+								
+								
+									</ul>
+								
+									</ul>
+								
+							
+						
+				 
+						
+						
+							
+								
+								
+									<ul class="nav">
+								
+									<ul class="nav">
+								
+								
+
+										<li class="nav-item">
+						 					<a class="nav-link" href="#doconnect%e5%a4%84%e7%90%86-connect-%e8%af%b7%e6%b1%82">
+												 doConnect()：处理 CONNECT 请求
+											</a>
+										</li>
+						 
+								
+								
+									</ul>
+								
+									</ul>
+								
+							
+						
+				 
+						
+						
+							
+								
+								
+									<ul class="nav">
+								
+									<ul class="nav">
+								
+								
+
+										<li class="nav-item">
+						 					<a class="nav-link" href="#handleudp%e5%a4%84%e7%90%86-udp-%e5%85%b3%e8%81%94%e8%af%b7%e6%b1%82">
+												 handleUDP()：处理 UDP 关联请求
+											</a>
+										</li>
+						 
+								
+								
+									</ul>
+								
+									</ul>
+								
+							
+						
+				 
+						
+						
+							
+								
+								
+									<ul class="nav">
+								
+									<ul class="nav">
+								
+								
+
+										<li class="nav-item">
+						 					<a class="nav-link" href="#handlebind%e5%a4%84%e7%90%86-bind-%e8%af%b7%e6%b1%82">
+												 handleBind()：处理 BIND 请求
+											</a>
+										</li>
+						 
+								
+								
+									</ul>
+								
+									</ul>
+								
+							
+						
+				 
+						
+						
+							
+								
+								
+									<ul class="nav">
+								
+								
+
+										<li class="nav-item">
+						 					<a class="nav-link" href="#%e6%80%bb%e7%bb%93">
+												 总结
+											</a>
+										</li>
+						 
+								
+								
+									</ul>
+								
+							
+						
+				 
+
+				</ul>
+			</div>
+			
+
+		</div>
+		
+	
+
+    </div>
+    
+
+
+  </main>
+  
+
+
+    
+    
+<footer class="page-footer text-center font-small mt-4 wow fadeIn">
+
+
+  
+  <div class="pb-2 mt-5 pt-5">
+    
+    <a href="//github.com/axfinn " target="_blank" rel="noopener"><i class="fab fa-github mr-3"
+        aria-hidden="true"></i></a>
+    
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+
+    
+    <a href="mailto:521very@email.com"><i class="far fa-envelope-open mr-3" aria-hidden="true"></i></a>
+    
+
+    
+
+    
+
+  </div>
+  
+
+  
+  <div class="copyright py-4">
+    
+    <span> 2016 - 2026 &copy; | Theme <a href='https://github.com/orianna-zzo/AllinOne'
+        target="_blank">AllinOne</a> by <a href='https://github.com/orianna-zzo' target="_blank">Orianna</a> </span>
+  </div>
+  
+
+</footer>
+
+    
+
+
+
+
+<script type="text/javascript" src="https://blog.jaxiu.cn/js/vendors/jquery/jquery-3.3.1.min.js"></script>
+<script type="text/javascript" src="https://blog.jaxiu.cn/js/vendors/jquery/jquery.smooth-scroll.min.js"></script>
+
+
+
+<script type="text/javascript" src="https://blog.jaxiu.cn/js/vendors/popper.min.js"></script>
+<script type="text/javascript" src="https://blog.jaxiu.cn/js/vendors/holder.min.js"></script>
+<script type="text/javascript" src="https://blog.jaxiu.cn/js/vendors-extensions/bootstrap4/bootstrap.js" ></script>
+
+<script type="text/javascript" src="https://blog.jaxiu.cn/js/vendors/mdb/mdb.min.js"></script>
+
+<script type="text/javascript" src="https://blog.jaxiu.cn/js/main.js"></script>
+<script type="text/javascript" src="https://blog.jaxiu.cn/js/search.js"></script>
+
+
+
+
+  <script src="https://blog.jaxiu.cn/js/vendors/highlight.pack.js"> </script>
+  <script>hljs.initHighlightingOnLoad();</script>
+
+
+
+
+
+  <script src="https://blog.jaxiu.cn/js/vendors/katex/katex.min.js"> </script>
+  <script src="https://blog.jaxiu.cn/js/vendors/katex/contrib/auto-render.min.js"></script>
+
+  <script>
+      document.addEventListener("DOMContentLoaded", function () {
+          renderMathInElement(document.body);
+      });
+  </script>
+
+
+
+
+
+
+
+
+<script type="text/javascript">
+  
+  new WOW().init();
+</script>
+  </body>
+</html>

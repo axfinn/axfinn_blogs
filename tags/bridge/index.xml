@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Bridge on jaxiu He</title>
+    <link>https://blog.jaxiu.cn/tags/bridge/</link>
+    <description>Recent content in Bridge on jaxiu He</description>
+    <generator>Hugo</generator>
+    <language>zn-Hans</language>
+    <lastBuildDate>Fri, 18 Jul 2025 19:00:00 +0800</lastBuildDate>
+    <atom:link href="https://blog.jaxiu.cn/tags/bridge/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>NPS 核心组件：深入剖析 Bridge 模块</title>
+      <link>https://blog.jaxiu.cn/blog/2025-07/nps-%E6%A0%B8%E5%BF%83%E7%BB%84%E4%BB%B6%E6%B7%B1%E5%85%A5%E5%89%96%E6%9E%90-bridge-%E6%A8%A1%E5%9D%97/</link>
+      <pubDate>Fri, 18 Jul 2025 19:00:00 +0800</pubDate>
+      <guid>https://blog.jaxiu.cn/blog/2025-07/nps-%E6%A0%B8%E5%BF%83%E7%BB%84%E4%BB%B6%E6%B7%B1%E5%85%A5%E5%89%96%E6%9E%90-bridge-%E6%A8%A1%E5%9D%97/</guid>
+      <description>&lt;h2 id=&#34;引言&#34;&gt;引言&lt;/h2&gt;&#xA;&lt;p&gt;在 NPS 的服务端架构中，&lt;code&gt;proxy&lt;/code&gt; 模块负责监听公网端口并处理各种协议的流量，而 &lt;code&gt;client&lt;/code&gt; 模块则在内网中连接本地服务。那么，当一个公网请求到达 &lt;code&gt;proxy&lt;/code&gt; 模块后，它是如何精确地找到对应的内网客户端，并与之建立一条数据通道的呢？答案就是 &lt;strong&gt;&lt;code&gt;Bridge&lt;/code&gt; 模块&lt;/strong&gt;。&lt;code&gt;Bridge&lt;/code&gt; 是 NPS 服务端的核心枢纽，它负责维护所有客户端的长连接，并在此之上建立控制和数据隧道，是整个 NPS 体系的“交通总指挥”。&lt;/p&gt;&#xA;&lt;h2 id=&#34;bridge-结构体通信枢纽的核心&#34;&gt;&lt;code&gt;Bridge&lt;/code&gt; 结构体：通信枢纽的核心&lt;/h2&gt;&#xA;&lt;p&gt;&lt;code&gt;bridge.go&lt;/code&gt; 文件首先定义了 &lt;code&gt;Bridge&lt;/code&gt; 结构体，它包含了 &lt;code&gt;Bridge&lt;/code&gt; 模块运行所需的所有关键信息：&lt;/p&gt;</description>
+    </item>
+  </channel>
+</rss>

@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>前端 on jaxiu He</title>
+    <link>https://blog.jaxiu.cn/categories/%E5%89%8D%E7%AB%AF/</link>
+    <description>Recent content in 前端 on jaxiu He</description>
+    <generator>Hugo</generator>
+    <language>zn-Hans</language>
+    <lastBuildDate>Fri, 18 Jul 2025 18:30:00 +0800</lastBuildDate>
+    <atom:link href="https://blog.jaxiu.cn/categories/%E5%89%8D%E7%AB%AF/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>打造你的专属数字工作台：My Tool Dashboard 的设计与实践</title>
+      <link>https://blog.jaxiu.cn/blog/2025-07/%E6%89%93%E9%80%A0%E4%BD%A0%E7%9A%84%E4%B8%93%E5%B1%9E%E6%95%B0%E5%AD%97%E5%B7%A5%E4%BD%9C%E5%8F%B0my-tool-dashboard-%E7%9A%84%E8%AE%BE%E8%AE%A1%E4%B8%8E%E5%AE%9E%E8%B7%B5/</link>
+      <pubDate>Fri, 18 Jul 2025 18:30:00 +0800</pubDate>
+      <guid>https://blog.jaxiu.cn/blog/2025-07/%E6%89%93%E9%80%A0%E4%BD%A0%E7%9A%84%E4%B8%93%E5%B1%9E%E6%95%B0%E5%AD%97%E5%B7%A5%E4%BD%9C%E5%8F%B0my-tool-dashboard-%E7%9A%84%E8%AE%BE%E8%AE%A1%E4%B8%8E%E5%AE%9E%E8%B7%B5/</guid>
+      <description>&lt;h2 id=&#34;挑战散乱的数字工具与低效的工作流&#34;&gt;挑战：散乱的数字工具与低效的工作流&lt;/h2&gt;&#xA;&lt;p&gt;在数字化的今天，我们每个人都离不开各种在线工具：文档协作、代码托管、设计资源、数据分析……然而，随着工具数量的增长，我们常常面临以下痛点：&lt;/p&gt;&#xA;&lt;ol&gt;&#xA;&lt;li&gt;&lt;strong&gt;工具分散&lt;/strong&gt;：常用的工具散落在浏览器收藏夹、各种笔记应用中，查找和访问效率低下。&lt;/li&gt;&#xA;&lt;li&gt;&lt;strong&gt;界面单调&lt;/strong&gt;：传统的导航页或浏览器主页功能单一，缺乏个性化和互动性，无法激发使用兴趣。&lt;/li&gt;&#xA;&lt;li&gt;&lt;strong&gt;缺乏统一管理&lt;/strong&gt;：难以集中管理和快速切换不同类别的工具，导致工作流碎片化。&lt;/li&gt;&#xA;&lt;li&gt;&lt;strong&gt;隐私与定制化不足&lt;/strong&gt;：许多在线工具导航页无法满足个人对界面、功能和数据隐私的深度定制需求。&lt;/li&gt;&#xA;&lt;/ol&gt;&#xA;&lt;p&gt;为了解决这些问题，我们构思并实现了一个高度可定制的个人工具导航页——&lt;strong&gt;My Tool Dashboard&lt;/strong&gt;。&lt;/p&gt;</description>
+    </item>
+  </channel>
+</rss>

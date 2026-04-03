@@ -1,0 +1,931 @@
+<!DOCTYPE html>
+<html lang="zn-Hans">
+  <head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge, chrome=1">
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no, maximum-scale=1" />
+  
+  <meta name="author" content="jaxiu He">
+  <meta name="description"
+    content="Hotel 项目：远程服务器部署指南
+本文档提供了将 hotel 酒店管理系统部署到远程服务器的详细步骤，主要通过 Docker 进行。
+前提条件
+在开始之前，请确保您的远程服务器已安装以下工具：
+
+Git: 用于克隆项目仓库。
+Docker: 用于构建和运行容器化应用程序。
+SSH 访问: 用于连接到您的远程服务器。
+
+部署步骤
+请按照以下步骤在您的远程服务器上部署 hotel 项目：
+1. 连接到您的远程服务器
+使用 SSH 连接到您的远程服务器：
+ssh your_username@your_server_ip
+2. 克隆仓库
+导航到您希望部署的目录（例如，/opt/apps/），然后克隆 hotel 项目仓库：">
+
+  <meta property="og:url" content="https://blog.jaxiu.cn/blog/2025-07/hotel-project-remote-deployment-guide/">
+  <meta property="og:site_name" content="jaxiu He">
+  <meta property="og:title" content="Hotel 项目：远程服务器部署指南">
+  <meta property="og:description" content="Hotel 项目：远程服务器部署指南 本文档提供了将 hotel 酒店管理系统部署到远程服务器的详细步骤，主要通过 Docker 进行。
+前提条件 在开始之前，请确保您的远程服务器已安装以下工具：
+Git: 用于克隆项目仓库。 Docker: 用于构建和运行容器化应用程序。 SSH 访问: 用于连接到您的远程服务器。 部署步骤 请按照以下步骤在您的远程服务器上部署 hotel 项目：
+1. 连接到您的远程服务器 使用 SSH 连接到您的远程服务器：
+ssh your_username@your_server_ip 2. 克隆仓库 导航到您希望部署的目录（例如，/opt/apps/），然后克隆 hotel 项目仓库：">
+  <meta property="og:locale" content="zn_Hans">
+  <meta property="og:type" content="article">
+    <meta property="article:section" content="blog">
+    <meta property="article:published_time" content="2025-07-19T11:00:00+08:00">
+    <meta property="article:modified_time" content="2025-07-19T11:00:00+08:00">
+    <meta property="article:tag" content="Docker">
+    <meta property="article:tag" content="部署">
+    <meta property="article:tag" content="教程">
+    <meta property="article:tag" content="运维">
+    <meta property="article:tag" content="项目分析">
+
+
+  <title>
+    
+     Hotel 项目：远程服务器部署指南 | jaxiu He 
+    
+  </title>
+
+  <link rel="canonical" href="https://blog.jaxiu.cn/blog/2025-07/hotel-project-remote-deployment-guide/">
+
+  
+  
+
+  
+  
+  
+  <meta name="baidu-site-verification" content="your-baidu-verify-code" />
+  
+
+  
+  
+  <meta name="google-site-verification" content="your-google-verify-code" />
+  
+
+  
+  <link href="https://blog.jaxiu.cn/css/vendors-extensions/fontawesome/all.min.css" rel="stylesheet">
+
+  
+  <link rel="stylesheet"
+    href="https://fonts.googleapis.com/css?family=Open+Sans:400,700|Ubuntu+Mono:400,400i,700,700i|Raleway:300,400,500,600">
+  <link href="https://blog.jaxiu.cn/css/font.css" rel="stylesheet">
+
+  
+  <link href="https://blog.jaxiu.cn/css/vendors/bootstrap4/bootstrap.min.css" rel="stylesheet">
+  <link href="https://blog.jaxiu.cn/css/vendors-extensions/mdb/mdb.min.css" rel="stylesheet">
+  <link href="https://blog.jaxiu.cn/css/vendors/mdb/style.min.css" rel="stylesheet">
+  <link href="https://blog.jaxiu.cn/css/main.css" rel="stylesheet">
+
+
+  
+  <link rel="shortcut icon"  href="https://blog.jaxiu.cn/img/logo.png" >
+
+
+  
+  
+
+  <style type="text/css">
+    @media (min-width: 800px) and (max-width: 850px) {
+      .navbar:not(.top-nav-collapse) {
+        background: #1C2331 !important;
+      }
+    }
+  </style>
+
+
+  
+  
+  <link rel="stylesheet" href="https://blog.jaxiu.cn/js/vendors/katex/katex.min.css">
+  
+  
+
+  
+  
+  <link rel="stylesheet" href="https://blog.jaxiu.cn/css/vendors/highlight/github-gist.css">
+  
+
+  
+  
+  <script type="module">
+    import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.esm.min.mjs';
+    mermaid.initialize({ startOnLoad: true });
+  </script>
+  
+  
+
+  
+  <link href="https://blog.jaxiu.cn/css/holiday-effects.css" rel="stylesheet">
+  <script src="https://blog.jaxiu.cn/js/holiday-effects.js"></script>
+
+  
+  <script src="https://blog.jaxiu.cn/js/dynamic-bg.js"></script>
+  <link href="https://blog.jaxiu.cn/css/dynamic-bg-control.css" rel="stylesheet">
+
+</head>
+  <body class="bg-light" data-spy="scroll" data-target="#page-scrollspy" data-offset="90">
+  
+    
+    
+
+    
+      
+
+
+<nav class="navbar fixed-top navbar-expand-lg navbar-dark scrolling-navbar">
+    <div class="container">
+
+      
+      <a class="navbar-brand" href="https://blog.jaxiu.cn/">
+          
+        <img class="avatar" src="https://blog.jaxiu.cn/img/logo.png" style="width: 40px!important;height: auto;"  class="d-inline-block align-top" alt="" >
+        
+        <strong> jaxiu He</strong>
+      </a>
+
+      
+      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
+        aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+
+      
+      <div class="collapse navbar-collapse" id="navbarSupportedContent">
+
+        
+        <ul class="navbar-nav mr-auto ">
+          <li class="nav-item ">
+            <a class="nav-link" href="https://blog.jaxiu.cn/">Home</a>
+          </li>
+          
+            <li class="nav-item ">
+              <a class="nav-link" href="https://blog.jaxiu.cn/blog/" >博客  </a>
+            </li>
+
+          
+            <li class="nav-item ">
+              <a class="nav-link" href="https://blog.jaxiu.cn/moment/" >动态  </a>
+            </li>
+
+          
+            <li class="nav-item ">
+              <a class="nav-link" href="https://blog.jaxiu.cn/blog/prenatal-stories/" >胎教故事  </a>
+            </li>
+
+          
+            <li class="nav-item ">
+              <a class="nav-link" href="https://blog.jaxiu.cn/about/" >关于  </a>
+            </li>
+
+          
+        </ul>
+
+        
+        <ul class="navbar-nav">
+          <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" href="#" id="searchDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+              <i class="fas fa-search"></i> 搜索
+            </a>
+            <div class="dropdown-menu dropdown-menu-right p-3" aria-labelledby="searchDropdown" style="min-width: 300px; max-width: 400px;">
+              <form class="search-form" onsubmit="return false;">
+                <div class="input-group">
+                  <input type="text" id="search-query" class="form-control" placeholder="搜索文章标题或内容..." autocomplete="off">
+                  <div class="input-group-append">
+                    <button class="btn btn-outline-secondary" type="button" onclick="document.getElementById('search-query').focus();">
+                      <i class="fas fa-search"></i>
+                    </button>
+                  </div>
+                </div>
+              </form>
+              <ul id="search-results" class="list-unstyled mt-2 mb-0" style="max-height: 400px; overflow-y: auto;"></ul>
+            </div>
+          </li>
+        </ul>
+
+      </div>
+
+    </div>
+  </nav>
+   
+      
+
+
+
+
+
+
+
+<div id="site-header" class="carousel slide carousel-fade" data-ride="carousel" style="height: 18rem;">
+  
+
+  
+  
+  
+
+  
+  <div class="carousel-inner" role="listbox">
+    
+    
+
+    
+    <div class="carousel-item active">
+      <div class="view"
+        style="background-image: url('https://blog.jaxiu.cn/img/header-slides/raw_1515691746.jpg'); background-repeat: no-repeat; background-size: cover;">
+
+        
+        <div class="mask rgba-black-light d-flex justify-content-center align-items-center">
+
+          
+          
+          
+
+        </div>
+        
+
+      </div>
+    </div>
+    
+    
+    
+    
+
+    
+    <div class="carousel-item">
+      <div class="view"
+        style="background-image: url('https://blog.jaxiu.cn/img/header-slides//raw_1515847341.jpg'); background-repeat: no-repeat; background-size: cover;">
+
+        
+        <div class="mask rgba-black-light d-flex justify-content-center align-items-center">
+
+
+
+        </div>
+        
+
+      </div>
+    </div>
+    
+    
+    
+
+
+  </div>
+  
+
+  
+  <div class="carousel-content text-center white-text wow fadeIn">
+    <div class="row mx-0 headfont mt-3 pt-4">
+      
+      <div class="col-12 col-sm-5 align-middle">
+        <a href="https://blog.jaxiu.cn/">
+          
+          <img class="pull-right avatar avatar-md" src="https://blog.jaxiu.cn/img/logo.png" alt="">
+          
+        </a>
+      </div>
+
+      <div class="col-12 col-sm-7 text-left pl-2">
+        <a href="https://blog.jaxiu.cn/">
+          <h1 class="mb-2 h1" style="font-weight: 300;">
+            <strong>jaxiu He</strong>
+          </h1>
+        </a>
+
+
+        
+        <div class="mt-2" style="font-size: 1rem; color: white;">
+          
+          <a href="//github.com/axfinn" target="_blank" rel="noopener"><i class="fab fa-github pr-1"
+              aria-hidden="true"></i></a>
+          
+          
+
+          
+
+          
+
+          
+
+          
+
+          
+
+
+          
+          <a href="mailto:521very@email.com"><i class="far fa-envelope-open pr-1" aria-hidden="true"></i></a>
+          
+
+          
+
+
+        </div>
+      </div>
+    </div>
+  </div>
+  
+
+  
+  
+  
+
+</div>
+  
+    
+
+    
+  
+  <main class="post-main-wrapper">
+    
+    
+    <div class="row">
+
+      
+
+      
+      <div class="col-md-10">
+      
+
+        
+        <div class="z-depth-1  post-wrapper white-bg single-post">
+
+          <div class="post-header text-center" >
+  <ul class="post-meta li-x">
+    
+      
+        <li><a href="https://blog.jaxiu.cn/categories/%E6%8A%80%E6%9C%AF"><i class="fas fa-folder-open pr-1" aria-hidden="true"></i> 技术 </a></li>
+      
+        <li><a href="https://blog.jaxiu.cn/categories/%E6%95%99%E7%A8%8B"><i class="fas fa-folder-open pr-1" aria-hidden="true"></i> 教程 </a></li>
+      
+    
+    
+  </ul>
+
+  <div class="px-4 post-heading">Hotel 项目：远程服务器部署指南</div>
+
+  <ul class="post-meta li-x mt-1">
+    
+      <li>Jul 19, 2025</li>
+    
+
+    
+      <li class="middot"></li>
+      <li>2 minutes read</li>
+    
+  </ul>
+  
+
+</div>
+
+
+          <div class="post-content markdown">
+            <h1 id="hotel-项目远程服务器部署指南">Hotel 项目：远程服务器部署指南</h1>
+<p>本文档提供了将 <code>hotel</code> 酒店管理系统部署到远程服务器的详细步骤，主要通过 Docker 进行。</p>
+<h2 id="前提条件">前提条件</h2>
+<p>在开始之前，请确保您的远程服务器已安装以下工具：</p>
+<ul>
+<li><strong>Git</strong>: 用于克隆项目仓库。</li>
+<li><strong>Docker</strong>: 用于构建和运行容器化应用程序。</li>
+<li><strong>SSH 访问</strong>: 用于连接到您的远程服务器。</li>
+</ul>
+<h2 id="部署步骤">部署步骤</h2>
+<p>请按照以下步骤在您的远程服务器上部署 <code>hotel</code> 项目：</p>
+<h3 id="1-连接到您的远程服务器">1. 连接到您的远程服务器</h3>
+<p>使用 SSH 连接到您的远程服务器：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">ssh your_username@your_server_ip
+</span></span></code></pre></div><h3 id="2-克隆仓库">2. 克隆仓库</h3>
+<p>导航到您希望部署的目录（例如，<code>/opt/apps/</code>），然后克隆 <code>hotel</code> 项目仓库：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="nb">cd</span> /opt/apps/ <span class="c1"># 或您偏好的目录</span>
+</span></span><span class="line"><span class="cl">git clone git@github.com:axfinn/hotel.git
+</span></span><span class="line"><span class="cl"><span class="nb">cd</span> hotel
+</span></span></code></pre></div><h3 id="3-构建-docker-镜像">3. 构建 Docker 镜像</h3>
+<p>项目根目录下的 <code>Dockerfile</code> 定义了如何构建应用程序的 Docker 镜像。使用以下命令构建镜像：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">docker build -t hotel-app .
+</span></span></code></pre></div><p>此命令将从当前目录的 <code>Dockerfile</code> 构建一个名为 <code>hotel-app</code> 的镜像。</p>
+<h3 id="4-运行-docker-容器">4. 运行 Docker 容器</h3>
+<p>镜像构建完成后，您可以在 Docker 容器中运行应用程序。关键在于将应用程序的端口（5000）映射到您主机上的一个端口（例如 80 或 8000），并挂载一个卷用于数据持久化存储。</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">docker run -d <span class="se">\
+</span></span></span><span class="line"><span class="cl">  --name hotel-instance <span class="se">\
+</span></span></span><span class="line"><span class="cl">  -p 80:5000 <span class="se">\
+</span></span></span><span class="line"><span class="cl">  -v /path/on/host/for/data:/app/hotel.db <span class="se">\
+</span></span></span><span class="line"><span class="cl">  hotel-app
+</span></span></code></pre></div><p><strong>参数说明：</strong></p>
+<ul>
+<li><code>-d</code>: 在分离模式（后台）运行容器。</li>
+<li><code>--name hotel-instance</code>: 为您的容器指定一个名称，便于管理。</li>
+<li><code>-p 80:5000</code>: 将主机上的 80 端口映射到容器内部的 5000 端口。您可以将 <code>80</code> 更改为您的主机上任何可用的端口。</li>
+<li><code>-v /path/on/host/for/data:/app/hotel.db</code>: <strong>数据持久化的关键。</strong> 这将您主机上的一个目录（<code>/path/on/host/for/data</code>）挂载到容器内部 SQLite 数据库文件（<code>/app/hotel.db</code>）的位置。<strong>请将 <code>/path/on/host/for/data</code> 替换为您服务器上实际的绝对路径，您希望在此处存储数据库文件。</strong> 这确保了即使容器被删除或更新，您的数据也不会丢失。</li>
+<li><code>hotel-app</code>: 要运行的 Docker 镜像名称。</li>
+</ul>
+<h3 id="5-验证部署">5. 验证部署</h3>
+<p>运行容器后，您可以验证其状态并访问应用程序：</p>
+<ul>
+<li>
+<p><strong>检查容器状态</strong>：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">docker ps
+</span></span></code></pre></div><p>您应该看到 <code>hotel-instance</code> 被列出，状态为 <code>Up</code>。</p>
+</li>
+<li>
+<p><strong>访问应用程序</strong>：
+打开您的 Web 浏览器，导航到 <code>http://your_server_ip</code>（如果您使用了 80 以外的端口，则为 <code>http://your_server_ip:your_mapped_port</code>）。您应该能看到酒店管理系统的主页。</p>
+</li>
+</ul>
+<h2 id="生产环境考量可选">生产环境考量（可选）</h2>
+<p>对于生产环境，请考虑以下事项：</p>
+<ul>
+<li><strong>Nginx 反向代理</strong>: 为了更好的性能、安全性（SSL/TLS）和处理多个域名，您可能希望在 Docker 容器前设置 Nginx 作为反向代理。</li>
+<li><strong>专用数据卷</strong>: 确保 <code>/app/hotel.db</code> 的挂载卷位于可靠、已备份的存储位置。</li>
+<li><strong>环境变量</strong>: 使用 Docker 环境变量而不是硬编码敏感信息。</li>
+</ul>
+<h2 id="故障排除">故障排除</h2>
+<ul>
+<li><strong>容器未启动</strong>: 检查 <code>docker logs hotel-instance</code> 获取错误信息。</li>
+<li><strong>端口冲突</strong>: 确保您选择的主机端口（<code>-p</code>）未被占用。</li>
+<li><strong>数据库未持久化</strong>: 仔细检查卷挂载路径和权限。</li>
+</ul>
+
+          </div>
+
+          
+          <div class="row">
+            <div class="col-md-8">
+            
+              <div class="mb-5">
+                
+<div class="li-x div-x post-meta">
+  <li class="pr-0"><a href="https://blog.jaxiu.cn/tags/"><i class="fas fa-tags"></i></a></li>
+  <div class="tags-sm">
+    
+      <li><a href="https://blog.jaxiu.cn/tags/docker" role="button">Docker </a></li>
+      
+    
+      <li><a href="https://blog.jaxiu.cn/tags/%E9%83%A8%E7%BD%B2" role="button">部署 </a></li>
+      
+    
+      <li><a href="https://blog.jaxiu.cn/tags/%E6%95%99%E7%A8%8B" role="button">教程 </a></li>
+      
+    
+      <li><a href="https://blog.jaxiu.cn/tags/%E8%BF%90%E7%BB%B4" role="button">运维 </a></li>
+      
+    
+      <li><a href="https://blog.jaxiu.cn/tags/%E9%A1%B9%E7%9B%AE%E5%88%86%E6%9E%90" role="button">项目分析 </a></li>
+      
+    
+  </div>
+</div>
+              </div>
+            
+            </div>
+            
+          </div>
+          
+
+          
+          <div class="row pt-3">
+            <div class="col-md-6">
+              
+                <a href=https://blog.jaxiu.cn/blog/2025-07/flask-sqlite-hotel-system-tutorial/ class="post-meta">Previous
+                  <div class="pt-2 pb-5 d-flex">
+                    <i class="fas fa-angle-left text-grey font-weight-bold mr-2 active-color"></i>
+                    <span>从零到一：用 Flask &#43; SQLite 打造一个轻量级酒店管理系统（前后端详解）</span>
+                  </div>
+                </a>
+              
+            </div>
+            
+            <div class="col-md-6 text-right" >
+              
+                <a href=https://blog.jaxiu.cn/blog/2025-07/git-learning-and-usage-guide/ class="post-meta">Next
+                  <div class="pt-2 pb-5 flex-reverse">
+                    <i class="fas fa-angle-right text-grey font-weight-bold ml-2 active-color"></i>
+                    <span>Git 学习与详细使用指南</span>
+                  </div>
+                </a>
+              
+            </div>
+          </div>
+
+          
+
+        </div>
+        
+
+      </div>
+      
+
+      
+	
+	
+	
+	
+		
+		
+		
+	
+
+		
+		<div class="col-md-2 pl-0">
+
+			
+			<div id="page-scrollspy" class="toc-nav">
+				
+				<ul class="nav nav-pills ml-0">
+					
+					<li class="nav-item pb-3 text-center">
+						<span class="font-weight-bold mb-2">- CATALOG - </span>
+					</li>
+
+					
+						
+						
+							
+								
+								
+									<ul class="nav">
+								
+								
+
+										<li class="nav-item">
+						 					<a class="nav-link" href="#hotel-%e9%a1%b9%e7%9b%ae%e8%bf%9c%e7%a8%8b%e6%9c%8d%e5%8a%a1%e5%99%a8%e9%83%a8%e7%bd%b2%e6%8c%87%e5%8d%97">
+												 Hotel 项目：远程服务器部署指南
+											</a>
+										</li>
+						 
+								
+								
+									</ul>
+								
+							
+						
+				 
+						
+						
+							
+								
+								
+									<ul class="nav">
+								
+									<ul class="nav">
+								
+								
+
+										<li class="nav-item">
+						 					<a class="nav-link" href="#%e5%89%8d%e6%8f%90%e6%9d%a1%e4%bb%b6">
+												 前提条件
+											</a>
+										</li>
+						 
+								
+								
+									</ul>
+								
+									</ul>
+								
+							
+						
+				 
+						
+						
+							
+								
+								
+									<ul class="nav">
+								
+									<ul class="nav">
+								
+								
+
+										<li class="nav-item">
+						 					<a class="nav-link" href="#%e9%83%a8%e7%bd%b2%e6%ad%a5%e9%aa%a4">
+												 部署步骤
+											</a>
+										</li>
+						 
+								
+								
+									</ul>
+								
+									</ul>
+								
+							
+						
+				 
+						
+						
+							
+								
+								
+									<ul class="nav">
+								
+									<ul class="nav">
+								
+									<ul class="nav">
+								
+								
+
+										<li class="nav-item">
+						 					<a class="nav-link" href="#1-%e8%bf%9e%e6%8e%a5%e5%88%b0%e6%82%a8%e7%9a%84%e8%bf%9c%e7%a8%8b%e6%9c%8d%e5%8a%a1%e5%99%a8">
+												 1. 连接到您的远程服务器
+											</a>
+										</li>
+						 
+								
+								
+									</ul>
+								
+									</ul>
+								
+									</ul>
+								
+							
+						
+				 
+						
+						
+							
+								
+								
+									<ul class="nav">
+								
+									<ul class="nav">
+								
+									<ul class="nav">
+								
+								
+
+										<li class="nav-item">
+						 					<a class="nav-link" href="#2-%e5%85%8b%e9%9a%86%e4%bb%93%e5%ba%93">
+												 2. 克隆仓库
+											</a>
+										</li>
+						 
+								
+								
+									</ul>
+								
+									</ul>
+								
+									</ul>
+								
+							
+						
+				 
+						
+						
+							
+								
+								
+									<ul class="nav">
+								
+									<ul class="nav">
+								
+									<ul class="nav">
+								
+								
+
+										<li class="nav-item">
+						 					<a class="nav-link" href="#3-%e6%9e%84%e5%bb%ba-docker-%e9%95%9c%e5%83%8f">
+												 3. 构建 Docker 镜像
+											</a>
+										</li>
+						 
+								
+								
+									</ul>
+								
+									</ul>
+								
+									</ul>
+								
+							
+						
+				 
+						
+						
+							
+								
+								
+									<ul class="nav">
+								
+									<ul class="nav">
+								
+									<ul class="nav">
+								
+								
+
+										<li class="nav-item">
+						 					<a class="nav-link" href="#4-%e8%bf%90%e8%a1%8c-docker-%e5%ae%b9%e5%99%a8">
+												 4. 运行 Docker 容器
+											</a>
+										</li>
+						 
+								
+								
+									</ul>
+								
+									</ul>
+								
+									</ul>
+								
+							
+						
+				 
+						
+						
+							
+								
+								
+									<ul class="nav">
+								
+									<ul class="nav">
+								
+									<ul class="nav">
+								
+								
+
+										<li class="nav-item">
+						 					<a class="nav-link" href="#5-%e9%aa%8c%e8%af%81%e9%83%a8%e7%bd%b2">
+												 5. 验证部署
+											</a>
+										</li>
+						 
+								
+								
+									</ul>
+								
+									</ul>
+								
+									</ul>
+								
+							
+						
+				 
+						
+						
+							
+								
+								
+									<ul class="nav">
+								
+									<ul class="nav">
+								
+								
+
+										<li class="nav-item">
+						 					<a class="nav-link" href="#%e7%94%9f%e4%ba%a7%e7%8e%af%e5%a2%83%e8%80%83%e9%87%8f%e5%8f%af%e9%80%89">
+												 生产环境考量（可选）
+											</a>
+										</li>
+						 
+								
+								
+									</ul>
+								
+									</ul>
+								
+							
+						
+				 
+						
+						
+							
+								
+								
+									<ul class="nav">
+								
+									<ul class="nav">
+								
+								
+
+										<li class="nav-item">
+						 					<a class="nav-link" href="#%e6%95%85%e9%9a%9c%e6%8e%92%e9%99%a4">
+												 故障排除
+											</a>
+										</li>
+						 
+								
+								
+									</ul>
+								
+									</ul>
+								
+							
+						
+				 
+
+				</ul>
+			</div>
+			
+
+		</div>
+		
+	
+
+    </div>
+    
+
+
+  </main>
+  
+
+
+    
+    
+<footer class="page-footer text-center font-small mt-4 wow fadeIn">
+
+
+  
+  <div class="pb-2 mt-5 pt-5">
+    
+    <a href="//github.com/axfinn " target="_blank" rel="noopener"><i class="fab fa-github mr-3"
+        aria-hidden="true"></i></a>
+    
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+
+    
+    <a href="mailto:521very@email.com"><i class="far fa-envelope-open mr-3" aria-hidden="true"></i></a>
+    
+
+    
+
+    
+
+  </div>
+  
+
+  
+  <div class="copyright py-4">
+    
+    <span> 2016 - 2026 &copy; | Theme <a href='https://github.com/orianna-zzo/AllinOne'
+        target="_blank">AllinOne</a> by <a href='https://github.com/orianna-zzo' target="_blank">Orianna</a> </span>
+  </div>
+  
+
+</footer>
+
+    
+
+
+
+
+<script type="text/javascript" src="https://blog.jaxiu.cn/js/vendors/jquery/jquery-3.3.1.min.js"></script>
+<script type="text/javascript" src="https://blog.jaxiu.cn/js/vendors/jquery/jquery.smooth-scroll.min.js"></script>
+
+
+
+<script type="text/javascript" src="https://blog.jaxiu.cn/js/vendors/popper.min.js"></script>
+<script type="text/javascript" src="https://blog.jaxiu.cn/js/vendors/holder.min.js"></script>
+<script type="text/javascript" src="https://blog.jaxiu.cn/js/vendors-extensions/bootstrap4/bootstrap.js" ></script>
+
+<script type="text/javascript" src="https://blog.jaxiu.cn/js/vendors/mdb/mdb.min.js"></script>
+
+<script type="text/javascript" src="https://blog.jaxiu.cn/js/main.js"></script>
+<script type="text/javascript" src="https://blog.jaxiu.cn/js/search.js"></script>
+
+
+
+
+  <script src="https://blog.jaxiu.cn/js/vendors/highlight.pack.js"> </script>
+  <script>hljs.initHighlightingOnLoad();</script>
+
+
+
+
+
+  <script src="https://blog.jaxiu.cn/js/vendors/katex/katex.min.js"> </script>
+  <script src="https://blog.jaxiu.cn/js/vendors/katex/contrib/auto-render.min.js"></script>
+
+  <script>
+      document.addEventListener("DOMContentLoaded", function () {
+          renderMathInElement(document.body);
+      });
+  </script>
+
+
+
+
+
+
+
+
+<script type="text/javascript">
+  
+  new WOW().init();
+</script>
+  </body>
+</html>

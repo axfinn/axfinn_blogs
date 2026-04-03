@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>SEO on jaxiu He</title>
+    <link>https://blog.jaxiu.cn/tags/seo/</link>
+    <description>Recent content in SEO on jaxiu He</description>
+    <generator>Hugo</generator>
+    <language>zn-Hans</language>
+    <lastBuildDate>Tue, 12 Aug 2025 14:30:00 +0800</lastBuildDate>
+    <atom:link href="https://blog.jaxiu.cn/tags/seo/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Hugo博客接入百度和谷歌搜索引擎完整指南</title>
+      <link>https://blog.jaxiu.cn/blog/2025-08/hugo%E5%8D%9A%E5%AE%A2%E6%8E%A5%E5%85%A5%E7%99%BE%E5%BA%A6%E5%92%8C%E8%B0%B7%E6%AD%8C%E6%90%9C%E7%B4%A2%E5%BC%95%E6%93%8E%E5%AE%8C%E6%95%B4%E6%8C%87%E5%8D%97/</link>
+      <pubDate>Tue, 12 Aug 2025 14:30:00 +0800</pubDate>
+      <guid>https://blog.jaxiu.cn/blog/2025-08/hugo%E5%8D%9A%E5%AE%A2%E6%8E%A5%E5%85%A5%E7%99%BE%E5%BA%A6%E5%92%8C%E8%B0%B7%E6%AD%8C%E6%90%9C%E7%B4%A2%E5%BC%95%E6%93%8E%E5%AE%8C%E6%95%B4%E6%8C%87%E5%8D%97/</guid>
+      <description>&lt;p&gt;为了让更多人通过搜索引擎找到我们的博客内容，我们需要将博客网站提交到各大搜索引擎平台。本文将详细介绍如何将 Hugo 博客接入百度和谷歌搜索引擎。&lt;/p&gt;&#xA;&lt;h2 id=&#34;一准备工作&#34;&gt;一、准备工作&lt;/h2&gt;&#xA;&lt;p&gt;在开始之前，我们需要完成以下准备工作：&lt;/p&gt;&#xA;&lt;ol&gt;&#xA;&lt;li&gt;确保博客网站已经上线并可以正常访问&lt;/li&gt;&#xA;&lt;li&gt;准备好网站的验证代码（后续步骤会说明如何获取）&lt;/li&gt;&#xA;&lt;li&gt;确保网站有良好的内容结构和导航&lt;/li&gt;&#xA;&lt;/ol&gt;&#xA;&lt;blockquote&gt;&#xA;&lt;p&gt;&lt;strong&gt;注意&lt;/strong&gt;：如果您使用了自定义域名（如 blog.jaxiu.cn），请确保在搜索引擎平台中使用自定义域名而不是 GitHub Pages 的默认域名（username.github.io）进行验证和提交。&lt;/p&gt;</description>
+    </item>
+  </channel>
+</rss>

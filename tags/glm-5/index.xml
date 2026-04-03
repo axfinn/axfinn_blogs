@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>GLM-5 on jaxiu He</title>
+    <link>https://blog.jaxiu.cn/tags/glm-5/</link>
+    <description>Recent content in GLM-5 on jaxiu He</description>
+    <generator>Hugo</generator>
+    <language>zn-Hans</language>
+    <lastBuildDate>Mon, 23 Mar 2026 00:00:00 +0000</lastBuildDate>
+    <atom:link href="https://blog.jaxiu.cn/tags/glm-5/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>GLM-5 vs MiniMax-M2.7：中国两大顶级大模型深度对比</title>
+      <link>https://blog.jaxiu.cn/blog/2026-03/glm-5-vs-minimax-m2.7%E4%B8%AD%E5%9B%BD%E4%B8%A4%E5%A4%A7%E9%A1%B6%E7%BA%A7%E5%A4%A7%E6%A8%A1%E5%9E%8B%E6%B7%B1%E5%BA%A6%E5%AF%B9%E6%AF%94/</link>
+      <pubDate>Mon, 23 Mar 2026 00:00:00 +0000</pubDate>
+      <guid>https://blog.jaxiu.cn/blog/2026-03/glm-5-vs-minimax-m2.7%E4%B8%AD%E5%9B%BD%E4%B8%A4%E5%A4%A7%E9%A1%B6%E7%BA%A7%E5%A4%A7%E6%A8%A1%E5%9E%8B%E6%B7%B1%E5%BA%A6%E5%AF%B9%E6%AF%94/</guid>
+      <description>全面对比智谱 AI 的 GLM-5 和 MiniMax 的 M2.7，从技术架构、性能评测、应用场景、成本分析等多个维度深入分析，为你的模型选型提供决策参考。</description>
+    </item>
+  </channel>
+</rss>

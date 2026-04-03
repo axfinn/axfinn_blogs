@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Beego on jaxiu He</title>
+    <link>https://blog.jaxiu.cn/tags/beego/</link>
+    <description>Recent content in Beego on jaxiu He</description>
+    <generator>Hugo</generator>
+    <language>zn-Hans</language>
+    <lastBuildDate>Fri, 18 Jul 2025 19:15:00 +0800</lastBuildDate>
+    <atom:link href="https://blog.jaxiu.cn/tags/beego/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>NPS 全景解析（完结）：揭秘功能强大的 Web 管理界面</title>
+      <link>https://blog.jaxiu.cn/blog/2025-07/nps-%E5%85%A8%E6%99%AF%E8%A7%A3%E6%9E%90%E5%AE%8C%E7%BB%93%E6%8F%AD%E7%A7%98%E5%8A%9F%E8%83%BD%E5%BC%BA%E5%A4%A7%E7%9A%84-web-%E7%AE%A1%E7%90%86%E7%95%8C%E9%9D%A2/</link>
+      <pubDate>Fri, 18 Jul 2025 19:15:00 +0800</pubDate>
+      <guid>https://blog.jaxiu.cn/blog/2025-07/nps-%E5%85%A8%E6%99%AF%E8%A7%A3%E6%9E%90%E5%AE%8C%E7%BB%93%E6%8F%AD%E7%A7%98%E5%8A%9F%E8%83%BD%E5%BC%BA%E5%A4%A7%E7%9A%84-web-%E7%AE%A1%E7%90%86%E7%95%8C%E9%9D%A2/</guid>
+      <description>&lt;h2 id=&#34;引言&#34;&gt;引言&lt;/h2&gt;&#xA;&lt;p&gt;一个工具的强大与否，不仅取决于其核心功能的性能与稳定，也取决于其易用性。NPS 之所以广受欢迎，除了其强大的穿透能力外，一个直观、功能全面的 Web 管理界面功不可没。用户无需编辑复杂的配置文件，只需在浏览器上进行简单的点击操作，就能完成客户端管理、隧道配置、域名绑定等所有操作。在本系列文章的最后一篇，我们将深入 &lt;code&gt;nps/web&lt;/code&gt; 目录，揭秘这个基于 Beego 框架构建的 Web 管理界面是如何与 NPS 核心服务无缝集成，为用户提供流畅体验的。&lt;/p&gt;&#xA;&lt;hr&gt;&#xA;&lt;h2 id=&#34;技术选型beego-框架&#34;&gt;技术选型：Beego 框架&lt;/h2&gt;&#xA;&lt;p&gt;NPS 的 Web 后端采用了 &lt;a href=&#34;https://github.com/beego/beego&#34;&gt;Beego&lt;/a&gt;，一个用 Go 语言编写的高性能 Web 框架。Beego 遵循 MVC（Model-View-Controller）设计模式，提供了路由、模板引擎、ORM、Session 管理等一整套 Web 开发所需的功能，这使得开发者可以快速构建起一个功能完善的 Web 应用。&lt;/p&gt;</description>
+    </item>
+  </channel>
+</rss>

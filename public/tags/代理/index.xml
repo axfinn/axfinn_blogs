@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>代理 on jaxiu He</title>
+    <link>https://blog.jaxiu.cn/tags/%E4%BB%A3%E7%90%86/</link>
+    <description>Recent content in 代理 on jaxiu He</description>
+    <generator>Hugo</generator>
+    <language>zn-Hans</language>
+    <lastBuildDate>Fri, 18 Jul 2025 15:45:00 +0800</lastBuildDate>
+    <atom:link href="https://blog.jaxiu.cn/tags/%E4%BB%A3%E7%90%86/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>NPS 代理实现：通用基础与流量控制</title>
+      <link>https://blog.jaxiu.cn/blog/2025-07/nps-%E4%BB%A3%E7%90%86%E5%AE%9E%E7%8E%B0%E9%80%9A%E7%94%A8%E5%9F%BA%E7%A1%80%E4%B8%8E%E6%B5%81%E9%87%8F%E6%8E%A7%E5%88%B6/</link>
+      <pubDate>Fri, 18 Jul 2025 15:45:00 +0800</pubDate>
+      <guid>https://blog.jaxiu.cn/blog/2025-07/nps-%E4%BB%A3%E7%90%86%E5%AE%9E%E7%8E%B0%E9%80%9A%E7%94%A8%E5%9F%BA%E7%A1%80%E4%B8%8E%E6%B5%81%E9%87%8F%E6%8E%A7%E5%88%B6/</guid>
+      <description>&lt;h2 id=&#34;引言&#34;&gt;引言&lt;/h2&gt;&#xA;&lt;p&gt;在 NPS 服务端核心解析中，我们了解了 &lt;code&gt;server.go&lt;/code&gt; 如何作为服务端的“大脑”，协调各项任务。本篇文章将深入 NPS 的代理实现细节，从 &lt;code&gt;nps/server/proxy/base.go&lt;/code&gt; 文件入手，剖析所有代理服务共用的基础结构、接口定义以及流量控制、安全检查等通用逻辑。理解这些通用组件，有助于我们更好地把握 NPS 多样化代理模式的实现原理。&lt;/p&gt;&#xA;&lt;h2 id=&#34;basego代理服务的基石&#34;&gt;&lt;code&gt;base.go&lt;/code&gt;：代理服务的基石&lt;/h2&gt;&#xA;&lt;p&gt;&lt;code&gt;base.go&lt;/code&gt; 文件定义了 NPS 中所有代理服务的基础抽象和通用功能。它确保了不同代理模式（如 TCP、UDP、SOCKS5、HTTP 等）能够遵循统一的接口规范，并共享一些核心的辅助功能。&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>NPS 项目概述：内网穿透利器</title>
+      <link>https://blog.jaxiu.cn/blog/2025-07/nps-%E9%A1%B9%E7%9B%AE%E6%A6%82%E8%BF%B0%E5%86%85%E7%BD%91%E7%A9%BF%E9%80%8F%E5%88%A9%E5%99%A8/</link>
+      <pubDate>Fri, 18 Jul 2025 15:00:00 +0800</pubDate>
+      <guid>https://blog.jaxiu.cn/blog/2025-07/nps-%E9%A1%B9%E7%9B%AE%E6%A6%82%E8%BF%B0%E5%86%85%E7%BD%91%E7%A9%BF%E9%80%8F%E5%88%A9%E5%99%A8/</guid>
+      <description>&lt;h2 id=&#34;引言&#34;&gt;引言&lt;/h2&gt;&#xA;&lt;p&gt;在现代网络环境中，内网穿透技术扮演着越来越重要的角色。无论是进行本地开发调试、远程访问内网资源，还是搭建个人服务，内网穿透都能提供极大的便利。今天，我们将深入剖析一个功能强大、性能卓越的内网穿透代理服务器项目——NPS。&lt;/p&gt;&#xA;&lt;h2 id=&#34;什么是-nps&#34;&gt;什么是 NPS？&lt;/h2&gt;&#xA;&lt;p&gt;NPS 是一款轻量级、高性能、功能强大的&lt;strong&gt;内网穿透&lt;/strong&gt;代理服务器。它旨在帮助用户轻松实现内网资源的外部访问，打破网络边界的限制。NPS 不仅仅是一个简单的端口转发工具，它更是一个集多种代理协议、Web 管理界面和丰富扩展功能于一体的综合性解决方案。&lt;/p&gt;</description>
+    </item>
+  </channel>
+</rss>

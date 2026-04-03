@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>代理协议 on jaxiu He</title>
+    <link>https://blog.jaxiu.cn/tags/%E4%BB%A3%E7%90%86%E5%8D%8F%E8%AE%AE/</link>
+    <description>Recent content in 代理协议 on jaxiu He</description>
+    <generator>Hugo</generator>
+    <language>zn-Hans</language>
+    <lastBuildDate>Fri, 18 Jul 2025 16:15:00 +0800</lastBuildDate>
+    <atom:link href="https://blog.jaxiu.cn/tags/%E4%BB%A3%E7%90%86%E5%8D%8F%E8%AE%AE/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>NPS 代理实现：SOCKS5 协议深度解析</title>
+      <link>https://blog.jaxiu.cn/blog/2025-07/nps-%E4%BB%A3%E7%90%86%E5%AE%9E%E7%8E%B0socks5-%E5%8D%8F%E8%AE%AE%E6%B7%B1%E5%BA%A6%E8%A7%A3%E6%9E%90/</link>
+      <pubDate>Fri, 18 Jul 2025 16:15:00 +0800</pubDate>
+      <guid>https://blog.jaxiu.cn/blog/2025-07/nps-%E4%BB%A3%E7%90%86%E5%AE%9E%E7%8E%B0socks5-%E5%8D%8F%E8%AE%AE%E6%B7%B1%E5%BA%A6%E8%A7%A3%E6%9E%90/</guid>
+      <description>&lt;h2 id=&#34;引言&#34;&gt;引言&lt;/h2&gt;&#xA;&lt;p&gt;在 NPS 系列文章的前几篇中，我们已经对 NPS 的整体架构、服务端核心以及 TCP 隧道和 HTTP 代理的实现有了初步了解。本篇文章将深入 NPS 的另一个重要代理模式——&lt;strong&gt;SOCKS5 代理&lt;/strong&gt;。我们将通过分析 &lt;code&gt;nps/server/proxy/socks5.go&lt;/code&gt; 文件，详细剖析 SOCKS5 协议在 NPS 中的实现细节，包括认证机制、请求处理以及 UDP 转发。&lt;/p&gt;&#xA;&lt;h2 id=&#34;socks5-协议简介&#34;&gt;SOCKS5 协议简介&lt;/h2&gt;&#xA;&lt;p&gt;SOCKS5 是一种网络代理协议，它允许客户端通过代理服务器间接访问其他服务器。与 HTTP 代理不同，SOCKS5 是一种更底层的协议，它不关心应用层协议（如 HTTP、FTP），而是直接转发 TCP 或 UDP 数据包。这使得 SOCKS5 代理更加通用，可以用于各种网络应用。&lt;/p&gt;</description>
+    </item>
+  </channel>
+</rss>

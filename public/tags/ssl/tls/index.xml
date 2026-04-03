@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>SSL/TLS on jaxiu He</title>
+    <link>https://blog.jaxiu.cn/tags/ssl/tls/</link>
+    <description>Recent content in SSL/TLS on jaxiu He</description>
+    <generator>Hugo</generator>
+    <language>zn-Hans</language>
+    <lastBuildDate>Fri, 18 Jul 2025 17:15:00 +0800</lastBuildDate>
+    <atom:link href="https://blog.jaxiu.cn/tags/ssl/tls/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>NPS 代理实现：HTTPS 代理与 SNI 证书管理</title>
+      <link>https://blog.jaxiu.cn/blog/2025-07/nps-%E4%BB%A3%E7%90%86%E5%AE%9E%E7%8E%B0https-%E4%BB%A3%E7%90%86%E4%B8%8E-sni-%E8%AF%81%E4%B9%A6%E7%AE%A1%E7%90%86/</link>
+      <pubDate>Fri, 18 Jul 2025 17:15:00 +0800</pubDate>
+      <guid>https://blog.jaxiu.cn/blog/2025-07/nps-%E4%BB%A3%E7%90%86%E5%AE%9E%E7%8E%B0https-%E4%BB%A3%E7%90%86%E4%B8%8E-sni-%E8%AF%81%E4%B9%A6%E7%AE%A1%E7%90%86/</guid>
+      <description>&lt;h2 id=&#34;引言&#34;&gt;引言&lt;/h2&gt;&#xA;&lt;p&gt;在 NPS 系列文章中，我们已经探讨了 NPS 的整体架构、服务端核心以及多种代理模式。本篇文章将深入 NPS 的 &lt;strong&gt;HTTPS 代理&lt;/strong&gt;实现。我们将通过分析 &lt;code&gt;nps/server/proxy/https.go&lt;/code&gt; 文件，揭示 NPS 如何处理加密的 HTTPS 流量，特别是其对 SNI（Server Name Indication）的支持和多证书管理机制。&lt;/p&gt;&#xA;&lt;h2 id=&#34;https-代理的需求与挑战&#34;&gt;HTTPS 代理的需求与挑战&lt;/h2&gt;&#xA;&lt;p&gt;HTTPS 代理比普通的 HTTP 代理更为复杂，因为它涉及到 SSL/TLS 加密。主要挑战包括：&lt;/p&gt;&#xA;&lt;ul&gt;&#xA;&lt;li&gt;&lt;strong&gt;SSL/TLS 握手&lt;/strong&gt;：代理服务器需要参与 SSL/TLS 握手过程，解密客户端请求，然后加密转发给目标服务器，或者直接将加密流量转发给目标服务器。&lt;/li&gt;&#xA;&lt;li&gt;&lt;strong&gt;SNI 支持&lt;/strong&gt;：为了在同一个 IP 地址上托管多个 HTTPS 网站，客户端在 SSL/TLS 握手时会通过 SNI 扩展告知服务器其要访问的域名。代理服务器需要根据 SNI 信息选择正确的证书。&lt;/li&gt;&#xA;&lt;li&gt;&lt;strong&gt;证书管理&lt;/strong&gt;：代理服务器需要能够管理和加载多个域名的 SSL/TLS 证书。&lt;/li&gt;&#xA;&lt;/ul&gt;&#xA;&lt;h2 id=&#34;httpsgohttps-代理的实现&#34;&gt;&lt;code&gt;https.go&lt;/code&gt;：HTTPS 代理的实现&lt;/h2&gt;&#xA;&lt;p&gt;&lt;code&gt;https.go&lt;/code&gt; 文件定义了 &lt;code&gt;HttpsServer&lt;/code&gt; 结构体，它是 NPS 实现 HTTPS 代理的核心。&lt;/p&gt;</description>
+    </item>
+  </channel>
+</rss>

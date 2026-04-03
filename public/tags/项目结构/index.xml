@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>项目结构 on jaxiu He</title>
+    <link>https://blog.jaxiu.cn/tags/%E9%A1%B9%E7%9B%AE%E7%BB%93%E6%9E%84/</link>
+    <description>Recent content in 项目结构 on jaxiu He</description>
+    <generator>Hugo</generator>
+    <language>zn-Hans</language>
+    <lastBuildDate>Wed, 23 Jul 2025 15:50:00 +0800</lastBuildDate>
+    <atom:link href="https://blog.jaxiu.cn/tags/%E9%A1%B9%E7%9B%AE%E7%BB%93%E6%9E%84/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Qwen Code 项目框架详解</title>
+      <link>https://blog.jaxiu.cn/blog/2025-07/qwen-code-project-structure/</link>
+      <pubDate>Wed, 23 Jul 2025 15:50:00 +0800</pubDate>
+      <guid>https://blog.jaxiu.cn/blog/2025-07/qwen-code-project-structure/</guid>
+      <description>&lt;h1 id=&#34;qwen-code-项目框架详解&#34;&gt;Qwen Code 项目框架详解&lt;/h1&gt;&#xA;&lt;h2 id=&#34;项目概述&#34;&gt;项目概述&lt;/h2&gt;&#xA;&lt;p&gt;Qwen Code 采用现代化的软件工程实践，使用 TypeScript 编写，基于 monorepo 结构管理多个包。项目结构清晰，便于维护和扩展。&lt;/p&gt;&#xA;&lt;h2 id=&#34;项目结构&#34;&gt;项目结构&lt;/h2&gt;&#xA;&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;qwen-code/&#xA;├── .github/                  # GitHub 相关配置&#xA;│   └── workflows/            # CI/CD 工作流&#xA;├── docs/                     # 项目文档&#xA;│   ├── tools/                # 工具文档&#xA;│   └── ...                   # 其他文档&#xA;├── examples/                 # 使用示例&#xA;├── integration-tests/        # 集成测试&#xA;├── packages/                 # 核心包&#xA;│   ├── cli/                  # CLI 工具&#xA;│   ├── core/                 # 核心功能&#xA;│   └── ...                   # 其他包&#xA;├── scripts/                  # 构建和辅助脚本&#xA;├── tests/                    # 单元测试&#xA;├── .eslintrc.js              # ESLint 配置&#xA;├── .gitignore                # Git 忽略文件&#xA;├── .npmrc                    # npm 配置&#xA;├── Dockerfile                # Docker 配置&#xA;├── Makefile                  # Makefile 脚本&#xA;├── README.md                 # 项目说明&#xA;├── package.json              # 项目配置&#xA;└── tsconfig.json             # TypeScript 配置&#xA;&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;为了更直观地理解项目结构，我们可以用 Mermaid 绘制一个图表：&lt;/p&gt;</description>
+    </item>
+  </channel>
+</rss>

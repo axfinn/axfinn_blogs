@@ -1,0 +1,1662 @@
+<!DOCTYPE html>
+<html lang="zn-Hans">
+  <head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge, chrome=1">
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no, maximum-scale=1" />
+  
+  <meta name="author" content="jaxiu He">
+  <meta name="description"
+    content="
+2026年小米正式发布了旗下首款纯电SUV——YU7。新车定位中大型纯电SUV，起售价25.35万元，CLTC续航最高达835km，搭载NVIDIA DRIVE AGX Thor平台，0-100km/h加速仅需2.9秒（Max版）。本文全面解析YU7的核心技术配置。
+
+摘要：小米YU7作为小米汽车家族的第二款车型，与SU7形成&quot;轿车&#43;SUV&quot;的双产品线。YU7基于800V碳化硅平台打造，搭载小米超级电机V6s Plus，拥有同级别领先的空间表现和智能化配置，官方指导价25.35-35.99万元。">
+
+  <meta property="og:url" content="https://blog.jaxiu.cn/blog/2026-03/xiaomi-yu7-official-release/">
+  <meta property="og:site_name" content="jaxiu He">
+  <meta property="og:title" content="小米YU7正式发布：25.35万起的纯电SUV配置有多强？">
+  <meta property="og:description" content="2026年小米正式发布了旗下首款纯电SUV——YU7。新车定位中大型纯电SUV，起售价25.35万元，CLTC续航最高达835km，搭载NVIDIA DRIVE AGX Thor平台，0-100km/h加速仅需2.9秒（Max版）。本文全面解析YU7的核心技术配置。
+摘要：小米YU7作为小米汽车家族的第二款车型，与SU7形成&#34;轿车&#43;SUV&#34;的双产品线。YU7基于800V碳化硅平台打造，搭载小米超级电机V6s Plus，拥有同级别领先的空间表现和智能化配置，官方指导价25.35-35.99万元。">
+  <meta property="og:locale" content="zn_Hans">
+  <meta property="og:type" content="article">
+    <meta property="article:section" content="blog">
+    <meta property="article:published_time" content="2026-03-20T10:00:00+08:00">
+    <meta property="article:modified_time" content="2026-03-20T10:00:00+08:00">
+    <meta property="article:tag" content="新能源电动车">
+    <meta property="article:tag" content="小米YU7">
+    <meta property="article:tag" content="小米汽车">
+    <meta property="article:tag" content="纯电SUV">
+    <meta property="article:tag" content="发布解析">
+
+
+  <title>
+    
+     小米YU7正式发布：25.35万起的纯电SUV配置有多强？ | jaxiu He 
+    
+  </title>
+
+  <link rel="canonical" href="https://blog.jaxiu.cn/blog/2026-03/xiaomi-yu7-official-release/">
+
+  
+  
+
+  
+  
+  
+  <meta name="baidu-site-verification" content="your-baidu-verify-code" />
+  
+
+  
+  
+  <meta name="google-site-verification" content="your-google-verify-code" />
+  
+
+  
+  <link href="https://blog.jaxiu.cn/css/vendors-extensions/fontawesome/all.min.css" rel="stylesheet">
+
+  
+  <link rel="stylesheet"
+    href="https://fonts.googleapis.com/css?family=Open+Sans:400,700|Ubuntu+Mono:400,400i,700,700i|Raleway:300,400,500,600">
+  <link href="https://blog.jaxiu.cn/css/font.css" rel="stylesheet">
+
+  
+  <link href="https://blog.jaxiu.cn/css/vendors/bootstrap4/bootstrap.min.css" rel="stylesheet">
+  <link href="https://blog.jaxiu.cn/css/vendors-extensions/mdb/mdb.min.css" rel="stylesheet">
+  <link href="https://blog.jaxiu.cn/css/vendors/mdb/style.min.css" rel="stylesheet">
+  <link href="https://blog.jaxiu.cn/css/main.css" rel="stylesheet">
+
+
+  
+  <link rel="shortcut icon"  href="https://blog.jaxiu.cn/img/logo.png" >
+
+
+  
+  
+
+  <style type="text/css">
+    @media (min-width: 800px) and (max-width: 850px) {
+      .navbar:not(.top-nav-collapse) {
+        background: #1C2331 !important;
+      }
+    }
+  </style>
+
+
+  
+  
+  <link rel="stylesheet" href="https://blog.jaxiu.cn/js/vendors/katex/katex.min.css">
+  
+  
+
+  
+  
+  <link rel="stylesheet" href="https://blog.jaxiu.cn/css/vendors/highlight/github-gist.css">
+  
+
+  
+  
+  <script type="module">
+    import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.esm.min.mjs';
+    mermaid.initialize({ startOnLoad: true });
+  </script>
+  
+  
+
+  
+  <link href="https://blog.jaxiu.cn/css/holiday-effects.css" rel="stylesheet">
+  <script src="https://blog.jaxiu.cn/js/holiday-effects.js"></script>
+
+  
+  <script src="https://blog.jaxiu.cn/js/dynamic-bg.js"></script>
+  <link href="https://blog.jaxiu.cn/css/dynamic-bg-control.css" rel="stylesheet">
+
+</head>
+  <body class="bg-light" data-spy="scroll" data-target="#page-scrollspy" data-offset="90">
+  
+    
+    
+
+    
+      
+
+
+<nav class="navbar fixed-top navbar-expand-lg navbar-dark scrolling-navbar">
+    <div class="container">
+
+      
+      <a class="navbar-brand" href="https://blog.jaxiu.cn/">
+          
+        <img class="avatar" src="https://blog.jaxiu.cn/img/logo.png" style="width: 40px!important;height: auto;"  class="d-inline-block align-top" alt="" >
+        
+        <strong> jaxiu He</strong>
+      </a>
+
+      
+      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
+        aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+
+      
+      <div class="collapse navbar-collapse" id="navbarSupportedContent">
+
+        
+        <ul class="navbar-nav mr-auto ">
+          <li class="nav-item ">
+            <a class="nav-link" href="https://blog.jaxiu.cn/">Home</a>
+          </li>
+          
+            <li class="nav-item ">
+              <a class="nav-link" href="https://blog.jaxiu.cn/blog/" >博客  </a>
+            </li>
+
+          
+            <li class="nav-item ">
+              <a class="nav-link" href="https://blog.jaxiu.cn/moment/" >动态  </a>
+            </li>
+
+          
+            <li class="nav-item ">
+              <a class="nav-link" href="https://blog.jaxiu.cn/blog/prenatal-stories/" >胎教故事  </a>
+            </li>
+
+          
+            <li class="nav-item ">
+              <a class="nav-link" href="https://blog.jaxiu.cn/about/" >关于  </a>
+            </li>
+
+          
+        </ul>
+
+        
+        <ul class="navbar-nav">
+          <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" href="#" id="searchDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+              <i class="fas fa-search"></i> 搜索
+            </a>
+            <div class="dropdown-menu dropdown-menu-right p-3" aria-labelledby="searchDropdown" style="min-width: 300px; max-width: 400px;">
+              <form class="search-form" onsubmit="return false;">
+                <div class="input-group">
+                  <input type="text" id="search-query" class="form-control" placeholder="搜索文章标题或内容..." autocomplete="off">
+                  <div class="input-group-append">
+                    <button class="btn btn-outline-secondary" type="button" onclick="document.getElementById('search-query').focus();">
+                      <i class="fas fa-search"></i>
+                    </button>
+                  </div>
+                </div>
+              </form>
+              <ul id="search-results" class="list-unstyled mt-2 mb-0" style="max-height: 400px; overflow-y: auto;"></ul>
+            </div>
+          </li>
+        </ul>
+
+      </div>
+
+    </div>
+  </nav>
+   
+      
+
+
+
+
+
+
+
+<div id="site-header" class="carousel slide carousel-fade" data-ride="carousel" style="height: 18rem;">
+  
+
+  
+  
+  
+
+  
+  <div class="carousel-inner" role="listbox">
+    
+    
+
+    
+    <div class="carousel-item active">
+      <div class="view"
+        style="background-image: url('https://blog.jaxiu.cn/img/header-slides/raw_1515691746.jpg'); background-repeat: no-repeat; background-size: cover;">
+
+        
+        <div class="mask rgba-black-light d-flex justify-content-center align-items-center">
+
+          
+          
+          
+
+        </div>
+        
+
+      </div>
+    </div>
+    
+    
+    
+    
+
+    
+    <div class="carousel-item">
+      <div class="view"
+        style="background-image: url('https://blog.jaxiu.cn/img/header-slides//raw_1515847341.jpg'); background-repeat: no-repeat; background-size: cover;">
+
+        
+        <div class="mask rgba-black-light d-flex justify-content-center align-items-center">
+
+
+
+        </div>
+        
+
+      </div>
+    </div>
+    
+    
+    
+
+
+  </div>
+  
+
+  
+  <div class="carousel-content text-center white-text wow fadeIn">
+    <div class="row mx-0 headfont mt-3 pt-4">
+      
+      <div class="col-12 col-sm-5 align-middle">
+        <a href="https://blog.jaxiu.cn/">
+          
+          <img class="pull-right avatar avatar-md" src="https://blog.jaxiu.cn/img/logo.png" alt="">
+          
+        </a>
+      </div>
+
+      <div class="col-12 col-sm-7 text-left pl-2">
+        <a href="https://blog.jaxiu.cn/">
+          <h1 class="mb-2 h1" style="font-weight: 300;">
+            <strong>jaxiu He</strong>
+          </h1>
+        </a>
+
+
+        
+        <div class="mt-2" style="font-size: 1rem; color: white;">
+          
+          <a href="//github.com/axfinn" target="_blank" rel="noopener"><i class="fab fa-github pr-1"
+              aria-hidden="true"></i></a>
+          
+          
+
+          
+
+          
+
+          
+
+          
+
+          
+
+
+          
+          <a href="mailto:521very@email.com"><i class="far fa-envelope-open pr-1" aria-hidden="true"></i></a>
+          
+
+          
+
+
+        </div>
+      </div>
+    </div>
+  </div>
+  
+
+  
+  
+  
+
+</div>
+  
+    
+
+    
+  
+  <main class="post-main-wrapper">
+    
+    
+    <div class="row">
+
+      
+
+      
+      <div class="container pr-5">
+      
+
+        
+        <div class="z-depth-1  post-wrapper white-bg single-post">
+
+          <div class="post-header text-center" >
+  <ul class="post-meta li-x">
+    
+      
+        <li><a href="https://blog.jaxiu.cn/categories/%E6%8A%80%E6%9C%AF"><i class="fas fa-folder-open pr-1" aria-hidden="true"></i> 技术 </a></li>
+      
+        <li><a href="https://blog.jaxiu.cn/categories/%E9%A1%B9%E7%9B%AE%E5%88%86%E6%9E%90"><i class="fas fa-folder-open pr-1" aria-hidden="true"></i> 项目分析 </a></li>
+      
+    
+    
+  </ul>
+
+  <div class="px-4 post-heading">小米YU7正式发布：25.35万起的纯电SUV配置有多强？</div>
+
+  <ul class="post-meta li-x mt-1">
+    
+      <li>Mar 20, 2026</li>
+    
+
+    
+      <li class="middot"></li>
+      <li>8 minutes read</li>
+    
+  </ul>
+  
+
+</div>
+
+
+          <div class="post-content markdown">
+            <blockquote>
+<p>2026年小米正式发布了旗下首款纯电SUV——YU7。新车定位中大型纯电SUV，起售价25.35万元，CLTC续航最高达835km，搭载NVIDIA DRIVE AGX Thor平台，0-100km/h加速仅需2.9秒（Max版）。本文全面解析YU7的核心技术配置。</p>
+</blockquote>
+<p><strong>摘要</strong>：小米YU7作为小米汽车家族的第二款车型，与SU7形成&quot;轿车+SUV&quot;的双产品线。YU7基于800V碳化硅平台打造，搭载小米超级电机V6s Plus，拥有同级别领先的空间表现和智能化配置，官方指导价25.35-35.99万元。</p>
+<hr>
+<h2 id="目录">目录</h2>
+<ul>
+<li><a href="#%E4%B8%80yu7%E6%A0%B8%E5%BF%83%E5%8F%82%E6%95%B0%E9%80%9F%E8%A7%88">一、YU7核心参数速览</a></li>
+<li><a href="#%E4%BA%8C%E5%A4%96%E8%A7%82%E8%AE%BE%E8%AE%A1%E4%BA%AE%E7%82%B9">二、外观设计亮点</a></li>
+<li><a href="#%E4%B8%89%E7%A9%BA%E9%97%B4%E4%B8%8E%E5%86%85%E9%A5%B0">三、空间与内饰</a></li>
+<li><a href="#%E5%9B%9B%E5%8A%A8%E5%8A%9B%E7%B3%BB%E7%BB%9F%E8%A7%A3%E6%9E%90">四、动力系统解析</a></li>
+<li><a href="#%E4%BA%94%E7%BB%AD%E8%88%AA%E4%B8%8E%E5%85%85%E7%94%B5">五、续航与充电</a></li>
+<li><a href="#%E5%85%AD%E6%99%BA%E8%83%BD%E9%A9%BE%E9%A9%B6nvidia-drive-agx-thor%E5%B9%B3%E5%8F%B0">六、智能驾驶：NVIDIA DRIVE AGX Thor平台</a></li>
+<li><a href="#%E4%B8%83%E5%AE%89%E5%85%A8%E9%85%8D%E7%BD%AE">七、安全配置</a></li>
+<li><a href="#%E5%85%AB%E4%B8%8E%E7%AB%9E%E5%93%81%E5%AF%B9%E6%AF%94">八、与竞品对比</a></li>
+<li><a href="#%E4%B9%9D%E6%80%BB%E7%BB%93%E4%B8%8E%E8%B4%AD%E4%B9%B0%E5%BB%BA%E8%AE%AE">九、总结与购买建议</a></li>
+</ul>
+<hr>
+<h2 id="小米yu7产品架构图">小米YU7产品架构图</h2>
+<div class="mermaid">
+
+flowchart TB
+    YU7["小米YU7 首款纯电SUV"] --> P1["价格区间 25.35-35.99万"]
+    YU7 --> P2["车身尺寸 4999x1996x1600mm"]
+    YU7 --> P3["轴距 3000mm"]
+
+    P1 --> V1["标准版 25.35万"]
+    P1 --> V2["Pro版 28.35万"]
+    P1 --> V3["Max版 32.99万"]
+    P1 --> V4["Performance版 35.99万"]
+
+    V1 --> S1["720km 220kW 5.5s"]
+    V2 --> S2["760km 340kW 4.2s"]
+    V3 --> S3["835km 500kW 2.9s"]
+    V4 --> S4["720km 660kW 2.3s"]
+
+    YU7 --> Tech1["核心技术"]
+    Tech1 --> T1["800V碳化硅平台"]
+    Tech1 --> T2["V6s Plus电机"]
+    Tech1 --> T3["NVIDIA DRIVE AGX Thor"]
+    Tech1 --> T4["麒麟CTP 3.0电池"]
+
+</div>
+<h2 id="11-价格与车型">1.1 价格与车型</h2>
+<table>
+  <thead>
+      <tr>
+          <th>车型</th>
+          <th>指导价</th>
+          <th>CLTC续航</th>
+          <th>电机功率</th>
+          <th>0-100km/h</th>
+          <th>电压平台</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td>标准版</td>
+          <td>25.35万</td>
+          <td>720km</td>
+          <td>220kW</td>
+          <td>5.5s</td>
+          <td>800V</td>
+      </tr>
+      <tr>
+          <td>Pro版</td>
+          <td>28.35万</td>
+          <td>760km</td>
+          <td>340kW</td>
+          <td>4.2s</td>
+          <td>800V</td>
+      </tr>
+      <tr>
+          <td>Max版</td>
+          <td>32.99万</td>
+          <td>835km</td>
+          <td>500kW</td>
+          <td>2.9s</td>
+          <td>800V</td>
+      </tr>
+      <tr>
+          <td>Performance版</td>
+          <td>35.99万</td>
+          <td>720km</td>
+          <td>660kW</td>
+          <td>2.3s</td>
+          <td>900V</td>
+      </tr>
+  </tbody>
+</table>
+<h2 id="12-核心配置一览">1.2 核心配置一览</h2>
+<h3 id="yu7-vs-su7-核心配置对比">YU7 vs SU7 核心配置对比</h3>
+<div class="mermaid">
+
+flowchart LR
+    subgraph YU7["YU7 SUV"]
+        Y0["车身尺寸"] --> Y1["车身 4999x1996x1600mm"]
+        Y1 --> Y2["轴距3000mm"]
+        Y2 --> Y3["风阻 0.245Cd"]
+        Y3 --> Y4["V6s Plus 500kW"]
+        Y4 --> Y5["麒麟CTP 3.0 835km"]
+        Y5 --> Y6["DRIVE AGX Thor"]
+    end
+
+    subgraph SU7["SU7 轿车"]
+        S0["车身尺寸"] --> S1["车身 4997x1963x1440mm"]
+        S1 --> S2["轴距3000mm"]
+        S2 --> S3["风阻 0.195Cd"]
+        S3 --> S4["V6s Plus 495kW"]
+        S4 --> S5["麒麟CTP 3.0 800km"]
+        S5 --> S6["Orin-X x2 508TOPS"]
+    end
+
+</div>
+<hr>
+<h1 id="二外观设计亮点">二、外观设计亮点</h1>
+<h2 id="21-设计理念">2.1 设计理念</h2>
+<p>小米YU7的设计语言与SU7一脉相承，但针对SUV特性进行了专属优化：</p>
+<table>
+  <thead>
+      <tr>
+          <th>设计元素</th>
+          <th>SU7轿车</th>
+          <th>YU7 SUV</th>
+          <th>变化说明</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td>设计语言</td>
+          <td>水滴美学</td>
+          <td>湖泊美学</td>
+          <td>更舒展</td>
+      </tr>
+      <tr>
+          <td>前大灯</td>
+          <td>水滴大灯</td>
+          <td>专属U型大灯</td>
+          <td>家族延续</td>
+      </tr>
+      <tr>
+          <td>尾灯</td>
+          <td>Halo贯穿式</td>
+          <td>光芒贯穿式</td>
+          <td>呼应车身</td>
+      </tr>
+      <tr>
+          <td>风阻系数</td>
+          <td>0.195Cd</td>
+          <td>0.245Cd</td>
+          <td>SUV正常增加</td>
+      </tr>
+      <tr>
+          <td>轮距</td>
+          <td>1.65m</td>
+          <td>1.70m</td>
+          <td>更稳</td>
+      </tr>
+  </tbody>
+</table>
+<h2 id="22-10风道低风阻设计">2.2 10风道低风阻设计</h2>
+<p>YU7采用了业界领先的10风道低风阻设计：</p>
+<h3 id="yu7-10风道空气动力学原理">YU7 10风道空气动力学原理</h3>
+<div class="mermaid">
+
+flowchart LR
+    subgraph 前部["前部气流管理"]
+        A1["车头导流"] --> A2["前保险杠进气道"]
+        A2 --> A3["轮毂散热道"]
+        A3 --> A4["发动机舱散热"]
+    end
+
+    subgraph 中部["中部气流管理"]
+        B1["车身侧面导流"] --> B2["底护板平整化"]
+        B2 --> B3["电池包底部气流"]
+    end
+
+    subgraph 后部["后部气流管理"]
+        C1["车尾扩散器"] --> C2["尾部出风口"]
+        C2 --> C3["下压力产生 增加高速稳定性"]
+    end
+
+    A1 -->|"减少正面风阻"| B1
+    B1 -->|"平整化底部"| C1
+    C1 --> Result["续航提升高速风噪降低"]
+
+</div>
+<p><strong>10风道组成</strong>：</p>
+<ol>
+<li>前保险杠进气道 × 2</li>
+<li>引擎盖导流通道 × 2</li>
+<li>车身侧面导流 × 2</li>
+<li>车门下沿导流 × 2</li>
+<li>尾部扩散器 × 2</li>
+</ol>
+<h2 id="23-外观颜色">2.3 外观颜色</h2>
+<table>
+  <thead>
+      <tr>
+          <th>颜色</th>
+          <th>类型</th>
+          <th>特点</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td>宝石绿</td>
+          <td>珠光漆</td>
+          <td>低调奢华</td>
+      </tr>
+      <tr>
+          <td>钛金属银</td>
+          <td>金属漆</td>
+          <td>科技感强</td>
+      </tr>
+      <tr>
+          <td>珍珠白</td>
+          <td>珠光漆</td>
+          <td>耐脏显大</td>
+      </tr>
+      <tr>
+          <td>曜石黑</td>
+          <td>纯色</td>
+          <td>经典运动</td>
+      </tr>
+      <tr>
+          <td>深海蓝</td>
+          <td>珠光漆</td>
+          <td>清新自然</td>
+      </tr>
+      <tr>
+          <td>烈焰红</td>
+          <td>珠光漆</td>
+          <td>热情张扬</td>
+      </tr>
+  </tbody>
+</table>
+<h2 id="24-轮毂选择">2.4 轮毂选择</h2>
+<table>
+  <thead>
+      <tr>
+          <th>轮毂</th>
+          <th>尺寸</th>
+          <th>特点</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td>19寸低风阻</td>
+          <td>19&quot;</td>
+          <td>续航优先</td>
+      </tr>
+      <tr>
+          <td>20寸双色</td>
+          <td>20&quot;</td>
+          <td>平衡之选</td>
+      </tr>
+      <tr>
+          <td>21寸运动</td>
+          <td>21&quot;</td>
+          <td>视觉效果好</td>
+      </tr>
+  </tbody>
+</table>
+<hr>
+<h1 id="三空间与内饰">三、空间与内饰</h1>
+<h2 id="31-车身尺寸">3.1 车身尺寸</h2>
+<table>
+  <thead>
+      <tr>
+          <th>参数</th>
+          <th>小米YU7</th>
+          <th>蔚来ES6</th>
+          <th>小鹏G9</th>
+          <th>理想L7</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td>长(mm)</td>
+          <td>4999</td>
+          <td>4854</td>
+          <td>4892</td>
+          <td>5050</td>
+      </tr>
+      <tr>
+          <td>宽(mm)</td>
+          <td>1996</td>
+          <td>1995</td>
+          <td>1937</td>
+          <td>1995</td>
+      </tr>
+      <tr>
+          <td>高(mm)</td>
+          <td>1600</td>
+          <td>1703</td>
+          <td>1680</td>
+          <td>1750</td>
+      </tr>
+      <tr>
+          <td>轴距(mm)</td>
+          <td>3000</td>
+          <td>2915</td>
+          <td>2998</td>
+          <td>3005</td>
+      </tr>
+  </tbody>
+</table>
+<p><strong>空间亮点</strong>：</p>
+<ul>
+<li>3米轴距带来充裕的后排腿部空间</li>
+<li>纯平地板设计</li>
+<li>后排座椅支持角度调节</li>
+</ul>
+<h2 id="32-储物空间">3.2 储物空间</h2>
+<table>
+  <thead>
+      <tr>
+          <th>储物空间</th>
+          <th>容量</th>
+          <th>说明</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td>前备箱</td>
+          <td>141L</td>
+          <td>同级别最大</td>
+      </tr>
+      <tr>
+          <td>后备箱</td>
+          <td>520L</td>
+          <td>常规状态</td>
+      </tr>
+      <tr>
+          <td>后排放倒</td>
+          <td>1970L</td>
+          <td>最大扩展</td>
+      </tr>
+      <tr>
+          <td>车内储物</td>
+          <td>29处</td>
+          <td>遍布全车</td>
+      </tr>
+  </tbody>
+</table>
+<h2 id="33-内饰设计">3.3 内饰设计</h2>
+<h3 id="座舱布局">座舱布局</h3>
+<div class="mermaid">
+
+flowchart TB
+    subgraph 仪表台["仪表台"]
+        D1["7英寸仪表屏"]
+    end
+
+    subgraph 中控["中控"]
+        D2["1.1米全景屏"]
+        D2 --- D2a["1200nits亮度"]
+    end
+
+    subgraph 方向盘["方向盘"]
+        D3["方向盘"]
+    end
+
+    subgraph HUD["HUD"]
+        D4["抬头显示"]
+    end
+
+    subgraph 座椅["座椅"]
+        D5["零重力座椅"]
+        D5 --- D5a["支持腿托"]
+    end
+
+    D1 --- D3
+    D3 --- D2
+    D2 --- D4
+    D5 --> D2
+
+    style 仪表台 fill:#e3f2fd
+    style 中控 fill:#fff3e0
+    style 方向盘 fill:#f3e5f5
+    style HUD fill:#e8f5e9
+    style 座椅 fill:#fce4ec
+
+</div>
+<h3 id="座椅配置">座椅配置</h3>
+<table>
+  <thead>
+      <tr>
+          <th>功能</th>
+          <th>前排</th>
+          <th>后排</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td>电动调节</td>
+          <td>18向</td>
+          <td>6向</td>
+      </tr>
+      <tr>
+          <td>加热</td>
+          <td>✅</td>
+          <td>✅</td>
+      </tr>
+      <tr>
+          <td>通风</td>
+          <td>✅</td>
+          <td>✅</td>
+      </tr>
+      <tr>
+          <td>按摩</td>
+          <td>10点</td>
+          <td>-</td>
+      </tr>
+      <tr>
+          <td>腿托</td>
+          <td>✅</td>
+          <td>-</td>
+      </tr>
+      <tr>
+          <td>记忆</td>
+          <td>3组</td>
+          <td>-</td>
+      </tr>
+  </tbody>
+</table>
+<h3 id="舒适性配置">舒适性配置</h3>
+<table>
+  <thead>
+      <tr>
+          <th>配置</th>
+          <th>说明</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td>256色氛围灯</td>
+          <td>可随音乐律动</td>
+      </tr>
+      <tr>
+          <td>25扬声器音响</td>
+          <td>杜比全景声</td>
+      </tr>
+      <tr>
+          <td>80W双无线充电</td>
+          <td>兼容多设备</td>
+      </tr>
+      <tr>
+          <td>4.6L智能冰箱</td>
+          <td>支持冷热温度</td>
+      </tr>
+      <tr>
+          <td>全景天幕</td>
+          <td>1.2㎡防紫外线</td>
+      </tr>
+  </tbody>
+</table>
+<hr>
+<h1 id="四动力系统解析">四、动力系统解析</h1>
+<h2 id="41-电机技术">4.1 电机技术</h2>
+<p>YU7全系搭载小米超级电机V6s Plus：</p>
+<table>
+  <thead>
+      <tr>
+          <th>电机参数</th>
+          <th>标准版</th>
+          <th>Pro版</th>
+          <th>Max版</th>
+          <th>Performance版</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td>电机类型</td>
+          <td>单电机后驱</td>
+          <td>单电机后驱</td>
+          <td>双电机四驱</td>
+          <td>三电机四驱</td>
+      </tr>
+      <tr>
+          <td>前电机</td>
+          <td>-</td>
+          <td>-</td>
+          <td>180kW</td>
+          <td>270kW</td>
+      </tr>
+      <tr>
+          <td>后电机</td>
+          <td>220kW</td>
+          <td>340kW</td>
+          <td>320kW</td>
+          <td>2×195kW</td>
+      </tr>
+      <tr>
+          <td>总功率</td>
+          <td>220kW</td>
+          <td>340kW</td>
+          <td>500kW</td>
+          <td>660kW</td>
+      </tr>
+      <tr>
+          <td>0-100km/h</td>
+          <td>5.5s</td>
+          <td>4.2s</td>
+          <td>2.9s</td>
+          <td>2.3s</td>
+      </tr>
+      <tr>
+          <td>最高转速</td>
+          <td>24000rpm</td>
+          <td>24000rpm</td>
+          <td>24000rpm</td>
+          <td>24000rpm</td>
+      </tr>
+  </tbody>
+</table>
+<h2 id="42-超级电机v6s-plus技术亮点">4.2 超级电机V6s Plus技术亮点</h2>
+<ol>
+<li>
+<p><strong>Hair-Pin扁线绕组</strong></p>
+<ul>
+<li>槽满率70%</li>
+<li>功率密度提升30%</li>
+</ul>
+</li>
+<li>
+<p><strong>全碳化硅功率模块</strong></p>
+<ul>
+<li>电机控制器效率98%</li>
+<li>高转速下效率优势明显</li>
+</ul>
+</li>
+<li>
+<p><strong>转子冷却技术</strong></p>
+<ul>
+<li>油冷转子</li>
+<li>支持持续高功率输出</li>
+</ul>
+</li>
+<li>
+<p><strong>静音优化</strong></p>
+<ul>
+<li>电磁优化降低噪音</li>
+<li>精密动平衡</li>
+</ul>
+</li>
+</ol>
+<hr>
+<h1 id="五续航与充电">五、续航与充电</h1>
+<h2 id="51-电池与续航">5.1 电池与续航</h2>
+<table>
+  <thead>
+      <tr>
+          <th>车型</th>
+          <th>电池容量</th>
+          <th>CLTC续航</th>
+          <th>百公里电耗</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td>标准版</td>
+          <td>85kWh</td>
+          <td>720km</td>
+          <td>13.2kWh</td>
+      </tr>
+      <tr>
+          <td>Pro版</td>
+          <td>100kWh</td>
+          <td>760km</td>
+          <td>13.5kWh</td>
+      </tr>
+      <tr>
+          <td>Max版</td>
+          <td>120kWh</td>
+          <td>835km</td>
+          <td>13.8kWh</td>
+      </tr>
+      <tr>
+          <td>Performance版</td>
+          <td>100kWh</td>
+          <td>720km</td>
+          <td>14.5kWh</td>
+      </tr>
+  </tbody>
+</table>
+<h2 id="52-800v高压平台">5.2 800V高压平台</h2>
+<p>YU7采用800V全域碳化硅平台（峰值897V）：</p>
+<table>
+  <thead>
+      <tr>
+          <th>充电桩类型</th>
+          <th>充电功率</th>
+          <th>10-80%时间</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td>400V快充桩</td>
+          <td>100kW</td>
+          <td>~40分钟</td>
+      </tr>
+      <tr>
+          <td>800V快充桩</td>
+          <td>180kW</td>
+          <td>~20分钟</td>
+      </tr>
+      <tr>
+          <td>900V超充桩</td>
+          <td>350kW</td>
+          <td>~15分钟</td>
+      </tr>
+  </tbody>
+</table>
+<h2 id="53-充电网络">5.3 充电网络</h2>
+<p>小米自建充电网络正在快速扩张：</p>
+<table>
+  <thead>
+      <tr>
+          <th>充电桩类型</th>
+          <th>数量</th>
+          <th>最大功率</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td>家用慢充桩</td>
+          <td>7kW/11kW</td>
+          <td>11kW</td>
+      </tr>
+      <tr>
+          <td>直流快充桩</td>
+          <td>120kW</td>
+          <td>180kW</td>
+      </tr>
+      <tr>
+          <td>超级充电站</td>
+          <td>350kW</td>
+          <td>350kW</td>
+      </tr>
+  </tbody>
+</table>
+<p><strong>升压充电</strong>：支持400V桩端升压至800V，兼容更多充电桩</p>
+<hr>
+<h1 id="六智能驾驶nvidia-drive-agx-thor平台">六、智能驾驶：NVIDIA DRIVE AGX Thor平台</h1>
+<h2 id="61-硬件配置">6.1 硬件配置</h2>
+<h3 id="传感器套件max版标配">传感器套件（Max版标配）</h3>
+<table>
+  <thead>
+      <tr>
+          <th>传感器</th>
+          <th>数量</th>
+          <th>规格</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td>激光雷达</td>
+          <td>1颗</td>
+          <td>等效128线，200m范围</td>
+      </tr>
+      <tr>
+          <td>4D毫米波雷达</td>
+          <td>4颗</td>
+          <td>140m范围，角度分辨率0.5°</td>
+      </tr>
+      <tr>
+          <td>高清摄像头</td>
+          <td>11颗</td>
+          <td>800万像素</td>
+      </tr>
+      <tr>
+          <td>超声波雷达</td>
+          <td>12颗</td>
+          <td>5m范围</td>
+      </tr>
+  </tbody>
+</table>
+<h3 id="计算平台">计算平台</h3>
+<table>
+  <thead>
+      <tr>
+          <th>参数</th>
+          <th>NVIDIA DRIVE AGX Thor</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td>芯片架构</td>
+          <td>单芯片</td>
+      </tr>
+      <tr>
+          <td>算力</td>
+          <td>700 TOPS</td>
+      </tr>
+      <tr>
+          <td>制程</td>
+          <td>4nm</td>
+      </tr>
+      <tr>
+          <td>内存</td>
+          <td>24GB LPDDR5X</td>
+      </tr>
+      <tr>
+          <td>存储</td>
+          <td>256GB UFS</td>
+      </tr>
+  </tbody>
+</table>
+<h2 id="62-智能驾驶功能">6.2 智能驾驶功能</h2>
+<h3 id="xiaomi-had系统">Xiaomi HAD系统</h3>
+<table>
+  <thead>
+      <tr>
+          <th>功能</th>
+          <th>覆盖范围</th>
+          <th>说明</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td>高速NOA</td>
+          <td>全国高速</td>
+          <td>自动变道、超车</td>
+      </tr>
+      <tr>
+          <td>城市NOA</td>
+          <td>核心城市</td>
+          <td>路口通行</td>
+      </tr>
+      <tr>
+          <td>智能泊车</td>
+          <td>全场景</td>
+          <td>APA、LKA</td>
+      </tr>
+      <tr>
+          <td>记忆泊车</td>
+          <td>1000m</td>
+          <td>固定车位</td>
+      </tr>
+  </tbody>
+</table>
+<h3 id="主动安全功能">主动安全功能</h3>
+<table>
+  <thead>
+      <tr>
+          <th>功能</th>
+          <th>说明</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td>AEB自动紧急制动</td>
+          <td>识别车辆、行人</td>
+      </tr>
+      <tr>
+          <td>前碰撞预警</td>
+          <td>提前预警</td>
+      </tr>
+      <tr>
+          <td>车道偏离预警</td>
+          <td>提醒纠偏</td>
+      </tr>
+      <tr>
+          <td>盲点监测</td>
+          <td>变道辅助</td>
+      </tr>
+      <tr>
+          <td>开门预警</td>
+          <td>防止碰撞</td>
+      </tr>
+  </tbody>
+</table>
+<hr>
+<h1 id="七安全配置">七、安全配置</h1>
+<h2 id="71-被动安全">7.1 被动安全</h2>
+<h3 id="车身结构">车身结构</h3>
+<table>
+  <thead>
+      <tr>
+          <th>参数</th>
+          <th>数值</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td>高强钢占比</td>
+          <td>90%+</td>
+      </tr>
+      <tr>
+          <td>最强钢强度</td>
+          <td>2200MPa</td>
+      </tr>
+      <tr>
+          <td>铝合金覆盖率</td>
+          <td>32%</td>
+      </tr>
+      <tr>
+          <td>车身扭转刚度</td>
+          <td>45000Nm/deg</td>
+      </tr>
+  </tbody>
+</table>
+<h3 id="安全气囊">安全气囊</h3>
+<table>
+  <thead>
+      <tr>
+          <th>气囊类型</th>
+          <th>数量</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td>正面气囊</td>
+          <td>2</td>
+      </tr>
+      <tr>
+          <td>侧气囊</td>
+          <td>4</td>
+      </tr>
+      <tr>
+          <td>膝部气囊</td>
+          <td>2</td>
+      </tr>
+      <tr>
+          <td>侧气帘</td>
+          <td>2（贯穿式）</td>
+      </tr>
+      <tr>
+          <td>远端气囊</td>
+          <td>1</td>
+      </tr>
+  </tbody>
+</table>
+<h2 id="72-电池安全">7.2 电池安全</h2>
+<table>
+  <thead>
+      <tr>
+          <th>防护措施</th>
+          <th>说明</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td>隔热垫</td>
+          <td>航天级气凝胶</td>
+      </tr>
+      <tr>
+          <td>液冷系统</td>
+          <td>智能温控</td>
+      </tr>
+      <tr>
+          <td>碰撞断电</td>
+          <td>毫秒级响应</td>
+      </tr>
+      <tr>
+          <td>烟雾排放</td>
+          <td>定向疏导</td>
+      </tr>
+      <tr>
+          <td>IP67防护</td>
+          <td>电池包防水防尘</td>
+      </tr>
+  </tbody>
+</table>
+<hr>
+<h1 id="八与竞品对比">八、与竞品对比</h1>
+<h2 id="81-核心参数对比">8.1 核心参数对比</h2>
+<table>
+  <thead>
+      <tr>
+          <th>参数</th>
+          <th>小米YU7 Max</th>
+          <th>蔚来ES6</th>
+          <th>小鹏G9 Max</th>
+          <th>理想L7 Max</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td>指导价</td>
+          <td>32.99万</td>
+          <td>33.8万</td>
+          <td>35.89万</td>
+          <td>37.98万</td>
+      </tr>
+      <tr>
+          <td>续航CLTC</td>
+          <td>835km</td>
+          <td>625km</td>
+          <td>702km</td>
+          <td>740km</td>
+      </tr>
+      <tr>
+          <td>电机功率</td>
+          <td>500kW</td>
+          <td>360kW</td>
+          <td>405kW</td>
+          <td>330kW</td>
+      </tr>
+      <tr>
+          <td>0-100km/h</td>
+          <td>2.9s</td>
+          <td>4.5s</td>
+          <td>3.9s</td>
+          <td>5.3s</td>
+      </tr>
+      <tr>
+          <td>轴距</td>
+          <td>3000mm</td>
+          <td>2915mm</td>
+          <td>2998mm</td>
+          <td>3005mm</td>
+      </tr>
+      <tr>
+          <td>风阻系数</td>
+          <td>0.245Cd</td>
+          <td>0.25Cd</td>
+          <td>0.272Cd</td>
+          <td>0.26Cd</td>
+      </tr>
+  </tbody>
+</table>
+<h2 id="82-智能化对比">8.2 智能化对比</h2>
+<table>
+  <thead>
+      <tr>
+          <th>配置</th>
+          <th>小米YU7</th>
+          <th>蔚来ES6</th>
+          <th>小鹏G9</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td>智驾芯片</td>
+          <td>NVIDIA Thor</td>
+          <td>NVIDIA Orin</td>
+          <td>NVIDIA Orin</td>
+      </tr>
+      <tr>
+          <td>算力</td>
+          <td>700TOPS</td>
+          <td>1016TOPS</td>
+          <td>508TOPS</td>
+      </tr>
+      <tr>
+          <td>激光雷达</td>
+          <td>1颗</td>
+          <td>1颗</td>
+          <td>2颗</td>
+      </tr>
+      <tr>
+          <td>智驾系统</td>
+          <td>Xiaomi HAD</td>
+          <td>NOP+</td>
+          <td>XNGP</td>
+      </tr>
+      <tr>
+          <td>座舱芯片</td>
+          <td>骁龙8</td>
+          <td>骁龙8295</td>
+          <td>骁龙8155</td>
+      </tr>
+  </tbody>
+</table>
+<h2 id="83-性价比分析">8.3 性价比分析</h2>
+<div class="mermaid">
+
+flowchart LR
+    subgraph YU7["小米YU7 Max (32.99万)"]
+        Y1["✓ 835km续航（同级别最高）"]
+        Y2["✓ 2.9s破百（30万级最快）"]
+        Y3["✓ NVIDIA Thor平台（4nm）"]
+        Y4["✓ 1.1米全景屏（1200nits）"]
+    end
+
+    subgraph G9["小鹏G9 Max (35.89万)"]
+        X1["✓ 双激光雷达"]
+        X2["✓ XNGP城市NOA覆盖广"]
+        X3["✗ 价格高3万"]
+        X4["✗ 续航少133km"]
+    end
+
+    YU7 -->|结论| Result["YU7相近价格下提供更长续航和更强性能"]
+
+    style YU7 fill:#c8e6c9
+    style G9 fill:#ffcdd2
+    style Result fill:#fff9c4
+
+</div>
+<hr>
+<h1 id="九总结与购买建议">九、总结与购买建议</h1>
+<h2 id="91-车型推荐">9.1 车型推荐</h2>
+<table>
+  <thead>
+      <tr>
+          <th>需求</th>
+          <th>推荐车型</th>
+          <th>核心理由</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td>家庭用车</td>
+          <td>标准版 25.35万</td>
+          <td>空间大、续航足、性价比高</td>
+      </tr>
+      <tr>
+          <td>长途出行</td>
+          <td>Pro版 28.35万</td>
+          <td>760km续航无焦虑</td>
+      </tr>
+      <tr>
+          <td>科技性能</td>
+          <td>Max版 32.99万</td>
+          <td>2.9s破百+835km续航</td>
+      </tr>
+      <tr>
+          <td>极致追求</td>
+          <td>Performance 35.99万</td>
+          <td>三电机2.3s</td>
+      </tr>
+  </tbody>
+</table>
+<h2 id="92-yu7核心卖点">9.2 YU7核心卖点</h2>
+<div class="mermaid">
+
+flowchart TB
+    R["小米YU7 核心卖点"] --> A["🏆 续航冠军"]
+    R --> B["⚡ 性能标杆"]
+    R --> C["🎯 低风阻设计"]
+    R --> D["💺 空间王者"]
+    R --> E["🤖 智驾领先"]
+    R --> F["📺 视觉震撼"]
+    R --> G["🔊 音响顶级"]
+    R --> H["🧊 舒适满配"]
+
+    A --> A1["最高835km CLTC"]
+    B --> B1["2.9s破百（Max版）"]
+    B --> B2["2.3s（Performance版）"]
+    C --> C1["0.245Cd同级别最低"]
+    D --> D1["3米轴距"]
+    D --> D2["141L前备箱"]
+    D --> D3["1970L扩展"]
+    E --> E1["NVIDIA DRIVE AGX Thor"]
+    F --> F1["1.1米全景屏"]
+    F --> F2["1200nits亮度"]
+    G --> G1["25扬声器杜比全景声"]
+    H --> H1["4.6L智能冰箱"]
+    H --> H2["零重力座椅"]
+
+    style R fill:#7e57c2,color:#fff
+    style A fill:#4caf50
+    style B fill:#ff9800
+    style C fill:#03a9f4
+    style D fill:#9c27b0
+    style E fill:#f44336
+    style F fill:#ffeb3b
+    style G fill:#009688
+    style H fill:#e91e63
+
+</div>
+<h2 id="93-适合人群">9.3 适合人群</h2>
+<ul>
+<li><strong>家庭用户</strong>：大空间、高安全性、续航长</li>
+<li><strong>科技爱好者</strong>：最新智驾平台、智能化配置</li>
+<li><strong>年轻精英</strong>：高颜值、强劲性能</li>
+<li><strong>长途自驾</strong>：超长续航解决里程焦虑</li>
+</ul>
+<h2 id="94-与su7如何选择">9.4 与SU7如何选择？</h2>
+<table>
+  <thead>
+      <tr>
+          <th>对比项</th>
+          <th>小米SU7</th>
+          <th>小米YU7</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td>车型</td>
+          <td>中大型轿车</td>
+          <td>中大型SUV</td>
+      </tr>
+      <tr>
+          <td>空间</td>
+          <td>中</td>
+          <td>大</td>
+      </tr>
+      <tr>
+          <td>通过性</td>
+          <td>轿车</td>
+          <td>SUV（1600mm高）</td>
+      </tr>
+      <tr>
+          <td>续航</td>
+          <td>最高902km</td>
+          <td>最高835km</td>
+      </tr>
+      <tr>
+          <td>驾驶乐趣</td>
+          <td>更运动</td>
+          <td>更舒适</td>
+      </tr>
+      <tr>
+          <td>适用场景</td>
+          <td>个人/商务</td>
+          <td>家庭/自驾</td>
+      </tr>
+  </tbody>
+</table>
+<hr>
+<p><strong>数据来源</strong>：工信部公告、小米官方发布会、第三方测试数据
+<strong>文章更新日期</strong>：2026年3月20日</p>
+
+          </div>
+
+          
+          <div class="row">
+            <div class="col-md-8">
+            
+              <div class="mb-5">
+                
+<div class="li-x div-x post-meta">
+  <li class="pr-0"><a href="https://blog.jaxiu.cn/tags/"><i class="fas fa-tags"></i></a></li>
+  <div class="tags-sm">
+    
+      <li><a href="https://blog.jaxiu.cn/tags/%E6%96%B0%E8%83%BD%E6%BA%90%E7%94%B5%E5%8A%A8%E8%BD%A6" role="button">新能源电动车 </a></li>
+      
+    
+      <li><a href="https://blog.jaxiu.cn/tags/%E5%B0%8F%E7%B1%B3yu7" role="button">小米YU7 </a></li>
+      
+    
+      <li><a href="https://blog.jaxiu.cn/tags/%E5%B0%8F%E7%B1%B3%E6%B1%BD%E8%BD%A6" role="button">小米汽车 </a></li>
+      
+    
+      <li><a href="https://blog.jaxiu.cn/tags/%E7%BA%AF%E7%94%B5suv" role="button">纯电SUV </a></li>
+      
+    
+      <li><a href="https://blog.jaxiu.cn/tags/%E5%8F%91%E5%B8%83%E8%A7%A3%E6%9E%90" role="button">发布解析 </a></li>
+      
+    
+  </div>
+</div>
+              </div>
+            
+            </div>
+            
+          </div>
+          
+
+          
+          <div class="row pt-3">
+            <div class="col-md-6">
+              
+                <a href=https://blog.jaxiu.cn/blog/2026-03/xiaomi-su7-2026-new-generation/ class="post-meta">Previous
+                  <div class="pt-2 pb-5 d-flex">
+                    <i class="fas fa-angle-left text-grey font-weight-bold mr-2 active-color"></i>
+                    <span>新一代小米SU7深度解析：2026款升级了哪些硬核技术？</span>
+                  </div>
+                </a>
+              
+            </div>
+            
+            <div class="col-md-6 text-right" >
+              
+                <a href=https://blog.jaxiu.cn/blog/2026-03/su7-vs-model3-complete-comparison/ class="post-meta">Next
+                  <div class="pt-2 pb-5 flex-reverse">
+                    <i class="fas fa-angle-right text-grey font-weight-bold ml-2 active-color"></i>
+                    <span>小米SU7 vs 特斯拉Model 3：真实数据与技术原理深度对比分析（12000字）</span>
+                  </div>
+                </a>
+              
+            </div>
+          </div>
+
+          
+
+        </div>
+        
+
+      </div>
+      
+
+      
+
+    </div>
+    
+
+
+  </main>
+  
+
+
+    
+    
+<footer class="page-footer text-center font-small mt-4 wow fadeIn">
+
+
+  
+  <div class="pb-2 mt-5 pt-5">
+    
+    <a href="//github.com/axfinn " target="_blank" rel="noopener"><i class="fab fa-github mr-3"
+        aria-hidden="true"></i></a>
+    
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+
+    
+    <a href="mailto:521very@email.com"><i class="far fa-envelope-open mr-3" aria-hidden="true"></i></a>
+    
+
+    
+
+    
+
+  </div>
+  
+
+  
+  <div class="copyright py-4">
+    
+    <span> 2016 - 2026 &copy; | Theme <a href='https://github.com/orianna-zzo/AllinOne'
+        target="_blank">AllinOne</a> by <a href='https://github.com/orianna-zzo' target="_blank">Orianna</a> </span>
+  </div>
+  
+
+</footer>
+
+    
+
+
+
+
+<script type="text/javascript" src="https://blog.jaxiu.cn/js/vendors/jquery/jquery-3.3.1.min.js"></script>
+<script type="text/javascript" src="https://blog.jaxiu.cn/js/vendors/jquery/jquery.smooth-scroll.min.js"></script>
+
+
+
+<script type="text/javascript" src="https://blog.jaxiu.cn/js/vendors/popper.min.js"></script>
+<script type="text/javascript" src="https://blog.jaxiu.cn/js/vendors/holder.min.js"></script>
+<script type="text/javascript" src="https://blog.jaxiu.cn/js/vendors-extensions/bootstrap4/bootstrap.js" ></script>
+
+<script type="text/javascript" src="https://blog.jaxiu.cn/js/vendors/mdb/mdb.min.js"></script>
+
+<script type="text/javascript" src="https://blog.jaxiu.cn/js/main.js"></script>
+<script type="text/javascript" src="https://blog.jaxiu.cn/js/search.js"></script>
+
+
+
+
+  <script src="https://blog.jaxiu.cn/js/vendors/highlight.pack.js"> </script>
+  <script>hljs.initHighlightingOnLoad();</script>
+
+
+
+
+
+  <script src="https://blog.jaxiu.cn/js/vendors/katex/katex.min.js"> </script>
+  <script src="https://blog.jaxiu.cn/js/vendors/katex/contrib/auto-render.min.js"></script>
+
+  <script>
+      document.addEventListener("DOMContentLoaded", function () {
+          renderMathInElement(document.body);
+      });
+  </script>
+
+
+
+
+
+
+
+
+<script type="text/javascript">
+  
+  new WOW().init();
+</script>
+  </body>
+</html>

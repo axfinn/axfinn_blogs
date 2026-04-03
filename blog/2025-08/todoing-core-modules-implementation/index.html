@@ -1,0 +1,1212 @@
+<!DOCTYPE html>
+<html lang="zn-Hans">
+  <head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge, chrome=1">
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no, maximum-scale=1" />
+  
+  <meta name="author" content="jaxiu He">
+  <meta name="description"
+    content="todoIng 核心模块设计与架构
+在上一篇文章中，我们介绍了 todoIng 项目的整体概况和主要特性。今天，我们将深入探讨 todoIng 的核心模块设计和系统架构。这些模块是整个系统的基础，为其他高级功能提供了支撑。
+项目架构概览
+todoIng 采用现代化的前后端分离架构设计，这种架构模式带来了许多优势：
+
+技术栈独立：前端和后端可以使用最适合各自领域的技术栈
+开发效率：前后端团队可以并行开发，互不干扰
+可扩展性：前后端可以独立扩展和部署
+维护性：代码结构清晰，易于维护和重构
+
+下面是 todoIng 的整体架构图：">
+
+  <meta property="og:url" content="https://blog.jaxiu.cn/blog/2025-08/todoing-core-modules-implementation/">
+  <meta property="og:site_name" content="jaxiu He">
+  <meta property="og:title" content="todoIng 核心模块设计与架构">
+  <meta property="og:description" content="todoIng 核心模块设计与架构 在上一篇文章中，我们介绍了 todoIng 项目的整体概况和主要特性。今天，我们将深入探讨 todoIng 的核心模块设计和系统架构。这些模块是整个系统的基础，为其他高级功能提供了支撑。
+项目架构概览 todoIng 采用现代化的前后端分离架构设计，这种架构模式带来了许多优势：
+技术栈独立：前端和后端可以使用最适合各自领域的技术栈 开发效率：前后端团队可以并行开发，互不干扰 可扩展性：前后端可以独立扩展和部署 维护性：代码结构清晰，易于维护和重构 下面是 todoIng 的整体架构图：">
+  <meta property="og:locale" content="zn_Hans">
+  <meta property="og:type" content="article">
+    <meta property="article:section" content="blog">
+    <meta property="article:published_time" content="2025-08-01T14:00:00+08:00">
+    <meta property="article:modified_time" content="2025-08-01T14:00:00+08:00">
+    <meta property="article:tag" content="TodoIng">
+    <meta property="article:tag" content="Node.js">
+    <meta property="article:tag" content="React">
+    <meta property="article:tag" content="JWT">
+    <meta property="article:tag" content="MongoDB">
+    <meta property="article:tag" content="系统架构">
+
+
+  <title>
+    
+     todoIng 核心模块设计与架构 | jaxiu He 
+    
+  </title>
+
+  <link rel="canonical" href="https://blog.jaxiu.cn/blog/2025-08/todoing-core-modules-implementation/">
+
+  
+  
+
+  
+  
+  
+  <meta name="baidu-site-verification" content="your-baidu-verify-code" />
+  
+
+  
+  
+  <meta name="google-site-verification" content="your-google-verify-code" />
+  
+
+  
+  <link href="https://blog.jaxiu.cn/css/vendors-extensions/fontawesome/all.min.css" rel="stylesheet">
+
+  
+  <link rel="stylesheet"
+    href="https://fonts.googleapis.com/css?family=Open+Sans:400,700|Ubuntu+Mono:400,400i,700,700i|Raleway:300,400,500,600">
+  <link href="https://blog.jaxiu.cn/css/font.css" rel="stylesheet">
+
+  
+  <link href="https://blog.jaxiu.cn/css/vendors/bootstrap4/bootstrap.min.css" rel="stylesheet">
+  <link href="https://blog.jaxiu.cn/css/vendors-extensions/mdb/mdb.min.css" rel="stylesheet">
+  <link href="https://blog.jaxiu.cn/css/vendors/mdb/style.min.css" rel="stylesheet">
+  <link href="https://blog.jaxiu.cn/css/main.css" rel="stylesheet">
+
+
+  
+  <link rel="shortcut icon"  href="https://blog.jaxiu.cn/img/logo.png" >
+
+
+  
+  
+
+  <style type="text/css">
+    @media (min-width: 800px) and (max-width: 850px) {
+      .navbar:not(.top-nav-collapse) {
+        background: #1C2331 !important;
+      }
+    }
+  </style>
+
+
+  
+  
+  <link rel="stylesheet" href="https://blog.jaxiu.cn/js/vendors/katex/katex.min.css">
+  
+  
+
+  
+  
+  <link rel="stylesheet" href="https://blog.jaxiu.cn/css/vendors/highlight/github-gist.css">
+  
+
+  
+  
+  <script type="module">
+    import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.esm.min.mjs';
+    mermaid.initialize({ startOnLoad: true });
+  </script>
+  
+  
+
+  
+  <link href="https://blog.jaxiu.cn/css/holiday-effects.css" rel="stylesheet">
+  <script src="https://blog.jaxiu.cn/js/holiday-effects.js"></script>
+
+  
+  <script src="https://blog.jaxiu.cn/js/dynamic-bg.js"></script>
+  <link href="https://blog.jaxiu.cn/css/dynamic-bg-control.css" rel="stylesheet">
+
+</head>
+  <body class="bg-light" data-spy="scroll" data-target="#page-scrollspy" data-offset="90">
+  
+    
+    
+
+    
+      
+
+
+<nav class="navbar fixed-top navbar-expand-lg navbar-dark scrolling-navbar">
+    <div class="container">
+
+      
+      <a class="navbar-brand" href="https://blog.jaxiu.cn/">
+          
+        <img class="avatar" src="https://blog.jaxiu.cn/img/logo.png" style="width: 40px!important;height: auto;"  class="d-inline-block align-top" alt="" >
+        
+        <strong> jaxiu He</strong>
+      </a>
+
+      
+      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
+        aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+
+      
+      <div class="collapse navbar-collapse" id="navbarSupportedContent">
+
+        
+        <ul class="navbar-nav mr-auto ">
+          <li class="nav-item ">
+            <a class="nav-link" href="https://blog.jaxiu.cn/">Home</a>
+          </li>
+          
+            <li class="nav-item ">
+              <a class="nav-link" href="https://blog.jaxiu.cn/blog/" >博客  </a>
+            </li>
+
+          
+            <li class="nav-item ">
+              <a class="nav-link" href="https://blog.jaxiu.cn/moment/" >动态  </a>
+            </li>
+
+          
+            <li class="nav-item ">
+              <a class="nav-link" href="https://blog.jaxiu.cn/blog/prenatal-stories/" >胎教故事  </a>
+            </li>
+
+          
+            <li class="nav-item ">
+              <a class="nav-link" href="https://blog.jaxiu.cn/about/" >关于  </a>
+            </li>
+
+          
+        </ul>
+
+        
+        <ul class="navbar-nav">
+          <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" href="#" id="searchDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+              <i class="fas fa-search"></i> 搜索
+            </a>
+            <div class="dropdown-menu dropdown-menu-right p-3" aria-labelledby="searchDropdown" style="min-width: 300px; max-width: 400px;">
+              <form class="search-form" onsubmit="return false;">
+                <div class="input-group">
+                  <input type="text" id="search-query" class="form-control" placeholder="搜索文章标题或内容..." autocomplete="off">
+                  <div class="input-group-append">
+                    <button class="btn btn-outline-secondary" type="button" onclick="document.getElementById('search-query').focus();">
+                      <i class="fas fa-search"></i>
+                    </button>
+                  </div>
+                </div>
+              </form>
+              <ul id="search-results" class="list-unstyled mt-2 mb-0" style="max-height: 400px; overflow-y: auto;"></ul>
+            </div>
+          </li>
+        </ul>
+
+      </div>
+
+    </div>
+  </nav>
+   
+      
+
+
+
+
+
+
+
+<div id="site-header" class="carousel slide carousel-fade" data-ride="carousel" style="height: 18rem;">
+  
+
+  
+  
+  
+
+  
+  <div class="carousel-inner" role="listbox">
+    
+    
+
+    
+    <div class="carousel-item active">
+      <div class="view"
+        style="background-image: url('https://blog.jaxiu.cn/img/header-slides/raw_1515691746.jpg'); background-repeat: no-repeat; background-size: cover;">
+
+        
+        <div class="mask rgba-black-light d-flex justify-content-center align-items-center">
+
+          
+          
+          
+
+        </div>
+        
+
+      </div>
+    </div>
+    
+    
+    
+    
+
+    
+    <div class="carousel-item">
+      <div class="view"
+        style="background-image: url('https://blog.jaxiu.cn/img/header-slides//raw_1515847341.jpg'); background-repeat: no-repeat; background-size: cover;">
+
+        
+        <div class="mask rgba-black-light d-flex justify-content-center align-items-center">
+
+
+
+        </div>
+        
+
+      </div>
+    </div>
+    
+    
+    
+
+
+  </div>
+  
+
+  
+  <div class="carousel-content text-center white-text wow fadeIn">
+    <div class="row mx-0 headfont mt-3 pt-4">
+      
+      <div class="col-12 col-sm-5 align-middle">
+        <a href="https://blog.jaxiu.cn/">
+          
+          <img class="pull-right avatar avatar-md" src="https://blog.jaxiu.cn/img/logo.png" alt="">
+          
+        </a>
+      </div>
+
+      <div class="col-12 col-sm-7 text-left pl-2">
+        <a href="https://blog.jaxiu.cn/">
+          <h1 class="mb-2 h1" style="font-weight: 300;">
+            <strong>jaxiu He</strong>
+          </h1>
+        </a>
+
+
+        
+        <div class="mt-2" style="font-size: 1rem; color: white;">
+          
+          <a href="//github.com/axfinn" target="_blank" rel="noopener"><i class="fab fa-github pr-1"
+              aria-hidden="true"></i></a>
+          
+          
+
+          
+
+          
+
+          
+
+          
+
+          
+
+
+          
+          <a href="mailto:521very@email.com"><i class="far fa-envelope-open pr-1" aria-hidden="true"></i></a>
+          
+
+          
+
+
+        </div>
+      </div>
+    </div>
+  </div>
+  
+
+  
+  
+  
+
+</div>
+  
+    
+
+    
+  
+  <main class="post-main-wrapper">
+    
+    
+    <div class="row">
+
+      
+
+      
+      <div class="col-md-10">
+      
+
+        
+        <div class="z-depth-1  post-wrapper white-bg single-post">
+
+          <div class="post-header text-center" >
+  <ul class="post-meta li-x">
+    
+      
+        <li><a href="https://blog.jaxiu.cn/categories/%E6%8A%80%E6%9C%AF"><i class="fas fa-folder-open pr-1" aria-hidden="true"></i> 技术 </a></li>
+      
+        <li><a href="https://blog.jaxiu.cn/categories/%E6%9E%B6%E6%9E%84%E8%AE%BE%E8%AE%A1"><i class="fas fa-folder-open pr-1" aria-hidden="true"></i> 架构设计 </a></li>
+      
+    
+    
+  </ul>
+
+  <div class="px-4 post-heading">todoIng 核心模块设计与架构</div>
+
+  <ul class="post-meta li-x mt-1">
+    
+      <li>Aug 1, 2025</li>
+    
+
+    
+      <li class="middot"></li>
+      <li>5 minutes read</li>
+    
+  </ul>
+  
+
+</div>
+
+
+          <div class="post-content markdown">
+            <h1 id="todoing-核心模块设计与架构">todoIng 核心模块设计与架构</h1>
+<p>在上一篇文章中，我们介绍了 todoIng 项目的整体概况和主要特性。今天，我们将深入探讨 todoIng 的核心模块设计和系统架构。这些模块是整个系统的基础，为其他高级功能提供了支撑。</p>
+<h2 id="项目架构概览">项目架构概览</h2>
+<p>todoIng 采用现代化的前后端分离架构设计，这种架构模式带来了许多优势：</p>
+<ol>
+<li><strong>技术栈独立</strong>：前端和后端可以使用最适合各自领域的技术栈</li>
+<li><strong>开发效率</strong>：前后端团队可以并行开发，互不干扰</li>
+<li><strong>可扩展性</strong>：前后端可以独立扩展和部署</li>
+<li><strong>维护性</strong>：代码结构清晰，易于维护和重构</li>
+</ol>
+<p>下面是 todoIng 的整体架构图：</p>
+<div class="mermaid">
+
+graph TD
+    A[用户界面] --> B{前端应用}
+    B --> C[React + TypeScript]
+    B --> D[Redux状态管理]
+    B --> E[Bootstrap UI组件]
+    
+    C --> F{后端API}
+    D --> F
+    E --> F
+    
+    F --> G[Node.js + Express]
+    F --> H[JWT认证]
+    F --> I[MongoDB数据库]
+    
+    G --> J[任务管理模块]
+    G --> K[用户认证模块]
+    G --> L[历史追踪模块]
+    G --> M[团队协作模块]
+    G --> N[AI报告模块]
+    
+    I --> O[用户数据]
+    I --> P[任务数据]
+    I --> Q[历史记录]
+    I --> R[团队信息]
+    
+    N --> S[OpenAI API]
+    
+    subgraph 前端层
+        A
+        B
+        C
+        D
+        E
+    end
+    
+    subgraph 后端层
+        F
+        G
+        H
+        I
+        J
+        K
+        L
+        M
+        N
+        S
+    end
+    
+    subgraph 数据层
+        O
+        P
+        Q
+        R
+    end
+
+</div>
+<h2 id="核心设计理念">核心设计理念</h2>
+<h3 id="用户认证系统设计">用户认证系统设计</h3>
+<p>用户认证是任何应用的基础功能，todoIng 的认证系统采用 JWT（JSON Web Token）实现，具有安全、高效的特点。我们的设计考虑了以下几个关键点：</p>
+<ol>
+<li><strong>安全性</strong>：使用 industry-standard 的 JWT 实现，确保令牌的安全性</li>
+<li><strong>可扩展性</strong>：支持多种认证方式，包括传统的用户名密码认证和可选的双因素认证</li>
+<li><strong>状态管理</strong>：通过 Redux Toolkit 在前端管理认证状态，确保用户在页面刷新后仍保持登录状态</li>
+</ol>
+<p>JWT 认证机制的核心思想是无状态认证，服务器不需要存储会话信息，而是通过验证令牌的签名来确认用户身份。这种设计大大降低了服务器的存储压力，提高了系统的可扩展性。</p>
+<h3 id="任务管理系统设计">任务管理系统设计</h3>
+<p>任务管理是 todoIng 的核心功能之一，我们设计了一套完整的任务生命周期管理机制：</p>
+<ol>
+<li><strong>任务状态管理</strong>：定义了完整的任务状态流转体系，包括创建、进行中、暂停、完成、取消等状态</li>
+<li><strong>任务权限控制</strong>：确保只有任务创建者和分配者才能修改任务</li>
+<li><strong>数据一致性</strong>：通过数据库事务和验证机制确保任务数据的一致性</li>
+</ol>
+<p>任务模型设计遵循了领域驱动设计的原则，将任务相关的属性和行为封装在一起，便于维护和扩展。</p>
+<h2 id="模块化架构设计">模块化架构设计</h2>
+<p>todoIng 采用模块化设计，将不同功能划分为独立的模块：</p>
+<div class="mermaid">
+
+graph LR
+    A[todoIng核心系统] --> B[用户认证模块]
+    A --> C[任务管理模块]
+    A --> D[历史追踪模块]
+    A --> E[团队协作模块]
+    A --> F[报告生成模块]
+    A --> G[成就系统模块]
+    
+    B --> B1[注册登录]
+    B --> B2[JWT令牌管理]
+    
+    C --> C1[任务创建/编辑]
+    C --> C2[任务状态管理]
+    
+    D --> D1[变更记录]
+    D --> D2[快照机制]
+    
+    E --> E1[团队管理]
+    E --> E2[权限控制]
+    
+    F --> F1[数据收集]
+    F --> F2[AI内容生成]
+    
+    G --> G1[成就定义]
+    G --> G2[成就解锁]
+
+</div>
+<p>这种模块化设计的好处：</p>
+<ol>
+<li><strong>易于维护</strong>：每个模块职责单一，便于理解和维护</li>
+<li><strong>可扩展性强</strong>：可以独立添加或修改某个模块而不影响其他部分</li>
+<li><strong>团队协作</strong>：不同团队可以并行开发不同模块</li>
+</ol>
+<h2 id="技术选型考量">技术选型考量</h2>
+<h3 id="前端技术栈选择">前端技术栈选择</h3>
+<p>选择 React + TypeScript 的组合主要基于以下考虑：</p>
+<ol>
+<li><strong>生态系统丰富</strong>：React 拥有庞大的生态系统和社区支持</li>
+<li><strong>类型安全</strong>：TypeScript 提供了静态类型检查，减少运行时错误</li>
+<li><strong>开发体验</strong>：热重载和丰富的开发工具提升开发效率</li>
+<li><strong>组件化开发</strong>：React 的组件化思想与我们的模块化设计高度契合</li>
+</ol>
+<h3 id="后端技术栈选择">后端技术栈选择</h3>
+<p>Node.js + Express 的选择考虑了：</p>
+<ol>
+<li><strong>性能表现</strong>：Node.js 的事件驱动非阻塞 I/O 模型适合构建高并发应用</li>
+<li><strong>统一语言</strong>：前后端都使用 JavaScript/TypeScript，降低学习成本</li>
+<li><strong>开发效率</strong>：Express 提供了简洁的 API，快速构建 RESTful 服务</li>
+<li><strong>社区支持</strong>：丰富的第三方库和活跃的社区支持</li>
+</ol>
+<h3 id="数据库选择">数据库选择</h3>
+<p>MongoDB 的选择基于：</p>
+<ol>
+<li><strong>灵活的数据模型</strong>：无需预定义严格的表结构，适合快速迭代</li>
+<li><strong>水平扩展</strong>：支持分片集群，便于水平扩展</li>
+<li><strong>开发友好</strong>：文档结构与 JSON 格式一致，易于理解和操作</li>
+<li><strong>功能丰富</strong>：内置聚合管道等高级功能，便于数据分析</li>
+</ol>
+<h2 id="系统交互设计">系统交互设计</h2>
+<p>系统各模块之间的交互经过精心设计，确保数据流清晰且高效：</p>
+<div class="mermaid">
+
+sequenceDiagram
+    participant U as 用户
+    participant F as 前端
+    participant B as 后端
+    participant D as 数据库
+    participant A as OpenAI
+    
+    U->>F: 操作界面
+    F->>B: 发送请求
+    B->>D: 查询/更新数据
+    D-->>B: 返回数据
+    B-->>F: 响应结果
+    F-->>U: 更新界面
+    
+    B->>A: 请求AI服务(报告生成)
+    A-->>B: 返回生成内容
+    B->>D: 保存报告
+
+</div>
+<p>这种设计确保了系统的响应性和可维护性。</p>
+<h2 id="可扩展性设计">可扩展性设计</h2>
+<p>todoIng 在设计之初就考虑了可扩展性，主要体现在以下几个方面：</p>
+<h3 id="1-插件化架构">1. 插件化架构</h3>
+<p>系统采用插件化架构，允许通过添加新的模块来扩展功能：</p>
+<div class="mermaid">
+
+graph TB
+    A[todoIng核心] --> B[核心模块]
+    A --> C[插件接口]
+    C --> D[通知插件]
+    C --> E[日历插件]
+    C --> F[统计插件]
+    C --> G[导出插件]
+    
+    subgraph 核心系统
+        A
+        B
+        C
+    end
+    
+    subgraph 可选插件
+        D
+        E
+        F
+        G
+    end
+
+</div>
+<h3 id="2-微服务准备">2. 微服务准备</h3>
+<p>虽然当前版本是单体应用，但架构设计上已经为未来拆分为微服务做好了准备：</p>
+<ul>
+<li>模块间通过清晰的接口通信</li>
+<li>数据库设计遵循领域驱动设计原则</li>
+<li>业务逻辑与数据存储解耦</li>
+</ul>
+<h2 id="总结">总结</h2>
+<p>通过合理的架构设计和技术选型，todoIng 的核心模块具备了良好的可维护性和可扩展性。模块化设计使得系统易于理解和维护，而前后端分离架构则提升了开发效率和系统性能。</p>
+<p>在下一篇文章中，我们将介绍 todoIng 最具特色的功能——Git 风格的任务历史追踪系统。这个功能使得 todoIng 与其他任务管理工具区别开来，为用户提供了前所未有的任务管理体验。</p>
+
+          </div>
+
+          
+          <div class="row">
+            <div class="col-md-8">
+            
+              <div class="mb-5">
+                
+<div class="li-x div-x post-meta">
+  <li class="pr-0"><a href="https://blog.jaxiu.cn/tags/"><i class="fas fa-tags"></i></a></li>
+  <div class="tags-sm">
+    
+      <li><a href="https://blog.jaxiu.cn/tags/todoing" role="button">todoIng </a></li>
+      
+    
+      <li><a href="https://blog.jaxiu.cn/tags/node.js" role="button">Node.js </a></li>
+      
+    
+      <li><a href="https://blog.jaxiu.cn/tags/react" role="button">React </a></li>
+      
+    
+      <li><a href="https://blog.jaxiu.cn/tags/jwt" role="button">JWT </a></li>
+      
+    
+      <li><a href="https://blog.jaxiu.cn/tags/mongodb" role="button">MongoDB </a></li>
+      
+    
+      <li><a href="https://blog.jaxiu.cn/tags/%E7%B3%BB%E7%BB%9F%E6%9E%B6%E6%9E%84" role="button">系统架构 </a></li>
+      
+    
+  </div>
+</div>
+              </div>
+            
+            </div>
+            
+          </div>
+          
+
+          
+          <div class="row pt-3">
+            <div class="col-md-6">
+              
+                <a href=https://blog.jaxiu.cn/blog/2025-08/todoing-project-overview/ class="post-meta">Previous
+                  <div class="pt-2 pb-5 d-flex">
+                    <i class="fas fa-angle-left text-grey font-weight-bold mr-2 active-color"></i>
+                    <span>todoIng 项目概览：像管理代码一样管理你的任务</span>
+                  </div>
+                </a>
+              
+            </div>
+            
+            <div class="col-md-6 text-right" >
+              
+                <a href=https://blog.jaxiu.cn/blog/2025-08/todoing-git-style-history-tracking/ class="post-meta">Next
+                  <div class="pt-2 pb-5 flex-reverse">
+                    <i class="fas fa-angle-right text-grey font-weight-bold ml-2 active-color"></i>
+                    <span>todoIng Git 风格历史追踪系统设计与架构</span>
+                  </div>
+                </a>
+              
+            </div>
+          </div>
+
+          
+
+        </div>
+        
+
+      </div>
+      
+
+      
+	
+	
+	
+	
+		
+		
+		
+	
+
+		
+		<div class="col-md-2 pl-0">
+
+			
+			<div id="page-scrollspy" class="toc-nav">
+				
+				<ul class="nav nav-pills ml-0">
+					
+					<li class="nav-item pb-3 text-center">
+						<span class="font-weight-bold mb-2">- CATALOG - </span>
+					</li>
+
+					
+						
+						
+							
+								
+								
+									<ul class="nav">
+								
+								
+
+										<li class="nav-item">
+						 					<a class="nav-link" href="#todoing-%e6%a0%b8%e5%bf%83%e6%a8%a1%e5%9d%97%e8%ae%be%e8%ae%a1%e4%b8%8e%e6%9e%b6%e6%9e%84">
+												 todoIng 核心模块设计与架构
+											</a>
+										</li>
+						 
+								
+								
+									</ul>
+								
+							
+						
+				 
+						
+						
+							
+								
+								
+									<ul class="nav">
+								
+									<ul class="nav">
+								
+								
+
+										<li class="nav-item">
+						 					<a class="nav-link" href="#%e9%a1%b9%e7%9b%ae%e6%9e%b6%e6%9e%84%e6%a6%82%e8%a7%88">
+												 项目架构概览
+											</a>
+										</li>
+						 
+								
+								
+									</ul>
+								
+									</ul>
+								
+							
+						
+				 
+						
+						
+							
+								
+								
+									<ul class="nav">
+								
+									<ul class="nav">
+								
+								
+
+										<li class="nav-item">
+						 					<a class="nav-link" href="#%e6%a0%b8%e5%bf%83%e8%ae%be%e8%ae%a1%e7%90%86%e5%bf%b5">
+												 核心设计理念
+											</a>
+										</li>
+						 
+								
+								
+									</ul>
+								
+									</ul>
+								
+							
+						
+				 
+						
+						
+							
+								
+								
+									<ul class="nav">
+								
+									<ul class="nav">
+								
+									<ul class="nav">
+								
+								
+
+										<li class="nav-item">
+						 					<a class="nav-link" href="#%e7%94%a8%e6%88%b7%e8%ae%a4%e8%af%81%e7%b3%bb%e7%bb%9f%e8%ae%be%e8%ae%a1">
+												 用户认证系统设计
+											</a>
+										</li>
+						 
+								
+								
+									</ul>
+								
+									</ul>
+								
+									</ul>
+								
+							
+						
+				 
+						
+						
+							
+								
+								
+									<ul class="nav">
+								
+									<ul class="nav">
+								
+									<ul class="nav">
+								
+								
+
+										<li class="nav-item">
+						 					<a class="nav-link" href="#%e4%bb%bb%e5%8a%a1%e7%ae%a1%e7%90%86%e7%b3%bb%e7%bb%9f%e8%ae%be%e8%ae%a1">
+												 任务管理系统设计
+											</a>
+										</li>
+						 
+								
+								
+									</ul>
+								
+									</ul>
+								
+									</ul>
+								
+							
+						
+				 
+						
+						
+							
+								
+								
+									<ul class="nav">
+								
+									<ul class="nav">
+								
+								
+
+										<li class="nav-item">
+						 					<a class="nav-link" href="#%e6%a8%a1%e5%9d%97%e5%8c%96%e6%9e%b6%e6%9e%84%e8%ae%be%e8%ae%a1">
+												 模块化架构设计
+											</a>
+										</li>
+						 
+								
+								
+									</ul>
+								
+									</ul>
+								
+							
+						
+				 
+						
+						
+							
+								
+								
+									<ul class="nav">
+								
+									<ul class="nav">
+								
+								
+
+										<li class="nav-item">
+						 					<a class="nav-link" href="#%e6%8a%80%e6%9c%af%e9%80%89%e5%9e%8b%e8%80%83%e9%87%8f">
+												 技术选型考量
+											</a>
+										</li>
+						 
+								
+								
+									</ul>
+								
+									</ul>
+								
+							
+						
+				 
+						
+						
+							
+								
+								
+									<ul class="nav">
+								
+									<ul class="nav">
+								
+									<ul class="nav">
+								
+								
+
+										<li class="nav-item">
+						 					<a class="nav-link" href="#%e5%89%8d%e7%ab%af%e6%8a%80%e6%9c%af%e6%a0%88%e9%80%89%e6%8b%a9">
+												 前端技术栈选择
+											</a>
+										</li>
+						 
+								
+								
+									</ul>
+								
+									</ul>
+								
+									</ul>
+								
+							
+						
+				 
+						
+						
+							
+								
+								
+									<ul class="nav">
+								
+									<ul class="nav">
+								
+									<ul class="nav">
+								
+								
+
+										<li class="nav-item">
+						 					<a class="nav-link" href="#%e5%90%8e%e7%ab%af%e6%8a%80%e6%9c%af%e6%a0%88%e9%80%89%e6%8b%a9">
+												 后端技术栈选择
+											</a>
+										</li>
+						 
+								
+								
+									</ul>
+								
+									</ul>
+								
+									</ul>
+								
+							
+						
+				 
+						
+						
+							
+								
+								
+									<ul class="nav">
+								
+									<ul class="nav">
+								
+									<ul class="nav">
+								
+								
+
+										<li class="nav-item">
+						 					<a class="nav-link" href="#%e6%95%b0%e6%8d%ae%e5%ba%93%e9%80%89%e6%8b%a9">
+												 数据库选择
+											</a>
+										</li>
+						 
+								
+								
+									</ul>
+								
+									</ul>
+								
+									</ul>
+								
+							
+						
+				 
+						
+						
+							
+								
+								
+									<ul class="nav">
+								
+									<ul class="nav">
+								
+								
+
+										<li class="nav-item">
+						 					<a class="nav-link" href="#%e7%b3%bb%e7%bb%9f%e4%ba%a4%e4%ba%92%e8%ae%be%e8%ae%a1">
+												 系统交互设计
+											</a>
+										</li>
+						 
+								
+								
+									</ul>
+								
+									</ul>
+								
+							
+						
+				 
+						
+						
+							
+								
+								
+									<ul class="nav">
+								
+									<ul class="nav">
+								
+								
+
+										<li class="nav-item">
+						 					<a class="nav-link" href="#%e5%8f%af%e6%89%a9%e5%b1%95%e6%80%a7%e8%ae%be%e8%ae%a1">
+												 可扩展性设计
+											</a>
+										</li>
+						 
+								
+								
+									</ul>
+								
+									</ul>
+								
+							
+						
+				 
+						
+						
+							
+								
+								
+									<ul class="nav">
+								
+									<ul class="nav">
+								
+									<ul class="nav">
+								
+								
+
+										<li class="nav-item">
+						 					<a class="nav-link" href="#1-%e6%8f%92%e4%bb%b6%e5%8c%96%e6%9e%b6%e6%9e%84">
+												 1. 插件化架构
+											</a>
+										</li>
+						 
+								
+								
+									</ul>
+								
+									</ul>
+								
+									</ul>
+								
+							
+						
+				 
+						
+						
+							
+								
+								
+									<ul class="nav">
+								
+									<ul class="nav">
+								
+									<ul class="nav">
+								
+								
+
+										<li class="nav-item">
+						 					<a class="nav-link" href="#2-%e5%be%ae%e6%9c%8d%e5%8a%a1%e5%87%86%e5%a4%87">
+												 2. 微服务准备
+											</a>
+										</li>
+						 
+								
+								
+									</ul>
+								
+									</ul>
+								
+									</ul>
+								
+							
+						
+				 
+						
+						
+							
+								
+								
+									<ul class="nav">
+								
+									<ul class="nav">
+								
+								
+
+										<li class="nav-item">
+						 					<a class="nav-link" href="#%e6%80%bb%e7%bb%93">
+												 总结
+											</a>
+										</li>
+						 
+								
+								
+									</ul>
+								
+									</ul>
+								
+							
+						
+				 
+
+				</ul>
+			</div>
+			
+
+		</div>
+		
+	
+
+    </div>
+    
+
+
+  </main>
+  
+
+
+    
+    
+<footer class="page-footer text-center font-small mt-4 wow fadeIn">
+
+
+  
+  <div class="pb-2 mt-5 pt-5">
+    
+    <a href="//github.com/axfinn " target="_blank" rel="noopener"><i class="fab fa-github mr-3"
+        aria-hidden="true"></i></a>
+    
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+
+    
+    <a href="mailto:521very@email.com"><i class="far fa-envelope-open mr-3" aria-hidden="true"></i></a>
+    
+
+    
+
+    
+
+  </div>
+  
+
+  
+  <div class="copyright py-4">
+    
+    <span> 2016 - 2026 &copy; | Theme <a href='https://github.com/orianna-zzo/AllinOne'
+        target="_blank">AllinOne</a> by <a href='https://github.com/orianna-zzo' target="_blank">Orianna</a> </span>
+  </div>
+  
+
+</footer>
+
+    
+
+
+
+
+<script type="text/javascript" src="https://blog.jaxiu.cn/js/vendors/jquery/jquery-3.3.1.min.js"></script>
+<script type="text/javascript" src="https://blog.jaxiu.cn/js/vendors/jquery/jquery.smooth-scroll.min.js"></script>
+
+
+
+<script type="text/javascript" src="https://blog.jaxiu.cn/js/vendors/popper.min.js"></script>
+<script type="text/javascript" src="https://blog.jaxiu.cn/js/vendors/holder.min.js"></script>
+<script type="text/javascript" src="https://blog.jaxiu.cn/js/vendors-extensions/bootstrap4/bootstrap.js" ></script>
+
+<script type="text/javascript" src="https://blog.jaxiu.cn/js/vendors/mdb/mdb.min.js"></script>
+
+<script type="text/javascript" src="https://blog.jaxiu.cn/js/main.js"></script>
+<script type="text/javascript" src="https://blog.jaxiu.cn/js/search.js"></script>
+
+
+
+
+  <script src="https://blog.jaxiu.cn/js/vendors/highlight.pack.js"> </script>
+  <script>hljs.initHighlightingOnLoad();</script>
+
+
+
+
+
+  <script src="https://blog.jaxiu.cn/js/vendors/katex/katex.min.js"> </script>
+  <script src="https://blog.jaxiu.cn/js/vendors/katex/contrib/auto-render.min.js"></script>
+
+  <script>
+      document.addEventListener("DOMContentLoaded", function () {
+          renderMathInElement(document.body);
+      });
+  </script>
+
+
+
+
+
+
+
+
+<script type="text/javascript">
+  
+  new WOW().init();
+</script>
+  </body>
+</html>

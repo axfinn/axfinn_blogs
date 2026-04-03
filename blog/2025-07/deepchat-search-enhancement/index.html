@@ -1,0 +1,1550 @@
+<!DOCTYPE html>
+<html lang="zn-Hans">
+  <head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge, chrome=1">
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no, maximum-scale=1" />
+  
+  <meta name="author" content="jaxiu He">
+  <meta name="description"
+    content="DeepChat 搜索增强功能实现分析
+引言
+在当今信息爆炸的时代，单纯的 AI 模型已经不能满足用户对实时、准确信息的需求。DeepChat 通过强大的搜索增强功能，将 AI 的智能与搜索引擎的实时信息相结合，为用户提供更加准确和及时的回答。本文将深入分析 DeepChat 的搜索增强功能实现机制。
+搜索增强的核心价值
+为什么需要搜索增强？
+传统的 AI 模型存在以下局限性：
+
+知识截止时间 - 大多数模型的知识截止到训练数据的时间点
+实时信息缺失 - 无法获取最新的新闻、股价、天气等实时信息
+事实准确性 - 模型可能会产生&quot;幻觉&quot;，提供不准确的信息
+个性化限制 - 无法访问用户的私人数据和特定环境信息
+
+搜索增强功能通过将 AI 与搜索引擎结合，有效解决了这些问题。">
+
+  <meta property="og:url" content="https://blog.jaxiu.cn/blog/2025-07/deepchat-search-enhancement/">
+  <meta property="og:site_name" content="jaxiu He">
+  <meta property="og:title" content="DeepChat 搜索增强功能实现分析">
+  <meta property="og:description" content="DeepChat 搜索增强功能实现分析 引言 在当今信息爆炸的时代，单纯的 AI 模型已经不能满足用户对实时、准确信息的需求。DeepChat 通过强大的搜索增强功能，将 AI 的智能与搜索引擎的实时信息相结合，为用户提供更加准确和及时的回答。本文将深入分析 DeepChat 的搜索增强功能实现机制。
+搜索增强的核心价值 为什么需要搜索增强？ 传统的 AI 模型存在以下局限性：
+知识截止时间 - 大多数模型的知识截止到训练数据的时间点 实时信息缺失 - 无法获取最新的新闻、股价、天气等实时信息 事实准确性 - 模型可能会产生&#34;幻觉&#34;，提供不准确的信息 个性化限制 - 无法访问用户的私人数据和特定环境信息 搜索增强功能通过将 AI 与搜索引擎结合，有效解决了这些问题。">
+  <meta property="og:locale" content="zn_Hans">
+  <meta property="og:type" content="article">
+    <meta property="article:section" content="blog">
+    <meta property="article:published_time" content="2025-07-31T20:00:00+08:00">
+    <meta property="article:modified_time" content="2025-07-31T20:00:00+08:00">
+    <meta property="article:tag" content="DeepChat">
+    <meta property="article:tag" content="AI">
+    <meta property="article:tag" content="搜索增强">
+    <meta property="article:tag" content="搜索引擎集成">
+    <meta property="article:tag" content="信息检索">
+
+
+  <title>
+    
+     DeepChat 搜索增强功能实现分析 | jaxiu He 
+    
+  </title>
+
+  <link rel="canonical" href="https://blog.jaxiu.cn/blog/2025-07/deepchat-search-enhancement/">
+
+  
+  
+
+  
+  
+  
+  <meta name="baidu-site-verification" content="your-baidu-verify-code" />
+  
+
+  
+  
+  <meta name="google-site-verification" content="your-google-verify-code" />
+  
+
+  
+  <link href="https://blog.jaxiu.cn/css/vendors-extensions/fontawesome/all.min.css" rel="stylesheet">
+
+  
+  <link rel="stylesheet"
+    href="https://fonts.googleapis.com/css?family=Open+Sans:400,700|Ubuntu+Mono:400,400i,700,700i|Raleway:300,400,500,600">
+  <link href="https://blog.jaxiu.cn/css/font.css" rel="stylesheet">
+
+  
+  <link href="https://blog.jaxiu.cn/css/vendors/bootstrap4/bootstrap.min.css" rel="stylesheet">
+  <link href="https://blog.jaxiu.cn/css/vendors-extensions/mdb/mdb.min.css" rel="stylesheet">
+  <link href="https://blog.jaxiu.cn/css/vendors/mdb/style.min.css" rel="stylesheet">
+  <link href="https://blog.jaxiu.cn/css/main.css" rel="stylesheet">
+
+
+  
+  <link rel="shortcut icon"  href="https://blog.jaxiu.cn/img/logo.png" >
+
+
+  
+  
+
+  <style type="text/css">
+    @media (min-width: 800px) and (max-width: 850px) {
+      .navbar:not(.top-nav-collapse) {
+        background: #1C2331 !important;
+      }
+    }
+  </style>
+
+
+  
+  
+  <link rel="stylesheet" href="https://blog.jaxiu.cn/js/vendors/katex/katex.min.css">
+  
+  
+
+  
+  
+  <link rel="stylesheet" href="https://blog.jaxiu.cn/css/vendors/highlight/github-gist.css">
+  
+
+  
+  
+  <script type="module">
+    import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.esm.min.mjs';
+    mermaid.initialize({ startOnLoad: true });
+  </script>
+  
+  
+
+  
+  <link href="https://blog.jaxiu.cn/css/holiday-effects.css" rel="stylesheet">
+  <script src="https://blog.jaxiu.cn/js/holiday-effects.js"></script>
+
+  
+  <script src="https://blog.jaxiu.cn/js/dynamic-bg.js"></script>
+  <link href="https://blog.jaxiu.cn/css/dynamic-bg-control.css" rel="stylesheet">
+
+</head>
+  <body class="bg-light" data-spy="scroll" data-target="#page-scrollspy" data-offset="90">
+  
+    
+    
+
+    
+      
+
+
+<nav class="navbar fixed-top navbar-expand-lg navbar-dark scrolling-navbar">
+    <div class="container">
+
+      
+      <a class="navbar-brand" href="https://blog.jaxiu.cn/">
+          
+        <img class="avatar" src="https://blog.jaxiu.cn/img/logo.png" style="width: 40px!important;height: auto;"  class="d-inline-block align-top" alt="" >
+        
+        <strong> jaxiu He</strong>
+      </a>
+
+      
+      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
+        aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+
+      
+      <div class="collapse navbar-collapse" id="navbarSupportedContent">
+
+        
+        <ul class="navbar-nav mr-auto ">
+          <li class="nav-item ">
+            <a class="nav-link" href="https://blog.jaxiu.cn/">Home</a>
+          </li>
+          
+            <li class="nav-item ">
+              <a class="nav-link" href="https://blog.jaxiu.cn/blog/" >博客  </a>
+            </li>
+
+          
+            <li class="nav-item ">
+              <a class="nav-link" href="https://blog.jaxiu.cn/moment/" >动态  </a>
+            </li>
+
+          
+            <li class="nav-item ">
+              <a class="nav-link" href="https://blog.jaxiu.cn/blog/prenatal-stories/" >胎教故事  </a>
+            </li>
+
+          
+            <li class="nav-item ">
+              <a class="nav-link" href="https://blog.jaxiu.cn/about/" >关于  </a>
+            </li>
+
+          
+        </ul>
+
+        
+        <ul class="navbar-nav">
+          <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" href="#" id="searchDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+              <i class="fas fa-search"></i> 搜索
+            </a>
+            <div class="dropdown-menu dropdown-menu-right p-3" aria-labelledby="searchDropdown" style="min-width: 300px; max-width: 400px;">
+              <form class="search-form" onsubmit="return false;">
+                <div class="input-group">
+                  <input type="text" id="search-query" class="form-control" placeholder="搜索文章标题或内容..." autocomplete="off">
+                  <div class="input-group-append">
+                    <button class="btn btn-outline-secondary" type="button" onclick="document.getElementById('search-query').focus();">
+                      <i class="fas fa-search"></i>
+                    </button>
+                  </div>
+                </div>
+              </form>
+              <ul id="search-results" class="list-unstyled mt-2 mb-0" style="max-height: 400px; overflow-y: auto;"></ul>
+            </div>
+          </li>
+        </ul>
+
+      </div>
+
+    </div>
+  </nav>
+   
+      
+
+
+
+
+
+
+
+<div id="site-header" class="carousel slide carousel-fade" data-ride="carousel" style="height: 18rem;">
+  
+
+  
+  
+  
+
+  
+  <div class="carousel-inner" role="listbox">
+    
+    
+
+    
+    <div class="carousel-item active">
+      <div class="view"
+        style="background-image: url('https://blog.jaxiu.cn/img/header-slides/raw_1515691746.jpg'); background-repeat: no-repeat; background-size: cover;">
+
+        
+        <div class="mask rgba-black-light d-flex justify-content-center align-items-center">
+
+          
+          
+          
+
+        </div>
+        
+
+      </div>
+    </div>
+    
+    
+    
+    
+
+    
+    <div class="carousel-item">
+      <div class="view"
+        style="background-image: url('https://blog.jaxiu.cn/img/header-slides//raw_1515847341.jpg'); background-repeat: no-repeat; background-size: cover;">
+
+        
+        <div class="mask rgba-black-light d-flex justify-content-center align-items-center">
+
+
+
+        </div>
+        
+
+      </div>
+    </div>
+    
+    
+    
+
+
+  </div>
+  
+
+  
+  <div class="carousel-content text-center white-text wow fadeIn">
+    <div class="row mx-0 headfont mt-3 pt-4">
+      
+      <div class="col-12 col-sm-5 align-middle">
+        <a href="https://blog.jaxiu.cn/">
+          
+          <img class="pull-right avatar avatar-md" src="https://blog.jaxiu.cn/img/logo.png" alt="">
+          
+        </a>
+      </div>
+
+      <div class="col-12 col-sm-7 text-left pl-2">
+        <a href="https://blog.jaxiu.cn/">
+          <h1 class="mb-2 h1" style="font-weight: 300;">
+            <strong>jaxiu He</strong>
+          </h1>
+        </a>
+
+
+        
+        <div class="mt-2" style="font-size: 1rem; color: white;">
+          
+          <a href="//github.com/axfinn" target="_blank" rel="noopener"><i class="fab fa-github pr-1"
+              aria-hidden="true"></i></a>
+          
+          
+
+          
+
+          
+
+          
+
+          
+
+          
+
+
+          
+          <a href="mailto:521very@email.com"><i class="far fa-envelope-open pr-1" aria-hidden="true"></i></a>
+          
+
+          
+
+
+        </div>
+      </div>
+    </div>
+  </div>
+  
+
+  
+  
+  
+
+</div>
+  
+    
+
+    
+  
+  <main class="post-main-wrapper">
+    
+    
+    <div class="row">
+
+      
+
+      
+      <div class="col-md-10">
+      
+
+        
+        <div class="z-depth-1  post-wrapper white-bg single-post">
+
+          <div class="post-header text-center" >
+  <ul class="post-meta li-x">
+    
+      
+        <li><a href="https://blog.jaxiu.cn/categories/%E6%8A%80%E6%9C%AF"><i class="fas fa-folder-open pr-1" aria-hidden="true"></i> 技术 </a></li>
+      
+        <li><a href="https://blog.jaxiu.cn/categories/ai%E5%B7%A5%E5%85%B7"><i class="fas fa-folder-open pr-1" aria-hidden="true"></i> AI工具 </a></li>
+      
+    
+    
+  </ul>
+
+  <div class="px-4 post-heading">DeepChat 搜索增强功能实现分析</div>
+
+  <ul class="post-meta li-x mt-1">
+    
+      <li>Jul 31, 2025</li>
+    
+
+    
+      <li class="middot"></li>
+      <li>6 minutes read</li>
+    
+  </ul>
+  
+
+</div>
+
+
+          <div class="post-content markdown">
+            <h1 id="deepchat-搜索增强功能实现分析">DeepChat 搜索增强功能实现分析</h1>
+<h2 id="引言">引言</h2>
+<p>在当今信息爆炸的时代，单纯的 AI 模型已经不能满足用户对实时、准确信息的需求。DeepChat 通过强大的搜索增强功能，将 AI 的智能与搜索引擎的实时信息相结合，为用户提供更加准确和及时的回答。本文将深入分析 DeepChat 的搜索增强功能实现机制。</p>
+<h2 id="搜索增强的核心价值">搜索增强的核心价值</h2>
+<h3 id="为什么需要搜索增强">为什么需要搜索增强？</h3>
+<p>传统的 AI 模型存在以下局限性：</p>
+<ol>
+<li><strong>知识截止时间</strong> - 大多数模型的知识截止到训练数据的时间点</li>
+<li><strong>实时信息缺失</strong> - 无法获取最新的新闻、股价、天气等实时信息</li>
+<li><strong>事实准确性</strong> - 模型可能会产生&quot;幻觉&quot;，提供不准确的信息</li>
+<li><strong>个性化限制</strong> - 无法访问用户的私人数据和特定环境信息</li>
+</ol>
+<p>搜索增强功能通过将 AI 与搜索引擎结合，有效解决了这些问题。</p>
+<h2 id="多种搜索引擎集成方案">多种搜索引擎集成方案</h2>
+<h3 id="搜索引擎适配器模式">搜索引擎适配器模式</h3>
+<p>DeepChat 采用了适配器模式来集成不同的搜索引擎，类似于其多模型支持的实现方式：</p>
+<pre tabindex="0"><code>┌─────────────────────────────────────────────────────────────────┐
+│                    搜索引擎集成架构                             │
+├─────────────────────────────────────────────────────────────────┤
+│                    ┌─────────────────┐                          │
+│                    │  统一搜索接口    │                          │
+│                    └─────────────────┘                          │
+│                            │                                    │
+│        ┌───────────────────┼───────────────────┐                │
+│        │                   │                   │                │
+│ ┌─────────────┐    ┌─────────────┐    ┌─────────────┐           │
+│ │Google 适配器 │    │Bing 适配器   │    │百度 适配器   │           │
+│ └─────────────┘    └─────────────┘    └─────────────┘           │
+│        │                   │                   │                │
+│ ┌─────────────┐    ┌─────────────┐    ┌─────────────┐           │
+│ │Google API   │    │Bing API     │    │百度 API      │           │
+│ └─────────────┘    └─────────────┘    └─────────────┘           │
+└─────────────────────────────────────────────────────────────────┘
+</code></pre><h3 id="核心搜索接口">核心搜索接口</h3>
+<p>DeepChat 定义了统一的搜索接口：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-typescript" data-lang="typescript"><span class="line"><span class="cl"><span class="kr">interface</span> <span class="nx">SearchEngine</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">  <span class="c1">// 执行搜索
+</span></span></span><span class="line"><span class="cl">  <span class="nx">search</span><span class="p">(</span><span class="nx">query</span>: <span class="kt">string</span><span class="p">,</span> <span class="nx">options?</span>: <span class="kt">SearchOptions</span><span class="p">)</span><span class="o">:</span> <span class="nx">Promise</span><span class="p">&lt;</span><span class="nt">SearchResult</span><span class="err">[]</span><span class="p">&gt;;</span>
+</span></span><span class="line"><span class="cl">  
+</span></span><span class="line"><span class="cl">  <span class="c1">// 获取搜索建议
+</span></span></span><span class="line"><span class="cl">  <span class="nx">getSuggestions</span><span class="p">(</span><span class="nx">query</span>: <span class="kt">string</span><span class="p">)</span><span class="o">:</span> <span class="nx">Promise</span><span class="p">&lt;</span><span class="nt">string</span><span class="err">[]</span><span class="p">&gt;;</span>
+</span></span><span class="line"><span class="cl">  
+</span></span><span class="line"><span class="cl">  <span class="c1">// 验证配置
+</span></span></span><span class="line"><span class="cl">  <span class="nx">validateConfig</span><span class="p">(</span><span class="nx">config</span>: <span class="kt">SearchConfig</span><span class="p">)</span><span class="o">:</span> <span class="nx">Promise</span><span class="p">&lt;</span><span class="nt">boolean</span><span class="p">&gt;;</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="kr">interface</span> <span class="nx">SearchResult</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">  <span class="nx">title</span>: <span class="kt">string</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">  <span class="nx">url</span>: <span class="kt">string</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">  <span class="nx">snippet</span>: <span class="kt">string</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">  <span class="nx">source</span>: <span class="kt">string</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">  <span class="nx">timestamp?</span>: <span class="kt">Date</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></div><h3 id="主流搜索引擎集成">主流搜索引擎集成</h3>
+<h4 id="google-搜索集成">Google 搜索集成</h4>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-typescript" data-lang="typescript"><span class="line"><span class="cl"><span class="kr">class</span> <span class="nx">GoogleSearchEngine</span> <span class="kr">implements</span> <span class="nx">SearchEngine</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">  <span class="kr">private</span> <span class="nx">apiKey</span>: <span class="kt">string</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">  <span class="kr">private</span> <span class="nx">customSearchId</span>: <span class="kt">string</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">  
+</span></span><span class="line"><span class="cl">  <span class="kr">async</span> <span class="nx">search</span><span class="p">(</span><span class="nx">query</span>: <span class="kt">string</span><span class="p">,</span> <span class="nx">options?</span>: <span class="kt">SearchOptions</span><span class="p">)</span><span class="o">:</span> <span class="nx">Promise</span><span class="p">&lt;</span><span class="nt">SearchResult</span><span class="err">[]</span><span class="p">&gt;</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="kr">const</span> <span class="nx">params</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">URLSearchParams</span><span class="p">({</span>
+</span></span><span class="line"><span class="cl">      <span class="nx">key</span>: <span class="kt">this.apiKey</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">      <span class="nx">cx</span>: <span class="kt">this.customSearchId</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">      <span class="nx">q</span>: <span class="kt">query</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">      <span class="nx">num</span>: <span class="kt">options?.limit?.toString</span><span class="p">()</span> <span class="o">||</span> <span class="s1">&#39;10&#39;</span>
+</span></span><span class="line"><span class="cl">    <span class="p">});</span>
+</span></span><span class="line"><span class="cl">    
+</span></span><span class="line"><span class="cl">    <span class="kr">const</span> <span class="nx">response</span> <span class="o">=</span> <span class="k">await</span> <span class="nx">fetch</span><span class="p">(</span>
+</span></span><span class="line"><span class="cl">      <span class="sb">`https://www.googleapis.com/customsearch/v1?</span><span class="si">${</span><span class="nx">params</span><span class="si">}</span><span class="sb">`</span>
+</span></span><span class="line"><span class="cl">    <span class="p">);</span>
+</span></span><span class="line"><span class="cl">    
+</span></span><span class="line"><span class="cl">    <span class="kr">const</span> <span class="nx">data</span> <span class="o">=</span> <span class="k">await</span> <span class="nx">response</span><span class="p">.</span><span class="nx">json</span><span class="p">();</span>
+</span></span><span class="line"><span class="cl">    
+</span></span><span class="line"><span class="cl">    <span class="k">return</span> <span class="nx">data</span><span class="p">.</span><span class="nx">items</span><span class="o">?</span><span class="p">.</span><span class="nx">map</span><span class="p">((</span><span class="nx">item</span>: <span class="kt">any</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="p">({</span>
+</span></span><span class="line"><span class="cl">      <span class="nx">title</span>: <span class="kt">item.title</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">      <span class="nx">url</span>: <span class="kt">item.link</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">      <span class="nx">snippet</span>: <span class="kt">item.snippet</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">      <span class="nx">source</span><span class="o">:</span> <span class="s1">&#39;Google&#39;</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}))</span> <span class="o">||</span> <span class="p">[];</span>
+</span></span><span class="line"><span class="cl">  <span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></div><h4 id="bing-搜索集成">Bing 搜索集成</h4>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-typescript" data-lang="typescript"><span class="line"><span class="cl"><span class="kr">class</span> <span class="nx">BingSearchEngine</span> <span class="kr">implements</span> <span class="nx">SearchEngine</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">  <span class="kr">private</span> <span class="nx">apiKey</span>: <span class="kt">string</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">  
+</span></span><span class="line"><span class="cl">  <span class="kr">async</span> <span class="nx">search</span><span class="p">(</span><span class="nx">query</span>: <span class="kt">string</span><span class="p">,</span> <span class="nx">options?</span>: <span class="kt">SearchOptions</span><span class="p">)</span><span class="o">:</span> <span class="nx">Promise</span><span class="p">&lt;</span><span class="nt">SearchResult</span><span class="err">[]</span><span class="p">&gt;</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="kr">const</span> <span class="nx">response</span> <span class="o">=</span> <span class="k">await</span> <span class="nx">fetch</span><span class="p">(</span>
+</span></span><span class="line"><span class="cl">      <span class="sb">`https://api.bing.microsoft.com/v7.0/search?q=</span><span class="si">${</span><span class="nb">encodeURIComponent</span><span class="p">(</span><span class="nx">query</span><span class="p">)</span><span class="si">}</span><span class="sb">`</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">      <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="nx">headers</span><span class="o">:</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">          <span class="s1">&#39;Ocp-Apim-Subscription-Key&#39;</span><span class="o">:</span> <span class="k">this</span><span class="p">.</span><span class="nx">apiKey</span>
+</span></span><span class="line"><span class="cl">        <span class="p">}</span>
+</span></span><span class="line"><span class="cl">      <span class="p">}</span>
+</span></span><span class="line"><span class="cl">    <span class="p">);</span>
+</span></span><span class="line"><span class="cl">    
+</span></span><span class="line"><span class="cl">    <span class="kr">const</span> <span class="nx">data</span> <span class="o">=</span> <span class="k">await</span> <span class="nx">response</span><span class="p">.</span><span class="nx">json</span><span class="p">();</span>
+</span></span><span class="line"><span class="cl">    
+</span></span><span class="line"><span class="cl">    <span class="k">return</span> <span class="nx">data</span><span class="p">.</span><span class="nx">webPages</span><span class="o">?</span><span class="p">.</span><span class="nx">value</span><span class="o">?</span><span class="p">.</span><span class="nx">map</span><span class="p">((</span><span class="nx">item</span>: <span class="kt">any</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="p">({</span>
+</span></span><span class="line"><span class="cl">      <span class="nx">title</span>: <span class="kt">item.name</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">      <span class="nx">url</span>: <span class="kt">item.url</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">      <span class="nx">snippet</span>: <span class="kt">item.snippet</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">      <span class="nx">source</span><span class="o">:</span> <span class="s1">&#39;Bing&#39;</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}))</span> <span class="o">||</span> <span class="p">[];</span>
+</span></span><span class="line"><span class="cl">  <span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></div><h2 id="搜索结果与-ai-对话的融合机制">搜索结果与 AI 对话的融合机制</h2>
+<h3 id="搜索触发策略">搜索触发策略</h3>
+<p>DeepChat 采用了智能的搜索触发策略，决定何时需要进行搜索：</p>
+<ol>
+<li><strong>关键词检测</strong> - 检测用户查询中的实时信息相关关键词</li>
+<li><strong>模型判断</strong> - 利用 AI 模型自身判断是否需要外部信息</li>
+<li><strong>用户指令</strong> - 明确的搜索指令触发搜索</li>
+</ol>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-typescript" data-lang="typescript"><span class="line"><span class="cl"><span class="kr">class</span> <span class="nx">SearchTrigger</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">  <span class="kr">private</span> <span class="nx">realtimeKeywords</span> <span class="o">=</span> <span class="p">[</span>
+</span></span><span class="line"><span class="cl">    <span class="s1">&#39;天气&#39;</span><span class="p">,</span> <span class="s1">&#39;股价&#39;</span><span class="p">,</span> <span class="s1">&#39;新闻&#39;</span><span class="p">,</span> <span class="s1">&#39;时间&#39;</span><span class="p">,</span> <span class="s1">&#39;比分&#39;</span><span class="p">,</span> 
+</span></span><span class="line"><span class="cl">    <span class="s1">&#39;weather&#39;</span><span class="p">,</span> <span class="s1">&#39;stock&#39;</span><span class="p">,</span> <span class="s1">&#39;news&#39;</span><span class="p">,</span> <span class="s1">&#39;time&#39;</span><span class="p">,</span> <span class="s1">&#39;score&#39;</span>
+</span></span><span class="line"><span class="cl">  <span class="p">];</span>
+</span></span><span class="line"><span class="cl">  
+</span></span><span class="line"><span class="cl">  <span class="nx">shouldTriggerSearch</span><span class="p">(</span><span class="nx">query</span>: <span class="kt">string</span><span class="p">,</span> <span class="nx">context</span>: <span class="kt">ChatContext</span><span class="p">)</span><span class="o">:</span> <span class="kr">boolean</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="c1">// 检查关键词
+</span></span></span><span class="line"><span class="cl">    <span class="k">if</span> <span class="p">(</span><span class="k">this</span><span class="p">.</span><span class="nx">realtimeKeywords</span><span class="p">.</span><span class="nx">some</span><span class="p">(</span><span class="nx">keyword</span> <span class="o">=&gt;</span> 
+</span></span><span class="line"><span class="cl">      <span class="nx">query</span><span class="p">.</span><span class="nx">toLowerCase</span><span class="p">().</span><span class="nx">includes</span><span class="p">(</span><span class="nx">keyword</span><span class="p">.</span><span class="nx">toLowerCase</span><span class="p">())))</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">      <span class="k">return</span> <span class="kc">true</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl">    
+</span></span><span class="line"><span class="cl">    <span class="c1">// 检查上下文
+</span></span></span><span class="line"><span class="cl">    <span class="k">if</span> <span class="p">(</span><span class="nx">context</span><span class="p">.</span><span class="nx">lastModelResponse</span><span class="o">?</span><span class="p">.</span><span class="nx">includes</span><span class="p">(</span><span class="s1">&#39;I recommend checking&#39;</span><span class="p">))</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">      <span class="k">return</span> <span class="kc">true</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl">    
+</span></span><span class="line"><span class="cl">    <span class="c1">// 使用模型判断
+</span></span></span><span class="line"><span class="cl">    <span class="k">return</span> <span class="k">this</span><span class="p">.</span><span class="nx">modelBasedDetection</span><span class="p">(</span><span class="nx">query</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">  <span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></div><h3 id="搜索结果处理与注入">搜索结果处理与注入</h3>
+<p>当触发搜索后，DeepChat 会对搜索结果进行处理并注入到对话中：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-typescript" data-lang="typescript"><span class="line"><span class="cl"><span class="kr">class</span> <span class="nx">SearchResultProcessor</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">  <span class="kr">async</span> <span class="nx">processAndInject</span><span class="p">(</span>
+</span></span><span class="line"><span class="cl">    <span class="nx">query</span>: <span class="kt">string</span><span class="p">,</span> 
+</span></span><span class="line"><span class="cl">    <span class="nx">results</span>: <span class="kt">SearchResult</span><span class="p">[],</span> 
+</span></span><span class="line"><span class="cl">    <span class="nx">conversation</span>: <span class="kt">Message</span><span class="p">[]</span>
+</span></span><span class="line"><span class="cl">  <span class="p">)</span><span class="o">:</span> <span class="nx">Promise</span><span class="p">&lt;</span><span class="nt">Message</span><span class="err">[]</span><span class="p">&gt;</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="c1">// 过滤和排序结果
+</span></span></span><span class="line"><span class="cl">    <span class="kr">const</span> <span class="nx">filteredResults</span> <span class="o">=</span> <span class="k">this</span><span class="p">.</span><span class="nx">filterResults</span><span class="p">(</span><span class="nx">results</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">    <span class="kr">const</span> <span class="nx">sortedResults</span> <span class="o">=</span> <span class="k">this</span><span class="p">.</span><span class="nx">rankResults</span><span class="p">(</span><span class="nx">filteredResults</span><span class="p">,</span> <span class="nx">query</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">    
+</span></span><span class="line"><span class="cl">    <span class="c1">// 构造上下文信息
+</span></span></span><span class="line"><span class="cl">    <span class="kr">const</span> <span class="nx">searchContext</span> <span class="o">=</span> <span class="nx">sortedResults</span><span class="p">.</span><span class="nx">slice</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">5</span><span class="p">).</span><span class="nx">map</span><span class="p">(</span><span class="nx">result</span> <span class="o">=&gt;</span> <span class="p">({</span>
+</span></span><span class="line"><span class="cl">      <span class="nx">title</span>: <span class="kt">result.title</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">      <span class="nx">url</span>: <span class="kt">result.url</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">      <span class="nx">content</span>: <span class="kt">result.snippet</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}));</span>
+</span></span><span class="line"><span class="cl">    
+</span></span><span class="line"><span class="cl">    <span class="c1">// 创建包含搜索结果的系统消息
+</span></span></span><span class="line"><span class="cl">    <span class="kr">const</span> <span class="nx">systemMessage</span>: <span class="kt">Message</span> <span class="o">=</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">      <span class="nx">role</span><span class="o">:</span> <span class="s1">&#39;system&#39;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">      <span class="nx">content</span><span class="o">:</span> <span class="sb">`以下是与用户查询相关的搜索结果：
+</span></span></span><span class="line"><span class="cl"><span class="si">${</span><span class="nx">searchContext</span><span class="p">.</span><span class="nx">map</span><span class="p">((</span><span class="nx">ctx</span><span class="p">,</span> <span class="nx">i</span><span class="p">)</span> <span class="o">=&gt;</span> 
+</span></span><span class="line"><span class="cl">  <span class="sb">`</span><span class="si">${</span><span class="nx">i</span><span class="o">+</span><span class="mi">1</span><span class="si">}</span><span class="sb">. </span><span class="si">${</span><span class="nx">ctx</span><span class="p">.</span><span class="nx">title</span><span class="si">}</span><span class="sb"> (</span><span class="si">${</span><span class="nx">ctx</span><span class="p">.</span><span class="nx">url</span><span class="si">}</span><span class="sb">): </span><span class="si">${</span><span class="nx">ctx</span><span class="p">.</span><span class="nx">content</span><span class="si">}</span><span class="sb">`</span>
+</span></span><span class="line"><span class="cl"><span class="p">).</span><span class="nx">join</span><span class="p">(</span><span class="s1">&#39;\n&#39;</span><span class="p">)</span><span class="si">}</span><span class="sb">
+</span></span></span><span class="line"><span class="cl"><span class="sb">
+</span></span></span><span class="line"><span class="cl"><span class="sb">请基于这些信息回答用户的问题，并在适当的地方引用来源。`</span>
+</span></span><span class="line"><span class="cl">    <span class="p">};</span>
+</span></span><span class="line"><span class="cl">    
+</span></span><span class="line"><span class="cl">    <span class="c1">// 将系统消息注入到对话历史中
+</span></span></span><span class="line"><span class="cl">    <span class="k">return</span> <span class="p">[</span><span class="nx">systemMessage</span><span class="p">,</span> <span class="p">...</span><span class="nx">conversation</span><span class="p">];</span>
+</span></span><span class="line"><span class="cl">  <span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></div><h3 id="搜索增强对话流程">搜索增强对话流程</h3>
+<pre tabindex="0"><code>┌─────────────────────────────────────────────────────────────────┐
+│                    搜索增强对话流程                             │
+├─────────────────────────────────────────────────────────────────┤
+│                                                                 │
+│  用户提问: &#34;今天北京的天气怎么样？&#34;                              │
+│         │                                                       │
+│         ▼                                                       │
+│  ┌─────────────┐                                                │
+│  │ 搜索触发检测 │                                                │
+│  └─────────────┘                                                │
+│         │                                                       │
+│         ▼                                                       │
+│  ┌─────────────┐                                                │
+│  │ 执行搜索请求 │                                                │
+│  └─────────────┘                                                │
+│         │                                                       │
+│         ▼                                                       │
+│  ┌─────────────┐                                                │
+│  │ 处理搜索结果 │                                                │
+│  └─────────────┘                                                │
+│         │                                                       │
+│         ▼                                                       │
+│  ┌─────────────┐                                                │
+│  │ 注入对话上下文│                                                │
+│  └─────────────┘                                                │
+│         │                                                       │
+│         ▼                                                       │
+│  ┌─────────────┐                                                │
+│  │ AI 模型生成回答│                                               │
+│  └─────────────┘                                                │
+│         │                                                       │
+│         ▼                                                       │
+│  向用户返回包含实时信息和来源引用的回答                           │
+│                                                                 │
+└─────────────────────────────────────────────────────────────────┘
+</code></pre><h2 id="web-浏览模拟技术实现">Web 浏览模拟技术实现</h2>
+<h3 id="网页内容提取">网页内容提取</h3>
+<p>对于某些没有 API 的网站，DeepChat 采用了网页浏览模拟技术：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-typescript" data-lang="typescript"><span class="line"><span class="cl"><span class="kr">class</span> <span class="nx">WebBrowser</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">  <span class="kr">async</span> <span class="nx">scrapePage</span><span class="p">(</span><span class="nx">url</span>: <span class="kt">string</span><span class="p">)</span><span class="o">:</span> <span class="nx">Promise</span><span class="p">&lt;</span><span class="nt">WebPageContent</span><span class="p">&gt;</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="c1">// 使用 Puppeteer 或类似工具加载页面
+</span></span></span><span class="line"><span class="cl">    <span class="kr">const</span> <span class="nx">browser</span> <span class="o">=</span> <span class="k">await</span> <span class="nx">puppeteer</span><span class="p">.</span><span class="nx">launch</span><span class="p">();</span>
+</span></span><span class="line"><span class="cl">    <span class="kr">const</span> <span class="nx">page</span> <span class="o">=</span> <span class="k">await</span> <span class="nx">browser</span><span class="p">.</span><span class="nx">newPage</span><span class="p">();</span>
+</span></span><span class="line"><span class="cl">    
+</span></span><span class="line"><span class="cl">    <span class="k">try</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">      <span class="k">await</span> <span class="nx">page</span><span class="p">.</span><span class="kr">goto</span><span class="p">(</span><span class="nx">url</span><span class="p">,</span> <span class="p">{</span> <span class="nx">waitUntil</span><span class="o">:</span> <span class="s1">&#39;networkidle2&#39;</span> <span class="p">});</span>
+</span></span><span class="line"><span class="cl">      
+</span></span><span class="line"><span class="cl">      <span class="c1">// 提取页面内容
+</span></span></span><span class="line"><span class="cl">      <span class="kr">const</span> <span class="nx">content</span> <span class="o">=</span> <span class="k">await</span> <span class="nx">page</span><span class="p">.</span><span class="nx">evaluate</span><span class="p">(()</span> <span class="o">=&gt;</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="k">return</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">          <span class="nx">title</span>: <span class="kt">document.title</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">          <span class="nx">text</span>: <span class="kt">document.body.innerText</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">          <span class="nx">links</span>: <span class="kt">Array.from</span><span class="p">(</span><span class="nb">document</span><span class="p">.</span><span class="nx">querySelectorAll</span><span class="p">(</span><span class="s1">&#39;a&#39;</span><span class="p">))</span>
+</span></span><span class="line"><span class="cl">            <span class="p">.</span><span class="nx">map</span><span class="p">(</span><span class="nx">a</span> <span class="o">=&gt;</span> <span class="p">({</span> <span class="nx">text</span>: <span class="kt">a.textContent</span><span class="p">,</span> <span class="nx">href</span>: <span class="kt">a.href</span> <span class="p">}))</span>
+</span></span><span class="line"><span class="cl">        <span class="p">};</span>
+</span></span><span class="line"><span class="cl">      <span class="p">});</span>
+</span></span><span class="line"><span class="cl">      
+</span></span><span class="line"><span class="cl">      <span class="k">return</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="nx">url</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">        <span class="nx">title</span>: <span class="kt">content.title</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">        <span class="nx">content</span>: <span class="kt">content.text</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">        <span class="nx">links</span>: <span class="kt">content.links</span>
+</span></span><span class="line"><span class="cl">      <span class="p">};</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span> <span class="k">finally</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">      <span class="k">await</span> <span class="nx">browser</span><span class="p">.</span><span class="nx">close</span><span class="p">();</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl">  <span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></div><h3 id="搜索引擎模拟">搜索引擎模拟</h3>
+<p>DeepChat 还可以模拟用户在搜索引擎中的操作：</p>
+<p>``typescript
+class SearchSimulator {
+async simulateSearch(query: string, engine: string): Promise&lt;SearchResult[]&gt; {
+const browser = await puppeteer.launch();
+const page = await browser.newPage();</p>
+<pre><code>try {
+  // 导航到搜索引擎
+  await page.goto(this.getSearchUrl(engine, query));
+  
+  // 等待结果加载
+  await page.waitForSelector(this.getResultSelector(engine));
+  
+  // 提取搜索结果
+  const results = await page.evaluate((selector) =&gt; {
+    const elements = document.querySelectorAll(selector);
+    return Array.from(elements).map(el =&gt; {
+      const titleEl = el.querySelector('h3') || el.querySelector('a');
+      const snippetEl = el.querySelector('p') || el.querySelector('.snippet');
+      
+      return {
+        title: titleEl?.textContent?.trim() || '',
+        url: titleEl?.getAttribute('href') || '',
+        snippet: snippetEl?.textContent?.trim() || ''
+      };
+    });
+  }, this.getResultSelector(engine));
+  
+  return results;
+} finally {
+  await browser.close();
+}
+</code></pre>
+<p>}</p>
+<p>private getSearchUrl(engine: string, query: string): string {
+const encodedQuery = encodeURIComponent(query);
+switch (engine) {
+case &lsquo;google&rsquo;:
+return <code>https://www.google.com/search?q=${encodedQuery}</code>;
+case &lsquo;bing&rsquo;:
+return <code>https://www.bing.com/search?q=${encodedQuery}</code>;
+default:
+return <code>https://www.google.com/search?q=${encodedQuery}</code>;
+}
+}</p>
+<p>private getResultSelector(engine: string): string {
+switch (engine) {
+case &lsquo;google&rsquo;:
+return &lsquo;.g&rsquo;;
+case &lsquo;bing&rsquo;:
+return &lsquo;.b_algo&rsquo;;
+default:
+return &lsquo;.g&rsquo;;
+}
+}
+}</p>
+<pre tabindex="0"><code>
+## 搜索结果质量优化
+
+### 结果过滤与去重
+
+为了提高搜索结果的质量，DeepChat 实现了过滤和去重机制：
+
+``typescript
+class SearchResultFilter {
+  filterAndDeduplicate(results: SearchResult[]): SearchResult[] {
+    // 去重
+    const uniqueResults = this.removeDuplicates(results);
+    
+    // 过滤低质量结果
+    const filteredResults = uniqueResults.filter(result =&gt; 
+      this.isHighQuality(result)
+    );
+    
+    return filteredResults;
+  }
+  
+  private removeDuplicates(results: SearchResult[]): SearchResult[] {
+    const seenUrls = new Set&lt;string&gt;();
+    return results.filter(result =&gt; {
+      if (seenUrls.has(result.url)) {
+        return false;
+      }
+      seenUrls.add(result.url);
+      return true;
+    });
+  }
+  
+  private isHighQuality(result: SearchResult): boolean {
+    // 检查标题和摘要是否为空
+    if (!result.title || !result.snippet) {
+      return false;
+    }
+    
+    // 检查内容长度
+    if (result.snippet.length &lt; 20) {
+      return false;
+    }
+    
+    // 检查是否为垃圾内容
+    if (this.isSpam(result)) {
+      return false;
+    }
+    
+    return true;
+  }
+}
+</code></pre><h3 id="结果排序与评分">结果排序与评分</h3>
+<p>DeepChat 还实现了智能排序算法：</p>
+<p>``typescript
+class SearchResultRanker {
+rank(results: SearchResult[], query: string): SearchResult[] {
+return results
+.map(result =&gt; ({
+&hellip;result,
+score: this.calculateScore(result, query)
+}))
+.sort((a, b) =&gt; b.score - a.score);
+}</p>
+<p>private calculateScore(result: SearchResult, query: string): number {
+let score = 0;</p>
+<pre><code>// 标题匹配度
+score += this.calculateMatchScore(result.title, query) * 2;
+
+// 内容匹配度
+score += this.calculateMatchScore(result.snippet, query);
+
+// 权威性评分
+score += this.calculateAuthorityScore(result.url);
+
+// 时效性评分
+if (result.timestamp) {
+  score += this.calculateRecencyScore(result.timestamp);
+}
+
+return score;
+</code></pre>
+<p>}
+}</p>
+<pre tabindex="0"><code>
+## 隐私与安全考虑
+
+### 搜索隐私保护
+
+DeepChat 在搜索功能中考虑了用户隐私：
+
+``typescript
+class PrivacyAwareSearch {
+  async privateSearch(
+    query: string, 
+    userPreferences: PrivacySettings
+  ): Promise&lt;SearchResult[]&gt; {
+    // 根据隐私设置过滤搜索引擎
+    const allowedEngines = this.filterEnginesByPrivacy(
+      userPreferences.allowedSearchEngines
+    );
+    
+    // 添加隐私头部
+    const headers = this.getPrivacyHeaders(userPreferences);
+    
+    // 执行搜索
+    const results = await this.searchWithEngines(query, allowedEngines, headers);
+    
+    // 清理结果中的隐私敏感信息
+    return this.sanitizeResults(results);
+  }
+}
+</code></pre><h2 id="小结">小结</h2>
+<p>DeepChat 的搜索增强功能通过多种技术手段实现了 AI 与搜索引擎的深度融合：</p>
+<ol>
+<li><strong>多搜索引擎集成</strong> - 支持 Google、Bing、百度等主流搜索引擎</li>
+<li><strong>智能触发机制</strong> - 自动识别需要搜索的查询</li>
+<li><strong>结果融合技术</strong> - 将搜索结果有效注入到 AI 对话中</li>
+<li><strong>Web 浏览模拟</strong> - 支持无 API 网站的内容提取</li>
+<li><strong>质量优化算法</strong> - 过滤、去重和排序搜索结果</li>
+<li><strong>隐私保护机制</strong> - 考虑用户隐私的搜索实现</li>
+</ol>
+<p>通过这些技术，DeepChat 能够提供更加准确、实时和可靠的信息服务，大大增强了 AI 助手的实用性。</p>
+<p>在下一篇文章中，我们将探讨 DeepChat 的多窗口多标签架构设计，分析其如何实现并行会话管理和用户界面设计.</p>
+
+          </div>
+
+          
+          <div class="row">
+            <div class="col-md-8">
+            
+              <div class="mb-5">
+                
+<div class="li-x div-x post-meta">
+  <li class="pr-0"><a href="https://blog.jaxiu.cn/tags/"><i class="fas fa-tags"></i></a></li>
+  <div class="tags-sm">
+    
+      <li><a href="https://blog.jaxiu.cn/tags/deepchat" role="button">DeepChat </a></li>
+      
+    
+      <li><a href="https://blog.jaxiu.cn/tags/ai" role="button">AI </a></li>
+      
+    
+      <li><a href="https://blog.jaxiu.cn/tags/%E6%90%9C%E7%B4%A2%E5%A2%9E%E5%BC%BA" role="button">搜索增强 </a></li>
+      
+    
+      <li><a href="https://blog.jaxiu.cn/tags/%E6%90%9C%E7%B4%A2%E5%BC%95%E6%93%8E%E9%9B%86%E6%88%90" role="button">搜索引擎集成 </a></li>
+      
+    
+      <li><a href="https://blog.jaxiu.cn/tags/%E4%BF%A1%E6%81%AF%E6%A3%80%E7%B4%A2" role="button">信息检索 </a></li>
+      
+    
+  </div>
+</div>
+              </div>
+            
+            </div>
+            
+          </div>
+          
+
+          
+          <div class="row pt-3">
+            <div class="col-md-6">
+              
+                <a href=https://blog.jaxiu.cn/blog/2025-07/deepchat-mcp-support/ class="post-meta">Previous
+                  <div class="pt-2 pb-5 d-flex">
+                    <i class="fas fa-angle-left text-grey font-weight-bold mr-2 active-color"></i>
+                    <span>DeepChat MCP 支持深度剖析</span>
+                  </div>
+                </a>
+              
+            </div>
+            
+            <div class="col-md-6 text-right" >
+              
+                <a href=https://blog.jaxiu.cn/blog/2025-07/deepchat-multi-window-tabs/ class="post-meta">Next
+                  <div class="pt-2 pb-5 flex-reverse">
+                    <i class="fas fa-angle-right text-grey font-weight-bold ml-2 active-color"></i>
+                    <span>DeepChat 多窗口多标签架构设计</span>
+                  </div>
+                </a>
+              
+            </div>
+          </div>
+
+          
+
+        </div>
+        
+
+      </div>
+      
+
+      
+	
+	
+	
+	
+		
+		
+		
+	
+
+		
+		<div class="col-md-2 pl-0">
+
+			
+			<div id="page-scrollspy" class="toc-nav">
+				
+				<ul class="nav nav-pills ml-0">
+					
+					<li class="nav-item pb-3 text-center">
+						<span class="font-weight-bold mb-2">- CATALOG - </span>
+					</li>
+
+					
+						
+						
+							
+								
+								
+									<ul class="nav">
+								
+								
+
+										<li class="nav-item">
+						 					<a class="nav-link" href="#deepchat-%e6%90%9c%e7%b4%a2%e5%a2%9e%e5%bc%ba%e5%8a%9f%e8%83%bd%e5%ae%9e%e7%8e%b0%e5%88%86%e6%9e%90">
+												 DeepChat 搜索增强功能实现分析
+											</a>
+										</li>
+						 
+								
+								
+									</ul>
+								
+							
+						
+				 
+						
+						
+							
+								
+								
+									<ul class="nav">
+								
+									<ul class="nav">
+								
+								
+
+										<li class="nav-item">
+						 					<a class="nav-link" href="#%e5%bc%95%e8%a8%80">
+												 引言
+											</a>
+										</li>
+						 
+								
+								
+									</ul>
+								
+									</ul>
+								
+							
+						
+				 
+						
+						
+							
+								
+								
+									<ul class="nav">
+								
+									<ul class="nav">
+								
+								
+
+										<li class="nav-item">
+						 					<a class="nav-link" href="#%e6%90%9c%e7%b4%a2%e5%a2%9e%e5%bc%ba%e7%9a%84%e6%a0%b8%e5%bf%83%e4%bb%b7%e5%80%bc">
+												 搜索增强的核心价值
+											</a>
+										</li>
+						 
+								
+								
+									</ul>
+								
+									</ul>
+								
+							
+						
+				 
+						
+						
+							
+								
+								
+									<ul class="nav">
+								
+									<ul class="nav">
+								
+									<ul class="nav">
+								
+								
+
+										<li class="nav-item">
+						 					<a class="nav-link" href="#%e4%b8%ba%e4%bb%80%e4%b9%88%e9%9c%80%e8%a6%81%e6%90%9c%e7%b4%a2%e5%a2%9e%e5%bc%ba">
+												 为什么需要搜索增强？
+											</a>
+										</li>
+						 
+								
+								
+									</ul>
+								
+									</ul>
+								
+									</ul>
+								
+							
+						
+				 
+						
+						
+							
+								
+								
+									<ul class="nav">
+								
+									<ul class="nav">
+								
+								
+
+										<li class="nav-item">
+						 					<a class="nav-link" href="#%e5%a4%9a%e7%a7%8d%e6%90%9c%e7%b4%a2%e5%bc%95%e6%93%8e%e9%9b%86%e6%88%90%e6%96%b9%e6%a1%88">
+												 多种搜索引擎集成方案
+											</a>
+										</li>
+						 
+								
+								
+									</ul>
+								
+									</ul>
+								
+							
+						
+				 
+						
+						
+							
+								
+								
+									<ul class="nav">
+								
+									<ul class="nav">
+								
+									<ul class="nav">
+								
+								
+
+										<li class="nav-item">
+						 					<a class="nav-link" href="#%e6%90%9c%e7%b4%a2%e5%bc%95%e6%93%8e%e9%80%82%e9%85%8d%e5%99%a8%e6%a8%a1%e5%bc%8f">
+												 搜索引擎适配器模式
+											</a>
+										</li>
+						 
+								
+								
+									</ul>
+								
+									</ul>
+								
+									</ul>
+								
+							
+						
+				 
+						
+						
+							
+								
+								
+									<ul class="nav">
+								
+									<ul class="nav">
+								
+									<ul class="nav">
+								
+								
+
+										<li class="nav-item">
+						 					<a class="nav-link" href="#%e6%a0%b8%e5%bf%83%e6%90%9c%e7%b4%a2%e6%8e%a5%e5%8f%a3">
+												 核心搜索接口
+											</a>
+										</li>
+						 
+								
+								
+									</ul>
+								
+									</ul>
+								
+									</ul>
+								
+							
+						
+				 
+						
+						
+							
+								
+								
+									<ul class="nav">
+								
+									<ul class="nav">
+								
+									<ul class="nav">
+								
+								
+
+										<li class="nav-item">
+						 					<a class="nav-link" href="#%e4%b8%bb%e6%b5%81%e6%90%9c%e7%b4%a2%e5%bc%95%e6%93%8e%e9%9b%86%e6%88%90">
+												 主流搜索引擎集成
+											</a>
+										</li>
+						 
+								
+								
+									</ul>
+								
+									</ul>
+								
+									</ul>
+								
+							
+						
+				 
+						
+						
+							
+								
+								
+									<ul class="nav">
+								
+									<ul class="nav">
+								
+									<ul class="nav">
+								
+									<ul class="nav">
+								
+								
+
+										<li class="nav-item">
+						 					<a class="nav-link" href="#google-%e6%90%9c%e7%b4%a2%e9%9b%86%e6%88%90">
+												 Google 搜索集成
+											</a>
+										</li>
+						 
+								
+								
+									</ul>
+								
+									</ul>
+								
+									</ul>
+								
+									</ul>
+								
+							
+						
+				 
+						
+						
+							
+								
+								
+									<ul class="nav">
+								
+									<ul class="nav">
+								
+									<ul class="nav">
+								
+									<ul class="nav">
+								
+								
+
+										<li class="nav-item">
+						 					<a class="nav-link" href="#bing-%e6%90%9c%e7%b4%a2%e9%9b%86%e6%88%90">
+												 Bing 搜索集成
+											</a>
+										</li>
+						 
+								
+								
+									</ul>
+								
+									</ul>
+								
+									</ul>
+								
+									</ul>
+								
+							
+						
+				 
+						
+						
+							
+								
+								
+									<ul class="nav">
+								
+									<ul class="nav">
+								
+								
+
+										<li class="nav-item">
+						 					<a class="nav-link" href="#%e6%90%9c%e7%b4%a2%e7%bb%93%e6%9e%9c%e4%b8%8e-ai-%e5%af%b9%e8%af%9d%e7%9a%84%e8%9e%8d%e5%90%88%e6%9c%ba%e5%88%b6">
+												 搜索结果与 AI 对话的融合机制
+											</a>
+										</li>
+						 
+								
+								
+									</ul>
+								
+									</ul>
+								
+							
+						
+				 
+						
+						
+							
+								
+								
+									<ul class="nav">
+								
+									<ul class="nav">
+								
+									<ul class="nav">
+								
+								
+
+										<li class="nav-item">
+						 					<a class="nav-link" href="#%e6%90%9c%e7%b4%a2%e8%a7%a6%e5%8f%91%e7%ad%96%e7%95%a5">
+												 搜索触发策略
+											</a>
+										</li>
+						 
+								
+								
+									</ul>
+								
+									</ul>
+								
+									</ul>
+								
+							
+						
+				 
+						
+						
+							
+								
+								
+									<ul class="nav">
+								
+									<ul class="nav">
+								
+									<ul class="nav">
+								
+								
+
+										<li class="nav-item">
+						 					<a class="nav-link" href="#%e6%90%9c%e7%b4%a2%e7%bb%93%e6%9e%9c%e5%a4%84%e7%90%86%e4%b8%8e%e6%b3%a8%e5%85%a5">
+												 搜索结果处理与注入
+											</a>
+										</li>
+						 
+								
+								
+									</ul>
+								
+									</ul>
+								
+									</ul>
+								
+							
+						
+				 
+						
+						
+							
+								
+								
+									<ul class="nav">
+								
+									<ul class="nav">
+								
+									<ul class="nav">
+								
+								
+
+										<li class="nav-item">
+						 					<a class="nav-link" href="#%e6%90%9c%e7%b4%a2%e5%a2%9e%e5%bc%ba%e5%af%b9%e8%af%9d%e6%b5%81%e7%a8%8b">
+												 搜索增强对话流程
+											</a>
+										</li>
+						 
+								
+								
+									</ul>
+								
+									</ul>
+								
+									</ul>
+								
+							
+						
+				 
+						
+						
+							
+								
+								
+									<ul class="nav">
+								
+									<ul class="nav">
+								
+								
+
+										<li class="nav-item">
+						 					<a class="nav-link" href="#web-%e6%b5%8f%e8%a7%88%e6%a8%a1%e6%8b%9f%e6%8a%80%e6%9c%af%e5%ae%9e%e7%8e%b0">
+												 Web 浏览模拟技术实现
+											</a>
+										</li>
+						 
+								
+								
+									</ul>
+								
+									</ul>
+								
+							
+						
+				 
+						
+						
+							
+								
+								
+									<ul class="nav">
+								
+									<ul class="nav">
+								
+									<ul class="nav">
+								
+								
+
+										<li class="nav-item">
+						 					<a class="nav-link" href="#%e7%bd%91%e9%a1%b5%e5%86%85%e5%ae%b9%e6%8f%90%e5%8f%96">
+												 网页内容提取
+											</a>
+										</li>
+						 
+								
+								
+									</ul>
+								
+									</ul>
+								
+									</ul>
+								
+							
+						
+				 
+						
+						
+							
+								
+								
+									<ul class="nav">
+								
+									<ul class="nav">
+								
+									<ul class="nav">
+								
+								
+
+										<li class="nav-item">
+						 					<a class="nav-link" href="#%e6%90%9c%e7%b4%a2%e5%bc%95%e6%93%8e%e6%a8%a1%e6%8b%9f">
+												 搜索引擎模拟
+											</a>
+										</li>
+						 
+								
+								
+									</ul>
+								
+									</ul>
+								
+									</ul>
+								
+							
+						
+				 
+						
+						
+							
+								
+								
+									<ul class="nav">
+								
+									<ul class="nav">
+								
+									<ul class="nav">
+								
+								
+
+										<li class="nav-item">
+						 					<a class="nav-link" href="#%e7%bb%93%e6%9e%9c%e6%8e%92%e5%ba%8f%e4%b8%8e%e8%af%84%e5%88%86">
+												 结果排序与评分
+											</a>
+										</li>
+						 
+								
+								
+									</ul>
+								
+									</ul>
+								
+									</ul>
+								
+							
+						
+				 
+						
+						
+							
+								
+								
+									<ul class="nav">
+								
+									<ul class="nav">
+								
+								
+
+										<li class="nav-item">
+						 					<a class="nav-link" href="#%e5%b0%8f%e7%bb%93">
+												 小结
+											</a>
+										</li>
+						 
+								
+								
+									</ul>
+								
+									</ul>
+								
+							
+						
+				 
+
+				</ul>
+			</div>
+			
+
+		</div>
+		
+	
+
+    </div>
+    
+
+
+  </main>
+  
+
+
+    
+    
+<footer class="page-footer text-center font-small mt-4 wow fadeIn">
+
+
+  
+  <div class="pb-2 mt-5 pt-5">
+    
+    <a href="//github.com/axfinn " target="_blank" rel="noopener"><i class="fab fa-github mr-3"
+        aria-hidden="true"></i></a>
+    
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+
+    
+    <a href="mailto:521very@email.com"><i class="far fa-envelope-open mr-3" aria-hidden="true"></i></a>
+    
+
+    
+
+    
+
+  </div>
+  
+
+  
+  <div class="copyright py-4">
+    
+    <span> 2016 - 2026 &copy; | Theme <a href='https://github.com/orianna-zzo/AllinOne'
+        target="_blank">AllinOne</a> by <a href='https://github.com/orianna-zzo' target="_blank">Orianna</a> </span>
+  </div>
+  
+
+</footer>
+
+    
+
+
+
+
+<script type="text/javascript" src="https://blog.jaxiu.cn/js/vendors/jquery/jquery-3.3.1.min.js"></script>
+<script type="text/javascript" src="https://blog.jaxiu.cn/js/vendors/jquery/jquery.smooth-scroll.min.js"></script>
+
+
+
+<script type="text/javascript" src="https://blog.jaxiu.cn/js/vendors/popper.min.js"></script>
+<script type="text/javascript" src="https://blog.jaxiu.cn/js/vendors/holder.min.js"></script>
+<script type="text/javascript" src="https://blog.jaxiu.cn/js/vendors-extensions/bootstrap4/bootstrap.js" ></script>
+
+<script type="text/javascript" src="https://blog.jaxiu.cn/js/vendors/mdb/mdb.min.js"></script>
+
+<script type="text/javascript" src="https://blog.jaxiu.cn/js/main.js"></script>
+<script type="text/javascript" src="https://blog.jaxiu.cn/js/search.js"></script>
+
+
+
+
+  <script src="https://blog.jaxiu.cn/js/vendors/highlight.pack.js"> </script>
+  <script>hljs.initHighlightingOnLoad();</script>
+
+
+
+
+
+  <script src="https://blog.jaxiu.cn/js/vendors/katex/katex.min.js"> </script>
+  <script src="https://blog.jaxiu.cn/js/vendors/katex/contrib/auto-render.min.js"></script>
+
+  <script>
+      document.addEventListener("DOMContentLoaded", function () {
+          renderMathInElement(document.body);
+      });
+  </script>
+
+
+
+
+
+
+
+
+<script type="text/javascript">
+  
+  new WOW().init();
+</script>
+  </body>
+</html>

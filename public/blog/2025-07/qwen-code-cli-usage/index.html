@@ -1,0 +1,1569 @@
+<!DOCTYPE html>
+<html lang="zn-Hans">
+  <head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge, chrome=1">
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no, maximum-scale=1" />
+  
+  <meta name="author" content="jaxiu He">
+  <meta name="description"
+    content="Qwen Code CLI 使用详解
+CLI 入门
+Qwen Code 是一个功能强大的命令行 AI 工作流工具，为开发者提供了一种全新的与代码交互的方式。通过 CLI，用户可以与 AI 进行对话，执行各种编程任务。
+安装
+确保您已经安装了 Node.js 20&#43; 版本，然后通过 npm 安装 Qwen Code：
+npm install -g @qwen-code/qwen-code
+基本使用
+安装完成后，您可以通过以下命令启动 Qwen Code：
+qwen-code
+这将启动交互式 CLI 会话，您可以直接与 AI 进行对话。
+非交互式使用
+您也可以通过管道或重定向将输入传递给 Qwen Code：
+echo &#34;帮我生成一个 React 组件&#34; | qwen-code
+CLI 入口实现
+Qwen Code 的 CLI 入口是一个基于 React 和 Ink 构建的命令行应用程序。主要特性包括：">
+
+  <meta property="og:url" content="https://blog.jaxiu.cn/blog/2025-07/qwen-code-cli-usage/">
+  <meta property="og:site_name" content="jaxiu He">
+  <meta property="og:title" content="Qwen Code CLI 使用详解">
+  <meta property="og:description" content="Qwen Code CLI 使用详解 CLI 入门 Qwen Code 是一个功能强大的命令行 AI 工作流工具，为开发者提供了一种全新的与代码交互的方式。通过 CLI，用户可以与 AI 进行对话，执行各种编程任务。
+安装 确保您已经安装了 Node.js 20&#43; 版本，然后通过 npm 安装 Qwen Code：
+npm install -g @qwen-code/qwen-code 基本使用 安装完成后，您可以通过以下命令启动 Qwen Code：
+qwen-code 这将启动交互式 CLI 会话，您可以直接与 AI 进行对话。
+非交互式使用 您也可以通过管道或重定向将输入传递给 Qwen Code：
+echo &#34;帮我生成一个 React 组件&#34; | qwen-code CLI 入口实现 Qwen Code 的 CLI 入口是一个基于 React 和 Ink 构建的命令行应用程序。主要特性包括：">
+  <meta property="og:locale" content="zn_Hans">
+  <meta property="og:type" content="article">
+    <meta property="article:section" content="blog">
+    <meta property="article:published_time" content="2025-07-23T15:45:00+08:00">
+    <meta property="article:modified_time" content="2025-07-23T15:45:00+08:00">
+    <meta property="article:tag" content="Qwen Code">
+    <meta property="article:tag" content="CLI">
+    <meta property="article:tag" content="使用指南">
+    <meta property="article:tag" content="开发工具">
+
+
+  <title>
+    
+     Qwen Code CLI 使用详解 | jaxiu He 
+    
+  </title>
+
+  <link rel="canonical" href="https://blog.jaxiu.cn/blog/2025-07/qwen-code-cli-usage/">
+
+  
+  
+
+  
+  
+  
+  <meta name="baidu-site-verification" content="your-baidu-verify-code" />
+  
+
+  
+  
+  <meta name="google-site-verification" content="your-google-verify-code" />
+  
+
+  
+  <link href="https://blog.jaxiu.cn/css/vendors-extensions/fontawesome/all.min.css" rel="stylesheet">
+
+  
+  <link rel="stylesheet"
+    href="https://fonts.googleapis.com/css?family=Open+Sans:400,700|Ubuntu+Mono:400,400i,700,700i|Raleway:300,400,500,600">
+  <link href="https://blog.jaxiu.cn/css/font.css" rel="stylesheet">
+
+  
+  <link href="https://blog.jaxiu.cn/css/vendors/bootstrap4/bootstrap.min.css" rel="stylesheet">
+  <link href="https://blog.jaxiu.cn/css/vendors-extensions/mdb/mdb.min.css" rel="stylesheet">
+  <link href="https://blog.jaxiu.cn/css/vendors/mdb/style.min.css" rel="stylesheet">
+  <link href="https://blog.jaxiu.cn/css/main.css" rel="stylesheet">
+
+
+  
+  <link rel="shortcut icon"  href="https://blog.jaxiu.cn/img/logo.png" >
+
+
+  
+  
+
+  <style type="text/css">
+    @media (min-width: 800px) and (max-width: 850px) {
+      .navbar:not(.top-nav-collapse) {
+        background: #1C2331 !important;
+      }
+    }
+  </style>
+
+
+  
+  
+  <link rel="stylesheet" href="https://blog.jaxiu.cn/js/vendors/katex/katex.min.css">
+  
+  
+
+  
+  
+  <link rel="stylesheet" href="https://blog.jaxiu.cn/css/vendors/highlight/github-gist.css">
+  
+
+  
+  
+  <script type="module">
+    import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.esm.min.mjs';
+    mermaid.initialize({ startOnLoad: true });
+  </script>
+  
+  
+
+  
+  <link href="https://blog.jaxiu.cn/css/holiday-effects.css" rel="stylesheet">
+  <script src="https://blog.jaxiu.cn/js/holiday-effects.js"></script>
+
+  
+  <script src="https://blog.jaxiu.cn/js/dynamic-bg.js"></script>
+  <link href="https://blog.jaxiu.cn/css/dynamic-bg-control.css" rel="stylesheet">
+
+</head>
+  <body class="bg-light" data-spy="scroll" data-target="#page-scrollspy" data-offset="90">
+  
+    
+    
+
+    
+      
+
+
+<nav class="navbar fixed-top navbar-expand-lg navbar-dark scrolling-navbar">
+    <div class="container">
+
+      
+      <a class="navbar-brand" href="https://blog.jaxiu.cn/">
+          
+        <img class="avatar" src="https://blog.jaxiu.cn/img/logo.png" style="width: 40px!important;height: auto;"  class="d-inline-block align-top" alt="" >
+        
+        <strong> jaxiu He</strong>
+      </a>
+
+      
+      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
+        aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+
+      
+      <div class="collapse navbar-collapse" id="navbarSupportedContent">
+
+        
+        <ul class="navbar-nav mr-auto ">
+          <li class="nav-item ">
+            <a class="nav-link" href="https://blog.jaxiu.cn/">Home</a>
+          </li>
+          
+            <li class="nav-item ">
+              <a class="nav-link" href="https://blog.jaxiu.cn/blog/" >博客  </a>
+            </li>
+
+          
+            <li class="nav-item ">
+              <a class="nav-link" href="https://blog.jaxiu.cn/moment/" >动态  </a>
+            </li>
+
+          
+            <li class="nav-item ">
+              <a class="nav-link" href="https://blog.jaxiu.cn/blog/prenatal-stories/" >胎教故事  </a>
+            </li>
+
+          
+            <li class="nav-item ">
+              <a class="nav-link" href="https://blog.jaxiu.cn/about/" >关于  </a>
+            </li>
+
+          
+        </ul>
+
+        
+        <ul class="navbar-nav">
+          <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" href="#" id="searchDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+              <i class="fas fa-search"></i> 搜索
+            </a>
+            <div class="dropdown-menu dropdown-menu-right p-3" aria-labelledby="searchDropdown" style="min-width: 300px; max-width: 400px;">
+              <form class="search-form" onsubmit="return false;">
+                <div class="input-group">
+                  <input type="text" id="search-query" class="form-control" placeholder="搜索文章标题或内容..." autocomplete="off">
+                  <div class="input-group-append">
+                    <button class="btn btn-outline-secondary" type="button" onclick="document.getElementById('search-query').focus();">
+                      <i class="fas fa-search"></i>
+                    </button>
+                  </div>
+                </div>
+              </form>
+              <ul id="search-results" class="list-unstyled mt-2 mb-0" style="max-height: 400px; overflow-y: auto;"></ul>
+            </div>
+          </li>
+        </ul>
+
+      </div>
+
+    </div>
+  </nav>
+   
+      
+
+
+
+
+
+
+
+<div id="site-header" class="carousel slide carousel-fade" data-ride="carousel" style="height: 18rem;">
+  
+
+  
+  
+  
+
+  
+  <div class="carousel-inner" role="listbox">
+    
+    
+
+    
+    <div class="carousel-item active">
+      <div class="view"
+        style="background-image: url('https://blog.jaxiu.cn/img/header-slides/raw_1515691746.jpg'); background-repeat: no-repeat; background-size: cover;">
+
+        
+        <div class="mask rgba-black-light d-flex justify-content-center align-items-center">
+
+          
+          
+          
+
+        </div>
+        
+
+      </div>
+    </div>
+    
+    
+    
+    
+
+    
+    <div class="carousel-item">
+      <div class="view"
+        style="background-image: url('https://blog.jaxiu.cn/img/header-slides//raw_1515847341.jpg'); background-repeat: no-repeat; background-size: cover;">
+
+        
+        <div class="mask rgba-black-light d-flex justify-content-center align-items-center">
+
+
+
+        </div>
+        
+
+      </div>
+    </div>
+    
+    
+    
+
+
+  </div>
+  
+
+  
+  <div class="carousel-content text-center white-text wow fadeIn">
+    <div class="row mx-0 headfont mt-3 pt-4">
+      
+      <div class="col-12 col-sm-5 align-middle">
+        <a href="https://blog.jaxiu.cn/">
+          
+          <img class="pull-right avatar avatar-md" src="https://blog.jaxiu.cn/img/logo.png" alt="">
+          
+        </a>
+      </div>
+
+      <div class="col-12 col-sm-7 text-left pl-2">
+        <a href="https://blog.jaxiu.cn/">
+          <h1 class="mb-2 h1" style="font-weight: 300;">
+            <strong>jaxiu He</strong>
+          </h1>
+        </a>
+
+
+        
+        <div class="mt-2" style="font-size: 1rem; color: white;">
+          
+          <a href="//github.com/axfinn" target="_blank" rel="noopener"><i class="fab fa-github pr-1"
+              aria-hidden="true"></i></a>
+          
+          
+
+          
+
+          
+
+          
+
+          
+
+          
+
+
+          
+          <a href="mailto:521very@email.com"><i class="far fa-envelope-open pr-1" aria-hidden="true"></i></a>
+          
+
+          
+
+
+        </div>
+      </div>
+    </div>
+  </div>
+  
+
+  
+  
+  
+
+</div>
+  
+    
+
+    
+  
+  <main class="post-main-wrapper">
+    
+    
+    <div class="row">
+
+      
+
+      
+      <div class="col-md-10">
+      
+
+        
+        <div class="z-depth-1  post-wrapper white-bg single-post">
+
+          <div class="post-header text-center" >
+  <ul class="post-meta li-x">
+    
+      
+        <li><a href="https://blog.jaxiu.cn/categories/%E6%8A%80%E6%9C%AF"><i class="fas fa-folder-open pr-1" aria-hidden="true"></i> 技术 </a></li>
+      
+        <li><a href="https://blog.jaxiu.cn/categories/ai%E5%B7%A5%E5%85%B7"><i class="fas fa-folder-open pr-1" aria-hidden="true"></i> AI工具 </a></li>
+      
+    
+    
+  </ul>
+
+  <div class="px-4 post-heading">Qwen Code CLI 使用详解</div>
+
+  <ul class="post-meta li-x mt-1">
+    
+      <li>Jul 23, 2025</li>
+    
+
+    
+      <li class="middot"></li>
+      <li>3 minutes read</li>
+    
+  </ul>
+  
+
+</div>
+
+
+          <div class="post-content markdown">
+            <h1 id="qwen-code-cli-使用详解">Qwen Code CLI 使用详解</h1>
+<h2 id="cli-入门">CLI 入门</h2>
+<p>Qwen Code 是一个功能强大的命令行 AI 工作流工具，为开发者提供了一种全新的与代码交互的方式。通过 CLI，用户可以与 AI 进行对话，执行各种编程任务。</p>
+<h3 id="安装">安装</h3>
+<p>确保您已经安装了 Node.js 20+ 版本，然后通过 npm 安装 Qwen Code：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">npm install -g @qwen-code/qwen-code
+</span></span></code></pre></div><h3 id="基本使用">基本使用</h3>
+<p>安装完成后，您可以通过以下命令启动 Qwen Code：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">qwen-code
+</span></span></code></pre></div><p>这将启动交互式 CLI 会话，您可以直接与 AI 进行对话。</p>
+<h3 id="非交互式使用">非交互式使用</h3>
+<p>您也可以通过管道或重定向将输入传递给 Qwen Code：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="nb">echo</span> <span class="s2">&#34;帮我生成一个 React 组件&#34;</span> <span class="p">|</span> qwen-code
+</span></span></code></pre></div><h2 id="cli-入口实现">CLI 入口实现</h2>
+<p>Qwen Code 的 CLI 入口是一个基于 React 和 Ink 构建的命令行应用程序。主要特性包括：</p>
+<h3 id="命令行参数解析">命令行参数解析</h3>
+<p>CLI 支持多种命令行参数：</p>
+<ul>
+<li><code>--help</code>：显示帮助信息</li>
+<li><code>--version</code>：显示版本信息</li>
+<li><code>--config</code>：指定配置文件路径</li>
+<li><code>--theme</code>：指定主题</li>
+</ul>
+<h3 id="配置加载">配置加载</h3>
+<p>CLI 支持多种配置方式：</p>
+<ol>
+<li>环境变量</li>
+<li>配置文件（<code>.qwenrc</code> 或 <code>qwen.config.js</code>）</li>
+<li>命令行参数</li>
+</ol>
+<h3 id="认证管理">认证管理</h3>
+<p>Qwen Code 支持多种认证方式：</p>
+<ol>
+<li>API 密钥通过环境变量配置</li>
+<li>特殊处理云 shell 环境</li>
+<li>Google 登录集成</li>
+</ol>
+<h3 id="交互和非交互模式">交互和非交互模式</h3>
+<p>CLI 支持两种使用模式：</p>
+<ol>
+<li><strong>交互式模式</strong>：用户可以与 AI 进行实时对话</li>
+<li><strong>非交互式模式</strong>：通过管道或重定向处理输入，适合脚本化使用</li>
+</ol>
+<h3 id="内存管理">内存管理</h3>
+<p>为了处理大型任务，CLI 实现了智能内存管理，可以根据需要调整进程堆大小。</p>
+<h3 id="沙箱环境">沙箱环境</h3>
+<p>在配置时，CLI 可以初始化沙箱环境，确保操作的安全性。</p>
+<h3 id="输入处理">输入处理</h3>
+<p>在非交互模式下，CLI 可以从 stdin 读取输入，支持管道操作。</p>
+<h2 id="使用模式详解">使用模式详解</h2>
+<h3 id="交互式模式">交互式模式</h3>
+<p>在交互式模式下，用户可以与 AI 进行实时对话。CLI 提供了一个富文本界面，支持语法高亮和智能提示。</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">qwen-code
+</span></span><span class="line"><span class="cl"><span class="c1"># 然后直接输入您的问题或指令</span>
+</span></span></code></pre></div><h3 id="非交互式模式">非交互式模式</h3>
+<p>非交互式模式适合脚本化使用，可以通过管道或重定向处理输入：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="c1"># 通过管道传递输入</span>
+</span></span><span class="line"><span class="cl"><span class="nb">echo</span> <span class="s2">&#34;帮我解释这段代码&#34;</span> <span class="p">|</span> qwen-code
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># 从文件读取输入</span>
+</span></span><span class="line"><span class="cl">cat question.txt <span class="p">|</span> qwen-code
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># 重定向输出到文件</span>
+</span></span><span class="line"><span class="cl">qwen-code &lt; question.txt &gt; answer.txt
+</span></span></code></pre></div><h3 id="批处理模式">批处理模式</h3>
+<p>通过结合 shell 脚本，可以实现批处理模式：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="cp">#!/bin/bash
+</span></span></span><span class="line"><span class="cl"><span class="k">for</span> file in *.js<span class="p">;</span> <span class="k">do</span>
+</span></span><span class="line"><span class="cl">  <span class="nb">echo</span> <span class="s2">&#34;优化 </span><span class="nv">$file</span><span class="s2"> 文件&#34;</span> <span class="p">|</span> qwen-code &gt;&gt; optimizations.txt
+</span></span><span class="line"><span class="cl"><span class="k">done</span>
+</span></span></code></pre></div><h2 id="配置管理">配置管理</h2>
+<p>Qwen Code 支持灵活的配置管理：</p>
+<h3 id="环境变量">环境变量</h3>
+<p>通过环境变量配置 API 密钥和其他参数：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="nb">export</span> <span class="nv">QWEN_API_KEY</span><span class="o">=</span>your_api_key_here
+</span></span><span class="line"><span class="cl"><span class="nb">export</span> <span class="nv">QWEN_BASE_URL</span><span class="o">=</span>https://api.example.com
+</span></span><span class="line"><span class="cl"><span class="nb">export</span> <span class="nv">QWEN_MODEL</span><span class="o">=</span>qwen-coder-v3
+</span></span></code></pre></div><h3 id="配置文件">配置文件</h3>
+<p>支持 JSON 或 JavaScript 格式的配置文件：</p>
+<p><code>.qwenrc</code> (JSON 格式):</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-json" data-lang="json"><span class="line"><span class="cl"><span class="p">{</span>
+</span></span><span class="line"><span class="cl">  <span class="nt">&#34;apiKey&#34;</span><span class="p">:</span> <span class="s2">&#34;your_api_key_here&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">  <span class="nt">&#34;baseUrl&#34;</span><span class="p">:</span> <span class="s2">&#34;https://api.example.com&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">  <span class="nt">&#34;model&#34;</span><span class="p">:</span> <span class="s2">&#34;qwen-coder-v3&#34;</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></div><p><code>qwen.config.js</code> (JavaScript 格式):</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-javascript" data-lang="javascript"><span class="line"><span class="cl"><span class="nx">module</span><span class="p">.</span><span class="nx">exports</span> <span class="o">=</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">  <span class="nx">apiKey</span><span class="o">:</span> <span class="nx">process</span><span class="p">.</span><span class="nx">env</span><span class="p">.</span><span class="nx">QWEN_API_KEY</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">  <span class="nx">baseUrl</span><span class="o">:</span> <span class="s1">&#39;https://api.example.com&#39;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">  <span class="nx">model</span><span class="o">:</span> <span class="s1">&#39;qwen-coder-v3&#39;</span>
+</span></span><span class="line"><span class="cl"><span class="p">};</span>
+</span></span></code></pre></div><h3 id="主题支持">主题支持</h3>
+<p>CLI 支持自定义主题，可以修改颜色方案和界面布局。</p>
+<h2 id="安全机制">安全机制</h2>
+<p>Qwen Code 采用多种安全机制保护用户环境：</p>
+<h3 id="确认提示">确认提示</h3>
+<p>在执行敏感操作前，CLI 会请求用户确认：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">即将执行: rm -rf /important/directory
+</span></span><span class="line"><span class="cl">确认执行此操作吗？<span class="o">(</span>y/N<span class="o">)</span>
+</span></span></code></pre></div><h3 id="沙箱机制">沙箱机制</h3>
+<p>CLI 可以在隔离环境中执行潜在危险操作，防止对主系统造成影响。</p>
+<h3 id="权限控制">权限控制</h3>
+<p>通过配置文件和环境变量，可以限制对文件系统和网络的访问权限。</p>
+<h2 id="高级功能">高级功能</h2>
+<h3 id="工作流自动化">工作流自动化</h3>
+<p>通过组合使用不同的工具，Qwen Code 可以构建复杂的工作流程：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="c1"># 自动化代码审查流程</span>
+</span></span><span class="line"><span class="cl">qwen-code <span class="s2">&#34;检查 src/ 目录中的代码质量问题并生成报告&#34;</span>
+</span></span></code></pre></div><h3 id="代码理解和编辑">代码理解和编辑</h3>
+<p>Qwen Code 可以处理超出传统模型上下文长度的大型代码库：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="c1"># 处理大型文件</span>
+</span></span><span class="line"><span class="cl">qwen-code <span class="s2">&#34;分析这个大型数据处理脚本并提出优化建议&#34;</span>
+</span></span></code></pre></div><h2 id="故障排除">故障排除</h2>
+<p>常见问题和解决方案：</p>
+<ol>
+<li><strong>API 密钥错误</strong>：检查环境变量或配置文件中的 API 密钥是否正确</li>
+<li><strong>网络连接问题</strong>：检查网络连接和 base URL 配置</li>
+<li><strong>内存不足</strong>：增加 Node.js 堆大小限制</li>
+<li><strong>权限问题</strong>：检查文件系统访问权限</li>
+</ol>
+<h2 id="总结">总结</h2>
+<p>Qwen Code CLI 为开发者提供了一个强大的命令行界面，通过 AI 的能力来完成各种编程任务。其丰富的功能和灵活的配置选项使得它成为开发者的得力助手。通过本文的介绍，您应该能够熟练使用 Qwen Code CLI 来提高开发效率。</p>
+
+          </div>
+
+          
+          <div class="row">
+            <div class="col-md-8">
+            
+              <div class="mb-5">
+                
+<div class="li-x div-x post-meta">
+  <li class="pr-0"><a href="https://blog.jaxiu.cn/tags/"><i class="fas fa-tags"></i></a></li>
+  <div class="tags-sm">
+    
+      <li><a href="https://blog.jaxiu.cn/tags/qwen-code" role="button">Qwen Code </a></li>
+      
+    
+      <li><a href="https://blog.jaxiu.cn/tags/cli" role="button">CLI </a></li>
+      
+    
+      <li><a href="https://blog.jaxiu.cn/tags/%E4%BD%BF%E7%94%A8%E6%8C%87%E5%8D%97" role="button">使用指南 </a></li>
+      
+    
+      <li><a href="https://blog.jaxiu.cn/tags/%E5%BC%80%E5%8F%91%E5%B7%A5%E5%85%B7" role="button">开发工具 </a></li>
+      
+    
+  </div>
+</div>
+              </div>
+            
+            </div>
+            
+          </div>
+          
+
+          
+          <div class="row pt-3">
+            <div class="col-md-6">
+              
+                <a href=https://blog.jaxiu.cn/blog/2025-07/qwen-code-tools-detailed/ class="post-meta">Previous
+                  <div class="pt-2 pb-5 d-flex">
+                    <i class="fas fa-angle-left text-grey font-weight-bold mr-2 active-color"></i>
+                    <span>Qwen Code 工具详解</span>
+                  </div>
+                </a>
+              
+            </div>
+            
+            <div class="col-md-6 text-right" >
+              
+                <a href=https://blog.jaxiu.cn/blog/2025-07/qwen-code-project-structure/ class="post-meta">Next
+                  <div class="pt-2 pb-5 flex-reverse">
+                    <i class="fas fa-angle-right text-grey font-weight-bold ml-2 active-color"></i>
+                    <span>Qwen Code 项目框架详解</span>
+                  </div>
+                </a>
+              
+            </div>
+          </div>
+
+          
+
+        </div>
+        
+
+      </div>
+      
+
+      
+	
+	
+	
+	
+		
+		
+		
+	
+
+		
+		<div class="col-md-2 pl-0">
+
+			
+			<div id="page-scrollspy" class="toc-nav">
+				
+				<ul class="nav nav-pills ml-0">
+					
+					<li class="nav-item pb-3 text-center">
+						<span class="font-weight-bold mb-2">- CATALOG - </span>
+					</li>
+
+					
+						
+						
+							
+								
+								
+									<ul class="nav">
+								
+								
+
+										<li class="nav-item">
+						 					<a class="nav-link" href="#qwen-code-cli-%e4%bd%bf%e7%94%a8%e8%af%a6%e8%a7%a3">
+												 Qwen Code CLI 使用详解
+											</a>
+										</li>
+						 
+								
+								
+									</ul>
+								
+							
+						
+				 
+						
+						
+							
+								
+								
+									<ul class="nav">
+								
+									<ul class="nav">
+								
+								
+
+										<li class="nav-item">
+						 					<a class="nav-link" href="#cli-%e5%85%a5%e9%97%a8">
+												 CLI 入门
+											</a>
+										</li>
+						 
+								
+								
+									</ul>
+								
+									</ul>
+								
+							
+						
+				 
+						
+						
+							
+								
+								
+									<ul class="nav">
+								
+									<ul class="nav">
+								
+									<ul class="nav">
+								
+								
+
+										<li class="nav-item">
+						 					<a class="nav-link" href="#%e5%ae%89%e8%a3%85">
+												 安装
+											</a>
+										</li>
+						 
+								
+								
+									</ul>
+								
+									</ul>
+								
+									</ul>
+								
+							
+						
+				 
+						
+						
+							
+								
+								
+									<ul class="nav">
+								
+									<ul class="nav">
+								
+									<ul class="nav">
+								
+								
+
+										<li class="nav-item">
+						 					<a class="nav-link" href="#%e5%9f%ba%e6%9c%ac%e4%bd%bf%e7%94%a8">
+												 基本使用
+											</a>
+										</li>
+						 
+								
+								
+									</ul>
+								
+									</ul>
+								
+									</ul>
+								
+							
+						
+				 
+						
+						
+							
+								
+								
+									<ul class="nav">
+								
+									<ul class="nav">
+								
+									<ul class="nav">
+								
+								
+
+										<li class="nav-item">
+						 					<a class="nav-link" href="#%e9%9d%9e%e4%ba%a4%e4%ba%92%e5%bc%8f%e4%bd%bf%e7%94%a8">
+												 非交互式使用
+											</a>
+										</li>
+						 
+								
+								
+									</ul>
+								
+									</ul>
+								
+									</ul>
+								
+							
+						
+				 
+						
+						
+							
+								
+								
+									<ul class="nav">
+								
+									<ul class="nav">
+								
+								
+
+										<li class="nav-item">
+						 					<a class="nav-link" href="#cli-%e5%85%a5%e5%8f%a3%e5%ae%9e%e7%8e%b0">
+												 CLI 入口实现
+											</a>
+										</li>
+						 
+								
+								
+									</ul>
+								
+									</ul>
+								
+							
+						
+				 
+						
+						
+							
+								
+								
+									<ul class="nav">
+								
+									<ul class="nav">
+								
+									<ul class="nav">
+								
+								
+
+										<li class="nav-item">
+						 					<a class="nav-link" href="#%e5%91%bd%e4%bb%a4%e8%a1%8c%e5%8f%82%e6%95%b0%e8%a7%a3%e6%9e%90">
+												 命令行参数解析
+											</a>
+										</li>
+						 
+								
+								
+									</ul>
+								
+									</ul>
+								
+									</ul>
+								
+							
+						
+				 
+						
+						
+							
+								
+								
+									<ul class="nav">
+								
+									<ul class="nav">
+								
+									<ul class="nav">
+								
+								
+
+										<li class="nav-item">
+						 					<a class="nav-link" href="#%e9%85%8d%e7%bd%ae%e5%8a%a0%e8%bd%bd">
+												 配置加载
+											</a>
+										</li>
+						 
+								
+								
+									</ul>
+								
+									</ul>
+								
+									</ul>
+								
+							
+						
+				 
+						
+						
+							
+								
+								
+									<ul class="nav">
+								
+									<ul class="nav">
+								
+									<ul class="nav">
+								
+								
+
+										<li class="nav-item">
+						 					<a class="nav-link" href="#%e8%ae%a4%e8%af%81%e7%ae%a1%e7%90%86">
+												 认证管理
+											</a>
+										</li>
+						 
+								
+								
+									</ul>
+								
+									</ul>
+								
+									</ul>
+								
+							
+						
+				 
+						
+						
+							
+								
+								
+									<ul class="nav">
+								
+									<ul class="nav">
+								
+									<ul class="nav">
+								
+								
+
+										<li class="nav-item">
+						 					<a class="nav-link" href="#%e4%ba%a4%e4%ba%92%e5%92%8c%e9%9d%9e%e4%ba%a4%e4%ba%92%e6%a8%a1%e5%bc%8f">
+												 交互和非交互模式
+											</a>
+										</li>
+						 
+								
+								
+									</ul>
+								
+									</ul>
+								
+									</ul>
+								
+							
+						
+				 
+						
+						
+							
+								
+								
+									<ul class="nav">
+								
+									<ul class="nav">
+								
+									<ul class="nav">
+								
+								
+
+										<li class="nav-item">
+						 					<a class="nav-link" href="#%e5%86%85%e5%ad%98%e7%ae%a1%e7%90%86">
+												 内存管理
+											</a>
+										</li>
+						 
+								
+								
+									</ul>
+								
+									</ul>
+								
+									</ul>
+								
+							
+						
+				 
+						
+						
+							
+								
+								
+									<ul class="nav">
+								
+									<ul class="nav">
+								
+									<ul class="nav">
+								
+								
+
+										<li class="nav-item">
+						 					<a class="nav-link" href="#%e6%b2%99%e7%ae%b1%e7%8e%af%e5%a2%83">
+												 沙箱环境
+											</a>
+										</li>
+						 
+								
+								
+									</ul>
+								
+									</ul>
+								
+									</ul>
+								
+							
+						
+				 
+						
+						
+							
+								
+								
+									<ul class="nav">
+								
+									<ul class="nav">
+								
+									<ul class="nav">
+								
+								
+
+										<li class="nav-item">
+						 					<a class="nav-link" href="#%e8%be%93%e5%85%a5%e5%a4%84%e7%90%86">
+												 输入处理
+											</a>
+										</li>
+						 
+								
+								
+									</ul>
+								
+									</ul>
+								
+									</ul>
+								
+							
+						
+				 
+						
+						
+							
+								
+								
+									<ul class="nav">
+								
+									<ul class="nav">
+								
+								
+
+										<li class="nav-item">
+						 					<a class="nav-link" href="#%e4%bd%bf%e7%94%a8%e6%a8%a1%e5%bc%8f%e8%af%a6%e8%a7%a3">
+												 使用模式详解
+											</a>
+										</li>
+						 
+								
+								
+									</ul>
+								
+									</ul>
+								
+							
+						
+				 
+						
+						
+							
+								
+								
+									<ul class="nav">
+								
+									<ul class="nav">
+								
+									<ul class="nav">
+								
+								
+
+										<li class="nav-item">
+						 					<a class="nav-link" href="#%e4%ba%a4%e4%ba%92%e5%bc%8f%e6%a8%a1%e5%bc%8f">
+												 交互式模式
+											</a>
+										</li>
+						 
+								
+								
+									</ul>
+								
+									</ul>
+								
+									</ul>
+								
+							
+						
+				 
+						
+						
+							
+								
+								
+									<ul class="nav">
+								
+									<ul class="nav">
+								
+									<ul class="nav">
+								
+								
+
+										<li class="nav-item">
+						 					<a class="nav-link" href="#%e9%9d%9e%e4%ba%a4%e4%ba%92%e5%bc%8f%e6%a8%a1%e5%bc%8f">
+												 非交互式模式
+											</a>
+										</li>
+						 
+								
+								
+									</ul>
+								
+									</ul>
+								
+									</ul>
+								
+							
+						
+				 
+						
+						
+							
+								
+								
+									<ul class="nav">
+								
+									<ul class="nav">
+								
+									<ul class="nav">
+								
+								
+
+										<li class="nav-item">
+						 					<a class="nav-link" href="#%e6%89%b9%e5%a4%84%e7%90%86%e6%a8%a1%e5%bc%8f">
+												 批处理模式
+											</a>
+										</li>
+						 
+								
+								
+									</ul>
+								
+									</ul>
+								
+									</ul>
+								
+							
+						
+				 
+						
+						
+							
+								
+								
+									<ul class="nav">
+								
+									<ul class="nav">
+								
+								
+
+										<li class="nav-item">
+						 					<a class="nav-link" href="#%e9%85%8d%e7%bd%ae%e7%ae%a1%e7%90%86">
+												 配置管理
+											</a>
+										</li>
+						 
+								
+								
+									</ul>
+								
+									</ul>
+								
+							
+						
+				 
+						
+						
+							
+								
+								
+									<ul class="nav">
+								
+									<ul class="nav">
+								
+									<ul class="nav">
+								
+								
+
+										<li class="nav-item">
+						 					<a class="nav-link" href="#%e7%8e%af%e5%a2%83%e5%8f%98%e9%87%8f">
+												 环境变量
+											</a>
+										</li>
+						 
+								
+								
+									</ul>
+								
+									</ul>
+								
+									</ul>
+								
+							
+						
+				 
+						
+						
+							
+								
+								
+									<ul class="nav">
+								
+									<ul class="nav">
+								
+									<ul class="nav">
+								
+								
+
+										<li class="nav-item">
+						 					<a class="nav-link" href="#%e9%85%8d%e7%bd%ae%e6%96%87%e4%bb%b6">
+												 配置文件
+											</a>
+										</li>
+						 
+								
+								
+									</ul>
+								
+									</ul>
+								
+									</ul>
+								
+							
+						
+				 
+						
+						
+							
+								
+								
+									<ul class="nav">
+								
+									<ul class="nav">
+								
+									<ul class="nav">
+								
+								
+
+										<li class="nav-item">
+						 					<a class="nav-link" href="#%e4%b8%bb%e9%a2%98%e6%94%af%e6%8c%81">
+												 主题支持
+											</a>
+										</li>
+						 
+								
+								
+									</ul>
+								
+									</ul>
+								
+									</ul>
+								
+							
+						
+				 
+						
+						
+							
+								
+								
+									<ul class="nav">
+								
+									<ul class="nav">
+								
+								
+
+										<li class="nav-item">
+						 					<a class="nav-link" href="#%e5%ae%89%e5%85%a8%e6%9c%ba%e5%88%b6">
+												 安全机制
+											</a>
+										</li>
+						 
+								
+								
+									</ul>
+								
+									</ul>
+								
+							
+						
+				 
+						
+						
+							
+								
+								
+									<ul class="nav">
+								
+									<ul class="nav">
+								
+									<ul class="nav">
+								
+								
+
+										<li class="nav-item">
+						 					<a class="nav-link" href="#%e7%a1%ae%e8%ae%a4%e6%8f%90%e7%a4%ba">
+												 确认提示
+											</a>
+										</li>
+						 
+								
+								
+									</ul>
+								
+									</ul>
+								
+									</ul>
+								
+							
+						
+				 
+						
+						
+							
+								
+								
+									<ul class="nav">
+								
+									<ul class="nav">
+								
+									<ul class="nav">
+								
+								
+
+										<li class="nav-item">
+						 					<a class="nav-link" href="#%e6%b2%99%e7%ae%b1%e6%9c%ba%e5%88%b6">
+												 沙箱机制
+											</a>
+										</li>
+						 
+								
+								
+									</ul>
+								
+									</ul>
+								
+									</ul>
+								
+							
+						
+				 
+						
+						
+							
+								
+								
+									<ul class="nav">
+								
+									<ul class="nav">
+								
+									<ul class="nav">
+								
+								
+
+										<li class="nav-item">
+						 					<a class="nav-link" href="#%e6%9d%83%e9%99%90%e6%8e%a7%e5%88%b6">
+												 权限控制
+											</a>
+										</li>
+						 
+								
+								
+									</ul>
+								
+									</ul>
+								
+									</ul>
+								
+							
+						
+				 
+						
+						
+							
+								
+								
+									<ul class="nav">
+								
+									<ul class="nav">
+								
+								
+
+										<li class="nav-item">
+						 					<a class="nav-link" href="#%e9%ab%98%e7%ba%a7%e5%8a%9f%e8%83%bd">
+												 高级功能
+											</a>
+										</li>
+						 
+								
+								
+									</ul>
+								
+									</ul>
+								
+							
+						
+				 
+						
+						
+							
+								
+								
+									<ul class="nav">
+								
+									<ul class="nav">
+								
+									<ul class="nav">
+								
+								
+
+										<li class="nav-item">
+						 					<a class="nav-link" href="#%e5%b7%a5%e4%bd%9c%e6%b5%81%e8%87%aa%e5%8a%a8%e5%8c%96">
+												 工作流自动化
+											</a>
+										</li>
+						 
+								
+								
+									</ul>
+								
+									</ul>
+								
+									</ul>
+								
+							
+						
+				 
+						
+						
+							
+								
+								
+									<ul class="nav">
+								
+									<ul class="nav">
+								
+									<ul class="nav">
+								
+								
+
+										<li class="nav-item">
+						 					<a class="nav-link" href="#%e4%bb%a3%e7%a0%81%e7%90%86%e8%a7%a3%e5%92%8c%e7%bc%96%e8%be%91">
+												 代码理解和编辑
+											</a>
+										</li>
+						 
+								
+								
+									</ul>
+								
+									</ul>
+								
+									</ul>
+								
+							
+						
+				 
+						
+						
+							
+								
+								
+									<ul class="nav">
+								
+									<ul class="nav">
+								
+								
+
+										<li class="nav-item">
+						 					<a class="nav-link" href="#%e6%95%85%e9%9a%9c%e6%8e%92%e9%99%a4">
+												 故障排除
+											</a>
+										</li>
+						 
+								
+								
+									</ul>
+								
+									</ul>
+								
+							
+						
+				 
+						
+						
+							
+								
+								
+									<ul class="nav">
+								
+									<ul class="nav">
+								
+								
+
+										<li class="nav-item">
+						 					<a class="nav-link" href="#%e6%80%bb%e7%bb%93">
+												 总结
+											</a>
+										</li>
+						 
+								
+								
+									</ul>
+								
+									</ul>
+								
+							
+						
+				 
+
+				</ul>
+			</div>
+			
+
+		</div>
+		
+	
+
+    </div>
+    
+
+
+  </main>
+  
+
+
+    
+    
+<footer class="page-footer text-center font-small mt-4 wow fadeIn">
+
+
+  
+  <div class="pb-2 mt-5 pt-5">
+    
+    <a href="//github.com/axfinn " target="_blank" rel="noopener"><i class="fab fa-github mr-3"
+        aria-hidden="true"></i></a>
+    
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+
+    
+    <a href="mailto:521very@email.com"><i class="far fa-envelope-open mr-3" aria-hidden="true"></i></a>
+    
+
+    
+
+    
+
+  </div>
+  
+
+  
+  <div class="copyright py-4">
+    
+    <span> 2016 - 2026 &copy; | Theme <a href='https://github.com/orianna-zzo/AllinOne'
+        target="_blank">AllinOne</a> by <a href='https://github.com/orianna-zzo' target="_blank">Orianna</a> </span>
+  </div>
+  
+
+</footer>
+
+    
+
+
+
+
+<script type="text/javascript" src="https://blog.jaxiu.cn/js/vendors/jquery/jquery-3.3.1.min.js"></script>
+<script type="text/javascript" src="https://blog.jaxiu.cn/js/vendors/jquery/jquery.smooth-scroll.min.js"></script>
+
+
+
+<script type="text/javascript" src="https://blog.jaxiu.cn/js/vendors/popper.min.js"></script>
+<script type="text/javascript" src="https://blog.jaxiu.cn/js/vendors/holder.min.js"></script>
+<script type="text/javascript" src="https://blog.jaxiu.cn/js/vendors-extensions/bootstrap4/bootstrap.js" ></script>
+
+<script type="text/javascript" src="https://blog.jaxiu.cn/js/vendors/mdb/mdb.min.js"></script>
+
+<script type="text/javascript" src="https://blog.jaxiu.cn/js/main.js"></script>
+<script type="text/javascript" src="https://blog.jaxiu.cn/js/search.js"></script>
+
+
+
+
+  <script src="https://blog.jaxiu.cn/js/vendors/highlight.pack.js"> </script>
+  <script>hljs.initHighlightingOnLoad();</script>
+
+
+
+
+
+  <script src="https://blog.jaxiu.cn/js/vendors/katex/katex.min.js"> </script>
+  <script src="https://blog.jaxiu.cn/js/vendors/katex/contrib/auto-render.min.js"></script>
+
+  <script>
+      document.addEventListener("DOMContentLoaded", function () {
+          renderMathInElement(document.body);
+      });
+  </script>
+
+
+
+
+
+
+
+
+<script type="text/javascript">
+  
+  new WOW().init();
+</script>
+  </body>
+</html>

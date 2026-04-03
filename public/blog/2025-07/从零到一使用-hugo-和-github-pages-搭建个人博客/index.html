@@ -1,0 +1,1164 @@
+<!DOCTYPE html>
+<html lang="zn-Hans">
+  <head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge, chrome=1">
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no, maximum-scale=1" />
+  
+  <meta name="author" content="jaxiu He">
+  <meta name="description"
+    content="前言
+拥有一个个人博客是分享知识、记录学习和展示作品的绝佳方式。本文将详细介绍如何使用强大的静态网站生成器 Hugo 和免费的 GitHub Pages 服务，从零开始搭建一个属于你自己的、功能完善且高度可定制的个人博客。
+为什么选择 Hugo 和 GitHub Pages？
+
+Hugo: Go 语言编写的静态网站生成器，以其惊人的构建速度和灵活性而闻名。它拥有丰富的主题和强大的功能，让你可以专注于内容创作。
+GitHub Pages: GitHub 提供的免费静态网站托管服务。它与 Git 无缝集成，非常适合托管个人博客、项目文档等。
+
+准备工作
+在开始之前，请确保你的电脑上已经安装了以下软件：">
+
+  <meta property="og:url" content="https://blog.jaxiu.cn/blog/2025-07/%E4%BB%8E%E9%9B%B6%E5%88%B0%E4%B8%80%E4%BD%BF%E7%94%A8-hugo-%E5%92%8C-github-pages-%E6%90%AD%E5%BB%BA%E4%B8%AA%E4%BA%BA%E5%8D%9A%E5%AE%A2/">
+  <meta property="og:site_name" content="jaxiu He">
+  <meta property="og:title" content="从零到一：使用 Hugo 和 GitHub Pages 搭建个人博客">
+  <meta property="og:description" content="前言 拥有一个个人博客是分享知识、记录学习和展示作品的绝佳方式。本文将详细介绍如何使用强大的静态网站生成器 Hugo 和免费的 GitHub Pages 服务，从零开始搭建一个属于你自己的、功能完善且高度可定制的个人博客。
+为什么选择 Hugo 和 GitHub Pages？ Hugo: Go 语言编写的静态网站生成器，以其惊人的构建速度和灵活性而闻名。它拥有丰富的主题和强大的功能，让你可以专注于内容创作。 GitHub Pages: GitHub 提供的免费静态网站托管服务。它与 Git 无缝集成，非常适合托管个人博客、项目文档等。 准备工作 在开始之前，请确保你的电脑上已经安装了以下软件：">
+  <meta property="og:locale" content="zn_Hans">
+  <meta property="og:type" content="article">
+    <meta property="article:section" content="blog">
+    <meta property="article:published_time" content="2025-07-19T00:00:00+08:00">
+    <meta property="article:modified_time" content="2025-07-19T00:00:00+08:00">
+    <meta property="article:tag" content="Hugo">
+    <meta property="article:tag" content="GitHub Pages">
+    <meta property="article:tag" content="博客搭建">
+    <meta property="article:tag" content="教程">
+
+
+  <title>
+    
+     从零到一：使用 Hugo 和 GitHub Pages 搭建个人博客 | jaxiu He 
+    
+  </title>
+
+  <link rel="canonical" href="https://blog.jaxiu.cn/blog/2025-07/%E4%BB%8E%E9%9B%B6%E5%88%B0%E4%B8%80%E4%BD%BF%E7%94%A8-hugo-%E5%92%8C-github-pages-%E6%90%AD%E5%BB%BA%E4%B8%AA%E4%BA%BA%E5%8D%9A%E5%AE%A2/">
+
+  
+  
+
+  
+  
+  
+  <meta name="baidu-site-verification" content="your-baidu-verify-code" />
+  
+
+  
+  
+  <meta name="google-site-verification" content="your-google-verify-code" />
+  
+
+  
+  <link href="https://blog.jaxiu.cn/css/vendors-extensions/fontawesome/all.min.css" rel="stylesheet">
+
+  
+  <link rel="stylesheet"
+    href="https://fonts.googleapis.com/css?family=Open+Sans:400,700|Ubuntu+Mono:400,400i,700,700i|Raleway:300,400,500,600">
+  <link href="https://blog.jaxiu.cn/css/font.css" rel="stylesheet">
+
+  
+  <link href="https://blog.jaxiu.cn/css/vendors/bootstrap4/bootstrap.min.css" rel="stylesheet">
+  <link href="https://blog.jaxiu.cn/css/vendors-extensions/mdb/mdb.min.css" rel="stylesheet">
+  <link href="https://blog.jaxiu.cn/css/vendors/mdb/style.min.css" rel="stylesheet">
+  <link href="https://blog.jaxiu.cn/css/main.css" rel="stylesheet">
+
+
+  
+  <link rel="shortcut icon"  href="https://blog.jaxiu.cn/img/logo.png" >
+
+
+  
+  
+
+  <style type="text/css">
+    @media (min-width: 800px) and (max-width: 850px) {
+      .navbar:not(.top-nav-collapse) {
+        background: #1C2331 !important;
+      }
+    }
+  </style>
+
+
+  
+  
+  <link rel="stylesheet" href="https://blog.jaxiu.cn/js/vendors/katex/katex.min.css">
+  
+  
+
+  
+  
+  <link rel="stylesheet" href="https://blog.jaxiu.cn/css/vendors/highlight/github-gist.css">
+  
+
+  
+  
+  <script type="module">
+    import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.esm.min.mjs';
+    mermaid.initialize({ startOnLoad: true });
+  </script>
+  
+  
+
+  
+  <link href="https://blog.jaxiu.cn/css/holiday-effects.css" rel="stylesheet">
+  <script src="https://blog.jaxiu.cn/js/holiday-effects.js"></script>
+
+  
+  <script src="https://blog.jaxiu.cn/js/dynamic-bg.js"></script>
+  <link href="https://blog.jaxiu.cn/css/dynamic-bg-control.css" rel="stylesheet">
+
+</head>
+  <body class="bg-light" data-spy="scroll" data-target="#page-scrollspy" data-offset="90">
+  
+    
+    
+
+    
+      
+
+
+<nav class="navbar fixed-top navbar-expand-lg navbar-dark scrolling-navbar">
+    <div class="container">
+
+      
+      <a class="navbar-brand" href="https://blog.jaxiu.cn/">
+          
+        <img class="avatar" src="https://blog.jaxiu.cn/img/logo.png" style="width: 40px!important;height: auto;"  class="d-inline-block align-top" alt="" >
+        
+        <strong> jaxiu He</strong>
+      </a>
+
+      
+      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
+        aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+
+      
+      <div class="collapse navbar-collapse" id="navbarSupportedContent">
+
+        
+        <ul class="navbar-nav mr-auto ">
+          <li class="nav-item ">
+            <a class="nav-link" href="https://blog.jaxiu.cn/">Home</a>
+          </li>
+          
+            <li class="nav-item ">
+              <a class="nav-link" href="https://blog.jaxiu.cn/blog/" >博客  </a>
+            </li>
+
+          
+            <li class="nav-item ">
+              <a class="nav-link" href="https://blog.jaxiu.cn/moment/" >动态  </a>
+            </li>
+
+          
+            <li class="nav-item ">
+              <a class="nav-link" href="https://blog.jaxiu.cn/blog/prenatal-stories/" >胎教故事  </a>
+            </li>
+
+          
+            <li class="nav-item ">
+              <a class="nav-link" href="https://blog.jaxiu.cn/about/" >关于  </a>
+            </li>
+
+          
+        </ul>
+
+        
+        <ul class="navbar-nav">
+          <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" href="#" id="searchDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+              <i class="fas fa-search"></i> 搜索
+            </a>
+            <div class="dropdown-menu dropdown-menu-right p-3" aria-labelledby="searchDropdown" style="min-width: 300px; max-width: 400px;">
+              <form class="search-form" onsubmit="return false;">
+                <div class="input-group">
+                  <input type="text" id="search-query" class="form-control" placeholder="搜索文章标题或内容..." autocomplete="off">
+                  <div class="input-group-append">
+                    <button class="btn btn-outline-secondary" type="button" onclick="document.getElementById('search-query').focus();">
+                      <i class="fas fa-search"></i>
+                    </button>
+                  </div>
+                </div>
+              </form>
+              <ul id="search-results" class="list-unstyled mt-2 mb-0" style="max-height: 400px; overflow-y: auto;"></ul>
+            </div>
+          </li>
+        </ul>
+
+      </div>
+
+    </div>
+  </nav>
+   
+      
+
+
+
+
+
+
+
+<div id="site-header" class="carousel slide carousel-fade" data-ride="carousel" style="height: 18rem;">
+  
+
+  
+  
+  
+
+  
+  <div class="carousel-inner" role="listbox">
+    
+    
+
+    
+    <div class="carousel-item active">
+      <div class="view"
+        style="background-image: url('https://blog.jaxiu.cn/img/header-slides/raw_1515691746.jpg'); background-repeat: no-repeat; background-size: cover;">
+
+        
+        <div class="mask rgba-black-light d-flex justify-content-center align-items-center">
+
+          
+          
+          
+
+        </div>
+        
+
+      </div>
+    </div>
+    
+    
+    
+    
+
+    
+    <div class="carousel-item">
+      <div class="view"
+        style="background-image: url('https://blog.jaxiu.cn/img/header-slides//raw_1515847341.jpg'); background-repeat: no-repeat; background-size: cover;">
+
+        
+        <div class="mask rgba-black-light d-flex justify-content-center align-items-center">
+
+
+
+        </div>
+        
+
+      </div>
+    </div>
+    
+    
+    
+
+
+  </div>
+  
+
+  
+  <div class="carousel-content text-center white-text wow fadeIn">
+    <div class="row mx-0 headfont mt-3 pt-4">
+      
+      <div class="col-12 col-sm-5 align-middle">
+        <a href="https://blog.jaxiu.cn/">
+          
+          <img class="pull-right avatar avatar-md" src="https://blog.jaxiu.cn/img/logo.png" alt="">
+          
+        </a>
+      </div>
+
+      <div class="col-12 col-sm-7 text-left pl-2">
+        <a href="https://blog.jaxiu.cn/">
+          <h1 class="mb-2 h1" style="font-weight: 300;">
+            <strong>jaxiu He</strong>
+          </h1>
+        </a>
+
+
+        
+        <div class="mt-2" style="font-size: 1rem; color: white;">
+          
+          <a href="//github.com/axfinn" target="_blank" rel="noopener"><i class="fab fa-github pr-1"
+              aria-hidden="true"></i></a>
+          
+          
+
+          
+
+          
+
+          
+
+          
+
+          
+
+
+          
+          <a href="mailto:521very@email.com"><i class="far fa-envelope-open pr-1" aria-hidden="true"></i></a>
+          
+
+          
+
+
+        </div>
+      </div>
+    </div>
+  </div>
+  
+
+  
+  
+  
+
+</div>
+  
+    
+
+    
+  
+  <main class="post-main-wrapper">
+    
+    
+    <div class="row">
+
+      
+
+      
+      <div class="col-md-10">
+      
+
+        
+        <div class="z-depth-1  post-wrapper white-bg single-post">
+
+          <div class="post-header text-center" >
+  <ul class="post-meta li-x">
+    
+      
+        <li><a href="https://blog.jaxiu.cn/categories/%E6%8A%80%E6%9C%AF"><i class="fas fa-folder-open pr-1" aria-hidden="true"></i> 技术 </a></li>
+      
+    
+    
+  </ul>
+
+  <div class="px-4 post-heading">从零到一：使用 Hugo 和 GitHub Pages 搭建个人博客</div>
+
+  <ul class="post-meta li-x mt-1">
+    
+      <li>Jul 19, 2025</li>
+    
+
+    
+      <li class="middot"></li>
+      <li>4 minutes read</li>
+    
+  </ul>
+  
+
+</div>
+
+
+          <div class="post-content markdown">
+            <h2 id="前言">前言</h2>
+<p>拥有一个个人博客是分享知识、记录学习和展示作品的绝佳方式。本文将详细介绍如何使用强大的静态网站生成器 Hugo 和免费的 GitHub Pages 服务，从零开始搭建一个属于你自己的、功能完善且高度可定制的个人博客。</p>
+<h2 id="为什么选择-hugo-和-github-pages">为什么选择 Hugo 和 GitHub Pages？</h2>
+<ul>
+<li><strong>Hugo</strong>: Go 语言编写的静态网站生成器，以其惊人的构建速度和灵活性而闻名。它拥有丰富的主题和强大的功能，让你可以专注于内容创作。</li>
+<li><strong>GitHub Pages</strong>: GitHub 提供的免费静态网站托管服务。它与 Git 无缝集成，非常适合托管个人博客、项目文档等。</li>
+</ul>
+<h2 id="准备工作">准备工作</h2>
+<p>在开始之前，请确保你的电脑上已经安装了以下软件：</p>
+<ol>
+<li><strong>Git</strong>: 用于版本控制和部署。 <a href="https://git-scm.com/">下载地址</a></li>
+<li><strong>Hugo</strong>: 静态网站生成器。 <a href="https://gohugo.io/getting-started/installing/">安装教程</a></li>
+</ol>
+<p>可以通过以下命令检查是否安装成功：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">git --version
+</span></span><span class="line"><span class="cl">hugo version
+</span></span></code></pre></div><h2 id="搭建步骤">搭建步骤</h2>
+<h3 id="1-创建-hugo-网站">1. 创建 Hugo 网站</h3>
+<p>首先，使用 Hugo 命令创建一个新的网站。将 <code>my-blog</code> 替换为你自己的项目名称。</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">hugo new site my-blog
+</span></span><span class="line"><span class="cl"><span class="nb">cd</span> my-blog
+</span></span></code></pre></div><p>这会生成一个包含基本目录结构的 Hugo 项目：</p>
+<ul>
+<li><code>archetypes/</code>: 内容模板文件。</li>
+<li><code>content/</code>: 博客文章等内容。</li>
+<li><code>layouts/</code>: 网站布局和模板。</li>
+<li><code>static/</code>: 静态资源，如图片、CSS、JS。</li>
+<li><code>themes/</code>: 主题存放目录。</li>
+<li><code>config.toml</code>: 网站主配置文件。</li>
+</ul>
+<h3 id="2-初始化-git-仓库">2. 初始化 Git 仓库</h3>
+<p>将你的 Hugo 项目初始化为一个 Git 仓库，这将用于管理博客的源代码。</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">git init
+</span></span></code></pre></div><h3 id="3-添加主题">3. 添加主题</h3>
+<p>Hugo 拥有海量的主题可供选择。你可以从 <a href="https://themes.gohugo.io/">Hugo 官方主题站</a> 挑选一个你喜欢的主题。这里我们以 <code>AllinOne</code> 主题为例，使用 Git Submodule 的方式添加主题。</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">git submodule add https://github.com/sy-records/hugo-theme-allinone.git themes/AllinOne
+</span></span></code></pre></div><p>然后，在 <code>config.toml</code> 文件中启用该主题：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-toml" data-lang="toml"><span class="line"><span class="cl"><span class="nx">theme</span> <span class="p">=</span> <span class="s2">&#34;AllinOne&#34;</span>
+</span></span></code></pre></div><h3 id="4-配置网站">4. 配置网站</h3>
+<p>打开 <code>config.toml</code> 文件，根据你的需求和所选主题的文档，配置网站的基本信息，例如网站标题、作者、菜单等。</p>
+<p>一个基础的配置示例如下：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-toml" data-lang="toml"><span class="line"><span class="cl"><span class="nx">baseURL</span> <span class="p">=</span> <span class="s2">&#34;https://your-username.github.io/&#34;</span>
+</span></span><span class="line"><span class="cl"><span class="nx">languageCode</span> <span class="p">=</span> <span class="s2">&#34;zh-cn&#34;</span>
+</span></span><span class="line"><span class="cl"><span class="nx">title</span> <span class="p">=</span> <span class="s2">&#34;我的个人博客&#34;</span>
+</span></span><span class="line"><span class="cl"><span class="nx">theme</span> <span class="p">=</span> <span class="s2">&#34;AllinOne&#34;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="p">[</span><span class="nx">params</span><span class="p">]</span>
+</span></span><span class="line"><span class="cl">  <span class="nx">author</span> <span class="p">=</span> <span class="s2">&#34;你的名字&#34;</span>
+</span></span><span class="line"><span class="cl">  <span class="nx">description</span> <span class="p">=</span> <span class="s2">&#34;这是我的个人博客&#34;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="p">[</span><span class="nx">menu</span><span class="p">]</span>
+</span></span><span class="line"><span class="cl">  <span class="p">[[</span><span class="nx">menu</span><span class="p">.</span><span class="nx">main</span><span class="p">]]</span>
+</span></span><span class="line"><span class="cl">    <span class="nx">identifier</span> <span class="p">=</span> <span class="s2">&#34;about&#34;</span>
+</span></span><span class="line"><span class="cl">    <span class="nx">name</span> <span class="p">=</span> <span class="s2">&#34;关于&#34;</span>
+</span></span><span class="line"><span class="cl">    <span class="nx">url</span> <span class="p">=</span> <span class="s2">&#34;/about/&#34;</span>
+</span></span><span class="line"><span class="cl">    <span class="nx">weight</span> <span class="p">=</span> <span class="mi">1</span>
+</span></span><span class="line"><span class="cl">  <span class="p">[[</span><span class="nx">menu</span><span class="p">.</span><span class="nx">main</span><span class="p">]]</span>
+</span></span><span class="line"><span class="cl">    <span class="nx">identifier</span> <span class="p">=</span> <span class="s2">&#34;blog&#34;</span>
+</span></span><span class="line"><span class="cl">    <span class="nx">name</span> <span class="p">=</span> <span class="s2">&#34;博客&#34;</span>
+</span></span><span class="line"><span class="cl">    <span class="nx">url</span> <span class="p">=</span> <span class="s2">&#34;/blog/&#34;</span>
+</span></span><span class="line"><span class="cl">    <span class="nx">weight</span> <span class="p">=</span> <span class="mi">2</span>
+</span></span></code></pre></div><p><strong>重要提示</strong>: <code>baseURL</code> 必须设置为你将来要部署的 GitHub Pages 地址。</p>
+<h3 id="5-创建第一篇文章">5. 创建第一篇文章</h3>
+<p>使用 Hugo 命令创建你的第一篇博文：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">hugo new blog/hello-world.md
+</span></span></code></pre></div><p>这会在 <code>content/blog/</code> 目录下生成一个 <code>hello-world.md</code> 文件。打开它，你会看到一些元数据（Front Matter）和正文部分。用 Markdown 语法编写你的文章内容。</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-markdown" data-lang="markdown"><span class="line"><span class="cl">---
+</span></span><span class="line"><span class="cl">title: &#34;Hello World&#34;
+</span></span><span class="line"><span class="cl">date: 2025-07-19T15:00:00+08:00
+</span></span><span class="line"><span class="cl">draft: false # 设置为 false 才会发布
+</span></span><span class="line"><span class="cl">---
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">这是我的第一篇博客文章！
+</span></span></code></pre></div><h3 id="6-本地预览">6. 本地预览</h3>
+<p>在发布到线上之前，可以在本地启动 Hugo 服务器进行预览。</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">hugo server -D
+</span></span></code></pre></div><p><code>-D</code> 参数会包含标记为草稿（draft）的文章。现在，在浏览器中访问 <code>http://localhost:1313</code> 就可以看到你的博客了。</p>
+<h3 id="7-创建-github-仓库">7. 创建 GitHub 仓库</h3>
+<p>你需要创建两个 GitHub 仓库：</p>
+<ol>
+<li><code>my-blog</code> (私有仓库推荐): 用于存放 Hugo 网站的源代码。</li>
+<li><code>your-username.github.io</code> (必须是公开仓库): 用于存放 Hugo 生成的静态文件，也就是最终发布的网站。</li>
+</ol>
+<h3 id="8-编写发布脚本">8. 编写发布脚本</h3>
+<p>为了简化部署流程，我们可以编写一个自动化脚本 <code>publish.sh</code>。这个脚本会自动构建网站，并将生成的文件推送到 <code>your-username.github.io</code> 仓库。</p>
+<p>在你的项目根目录（<code>my-blog</code>）下创建 <code>publish.sh</code> 文件：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="cp">#!/bin/sh
+</span></span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># 如果脚本有任何错误，则退出</span>
+</span></span><span class="line"><span class="cl"><span class="nb">set</span> -e
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># 接收 commit message</span>
+</span></span><span class="line"><span class="cl"><span class="nv">MSG</span><span class="o">=</span><span class="s2">&#34;</span><span class="nv">$1</span><span class="s2">&#34;</span>
+</span></span><span class="line"><span class="cl"><span class="k">if</span> <span class="o">[</span> -z <span class="s2">&#34;</span><span class="nv">$MSG</span><span class="s2">&#34;</span> <span class="o">]</span><span class="p">;</span> <span class="k">then</span>
+</span></span><span class="line"><span class="cl">  <span class="nb">echo</span> <span class="s2">&#34;Commit message is required&#34;</span>
+</span></span><span class="line"><span class="cl">  <span class="nb">exit</span> <span class="m">1</span>
+</span></span><span class="line"><span class="cl"><span class="k">fi</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># 构建网站</span>
+</span></span><span class="line"><span class="cl"><span class="nb">echo</span> <span class="s2">&#34;Building site...&#34;</span>
+</span></span><span class="line"><span class="cl">hugo
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># 进入 public 目录</span>
+</span></span><span class="line"><span class="cl"><span class="nb">cd</span> public
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># 添加到 Git</span>
+</span></span><span class="line"><span class="cl">git add .
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># 提交变更</span>
+</span></span><span class="line"><span class="cl">git commit -m <span class="s2">&#34;</span><span class="nv">$MSG</span><span class="s2">&#34;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># 推送到 GitHub</span>
+</span></span><span class="line"><span class="cl"><span class="nb">echo</span> <span class="s2">&#34;Pushing to GitHub Pages...&#34;</span>
+</span></span><span class="line"><span class="cl">git push origin main
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># 返回上级目录</span>
+</span></span><span class="line"><span class="cl"><span class="nb">cd</span> ..
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># 提交源代码的变更</span>
+</span></span><span class="line"><span class="cl">git add .
+</span></span><span class="line"><span class="cl">git commit -m <span class="s2">&#34;</span><span class="nv">$MSG</span><span class="s2">&#34;</span>
+</span></span><span class="line"><span class="cl">git push origin main
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="nb">echo</span> <span class="s2">&#34;Done!&#34;</span>
+</span></span></code></pre></div><p><strong>配置 public 目录</strong>: 在执行脚本之前，需要将 <code>public</code> 目录设置为 <code>your-username.github.io</code> 仓库的 Git 工作目录。</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="c1"># 先删除 Hugo 自动生成的空 public 目录</span>
+</span></span><span class="line"><span class="cl">rm -rf public
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># 克隆你的 GitHub Pages 仓库到 public 目录</span>
+</span></span><span class="line"><span class="cl">git clone https://github.com/your-username/your-username.github.io.git public
+</span></span></code></pre></div><h3 id="9-发布你的博客">9. 发布你的博客</h3>
+<p>现在，一切准备就绪！</p>
+<ol>
+<li>
+<p>首先，将你的 Hugo 源代码推送到 <code>my-blog</code> 仓库。</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="c1"># 添加远程仓库地址</span>
+</span></span><span class="line"><span class="cl">git remote add origin https://github.com/your-username/my-blog.git
+</span></span><span class="line"><span class="cl">git branch -M main
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># 提交并推送</span>
+</span></span><span class="line"><span class="cl">git add .
+</span></span><span class="line"><span class="cl">git commit -m <span class="s2">&#34;Initial commit&#34;</span>
+</span></span><span class="line"><span class="cl">git push -u origin main
+</span></span></code></pre></div></li>
+<li>
+<p>运行发布脚本，完成第一次发布。</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">chmod +x publish.sh  <span class="c1"># 赋予脚本执行权限</span>
+</span></span><span class="line"><span class="cl">./publish.sh <span class="s2">&#34;feat: Initial public&#34;</span>
+</span></span></code></pre></div></li>
+</ol>
+<p>几分钟后，访问 <code>https://your-username.github.io</code>，你就能看到成功上线的个人博客了！</p>
+<h2 id="实例分析axfinn_blogs">实例分析：axfinn_blogs</h2>
+<p>本文档所在的博客项目 <code>axfinn_blogs</code> 就是一个很好的实例。你可以通过它的<a href="https://github.com/axfinn/axfinn_blogs">源码仓库</a>来学习和参考。</p>
+<h3 id="关键配置-configtoml">关键配置 (<code>config.toml</code>)</h3>
+<p><code>axfinn_blogs</code> 的 <code>config.toml</code> 文件包含了一些有趣的配置：</p>
+<ul>
+<li><strong>永久链接格式</strong>: 通过 <code>[permalinks]</code> 设置，将博客文章的 URL 格式定义为 <code>/:year-:month/:slug/</code>，更具可读性。</li>
+<li><strong>分类系统</strong>: 定义了 <code>tags</code>, <code>series</code>, <code>categories</code> 三种分类方式。</li>
+<li><strong>自定义菜单</strong>: 配置了“博客”、“动态”、“关于”等导航菜单。</li>
+<li><strong>JSON 输出</strong>: 通过 <code>[outputs]</code> 配置，将首页内容输出为 JSON 格式，这通常用于站内搜索功能。</li>
+</ul>
+<h3 id="自动化发布脚本-publishsh">自动化发布脚本 (<code>publish.sh</code>)</h3>
+<p><code>axfinn_blogs</code> 使用了一个更完善的 <code>publish.sh</code> 脚本，它有几个特点：</p>
+<ul>
+<li><strong>目标目录</strong>: 脚本通过 <code>DEPLOY_DIR=&quot;../axfinn.github.io&quot;</code> 变量，直接指定了发布的目标目录，而不是在 <code>public</code> 目录中操作 Git。</li>
+<li><strong>增量更新</strong>: 脚本先删除目标目录的旧文件，再复制新生成的文件，确保了部署的纯净性。</li>
+<li><strong>统一的提交信息</strong>: 脚本使用 <code>chore: Publish site updates at $(date +'%Y-%m-%d %H:%M:%S')</code> 作为固定的提交信息，方便追踪发布历史。</li>
+</ul>
+<p>这个真实的项目案例可以帮助你更好地理解 Hugo 的配置和自动化部署的实践。</p>
+<h2 id="总结">总结</h2>
+<p>通过本教程，你已经成功搭建并发布了自己的个人博客。现在，你可以专注于内容创作，并通过 <code>hugo new</code> 创建新文章，然后运行 <code>./publish.sh</code> 来一键更新你的博客。祝你写作愉快！</p>
+
+          </div>
+
+          
+          <div class="row">
+            <div class="col-md-8">
+            
+              <div class="mb-5">
+                
+<div class="li-x div-x post-meta">
+  <li class="pr-0"><a href="https://blog.jaxiu.cn/tags/"><i class="fas fa-tags"></i></a></li>
+  <div class="tags-sm">
+    
+      <li><a href="https://blog.jaxiu.cn/tags/hugo" role="button">Hugo </a></li>
+      
+    
+      <li><a href="https://blog.jaxiu.cn/tags/github-pages" role="button">GitHub Pages </a></li>
+      
+    
+      <li><a href="https://blog.jaxiu.cn/tags/%E5%8D%9A%E5%AE%A2%E6%90%AD%E5%BB%BA" role="button">博客搭建 </a></li>
+      
+    
+      <li><a href="https://blog.jaxiu.cn/tags/%E6%95%99%E7%A8%8B" role="button">教程 </a></li>
+      
+    
+  </div>
+</div>
+              </div>
+            
+            </div>
+            
+          </div>
+          
+
+          
+          <div class="row pt-3">
+            <div class="col-md-6">
+              
+                <a href=https://blog.jaxiu.cn/blog/2025-07/nps-%E5%85%A8%E6%99%AF%E8%A7%A3%E6%9E%90%E5%AE%8C%E7%BB%93%E6%8F%AD%E7%A7%98%E5%8A%9F%E8%83%BD%E5%BC%BA%E5%A4%A7%E7%9A%84-web-%E7%AE%A1%E7%90%86%E7%95%8C%E9%9D%A2/ class="post-meta">Previous
+                  <div class="pt-2 pb-5 d-flex">
+                    <i class="fas fa-angle-left text-grey font-weight-bold mr-2 active-color"></i>
+                    <span>NPS 全景解析（完结）：揭秘功能强大的 Web 管理界面</span>
+                  </div>
+                </a>
+              
+            </div>
+            
+            <div class="col-md-6 text-right" >
+              
+                <a href=https://blog.jaxiu.cn/blog/2025-07/flask-sqlite-hotel-system-tutorial/ class="post-meta">Next
+                  <div class="pt-2 pb-5 flex-reverse">
+                    <i class="fas fa-angle-right text-grey font-weight-bold ml-2 active-color"></i>
+                    <span>从零到一：用 Flask &#43; SQLite 打造一个轻量级酒店管理系统（前后端详解）</span>
+                  </div>
+                </a>
+              
+            </div>
+          </div>
+
+          
+
+        </div>
+        
+
+      </div>
+      
+
+      
+	
+	
+	
+	
+		
+		
+		
+	
+
+		
+		<div class="col-md-2 pl-0">
+
+			
+			<div id="page-scrollspy" class="toc-nav">
+				
+				<ul class="nav nav-pills ml-0">
+					
+					<li class="nav-item pb-3 text-center">
+						<span class="font-weight-bold mb-2">- CATALOG - </span>
+					</li>
+
+					
+						
+						
+							
+								
+								
+									<ul class="nav">
+								
+								
+
+										<li class="nav-item">
+						 					<a class="nav-link" href="#%e5%89%8d%e8%a8%80">
+												 前言
+											</a>
+										</li>
+						 
+								
+								
+									</ul>
+								
+							
+						
+				 
+						
+						
+							
+								
+								
+									<ul class="nav">
+								
+								
+
+										<li class="nav-item">
+						 					<a class="nav-link" href="#%e4%b8%ba%e4%bb%80%e4%b9%88%e9%80%89%e6%8b%a9-hugo-%e5%92%8c-github-pages">
+												 为什么选择 Hugo 和 GitHub Pages？
+											</a>
+										</li>
+						 
+								
+								
+									</ul>
+								
+							
+						
+				 
+						
+						
+							
+								
+								
+									<ul class="nav">
+								
+								
+
+										<li class="nav-item">
+						 					<a class="nav-link" href="#%e5%87%86%e5%a4%87%e5%b7%a5%e4%bd%9c">
+												 准备工作
+											</a>
+										</li>
+						 
+								
+								
+									</ul>
+								
+							
+						
+				 
+						
+						
+							
+								
+								
+									<ul class="nav">
+								
+								
+
+										<li class="nav-item">
+						 					<a class="nav-link" href="#%e6%90%ad%e5%bb%ba%e6%ad%a5%e9%aa%a4">
+												 搭建步骤
+											</a>
+										</li>
+						 
+								
+								
+									</ul>
+								
+							
+						
+				 
+						
+						
+							
+								
+								
+									<ul class="nav">
+								
+									<ul class="nav">
+								
+								
+
+										<li class="nav-item">
+						 					<a class="nav-link" href="#1-%e5%88%9b%e5%bb%ba-hugo-%e7%bd%91%e7%ab%99">
+												 1. 创建 Hugo 网站
+											</a>
+										</li>
+						 
+								
+								
+									</ul>
+								
+									</ul>
+								
+							
+						
+				 
+						
+						
+							
+								
+								
+									<ul class="nav">
+								
+									<ul class="nav">
+								
+								
+
+										<li class="nav-item">
+						 					<a class="nav-link" href="#2-%e5%88%9d%e5%a7%8b%e5%8c%96-git-%e4%bb%93%e5%ba%93">
+												 2. 初始化 Git 仓库
+											</a>
+										</li>
+						 
+								
+								
+									</ul>
+								
+									</ul>
+								
+							
+						
+				 
+						
+						
+							
+								
+								
+									<ul class="nav">
+								
+									<ul class="nav">
+								
+								
+
+										<li class="nav-item">
+						 					<a class="nav-link" href="#3-%e6%b7%bb%e5%8a%a0%e4%b8%bb%e9%a2%98">
+												 3. 添加主题
+											</a>
+										</li>
+						 
+								
+								
+									</ul>
+								
+									</ul>
+								
+							
+						
+				 
+						
+						
+							
+								
+								
+									<ul class="nav">
+								
+									<ul class="nav">
+								
+								
+
+										<li class="nav-item">
+						 					<a class="nav-link" href="#4-%e9%85%8d%e7%bd%ae%e7%bd%91%e7%ab%99">
+												 4. 配置网站
+											</a>
+										</li>
+						 
+								
+								
+									</ul>
+								
+									</ul>
+								
+							
+						
+				 
+						
+						
+							
+								
+								
+									<ul class="nav">
+								
+									<ul class="nav">
+								
+								
+
+										<li class="nav-item">
+						 					<a class="nav-link" href="#5-%e5%88%9b%e5%bb%ba%e7%ac%ac%e4%b8%80%e7%af%87%e6%96%87%e7%ab%a0">
+												 5. 创建第一篇文章
+											</a>
+										</li>
+						 
+								
+								
+									</ul>
+								
+									</ul>
+								
+							
+						
+				 
+						
+						
+							
+								
+								
+									<ul class="nav">
+								
+									<ul class="nav">
+								
+								
+
+										<li class="nav-item">
+						 					<a class="nav-link" href="#6-%e6%9c%ac%e5%9c%b0%e9%a2%84%e8%a7%88">
+												 6. 本地预览
+											</a>
+										</li>
+						 
+								
+								
+									</ul>
+								
+									</ul>
+								
+							
+						
+				 
+						
+						
+							
+								
+								
+									<ul class="nav">
+								
+									<ul class="nav">
+								
+								
+
+										<li class="nav-item">
+						 					<a class="nav-link" href="#7-%e5%88%9b%e5%bb%ba-github-%e4%bb%93%e5%ba%93">
+												 7. 创建 GitHub 仓库
+											</a>
+										</li>
+						 
+								
+								
+									</ul>
+								
+									</ul>
+								
+							
+						
+				 
+						
+						
+							
+								
+								
+									<ul class="nav">
+								
+									<ul class="nav">
+								
+								
+
+										<li class="nav-item">
+						 					<a class="nav-link" href="#8-%e7%bc%96%e5%86%99%e5%8f%91%e5%b8%83%e8%84%9a%e6%9c%ac">
+												 8. 编写发布脚本
+											</a>
+										</li>
+						 
+								
+								
+									</ul>
+								
+									</ul>
+								
+							
+						
+				 
+						
+						
+							
+								
+								
+									<ul class="nav">
+								
+									<ul class="nav">
+								
+								
+
+										<li class="nav-item">
+						 					<a class="nav-link" href="#9-%e5%8f%91%e5%b8%83%e4%bd%a0%e7%9a%84%e5%8d%9a%e5%ae%a2">
+												 9. 发布你的博客
+											</a>
+										</li>
+						 
+								
+								
+									</ul>
+								
+									</ul>
+								
+							
+						
+				 
+						
+						
+							
+								
+								
+									<ul class="nav">
+								
+								
+
+										<li class="nav-item">
+						 					<a class="nav-link" href="#%e5%ae%9e%e4%be%8b%e5%88%86%e6%9e%90axfinn_blogs">
+												 实例分析：axfinn_blogs
+											</a>
+										</li>
+						 
+								
+								
+									</ul>
+								
+							
+						
+				 
+						
+						
+							
+								
+								
+									<ul class="nav">
+								
+									<ul class="nav">
+								
+								
+
+										<li class="nav-item">
+						 					<a class="nav-link" href="#%e5%85%b3%e9%94%ae%e9%85%8d%e7%bd%ae-configtoml">
+												 关键配置 (config.toml)
+											</a>
+										</li>
+						 
+								
+								
+									</ul>
+								
+									</ul>
+								
+							
+						
+				 
+						
+						
+							
+								
+								
+									<ul class="nav">
+								
+									<ul class="nav">
+								
+								
+
+										<li class="nav-item">
+						 					<a class="nav-link" href="#%e8%87%aa%e5%8a%a8%e5%8c%96%e5%8f%91%e5%b8%83%e8%84%9a%e6%9c%ac-publishsh">
+												 自动化发布脚本 (publish.sh)
+											</a>
+										</li>
+						 
+								
+								
+									</ul>
+								
+									</ul>
+								
+							
+						
+				 
+						
+						
+							
+								
+								
+									<ul class="nav">
+								
+								
+
+										<li class="nav-item">
+						 					<a class="nav-link" href="#%e6%80%bb%e7%bb%93">
+												 总结
+											</a>
+										</li>
+						 
+								
+								
+									</ul>
+								
+							
+						
+				 
+
+				</ul>
+			</div>
+			
+
+		</div>
+		
+	
+
+    </div>
+    
+
+
+  </main>
+  
+
+
+    
+    
+<footer class="page-footer text-center font-small mt-4 wow fadeIn">
+
+
+  
+  <div class="pb-2 mt-5 pt-5">
+    
+    <a href="//github.com/axfinn " target="_blank" rel="noopener"><i class="fab fa-github mr-3"
+        aria-hidden="true"></i></a>
+    
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+
+    
+    <a href="mailto:521very@email.com"><i class="far fa-envelope-open mr-3" aria-hidden="true"></i></a>
+    
+
+    
+
+    
+
+  </div>
+  
+
+  
+  <div class="copyright py-4">
+    
+    <span> 2016 - 2026 &copy; | Theme <a href='https://github.com/orianna-zzo/AllinOne'
+        target="_blank">AllinOne</a> by <a href='https://github.com/orianna-zzo' target="_blank">Orianna</a> </span>
+  </div>
+  
+
+</footer>
+
+    
+
+
+
+
+<script type="text/javascript" src="https://blog.jaxiu.cn/js/vendors/jquery/jquery-3.3.1.min.js"></script>
+<script type="text/javascript" src="https://blog.jaxiu.cn/js/vendors/jquery/jquery.smooth-scroll.min.js"></script>
+
+
+
+<script type="text/javascript" src="https://blog.jaxiu.cn/js/vendors/popper.min.js"></script>
+<script type="text/javascript" src="https://blog.jaxiu.cn/js/vendors/holder.min.js"></script>
+<script type="text/javascript" src="https://blog.jaxiu.cn/js/vendors-extensions/bootstrap4/bootstrap.js" ></script>
+
+<script type="text/javascript" src="https://blog.jaxiu.cn/js/vendors/mdb/mdb.min.js"></script>
+
+<script type="text/javascript" src="https://blog.jaxiu.cn/js/main.js"></script>
+<script type="text/javascript" src="https://blog.jaxiu.cn/js/search.js"></script>
+
+
+
+
+  <script src="https://blog.jaxiu.cn/js/vendors/highlight.pack.js"> </script>
+  <script>hljs.initHighlightingOnLoad();</script>
+
+
+
+
+
+  <script src="https://blog.jaxiu.cn/js/vendors/katex/katex.min.js"> </script>
+  <script src="https://blog.jaxiu.cn/js/vendors/katex/contrib/auto-render.min.js"></script>
+
+  <script>
+      document.addEventListener("DOMContentLoaded", function () {
+          renderMathInElement(document.body);
+      });
+  </script>
+
+
+
+
+
+
+
+
+<script type="text/javascript">
+  
+  new WOW().init();
+</script>
+  </body>
+</html>

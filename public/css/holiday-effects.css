@@ -1,0 +1,755 @@
+/**
+ * 中国节假日特效样式
+ * Chinese Holiday Effects Styles
+ */
+
+/* ========================================
+   CSS Variables for Holiday Themes
+   ======================================== */
+:root {
+    --holiday-primary: #e53935;
+    --holiday-secondary: #FFD700;
+    --holiday-accent: #FF6B6B;
+}
+
+/* ========================================
+   Fireworks Canvas
+   ======================================== */
+.holiday-fireworks-canvas {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    z-index: 9990;
+    opacity: 0.9;
+}
+
+/* ========================================
+   Confetti Container & Pieces
+   ======================================== */
+.holiday-confetti-container {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    z-index: 9991;
+    overflow: hidden;
+}
+
+.holiday-confetti-piece {
+    position: absolute;
+    top: -20px;
+    opacity: 0.8;
+    animation: holiday-confetti-fall linear forwards;
+    transform-origin: center;
+}
+
+@keyframes holiday-confetti-fall {
+    0% {
+        transform: translateY(0) rotate(0deg) scale(1);
+        opacity: 1;
+    }
+
+    25% {
+        transform: translateY(25vh) rotate(180deg) translateX(20px) scale(0.95);
+    }
+
+    50% {
+        transform: translateY(50vh) rotate(360deg) translateX(-15px) scale(0.9);
+    }
+
+    75% {
+        transform: translateY(75vh) rotate(540deg) translateX(10px) scale(0.85);
+        opacity: 0.6;
+    }
+
+    100% {
+        transform: translateY(105vh) rotate(720deg) translateX(-5px) scale(0.8);
+        opacity: 0;
+    }
+}
+
+/* ========================================
+   Countdown Component
+   ======================================== */
+.holiday-countdown {
+    position: fixed;
+    bottom: 80px;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 9995;
+    pointer-events: none;
+}
+
+.holiday-countdown-content {
+    background: linear-gradient(135deg, rgba(229, 57, 53, 0.95), rgba(255, 107, 107, 0.9));
+    backdrop-filter: blur(10px);
+    border-radius: 20px;
+    padding: 15px 30px;
+    box-shadow:
+        0 10px 40px rgba(229, 57, 53, 0.4),
+        0 0 0 1px rgba(255, 255, 255, 0.2) inset;
+    border: 2px solid var(--holiday-secondary);
+}
+
+.holiday-countdown-celebration {
+    background: linear-gradient(135deg, rgba(255, 215, 0, 0.95), rgba(255, 165, 0, 0.9));
+    animation: holiday-pulse 2s ease-in-out infinite;
+}
+
+@keyframes holiday-pulse {
+
+    0%,
+    100% {
+        transform: scale(1);
+        box-shadow: 0 10px 40px rgba(255, 215, 0, 0.4);
+    }
+
+    50% {
+        transform: scale(1.05);
+        box-shadow: 0 15px 50px rgba(255, 215, 0, 0.6);
+    }
+}
+
+.holiday-countdown-label {
+    display: block;
+    text-align: center;
+    color: rgba(255, 255, 255, 0.9);
+    font-size: 14px;
+    margin-bottom: 10px;
+    text-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
+}
+
+.holiday-countdown-timer {
+    display: flex;
+    gap: 15px;
+    justify-content: center;
+}
+
+.holiday-countdown-unit {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.holiday-countdown-number {
+    font-size: 32px;
+    font-weight: 700;
+    color: white;
+    text-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+    font-family: 'Courier New', monospace;
+    background: rgba(0, 0, 0, 0.2);
+    padding: 5px 12px;
+    border-radius: 8px;
+    min-width: 50px;
+    text-align: center;
+}
+
+.holiday-countdown-unit-label {
+    font-size: 12px;
+    color: rgba(255, 255, 255, 0.8);
+    margin-top: 5px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.holiday-countdown-emoji {
+    font-size: 36px;
+    animation: holiday-bounce 1s ease-in-out infinite;
+}
+
+.holiday-countdown-text {
+    font-size: 24px;
+    font-weight: 700;
+    color: #333;
+    text-shadow: 0 1px 2px rgba(255, 255, 255, 0.5);
+    margin: 0 15px;
+}
+
+@keyframes holiday-bounce {
+
+    0%,
+    100% {
+        transform: translateY(0);
+    }
+
+    50% {
+        transform: translateY(-10px);
+    }
+}
+
+/* ========================================
+   Holiday Banner
+   ======================================== */
+.holiday-banner {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    z-index: 10001;
+    background: linear-gradient(90deg,
+            var(--holiday-primary),
+            var(--holiday-accent),
+            var(--holiday-secondary),
+            var(--holiday-accent),
+            var(--holiday-primary));
+    background-size: 200% 100%;
+    animation: holiday-banner-gradient 3s ease-in-out infinite;
+    box-shadow: 0 4px 20px rgba(229, 57, 53, 0.4);
+}
+
+@keyframes holiday-banner-gradient {
+
+    0%,
+    100% {
+        background-position: 0% 50%;
+    }
+
+    50% {
+        background-position: 100% 50%;
+    }
+}
+
+.holiday-banner-content {
+    padding: 12px 20px;
+    text-align: center;
+    overflow: hidden;
+}
+
+.holiday-banner-text {
+    display: inline-block;
+    color: white;
+    font-size: 16px;
+    font-weight: 600;
+    text-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
+    animation: holiday-banner-marquee 15s linear infinite;
+    white-space: nowrap;
+}
+
+@keyframes holiday-banner-marquee {
+    0% {
+        transform: translateX(100%);
+    }
+
+    100% {
+        transform: translateX(-100%);
+    }
+}
+
+/* ========================================
+   Control Button
+   ======================================== */
+.holiday-control-btn {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    border: none;
+    background: linear-gradient(135deg, var(--holiday-primary), var(--holiday-accent));
+    color: white;
+    font-size: 24px;
+    cursor: pointer;
+    z-index: 10002;
+    box-shadow:
+        0 4px 15px rgba(229, 57, 53, 0.4),
+        0 0 0 3px rgba(255, 215, 0, 0.5);
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.holiday-control-btn:hover {
+    transform: scale(1.1) rotate(10deg);
+    box-shadow:
+        0 6px 25px rgba(229, 57, 53, 0.5),
+        0 0 0 4px rgba(255, 215, 0, 0.7);
+}
+
+.holiday-control-btn:active {
+    transform: scale(0.95);
+}
+
+/* ========================================
+   Music Control Button
+   ======================================== */
+.holiday-music-btn {
+    position: fixed;
+    bottom: 80px;
+    right: 20px;
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    border: none;
+    background: linear-gradient(135deg, #1976D2, #42A5F5);
+    color: white;
+    font-size: 24px;
+    cursor: pointer;
+    z-index: 10002;
+    box-shadow:
+        0 4px 15px rgba(25, 118, 210, 0.4),
+        0 0 0 3px rgba(255, 255, 255, 0.3);
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.holiday-music-btn:hover {
+    transform: scale(1.1);
+    box-shadow:
+        0 6px 25px rgba(25, 118, 210, 0.5),
+        0 0 0 4px rgba(255, 255, 255, 0.5);
+}
+
+.holiday-music-btn:active {
+    transform: scale(0.95);
+}
+
+.holiday-music-btn.playing {
+    background: linear-gradient(135deg, #4CAF50, #81C784);
+    animation: holiday-music-pulse 1s ease-in-out infinite;
+}
+
+@keyframes holiday-music-pulse {
+
+    0%,
+    100% {
+        box-shadow:
+            0 4px 15px rgba(76, 175, 80, 0.4),
+            0 0 0 3px rgba(255, 255, 255, 0.3);
+    }
+
+    50% {
+        box-shadow:
+            0 4px 25px rgba(76, 175, 80, 0.6),
+            0 0 0 6px rgba(255, 255, 255, 0.4);
+    }
+}
+
+/* ========================================
+   Body Adjustments When Banner is Active
+   ======================================== */
+body.holiday-active {
+    padding-top: 44px !important;
+}
+
+body.holiday-active .navbar {
+    top: 44px !important;
+}
+
+/* ========================================
+   Holiday Theme Color Overrides (Optional)
+   ======================================== */
+body.holiday-new_year .navbar.top-nav-collapse {
+    background: linear-gradient(135deg, rgba(229, 57, 53, 0.95), rgba(183, 28, 28, 0.95)) !important;
+}
+
+body.holiday-new_year a:hover {
+    color: var(--holiday-secondary) !important;
+}
+
+/* ========================================
+   Christmas Snow
+   ======================================== */
+.holiday-snow-container {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    z-index: 9989;
+    overflow: hidden;
+}
+
+.holiday-snowflake {
+    position: absolute;
+    top: -30px;
+    color: white;
+    text-shadow: 0 0 5px rgba(255, 255, 255, 0.8);
+    animation: holiday-snow-fall linear forwards;
+    will-change: transform;
+}
+
+@keyframes holiday-snow-fall {
+    0% {
+        transform: translateY(0) rotate(0deg) translateX(0);
+        opacity: 1;
+    }
+
+    25% {
+        transform: translateY(25vh) rotate(90deg) translateX(30px);
+    }
+
+    50% {
+        transform: translateY(50vh) rotate(180deg) translateX(-20px);
+    }
+
+    75% {
+        transform: translateY(75vh) rotate(270deg) translateX(25px);
+        opacity: 0.8;
+    }
+
+    100% {
+        transform: translateY(110vh) rotate(360deg) translateX(-10px);
+        opacity: 0;
+    }
+}
+
+/* ========================================
+   Christmas Tree Decoration
+   ======================================== */
+.holiday-christmas-tree {
+    position: fixed;
+    bottom: 80px;
+    left: 20px;
+    z-index: 9995;
+    pointer-events: auto;
+}
+
+.christmas-tree-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background: linear-gradient(135deg, rgba(46, 125, 50, 0.9), rgba(27, 94, 32, 0.95));
+    backdrop-filter: blur(10px);
+    border-radius: 20px;
+    padding: 15px 25px;
+    box-shadow:
+        0 10px 40px rgba(46, 125, 50, 0.4),
+        0 0 0 2px rgba(255, 215, 0, 0.5);
+    border: 2px solid #C62828;
+}
+
+.christmas-star {
+    font-size: 30px;
+    animation: holiday-star-twinkle 1.5s ease-in-out infinite;
+}
+
+@keyframes holiday-star-twinkle {
+
+    0%,
+    100% {
+        transform: scale(1) rotate(0deg);
+        filter: brightness(1);
+    }
+
+    50% {
+        transform: scale(1.2) rotate(15deg);
+        filter: brightness(1.5);
+    }
+}
+
+.christmas-tree-body {
+    font-size: 60px;
+    line-height: 1;
+    animation: holiday-tree-sway 3s ease-in-out infinite;
+}
+
+@keyframes holiday-tree-sway {
+
+    0%,
+    100% {
+        transform: rotate(-2deg);
+    }
+
+    50% {
+        transform: rotate(2deg);
+    }
+}
+
+.christmas-gifts {
+    font-size: 20px;
+    margin-top: 5px;
+    animation: holiday-gifts-bounce 2s ease-in-out infinite;
+}
+
+@keyframes holiday-gifts-bounce {
+
+    0%,
+    100% {
+        transform: translateY(0);
+    }
+
+    50% {
+        transform: translateY(-5px);
+    }
+}
+
+.christmas-greeting {
+    margin-top: 10px;
+    padding: 8px 15px;
+    color: white;
+    font-size: 14px;
+    font-weight: 600;
+    text-align: center;
+    text-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
+    animation: holiday-pulse 2s ease-in-out infinite;
+}
+
+/* Christmas Theme Overrides */
+body.holiday-christmas .navbar.top-nav-collapse {
+    background: linear-gradient(135deg, rgba(46, 125, 50, 0.95), rgba(27, 94, 32, 0.95)) !important;
+}
+
+body.holiday-christmas a:hover {
+    color: #C62828 !important;
+}
+
+/* ========================================
+   Spring Festival - Red Packets Rain
+   ======================================== */
+.holiday-red-packets-container {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    z-index: 9992;
+    overflow: hidden;
+}
+
+.holiday-red-packet {
+    position: absolute;
+    top: -50px;
+    animation: holiday-red-packet-fall linear forwards;
+    filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.3));
+}
+
+@keyframes holiday-red-packet-fall {
+    0% {
+        transform: translateY(0) rotate(0deg) scale(1);
+        opacity: 1;
+    }
+
+    25% {
+        transform: translateY(25vh) rotate(calc(var(--rotate) * 0.25)) scale(1.1);
+    }
+
+    50% {
+        transform: translateY(50vh) rotate(calc(var(--rotate) * 0.5)) translateX(20px) scale(1);
+    }
+
+    75% {
+        transform: translateY(75vh) rotate(calc(var(--rotate) * 0.75)) translateX(-15px) scale(0.95);
+        opacity: 0.8;
+    }
+
+    100% {
+        transform: translateY(110vh) rotate(var(--rotate)) scale(0.9);
+        opacity: 0;
+    }
+}
+
+/* ========================================
+   Spring Festival - Lanterns
+   ======================================== */
+.holiday-lanterns {
+    position: fixed;
+    top: 50px;
+    left: 0;
+    right: 0;
+    z-index: 9993;
+    pointer-events: none;
+}
+
+.holiday-lantern {
+    position: fixed;
+    font-size: 80px;
+    animation: holiday-lantern-swing 3s ease-in-out infinite;
+    filter: drop-shadow(0 5px 15px rgba(198, 40, 40, 0.5));
+}
+
+.holiday-lantern-left {
+    top: 60px;
+    left: 20px;
+    animation-delay: 0s;
+}
+
+.holiday-lantern-right {
+    top: 60px;
+    right: 20px;
+    animation-delay: 1.5s;
+}
+
+.lantern-text {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-size: 24px;
+    font-weight: bold;
+    color: #FFD700;
+    text-shadow: 0 0 10px rgba(255, 215, 0, 0.8);
+}
+
+@keyframes holiday-lantern-swing {
+
+    0%,
+    100% {
+        transform: rotate(-5deg);
+    }
+
+    50% {
+        transform: rotate(5deg);
+    }
+}
+
+/* Spring Festival Theme Overrides */
+body.holiday-spring_festival .navbar.top-nav-collapse {
+    background: linear-gradient(135deg, rgba(198, 40, 40, 0.95), rgba(183, 28, 28, 0.95)) !important;
+}
+
+body.holiday-spring_festival a:hover {
+    color: #FFD700 !important;
+}
+
+/* 春节福字装饰 */
+body.holiday-spring_festival::before {
+    content: '福';
+    position: fixed;
+    bottom: 150px;
+    right: 80px;
+    font-size: 100px;
+    color: rgba(198, 40, 40, 0.15);
+    font-weight: bold;
+    transform: rotate(180deg);
+    z-index: 0;
+    pointer-events: none;
+}
+
+/* ========================================
+   Responsive Adjustments
+   ======================================== */
+@media (max-width: 768px) {
+    .holiday-countdown {
+        bottom: 70px;
+        left: 10px;
+        right: 10px;
+        transform: none;
+    }
+
+    .holiday-countdown-content {
+        padding: 12px 15px;
+    }
+
+    .holiday-countdown-timer {
+        gap: 8px;
+    }
+
+    .holiday-countdown-number {
+        font-size: 24px;
+        min-width: 40px;
+        padding: 4px 8px;
+    }
+
+    .holiday-countdown-unit-label {
+        font-size: 10px;
+    }
+
+    .holiday-countdown-text {
+        font-size: 18px;
+    }
+
+    .holiday-countdown-emoji {
+        font-size: 28px;
+    }
+
+    .holiday-banner-text {
+        font-size: 14px;
+    }
+
+    /* 移动端按钮样式 - 避免重叠 */
+    .holiday-control-btn {
+        width: 44px;
+        height: 44px;
+        font-size: 20px;
+        bottom: 15px;
+        right: 15px;
+        /* 改善触摸交互 */
+        touch-action: manipulation;
+        -webkit-tap-highlight-color: transparent;
+    }
+
+    .holiday-music-btn {
+        width: 44px;
+        height: 44px;
+        font-size: 20px;
+        bottom: 70px;
+        /* 在特效按钮上方 */
+        right: 15px;
+        touch-action: manipulation;
+        -webkit-tap-highlight-color: transparent;
+    }
+
+    /* 圣诞树装饰移动端适配 */
+    .holiday-christmas-tree {
+        bottom: 130px;
+        /* 避免与按钮重叠 */
+        left: 10px;
+    }
+
+    .christmas-tree-container {
+        padding: 10px 15px;
+    }
+
+    .christmas-tree-body {
+        font-size: 40px;
+    }
+
+    .christmas-star {
+        font-size: 20px;
+    }
+
+    .christmas-gifts {
+        font-size: 14px;
+    }
+
+    .christmas-greeting {
+        font-size: 12px;
+        padding: 5px 10px;
+    }
+}
+
+/* ========================================
+   Reduced Motion Preferences
+   ======================================== */
+@media (prefers-reduced-motion: reduce) {
+
+    .holiday-confetti-piece,
+    .holiday-countdown-emoji,
+    .holiday-banner-text,
+    .holiday-countdown-celebration {
+        animation: none !important;
+    }
+
+    .holiday-banner {
+        background-size: 100% 100%;
+    }
+}
+
+/* ========================================
+   Print Styles - Hide Effects
+   ======================================== */
+@media print {
+
+    .holiday-fireworks-canvas,
+    .holiday-confetti-container,
+    .holiday-countdown,
+    .holiday-banner,
+    .holiday-control-btn {
+        display: none !important;
+    }
+
+    body.holiday-active {
+        padding-top: 0 !important;
+    }
+}

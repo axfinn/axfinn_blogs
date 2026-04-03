@@ -1,0 +1,2194 @@
+<!DOCTYPE html>
+<html lang="zn-Hans">
+  <head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge, chrome=1">
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no, maximum-scale=1" />
+  
+  <meta name="author" content="jaxiu He">
+  <meta name="description"
+    content="Qwen Code 开发指南
+开发环境设置
+系统要求
+
+Node.js 20&#43;：项目需要 Node.js 20 或更高版本
+npm 8&#43;：推荐使用 npm 8 或更高版本
+Git：用于版本控制
+
+克隆项目
+git clone git@github.com:axfinn/qwen-code.git
+cd qwen-code
+安装依赖
+npm install
+这将安装所有必要的依赖项，包括开发依赖。
+项目结构回顾
+Qwen Code 采用 monorepo 结构，使用 npm workspaces 管理多个包：
+qwen-code/
+├── packages/
+│   ├── cli/          # CLI 工具
+│   ├── core/         # 核心功能
+│   └── ...           # 其他包
+├── docs/             # 文档
+├── examples/         # 示例
+├── tests/            # 测试
+└── ...
+开发工作流
+构建项目
+# 构建所有包
+npm run build
+
+# 构建特定包
+npm run build --workspace=@qwen-code/cli
+运行测试
+# 运行所有测试
+npm test
+
+# 运行单元测试
+npm run test:unit
+
+# 运行集成测试
+npm run test:integration
+代码检查
+# 运行 ESLint
+npm run lint
+
+# 运行 TypeScript 类型检查
+npm run typecheck
+
+# 格式化代码
+npm run format
+完整预检
+在提交代码前，运行完整的预检流程：">
+
+  <meta property="og:url" content="https://blog.jaxiu.cn/blog/2025-07/qwen-code-development-guide/">
+  <meta property="og:site_name" content="jaxiu He">
+  <meta property="og:title" content="Qwen Code 开发指南">
+  <meta property="og:description" content="Qwen Code 开发指南 开发环境设置 系统要求 Node.js 20&#43;：项目需要 Node.js 20 或更高版本 npm 8&#43;：推荐使用 npm 8 或更高版本 Git：用于版本控制 克隆项目 git clone git@github.com:axfinn/qwen-code.git cd qwen-code 安装依赖 npm install 这将安装所有必要的依赖项，包括开发依赖。
+项目结构回顾 Qwen Code 采用 monorepo 结构，使用 npm workspaces 管理多个包：
+qwen-code/ ├── packages/ │ ├── cli/ # CLI 工具 │ ├── core/ # 核心功能 │ └── ... # 其他包 ├── docs/ # 文档 ├── examples/ # 示例 ├── tests/ # 测试 └── ... 开发工作流 构建项目 # 构建所有包 npm run build # 构建特定包 npm run build --workspace=@qwen-code/cli 运行测试 # 运行所有测试 npm test # 运行单元测试 npm run test:unit # 运行集成测试 npm run test:integration 代码检查 # 运行 ESLint npm run lint # 运行 TypeScript 类型检查 npm run typecheck # 格式化代码 npm run format 完整预检 在提交代码前，运行完整的预检流程：">
+  <meta property="og:locale" content="zn_Hans">
+  <meta property="og:type" content="article">
+    <meta property="article:section" content="blog">
+    <meta property="article:published_time" content="2025-07-23T16:05:00+08:00">
+    <meta property="article:modified_time" content="2025-07-23T16:05:00+08:00">
+    <meta property="article:tag" content="Qwen Code">
+    <meta property="article:tag" content="开发指南">
+    <meta property="article:tag" content="贡献指南">
+    <meta property="article:tag" content="TypeScript">
+
+
+  <title>
+    
+     Qwen Code 开发指南 | jaxiu He 
+    
+  </title>
+
+  <link rel="canonical" href="https://blog.jaxiu.cn/blog/2025-07/qwen-code-development-guide/">
+
+  
+  
+
+  
+  
+  
+  <meta name="baidu-site-verification" content="your-baidu-verify-code" />
+  
+
+  
+  
+  <meta name="google-site-verification" content="your-google-verify-code" />
+  
+
+  
+  <link href="https://blog.jaxiu.cn/css/vendors-extensions/fontawesome/all.min.css" rel="stylesheet">
+
+  
+  <link rel="stylesheet"
+    href="https://fonts.googleapis.com/css?family=Open+Sans:400,700|Ubuntu+Mono:400,400i,700,700i|Raleway:300,400,500,600">
+  <link href="https://blog.jaxiu.cn/css/font.css" rel="stylesheet">
+
+  
+  <link href="https://blog.jaxiu.cn/css/vendors/bootstrap4/bootstrap.min.css" rel="stylesheet">
+  <link href="https://blog.jaxiu.cn/css/vendors-extensions/mdb/mdb.min.css" rel="stylesheet">
+  <link href="https://blog.jaxiu.cn/css/vendors/mdb/style.min.css" rel="stylesheet">
+  <link href="https://blog.jaxiu.cn/css/main.css" rel="stylesheet">
+
+
+  
+  <link rel="shortcut icon"  href="https://blog.jaxiu.cn/img/logo.png" >
+
+
+  
+  
+
+  <style type="text/css">
+    @media (min-width: 800px) and (max-width: 850px) {
+      .navbar:not(.top-nav-collapse) {
+        background: #1C2331 !important;
+      }
+    }
+  </style>
+
+
+  
+  
+  <link rel="stylesheet" href="https://blog.jaxiu.cn/js/vendors/katex/katex.min.css">
+  
+  
+
+  
+  
+  <link rel="stylesheet" href="https://blog.jaxiu.cn/css/vendors/highlight/github-gist.css">
+  
+
+  
+  
+  <script type="module">
+    import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.esm.min.mjs';
+    mermaid.initialize({ startOnLoad: true });
+  </script>
+  
+  
+
+  
+  <link href="https://blog.jaxiu.cn/css/holiday-effects.css" rel="stylesheet">
+  <script src="https://blog.jaxiu.cn/js/holiday-effects.js"></script>
+
+  
+  <script src="https://blog.jaxiu.cn/js/dynamic-bg.js"></script>
+  <link href="https://blog.jaxiu.cn/css/dynamic-bg-control.css" rel="stylesheet">
+
+</head>
+  <body class="bg-light" data-spy="scroll" data-target="#page-scrollspy" data-offset="90">
+  
+    
+    
+
+    
+      
+
+
+<nav class="navbar fixed-top navbar-expand-lg navbar-dark scrolling-navbar">
+    <div class="container">
+
+      
+      <a class="navbar-brand" href="https://blog.jaxiu.cn/">
+          
+        <img class="avatar" src="https://blog.jaxiu.cn/img/logo.png" style="width: 40px!important;height: auto;"  class="d-inline-block align-top" alt="" >
+        
+        <strong> jaxiu He</strong>
+      </a>
+
+      
+      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
+        aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+
+      
+      <div class="collapse navbar-collapse" id="navbarSupportedContent">
+
+        
+        <ul class="navbar-nav mr-auto ">
+          <li class="nav-item ">
+            <a class="nav-link" href="https://blog.jaxiu.cn/">Home</a>
+          </li>
+          
+            <li class="nav-item ">
+              <a class="nav-link" href="https://blog.jaxiu.cn/blog/" >博客  </a>
+            </li>
+
+          
+            <li class="nav-item ">
+              <a class="nav-link" href="https://blog.jaxiu.cn/moment/" >动态  </a>
+            </li>
+
+          
+            <li class="nav-item ">
+              <a class="nav-link" href="https://blog.jaxiu.cn/blog/prenatal-stories/" >胎教故事  </a>
+            </li>
+
+          
+            <li class="nav-item ">
+              <a class="nav-link" href="https://blog.jaxiu.cn/about/" >关于  </a>
+            </li>
+
+          
+        </ul>
+
+        
+        <ul class="navbar-nav">
+          <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" href="#" id="searchDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+              <i class="fas fa-search"></i> 搜索
+            </a>
+            <div class="dropdown-menu dropdown-menu-right p-3" aria-labelledby="searchDropdown" style="min-width: 300px; max-width: 400px;">
+              <form class="search-form" onsubmit="return false;">
+                <div class="input-group">
+                  <input type="text" id="search-query" class="form-control" placeholder="搜索文章标题或内容..." autocomplete="off">
+                  <div class="input-group-append">
+                    <button class="btn btn-outline-secondary" type="button" onclick="document.getElementById('search-query').focus();">
+                      <i class="fas fa-search"></i>
+                    </button>
+                  </div>
+                </div>
+              </form>
+              <ul id="search-results" class="list-unstyled mt-2 mb-0" style="max-height: 400px; overflow-y: auto;"></ul>
+            </div>
+          </li>
+        </ul>
+
+      </div>
+
+    </div>
+  </nav>
+   
+      
+
+
+
+
+
+
+
+<div id="site-header" class="carousel slide carousel-fade" data-ride="carousel" style="height: 18rem;">
+  
+
+  
+  
+  
+
+  
+  <div class="carousel-inner" role="listbox">
+    
+    
+
+    
+    <div class="carousel-item active">
+      <div class="view"
+        style="background-image: url('https://blog.jaxiu.cn/img/header-slides/raw_1515691746.jpg'); background-repeat: no-repeat; background-size: cover;">
+
+        
+        <div class="mask rgba-black-light d-flex justify-content-center align-items-center">
+
+          
+          
+          
+
+        </div>
+        
+
+      </div>
+    </div>
+    
+    
+    
+    
+
+    
+    <div class="carousel-item">
+      <div class="view"
+        style="background-image: url('https://blog.jaxiu.cn/img/header-slides//raw_1515847341.jpg'); background-repeat: no-repeat; background-size: cover;">
+
+        
+        <div class="mask rgba-black-light d-flex justify-content-center align-items-center">
+
+
+
+        </div>
+        
+
+      </div>
+    </div>
+    
+    
+    
+
+
+  </div>
+  
+
+  
+  <div class="carousel-content text-center white-text wow fadeIn">
+    <div class="row mx-0 headfont mt-3 pt-4">
+      
+      <div class="col-12 col-sm-5 align-middle">
+        <a href="https://blog.jaxiu.cn/">
+          
+          <img class="pull-right avatar avatar-md" src="https://blog.jaxiu.cn/img/logo.png" alt="">
+          
+        </a>
+      </div>
+
+      <div class="col-12 col-sm-7 text-left pl-2">
+        <a href="https://blog.jaxiu.cn/">
+          <h1 class="mb-2 h1" style="font-weight: 300;">
+            <strong>jaxiu He</strong>
+          </h1>
+        </a>
+
+
+        
+        <div class="mt-2" style="font-size: 1rem; color: white;">
+          
+          <a href="//github.com/axfinn" target="_blank" rel="noopener"><i class="fab fa-github pr-1"
+              aria-hidden="true"></i></a>
+          
+          
+
+          
+
+          
+
+          
+
+          
+
+          
+
+
+          
+          <a href="mailto:521very@email.com"><i class="far fa-envelope-open pr-1" aria-hidden="true"></i></a>
+          
+
+          
+
+
+        </div>
+      </div>
+    </div>
+  </div>
+  
+
+  
+  
+  
+
+</div>
+  
+    
+
+    
+  
+  <main class="post-main-wrapper">
+    
+    
+    <div class="row">
+
+      
+
+      
+      <div class="col-md-10">
+      
+
+        
+        <div class="z-depth-1  post-wrapper white-bg single-post">
+
+          <div class="post-header text-center" >
+  <ul class="post-meta li-x">
+    
+      
+        <li><a href="https://blog.jaxiu.cn/categories/%E6%8A%80%E6%9C%AF"><i class="fas fa-folder-open pr-1" aria-hidden="true"></i> 技术 </a></li>
+      
+        <li><a href="https://blog.jaxiu.cn/categories/%E5%BC%80%E5%8F%91%E6%8C%87%E5%8D%97"><i class="fas fa-folder-open pr-1" aria-hidden="true"></i> 开发指南 </a></li>
+      
+    
+    
+  </ul>
+
+  <div class="px-4 post-heading">Qwen Code 开发指南</div>
+
+  <ul class="post-meta li-x mt-1">
+    
+      <li>Jul 23, 2025</li>
+    
+
+    
+      <li class="middot"></li>
+      <li>4 minutes read</li>
+    
+  </ul>
+  
+
+</div>
+
+
+          <div class="post-content markdown">
+            <h1 id="qwen-code-开发指南">Qwen Code 开发指南</h1>
+<h2 id="开发环境设置">开发环境设置</h2>
+<h3 id="系统要求">系统要求</h3>
+<ol>
+<li><strong>Node.js 20+</strong>：项目需要 Node.js 20 或更高版本</li>
+<li><strong>npm 8+</strong>：推荐使用 npm 8 或更高版本</li>
+<li><strong>Git</strong>：用于版本控制</li>
+</ol>
+<h3 id="克隆项目">克隆项目</h3>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">git clone git@github.com:axfinn/qwen-code.git
+</span></span><span class="line"><span class="cl"><span class="nb">cd</span> qwen-code
+</span></span></code></pre></div><h3 id="安装依赖">安装依赖</h3>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">npm install
+</span></span></code></pre></div><p>这将安装所有必要的依赖项，包括开发依赖。</p>
+<h2 id="项目结构回顾">项目结构回顾</h2>
+<p>Qwen Code 采用 monorepo 结构，使用 npm workspaces 管理多个包：</p>
+<pre tabindex="0"><code>qwen-code/
+├── packages/
+│   ├── cli/          # CLI 工具
+│   ├── core/         # 核心功能
+│   └── ...           # 其他包
+├── docs/             # 文档
+├── examples/         # 示例
+├── tests/            # 测试
+└── ...
+</code></pre><h2 id="开发工作流">开发工作流</h2>
+<h3 id="构建项目">构建项目</h3>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="c1"># 构建所有包</span>
+</span></span><span class="line"><span class="cl">npm run build
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># 构建特定包</span>
+</span></span><span class="line"><span class="cl">npm run build --workspace<span class="o">=</span>@qwen-code/cli
+</span></span></code></pre></div><h3 id="运行测试">运行测试</h3>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="c1"># 运行所有测试</span>
+</span></span><span class="line"><span class="cl">npm <span class="nb">test</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># 运行单元测试</span>
+</span></span><span class="line"><span class="cl">npm run test:unit
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># 运行集成测试</span>
+</span></span><span class="line"><span class="cl">npm run test:integration
+</span></span></code></pre></div><h3 id="代码检查">代码检查</h3>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="c1"># 运行 ESLint</span>
+</span></span><span class="line"><span class="cl">npm run lint
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># 运行 TypeScript 类型检查</span>
+</span></span><span class="line"><span class="cl">npm run typecheck
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># 格式化代码</span>
+</span></span><span class="line"><span class="cl">npm run format
+</span></span></code></pre></div><h3 id="完整预检">完整预检</h3>
+<p>在提交代码前，运行完整的预检流程：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">npm run preflight
+</span></span></code></pre></div><p>这将依次执行构建、测试、代码检查和类型检查。</p>
+<h2 id="核心开发概念">核心开发概念</h2>
+<h3 id="typescript-最佳实践">TypeScript 最佳实践</h3>
+<p>Qwen Code 严格遵循 TypeScript 最佳实践：</p>
+<ol>
+<li><strong>类型安全</strong>：为所有函数和变量提供明确的类型声明</li>
+<li><strong>接口优于类</strong>：使用 TypeScript 接口定义对象结构</li>
+<li><strong>避免 any 类型</strong>：使用 unknown 或具体类型替代 any</li>
+<li><strong>函数式编程</strong>：优先使用数组方法如 map、filter、reduce</li>
+</ol>
+<p>示例：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-typescript" data-lang="typescript"><span class="line"><span class="cl"><span class="c1">// 好的做法
+</span></span></span><span class="line"><span class="cl"><span class="kr">interface</span> <span class="nx">User</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">  <span class="nx">id</span>: <span class="kt">string</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">  <span class="nx">name</span>: <span class="kt">string</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">  <span class="nx">email</span>: <span class="kt">string</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="kd">function</span> <span class="nx">getUserById</span><span class="p">(</span><span class="nx">id</span>: <span class="kt">string</span><span class="p">)</span><span class="o">:</span> <span class="nx">User</span> <span class="o">|</span> <span class="kc">undefined</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">  <span class="c1">// 实现
+</span></span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1">// 避免的做法
+</span></span></span><span class="line"><span class="cl"><span class="kd">function</span> <span class="nx">getUserById</span><span class="p">(</span><span class="nx">id</span>: <span class="kt">any</span><span class="p">)</span><span class="o">:</span> <span class="kt">any</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">  <span class="c1">// 实现
+</span></span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></div><h3 id="react-开发规范">React 开发规范</h3>
+<p>CLI 部分使用 React 和 Ink 构建：</p>
+<ol>
+<li><strong>函数组件</strong>：使用函数组件和 hooks</li>
+<li><strong>纯渲染</strong>：保持组件渲染函数纯净</li>
+<li><strong>单向数据流</strong>：尊重 React 的单向数据流</li>
+<li><strong>避免直接状态突变</strong>：使用 setState 或 useState 更新状态</li>
+<li><strong>谨慎使用 effects</strong>：只在必要时使用 useEffect</li>
+</ol>
+<p>示例：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-typescript" data-lang="typescript"><span class="line"><span class="cl"><span class="kr">import</span> <span class="nx">React</span><span class="p">,</span> <span class="p">{</span> <span class="nx">useState</span><span class="p">,</span> <span class="nx">useEffect</span> <span class="p">}</span> <span class="kr">from</span> <span class="s1">&#39;react&#39;</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="kr">const</span> <span class="nx">MyComponent</span>: <span class="kt">React.FC</span> <span class="o">=</span> <span class="p">()</span> <span class="o">=&gt;</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">  <span class="kr">const</span> <span class="p">[</span><span class="nx">count</span><span class="p">,</span> <span class="nx">setCount</span><span class="p">]</span> <span class="o">=</span> <span class="nx">useState</span><span class="p">(</span><span class="mi">0</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">  
+</span></span><span class="line"><span class="cl">  <span class="nx">useEffect</span><span class="p">(()</span> <span class="o">=&gt;</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="c1">// 副作用处理
+</span></span></span><span class="line"><span class="cl">  <span class="p">},</span> <span class="p">[</span><span class="nx">count</span><span class="p">]);</span>
+</span></span><span class="line"><span class="cl">  
+</span></span><span class="line"><span class="cl">  <span class="k">return</span> <span class="p">(</span>
+</span></span><span class="line"><span class="cl">    <span class="p">&lt;</span><span class="nt">div</span><span class="p">&gt;</span>
+</span></span><span class="line"><span class="cl">      <span class="p">&lt;</span><span class="nt">p</span><span class="p">&gt;</span><span class="nx">Count</span><span class="o">:</span> <span class="p">{</span><span class="nx">count</span><span class="p">}&lt;/</span><span class="nt">p</span><span class="p">&gt;</span>
+</span></span><span class="line"><span class="cl">      <span class="p">&lt;</span><span class="nt">button</span> <span class="na">onClick</span><span class="o">=</span><span class="p">{()</span> <span class="o">=&gt;</span> <span class="nx">setCount</span><span class="p">(</span><span class="nx">count</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)}&gt;</span>
+</span></span><span class="line"><span class="cl">        <span class="nx">Increment</span>
+</span></span><span class="line"><span class="cl">      <span class="p">&lt;/</span><span class="nt">button</span><span class="p">&gt;</span>
+</span></span><span class="line"><span class="cl">    <span class="p">&lt;/</span><span class="nt">div</span><span class="p">&gt;</span>
+</span></span><span class="line"><span class="cl">  <span class="p">);</span>
+</span></span><span class="line"><span class="cl"><span class="p">};</span>
+</span></span></code></pre></div><h3 id="代码组织原则">代码组织原则</h3>
+<ol>
+<li><strong>模块化</strong>：将功能拆分为小的、可重用的模块</li>
+<li><strong>封装</strong>：使用 ES 模块语法进行封装</li>
+<li><strong>避免全局状态</strong>：尽量减少全局变量的使用</li>
+<li><strong>清晰的命名</strong>：使用描述性的变量和函数名</li>
+</ol>
+<h2 id="工具开发指南">工具开发指南</h2>
+<h3 id="创建新工具">创建新工具</h3>
+<p>要创建一个新工具，需要实现以下接口：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-typescript" data-lang="typescript"><span class="line"><span class="cl"><span class="kr">interface</span> <span class="nx">Tool</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">  <span class="nx">name</span>: <span class="kt">string</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">  <span class="nx">description</span>: <span class="kt">string</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">  <span class="nx">parameters</span><span class="o">:</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="p">[</span><span class="nx">key</span>: <span class="kt">string</span><span class="p">]</span><span class="o">:</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">      <span class="kr">type</span><span class="o">:</span> <span class="kt">string</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">      <span class="nx">description</span>: <span class="kt">string</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">      <span class="nx">required</span>: <span class="kt">boolean</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="p">};</span>
+</span></span><span class="line"><span class="cl">  <span class="p">};</span>
+</span></span><span class="line"><span class="cl">  <span class="nx">execute</span><span class="o">:</span> <span class="p">(</span><span class="nx">params</span>: <span class="kt">any</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="nx">Promise</span><span class="p">&lt;</span><span class="nt">any</span><span class="p">&gt;;</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></div><p>示例工具实现：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-typescript" data-lang="typescript"><span class="line"><span class="cl"><span class="kr">const</span> <span class="nx">exampleTool</span>: <span class="kt">Tool</span> <span class="o">=</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">  <span class="nx">name</span><span class="o">:</span> <span class="s2">&#34;example_tool&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">  <span class="nx">description</span><span class="o">:</span> <span class="s2">&#34;这是一个示例工具&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">  <span class="nx">parameters</span><span class="o">:</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="nx">message</span><span class="o">:</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">      <span class="kr">type</span><span class="o">:</span> <span class="s2">&#34;string&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">      <span class="nx">description</span><span class="o">:</span> <span class="s2">&#34;要显示的消息&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">      <span class="nx">required</span>: <span class="kt">true</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl">  <span class="p">},</span>
+</span></span><span class="line"><span class="cl">  <span class="nx">execute</span>: <span class="kt">async</span> <span class="p">(</span><span class="nx">params</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="k">return</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">      <span class="nx">result</span><span class="o">:</span> <span class="sb">`消息: </span><span class="si">${</span><span class="nx">params</span><span class="p">.</span><span class="nx">message</span><span class="si">}</span><span class="sb">`</span>
+</span></span><span class="line"><span class="cl">    <span class="p">};</span>
+</span></span><span class="line"><span class="cl">  <span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="p">};</span>
+</span></span></code></pre></div><h3 id="工具注册">工具注册</h3>
+<p>工具需要在核心包中注册：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-typescript" data-lang="typescript"><span class="line"><span class="cl"><span class="c1">// packages/core/src/tools/index.ts
+</span></span></span><span class="line"><span class="cl"><span class="kr">import</span> <span class="p">{</span> <span class="nx">exampleTool</span> <span class="p">}</span> <span class="kr">from</span> <span class="s1">&#39;./exampleTool&#39;</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="kr">export</span> <span class="kr">const</span> <span class="nx">tools</span> <span class="o">=</span> <span class="p">[</span>
+</span></span><span class="line"><span class="cl">  <span class="nx">exampleTool</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">  <span class="c1">// 其他工具
+</span></span></span><span class="line"><span class="cl"><span class="p">];</span>
+</span></span></code></pre></div><h2 id="测试策略详解">测试策略详解</h2>
+<h3 id="单元测试">单元测试</h3>
+<p>使用 Vitest 编写单元测试，测试文件与源文件并置：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-typescript" data-lang="typescript"><span class="line"><span class="cl"><span class="c1">// geminiRequest.test.ts
+</span></span></span><span class="line"><span class="cl"><span class="kr">import</span> <span class="p">{</span> <span class="nx">describe</span><span class="p">,</span> <span class="nx">it</span><span class="p">,</span> <span class="nx">expect</span> <span class="p">}</span> <span class="kr">from</span> <span class="s1">&#39;vitest&#39;</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="kr">import</span> <span class="p">{</span> <span class="nx">geminiRequest</span> <span class="p">}</span> <span class="kr">from</span> <span class="s1">&#39;./geminiRequest&#39;</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="nx">describe</span><span class="p">(</span><span class="s1">&#39;geminiRequest&#39;</span><span class="p">,</span> <span class="p">()</span> <span class="o">=&gt;</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">  <span class="nx">it</span><span class="p">(</span><span class="s1">&#39;应该发送正确的请求&#39;</span><span class="p">,</span> <span class="kr">async</span> <span class="p">()</span> <span class="o">=&gt;</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="c1">// 测试实现
+</span></span></span><span class="line"><span class="cl">  <span class="p">});</span>
+</span></span><span class="line"><span class="cl"><span class="p">});</span>
+</span></span></code></pre></div><h3 id="集成测试">集成测试</h3>
+<p>集成测试验证工具链的完整功能：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-javascript" data-lang="javascript"><span class="line"><span class="cl"><span class="c1">// integration-tests/readFile.test.js
+</span></span></span><span class="line"><span class="cl"><span class="kr">import</span> <span class="p">{</span> <span class="nx">test</span> <span class="p">}</span> <span class="nx">from</span> <span class="s1">&#39;vitest&#39;</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="kr">import</span> <span class="p">{</span> <span class="nx">readFile</span> <span class="p">}</span> <span class="nx">from</span> <span class="s1">&#39;../packages/core/src/tools/readFile&#39;</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="nx">test</span><span class="p">(</span><span class="s1">&#39;readFile 应该正确读取文件内容&#39;</span><span class="p">,</span> <span class="kr">async</span> <span class="p">()</span> <span class="p">=&gt;</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">  <span class="c1">// 测试实现
+</span></span></span><span class="line"><span class="cl"><span class="p">});</span>
+</span></span></code></pre></div><h3 id="测试最佳实践">测试最佳实践</h3>
+<ol>
+<li><strong>测试覆盖率</strong>：确保关键功能有充分的测试覆盖</li>
+<li><strong>边界条件</strong>：测试边界条件和错误情况</li>
+<li><strong>模拟外部依赖</strong>：使用 mocking 隔离外部依赖</li>
+<li><strong>测试数据</strong>：使用专门的测试数据目录</li>
+</ol>
+<h2 id="调试技巧">调试技巧</h2>
+<h3 id="日志记录">日志记录</h3>
+<p>使用适当的日志级别记录信息：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-typescript" data-lang="typescript"><span class="line"><span class="cl"><span class="kr">import</span> <span class="nx">debug</span> <span class="kr">from</span> <span class="s1">&#39;debug&#39;</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="kr">const</span> <span class="nx">log</span> <span class="o">=</span> <span class="nx">debug</span><span class="p">(</span><span class="s1">&#39;qwen-code:tool&#39;</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="nx">log</span><span class="p">(</span><span class="s1">&#39;执行工具: %s&#39;</span><span class="p">,</span> <span class="nx">toolName</span><span class="p">);</span>
+</span></span></code></pre></div><h3 id="调试模式">调试模式</h3>
+<p>通过环境变量启用调试模式：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="nv">DEBUG</span><span class="o">=</span>qwen-code:* npm run dev
+</span></span></code></pre></div><h3 id="断点调试">断点调试</h3>
+<p>在 VS Code 中配置调试配置：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-json" data-lang="json"><span class="line"><span class="cl"><span class="p">{</span>
+</span></span><span class="line"><span class="cl">  <span class="nt">&#34;name&#34;</span><span class="p">:</span> <span class="s2">&#34;Debug Qwen Code&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">  <span class="nt">&#34;type&#34;</span><span class="p">:</span> <span class="s2">&#34;node&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">  <span class="nt">&#34;request&#34;</span><span class="p">:</span> <span class="s2">&#34;launch&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">  <span class="nt">&#34;program&#34;</span><span class="p">:</span> <span class="s2">&#34;${workspaceFolder}/packages/cli/index.ts&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">  <span class="nt">&#34;env&#34;</span><span class="p">:</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="nt">&#34;DEBUG&#34;</span><span class="p">:</span> <span class="s2">&#34;qwen-code:*&#34;</span>
+</span></span><span class="line"><span class="cl">  <span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></div><h2 id="贡献指南">贡献指南</h2>
+<h3 id="分支策略">分支策略</h3>
+<ol>
+<li><strong>主分支</strong>：<code>main</code> 分支是稳定版本</li>
+<li><strong>功能分支</strong>：为每个新功能创建独立分支</li>
+<li><strong>修复分支</strong>：为 bug 修复创建独立分支</li>
+</ol>
+<h3 id="提交信息规范">提交信息规范</h3>
+<p>遵循 conventional commits 规范：</p>
+<pre tabindex="0"><code>feat: 添加新工具
+fix: 修复文件读取错误
+docs: 更新 README 文档
+test: 添加单元测试
+refactor: 重构核心模块
+</code></pre><h3 id="pull-request-流程">Pull Request 流程</h3>
+<ol>
+<li>Fork 项目仓库</li>
+<li>创建功能分支</li>
+<li>实现功能并添加测试</li>
+<li>运行预检确保代码质量</li>
+<li>提交更改并推送</li>
+<li>创建 Pull Request</li>
+</ol>
+<h3 id="代码审查">代码审查</h3>
+<p>所有 Pull Request 都需要通过代码审查：</p>
+<ol>
+<li>至少一名维护者审查</li>
+<li>所有 CI 检查通过</li>
+<li>测试覆盖率满足要求</li>
+</ol>
+<h2 id="性能优化">性能优化</h2>
+<h3 id="内存管理">内存管理</h3>
+<ol>
+<li><strong>及时释放资源</strong>：使用完资源后及时释放</li>
+<li><strong>避免内存泄漏</strong>：注意事件监听器和定时器的清理</li>
+<li><strong>合理使用缓存</strong>：对计算结果进行适当缓存</li>
+</ol>
+<h3 id="执行效率">执行效率</h3>
+<ol>
+<li><strong>异步操作</strong>：使用异步操作避免阻塞</li>
+<li><strong>批处理</strong>：合并多个小操作为批处理</li>
+<li><strong>懒加载</strong>：按需加载模块和资源</li>
+</ol>
+<h2 id="安全考虑">安全考虑</h2>
+<h3 id="输入验证">输入验证</h3>
+<p>对所有外部输入进行验证：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-typescript" data-lang="typescript"><span class="line"><span class="cl"><span class="kd">function</span> <span class="nx">validatePath</span><span class="p">(</span><span class="nx">path</span>: <span class="kt">string</span><span class="p">)</span><span class="o">:</span> <span class="kr">boolean</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">  <span class="c1">// 验证路径是否合法
+</span></span></span><span class="line"><span class="cl">  <span class="k">return</span> <span class="o">!</span><span class="nx">path</span><span class="p">.</span><span class="nx">includes</span><span class="p">(</span><span class="s1">&#39;..&#39;</span><span class="p">)</span> <span class="o">&amp;&amp;</span> <span class="nx">path</span><span class="p">.</span><span class="nx">startsWith</span><span class="p">(</span><span class="s1">&#39;/&#39;</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></div><h3 id="权限控制">权限控制</h3>
+<ol>
+<li><strong>最小权限原则</strong>：只授予必要的权限</li>
+<li><strong>沙箱隔离</strong>：在安全环境中执行潜在危险操作</li>
+<li><strong>审计日志</strong>：记录敏感操作</li>
+</ol>
+<h2 id="文档编写">文档编写</h2>
+<h3 id="api-文档">API 文档</h3>
+<p>使用 JSDoc 注释记录 API：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-typescript" data-lang="typescript"><span class="line"><span class="cl"><span class="cm">/**
+</span></span></span><span class="line"><span class="cl"><span class="cm"> * 读取文件内容
+</span></span></span><span class="line"><span class="cl"><span class="cm"> * @param absolutePath 文件的绝对路径
+</span></span></span><span class="line"><span class="cl"><span class="cm"> * @param limit 可选，要读取的最大行数
+</span></span></span><span class="line"><span class="cl"><span class="cm"> * @param offset 可选，开始读取的行偏移量
+</span></span></span><span class="line"><span class="cl"><span class="cm"> * @returns 文件内容
+</span></span></span><span class="line"><span class="cl"><span class="cm"> */</span>
+</span></span><span class="line"><span class="cl"><span class="kd">function</span> <span class="nx">readFile</span><span class="p">(</span><span class="nx">absolutePath</span>: <span class="kt">string</span><span class="p">,</span> <span class="nx">limit?</span>: <span class="kt">number</span><span class="p">,</span> <span class="nx">offset?</span>: <span class="kt">number</span><span class="p">)</span><span class="o">:</span> <span class="nx">Promise</span><span class="p">&lt;</span><span class="nt">string</span><span class="p">&gt;</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">  <span class="c1">// 实现
+</span></span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></div><h3 id="使用示例">使用示例</h3>
+<p>为复杂功能提供使用示例：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-typescript" data-lang="typescript"><span class="line"><span class="cl"><span class="c1">// 示例：使用 glob 工具查找文件
+</span></span></span><span class="line"><span class="cl"><span class="kr">const</span> <span class="nx">result</span> <span class="o">=</span> <span class="k">await</span> <span class="nx">glob</span><span class="p">({</span>
+</span></span><span class="line"><span class="cl">  <span class="nx">pattern</span><span class="o">:</span> <span class="s2">&#34;**/*.ts&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">  <span class="nx">path</span><span class="o">:</span> <span class="s2">&#34;/path/to/project&#34;</span>
+</span></span><span class="line"><span class="cl"><span class="p">});</span>
+</span></span></code></pre></div><h2 id="发布流程">发布流程</h2>
+<h3 id="版本管理">版本管理</h3>
+<p>遵循语义化版本控制：</p>
+<ol>
+<li><strong>主版本号</strong>：不兼容的API修改</li>
+<li><strong>次版本号</strong>：向后兼容的功能性新增</li>
+<li><strong>修订号</strong>：向后兼容的问题修正</li>
+</ol>
+<h3 id="发布步骤">发布步骤</h3>
+<ol>
+<li>
+<p>更新版本号：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">npm version patch  <span class="c1"># 修订版本</span>
+</span></span><span class="line"><span class="cl">npm version minor  <span class="c1"># 次版本</span>
+</span></span><span class="line"><span class="cl">npm version major  <span class="c1"># 主版本</span>
+</span></span></code></pre></div></li>
+<li>
+<p>构建项目：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">npm run build
+</span></span></code></pre></div></li>
+<li>
+<p>运行完整测试：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">npm run preflight
+</span></span></code></pre></div></li>
+<li>
+<p>发布到 npm：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">npm publish
+</span></span></code></pre></div></li>
+</ol>
+<h2 id="总结">总结</h2>
+<p>Qwen Code 的开发指南为贡献者提供了清晰的指导，涵盖了从环境设置到发布流程的各个方面。通过遵循这些指南，开发者可以高效地为项目贡献代码，同时确保代码质量和项目稳定性。</p>
+<p>Qwen Code 不仅是一个强大的工具，也是一个开放的平台，欢迎社区的贡献和改进。希望这份开发指南能帮助您更好地理解和参与 Qwen Code 项目。</p>
+
+          </div>
+
+          
+          <div class="row">
+            <div class="col-md-8">
+            
+              <div class="mb-5">
+                
+<div class="li-x div-x post-meta">
+  <li class="pr-0"><a href="https://blog.jaxiu.cn/tags/"><i class="fas fa-tags"></i></a></li>
+  <div class="tags-sm">
+    
+      <li><a href="https://blog.jaxiu.cn/tags/qwen-code" role="button">Qwen Code </a></li>
+      
+    
+      <li><a href="https://blog.jaxiu.cn/tags/%E5%BC%80%E5%8F%91%E6%8C%87%E5%8D%97" role="button">开发指南 </a></li>
+      
+    
+      <li><a href="https://blog.jaxiu.cn/tags/%E8%B4%A1%E7%8C%AE%E6%8C%87%E5%8D%97" role="button">贡献指南 </a></li>
+      
+    
+      <li><a href="https://blog.jaxiu.cn/tags/typescript" role="button">TypeScript </a></li>
+      
+    
+  </div>
+</div>
+              </div>
+            
+            </div>
+            
+          </div>
+          
+
+          
+          <div class="row pt-3">
+            <div class="col-md-6">
+              
+                <a href=https://blog.jaxiu.cn/blog/2025-07/qwen-code-core-implementation-details/ class="post-meta">Previous
+                  <div class="pt-2 pb-5 d-flex">
+                    <i class="fas fa-angle-left text-grey font-weight-bold mr-2 active-color"></i>
+                    <span>Qwen Code 核心代码实现细节深度解读</span>
+                  </div>
+                </a>
+              
+            </div>
+            
+            <div class="col-md-6 text-right" >
+              
+                <a href=https://blog.jaxiu.cn/blog/2025-07/qwen-code-practical-applications-and-summary/ class="post-meta">Next
+                  <div class="pt-2 pb-5 flex-reverse">
+                    <i class="fas fa-angle-right text-grey font-weight-bold ml-2 active-color"></i>
+                    <span>Qwen Code 实战应用与总结</span>
+                  </div>
+                </a>
+              
+            </div>
+          </div>
+
+          
+
+        </div>
+        
+
+      </div>
+      
+
+      
+	
+	
+	
+	
+		
+		
+		
+	
+
+		
+		<div class="col-md-2 pl-0">
+
+			
+			<div id="page-scrollspy" class="toc-nav">
+				
+				<ul class="nav nav-pills ml-0">
+					
+					<li class="nav-item pb-3 text-center">
+						<span class="font-weight-bold mb-2">- CATALOG - </span>
+					</li>
+
+					
+						
+						
+							
+								
+								
+									<ul class="nav">
+								
+								
+
+										<li class="nav-item">
+						 					<a class="nav-link" href="#qwen-code-%e5%bc%80%e5%8f%91%e6%8c%87%e5%8d%97">
+												 Qwen Code 开发指南
+											</a>
+										</li>
+						 
+								
+								
+									</ul>
+								
+							
+						
+				 
+						
+						
+							
+								
+								
+									<ul class="nav">
+								
+									<ul class="nav">
+								
+								
+
+										<li class="nav-item">
+						 					<a class="nav-link" href="#%e5%bc%80%e5%8f%91%e7%8e%af%e5%a2%83%e8%ae%be%e7%bd%ae">
+												 开发环境设置
+											</a>
+										</li>
+						 
+								
+								
+									</ul>
+								
+									</ul>
+								
+							
+						
+				 
+						
+						
+							
+								
+								
+									<ul class="nav">
+								
+									<ul class="nav">
+								
+									<ul class="nav">
+								
+								
+
+										<li class="nav-item">
+						 					<a class="nav-link" href="#%e7%b3%bb%e7%bb%9f%e8%a6%81%e6%b1%82">
+												 系统要求
+											</a>
+										</li>
+						 
+								
+								
+									</ul>
+								
+									</ul>
+								
+									</ul>
+								
+							
+						
+				 
+						
+						
+							
+								
+								
+									<ul class="nav">
+								
+									<ul class="nav">
+								
+									<ul class="nav">
+								
+								
+
+										<li class="nav-item">
+						 					<a class="nav-link" href="#%e5%85%8b%e9%9a%86%e9%a1%b9%e7%9b%ae">
+												 克隆项目
+											</a>
+										</li>
+						 
+								
+								
+									</ul>
+								
+									</ul>
+								
+									</ul>
+								
+							
+						
+				 
+						
+						
+							
+								
+								
+									<ul class="nav">
+								
+									<ul class="nav">
+								
+									<ul class="nav">
+								
+								
+
+										<li class="nav-item">
+						 					<a class="nav-link" href="#%e5%ae%89%e8%a3%85%e4%be%9d%e8%b5%96">
+												 安装依赖
+											</a>
+										</li>
+						 
+								
+								
+									</ul>
+								
+									</ul>
+								
+									</ul>
+								
+							
+						
+				 
+						
+						
+							
+								
+								
+									<ul class="nav">
+								
+									<ul class="nav">
+								
+								
+
+										<li class="nav-item">
+						 					<a class="nav-link" href="#%e9%a1%b9%e7%9b%ae%e7%bb%93%e6%9e%84%e5%9b%9e%e9%a1%be">
+												 项目结构回顾
+											</a>
+										</li>
+						 
+								
+								
+									</ul>
+								
+									</ul>
+								
+							
+						
+				 
+						
+						
+							
+								
+								
+									<ul class="nav">
+								
+									<ul class="nav">
+								
+								
+
+										<li class="nav-item">
+						 					<a class="nav-link" href="#%e5%bc%80%e5%8f%91%e5%b7%a5%e4%bd%9c%e6%b5%81">
+												 开发工作流
+											</a>
+										</li>
+						 
+								
+								
+									</ul>
+								
+									</ul>
+								
+							
+						
+				 
+						
+						
+							
+								
+								
+									<ul class="nav">
+								
+									<ul class="nav">
+								
+									<ul class="nav">
+								
+								
+
+										<li class="nav-item">
+						 					<a class="nav-link" href="#%e6%9e%84%e5%bb%ba%e9%a1%b9%e7%9b%ae">
+												 构建项目
+											</a>
+										</li>
+						 
+								
+								
+									</ul>
+								
+									</ul>
+								
+									</ul>
+								
+							
+						
+				 
+						
+						
+							
+								
+								
+									<ul class="nav">
+								
+									<ul class="nav">
+								
+									<ul class="nav">
+								
+								
+
+										<li class="nav-item">
+						 					<a class="nav-link" href="#%e8%bf%90%e8%a1%8c%e6%b5%8b%e8%af%95">
+												 运行测试
+											</a>
+										</li>
+						 
+								
+								
+									</ul>
+								
+									</ul>
+								
+									</ul>
+								
+							
+						
+				 
+						
+						
+							
+								
+								
+									<ul class="nav">
+								
+									<ul class="nav">
+								
+									<ul class="nav">
+								
+								
+
+										<li class="nav-item">
+						 					<a class="nav-link" href="#%e4%bb%a3%e7%a0%81%e6%a3%80%e6%9f%a5">
+												 代码检查
+											</a>
+										</li>
+						 
+								
+								
+									</ul>
+								
+									</ul>
+								
+									</ul>
+								
+							
+						
+				 
+						
+						
+							
+								
+								
+									<ul class="nav">
+								
+									<ul class="nav">
+								
+									<ul class="nav">
+								
+								
+
+										<li class="nav-item">
+						 					<a class="nav-link" href="#%e5%ae%8c%e6%95%b4%e9%a2%84%e6%a3%80">
+												 完整预检
+											</a>
+										</li>
+						 
+								
+								
+									</ul>
+								
+									</ul>
+								
+									</ul>
+								
+							
+						
+				 
+						
+						
+							
+								
+								
+									<ul class="nav">
+								
+									<ul class="nav">
+								
+								
+
+										<li class="nav-item">
+						 					<a class="nav-link" href="#%e6%a0%b8%e5%bf%83%e5%bc%80%e5%8f%91%e6%a6%82%e5%bf%b5">
+												 核心开发概念
+											</a>
+										</li>
+						 
+								
+								
+									</ul>
+								
+									</ul>
+								
+							
+						
+				 
+						
+						
+							
+								
+								
+									<ul class="nav">
+								
+									<ul class="nav">
+								
+									<ul class="nav">
+								
+								
+
+										<li class="nav-item">
+						 					<a class="nav-link" href="#typescript-%e6%9c%80%e4%bd%b3%e5%ae%9e%e8%b7%b5">
+												 TypeScript 最佳实践
+											</a>
+										</li>
+						 
+								
+								
+									</ul>
+								
+									</ul>
+								
+									</ul>
+								
+							
+						
+				 
+						
+						
+							
+								
+								
+									<ul class="nav">
+								
+									<ul class="nav">
+								
+									<ul class="nav">
+								
+								
+
+										<li class="nav-item">
+						 					<a class="nav-link" href="#react-%e5%bc%80%e5%8f%91%e8%a7%84%e8%8c%83">
+												 React 开发规范
+											</a>
+										</li>
+						 
+								
+								
+									</ul>
+								
+									</ul>
+								
+									</ul>
+								
+							
+						
+				 
+						
+						
+							
+								
+								
+									<ul class="nav">
+								
+									<ul class="nav">
+								
+									<ul class="nav">
+								
+								
+
+										<li class="nav-item">
+						 					<a class="nav-link" href="#%e4%bb%a3%e7%a0%81%e7%bb%84%e7%bb%87%e5%8e%9f%e5%88%99">
+												 代码组织原则
+											</a>
+										</li>
+						 
+								
+								
+									</ul>
+								
+									</ul>
+								
+									</ul>
+								
+							
+						
+				 
+						
+						
+							
+								
+								
+									<ul class="nav">
+								
+									<ul class="nav">
+								
+								
+
+										<li class="nav-item">
+						 					<a class="nav-link" href="#%e5%b7%a5%e5%85%b7%e5%bc%80%e5%8f%91%e6%8c%87%e5%8d%97">
+												 工具开发指南
+											</a>
+										</li>
+						 
+								
+								
+									</ul>
+								
+									</ul>
+								
+							
+						
+				 
+						
+						
+							
+								
+								
+									<ul class="nav">
+								
+									<ul class="nav">
+								
+									<ul class="nav">
+								
+								
+
+										<li class="nav-item">
+						 					<a class="nav-link" href="#%e5%88%9b%e5%bb%ba%e6%96%b0%e5%b7%a5%e5%85%b7">
+												 创建新工具
+											</a>
+										</li>
+						 
+								
+								
+									</ul>
+								
+									</ul>
+								
+									</ul>
+								
+							
+						
+				 
+						
+						
+							
+								
+								
+									<ul class="nav">
+								
+									<ul class="nav">
+								
+									<ul class="nav">
+								
+								
+
+										<li class="nav-item">
+						 					<a class="nav-link" href="#%e5%b7%a5%e5%85%b7%e6%b3%a8%e5%86%8c">
+												 工具注册
+											</a>
+										</li>
+						 
+								
+								
+									</ul>
+								
+									</ul>
+								
+									</ul>
+								
+							
+						
+				 
+						
+						
+							
+								
+								
+									<ul class="nav">
+								
+									<ul class="nav">
+								
+								
+
+										<li class="nav-item">
+						 					<a class="nav-link" href="#%e6%b5%8b%e8%af%95%e7%ad%96%e7%95%a5%e8%af%a6%e8%a7%a3">
+												 测试策略详解
+											</a>
+										</li>
+						 
+								
+								
+									</ul>
+								
+									</ul>
+								
+							
+						
+				 
+						
+						
+							
+								
+								
+									<ul class="nav">
+								
+									<ul class="nav">
+								
+									<ul class="nav">
+								
+								
+
+										<li class="nav-item">
+						 					<a class="nav-link" href="#%e5%8d%95%e5%85%83%e6%b5%8b%e8%af%95">
+												 单元测试
+											</a>
+										</li>
+						 
+								
+								
+									</ul>
+								
+									</ul>
+								
+									</ul>
+								
+							
+						
+				 
+						
+						
+							
+								
+								
+									<ul class="nav">
+								
+									<ul class="nav">
+								
+									<ul class="nav">
+								
+								
+
+										<li class="nav-item">
+						 					<a class="nav-link" href="#%e9%9b%86%e6%88%90%e6%b5%8b%e8%af%95">
+												 集成测试
+											</a>
+										</li>
+						 
+								
+								
+									</ul>
+								
+									</ul>
+								
+									</ul>
+								
+							
+						
+				 
+						
+						
+							
+								
+								
+									<ul class="nav">
+								
+									<ul class="nav">
+								
+									<ul class="nav">
+								
+								
+
+										<li class="nav-item">
+						 					<a class="nav-link" href="#%e6%b5%8b%e8%af%95%e6%9c%80%e4%bd%b3%e5%ae%9e%e8%b7%b5">
+												 测试最佳实践
+											</a>
+										</li>
+						 
+								
+								
+									</ul>
+								
+									</ul>
+								
+									</ul>
+								
+							
+						
+				 
+						
+						
+							
+								
+								
+									<ul class="nav">
+								
+									<ul class="nav">
+								
+								
+
+										<li class="nav-item">
+						 					<a class="nav-link" href="#%e8%b0%83%e8%af%95%e6%8a%80%e5%b7%a7">
+												 调试技巧
+											</a>
+										</li>
+						 
+								
+								
+									</ul>
+								
+									</ul>
+								
+							
+						
+				 
+						
+						
+							
+								
+								
+									<ul class="nav">
+								
+									<ul class="nav">
+								
+									<ul class="nav">
+								
+								
+
+										<li class="nav-item">
+						 					<a class="nav-link" href="#%e6%97%a5%e5%bf%97%e8%ae%b0%e5%bd%95">
+												 日志记录
+											</a>
+										</li>
+						 
+								
+								
+									</ul>
+								
+									</ul>
+								
+									</ul>
+								
+							
+						
+				 
+						
+						
+							
+								
+								
+									<ul class="nav">
+								
+									<ul class="nav">
+								
+									<ul class="nav">
+								
+								
+
+										<li class="nav-item">
+						 					<a class="nav-link" href="#%e8%b0%83%e8%af%95%e6%a8%a1%e5%bc%8f">
+												 调试模式
+											</a>
+										</li>
+						 
+								
+								
+									</ul>
+								
+									</ul>
+								
+									</ul>
+								
+							
+						
+				 
+						
+						
+							
+								
+								
+									<ul class="nav">
+								
+									<ul class="nav">
+								
+									<ul class="nav">
+								
+								
+
+										<li class="nav-item">
+						 					<a class="nav-link" href="#%e6%96%ad%e7%82%b9%e8%b0%83%e8%af%95">
+												 断点调试
+											</a>
+										</li>
+						 
+								
+								
+									</ul>
+								
+									</ul>
+								
+									</ul>
+								
+							
+						
+				 
+						
+						
+							
+								
+								
+									<ul class="nav">
+								
+									<ul class="nav">
+								
+								
+
+										<li class="nav-item">
+						 					<a class="nav-link" href="#%e8%b4%a1%e7%8c%ae%e6%8c%87%e5%8d%97">
+												 贡献指南
+											</a>
+										</li>
+						 
+								
+								
+									</ul>
+								
+									</ul>
+								
+							
+						
+				 
+						
+						
+							
+								
+								
+									<ul class="nav">
+								
+									<ul class="nav">
+								
+									<ul class="nav">
+								
+								
+
+										<li class="nav-item">
+						 					<a class="nav-link" href="#%e5%88%86%e6%94%af%e7%ad%96%e7%95%a5">
+												 分支策略
+											</a>
+										</li>
+						 
+								
+								
+									</ul>
+								
+									</ul>
+								
+									</ul>
+								
+							
+						
+				 
+						
+						
+							
+								
+								
+									<ul class="nav">
+								
+									<ul class="nav">
+								
+									<ul class="nav">
+								
+								
+
+										<li class="nav-item">
+						 					<a class="nav-link" href="#%e6%8f%90%e4%ba%a4%e4%bf%a1%e6%81%af%e8%a7%84%e8%8c%83">
+												 提交信息规范
+											</a>
+										</li>
+						 
+								
+								
+									</ul>
+								
+									</ul>
+								
+									</ul>
+								
+							
+						
+				 
+						
+						
+							
+								
+								
+									<ul class="nav">
+								
+									<ul class="nav">
+								
+									<ul class="nav">
+								
+								
+
+										<li class="nav-item">
+						 					<a class="nav-link" href="#pull-request-%e6%b5%81%e7%a8%8b">
+												 Pull Request 流程
+											</a>
+										</li>
+						 
+								
+								
+									</ul>
+								
+									</ul>
+								
+									</ul>
+								
+							
+						
+				 
+						
+						
+							
+								
+								
+									<ul class="nav">
+								
+									<ul class="nav">
+								
+									<ul class="nav">
+								
+								
+
+										<li class="nav-item">
+						 					<a class="nav-link" href="#%e4%bb%a3%e7%a0%81%e5%ae%a1%e6%9f%a5">
+												 代码审查
+											</a>
+										</li>
+						 
+								
+								
+									</ul>
+								
+									</ul>
+								
+									</ul>
+								
+							
+						
+				 
+						
+						
+							
+								
+								
+									<ul class="nav">
+								
+									<ul class="nav">
+								
+								
+
+										<li class="nav-item">
+						 					<a class="nav-link" href="#%e6%80%a7%e8%83%bd%e4%bc%98%e5%8c%96">
+												 性能优化
+											</a>
+										</li>
+						 
+								
+								
+									</ul>
+								
+									</ul>
+								
+							
+						
+				 
+						
+						
+							
+								
+								
+									<ul class="nav">
+								
+									<ul class="nav">
+								
+									<ul class="nav">
+								
+								
+
+										<li class="nav-item">
+						 					<a class="nav-link" href="#%e5%86%85%e5%ad%98%e7%ae%a1%e7%90%86">
+												 内存管理
+											</a>
+										</li>
+						 
+								
+								
+									</ul>
+								
+									</ul>
+								
+									</ul>
+								
+							
+						
+				 
+						
+						
+							
+								
+								
+									<ul class="nav">
+								
+									<ul class="nav">
+								
+									<ul class="nav">
+								
+								
+
+										<li class="nav-item">
+						 					<a class="nav-link" href="#%e6%89%a7%e8%a1%8c%e6%95%88%e7%8e%87">
+												 执行效率
+											</a>
+										</li>
+						 
+								
+								
+									</ul>
+								
+									</ul>
+								
+									</ul>
+								
+							
+						
+				 
+						
+						
+							
+								
+								
+									<ul class="nav">
+								
+									<ul class="nav">
+								
+								
+
+										<li class="nav-item">
+						 					<a class="nav-link" href="#%e5%ae%89%e5%85%a8%e8%80%83%e8%99%91">
+												 安全考虑
+											</a>
+										</li>
+						 
+								
+								
+									</ul>
+								
+									</ul>
+								
+							
+						
+				 
+						
+						
+							
+								
+								
+									<ul class="nav">
+								
+									<ul class="nav">
+								
+									<ul class="nav">
+								
+								
+
+										<li class="nav-item">
+						 					<a class="nav-link" href="#%e8%be%93%e5%85%a5%e9%aa%8c%e8%af%81">
+												 输入验证
+											</a>
+										</li>
+						 
+								
+								
+									</ul>
+								
+									</ul>
+								
+									</ul>
+								
+							
+						
+				 
+						
+						
+							
+								
+								
+									<ul class="nav">
+								
+									<ul class="nav">
+								
+									<ul class="nav">
+								
+								
+
+										<li class="nav-item">
+						 					<a class="nav-link" href="#%e6%9d%83%e9%99%90%e6%8e%a7%e5%88%b6">
+												 权限控制
+											</a>
+										</li>
+						 
+								
+								
+									</ul>
+								
+									</ul>
+								
+									</ul>
+								
+							
+						
+				 
+						
+						
+							
+								
+								
+									<ul class="nav">
+								
+									<ul class="nav">
+								
+								
+
+										<li class="nav-item">
+						 					<a class="nav-link" href="#%e6%96%87%e6%a1%a3%e7%bc%96%e5%86%99">
+												 文档编写
+											</a>
+										</li>
+						 
+								
+								
+									</ul>
+								
+									</ul>
+								
+							
+						
+				 
+						
+						
+							
+								
+								
+									<ul class="nav">
+								
+									<ul class="nav">
+								
+									<ul class="nav">
+								
+								
+
+										<li class="nav-item">
+						 					<a class="nav-link" href="#api-%e6%96%87%e6%a1%a3">
+												 API 文档
+											</a>
+										</li>
+						 
+								
+								
+									</ul>
+								
+									</ul>
+								
+									</ul>
+								
+							
+						
+				 
+						
+						
+							
+								
+								
+									<ul class="nav">
+								
+									<ul class="nav">
+								
+									<ul class="nav">
+								
+								
+
+										<li class="nav-item">
+						 					<a class="nav-link" href="#%e4%bd%bf%e7%94%a8%e7%a4%ba%e4%be%8b">
+												 使用示例
+											</a>
+										</li>
+						 
+								
+								
+									</ul>
+								
+									</ul>
+								
+									</ul>
+								
+							
+						
+				 
+						
+						
+							
+								
+								
+									<ul class="nav">
+								
+									<ul class="nav">
+								
+								
+
+										<li class="nav-item">
+						 					<a class="nav-link" href="#%e5%8f%91%e5%b8%83%e6%b5%81%e7%a8%8b">
+												 发布流程
+											</a>
+										</li>
+						 
+								
+								
+									</ul>
+								
+									</ul>
+								
+							
+						
+				 
+						
+						
+							
+								
+								
+									<ul class="nav">
+								
+									<ul class="nav">
+								
+									<ul class="nav">
+								
+								
+
+										<li class="nav-item">
+						 					<a class="nav-link" href="#%e7%89%88%e6%9c%ac%e7%ae%a1%e7%90%86">
+												 版本管理
+											</a>
+										</li>
+						 
+								
+								
+									</ul>
+								
+									</ul>
+								
+									</ul>
+								
+							
+						
+				 
+						
+						
+							
+								
+								
+									<ul class="nav">
+								
+									<ul class="nav">
+								
+									<ul class="nav">
+								
+								
+
+										<li class="nav-item">
+						 					<a class="nav-link" href="#%e5%8f%91%e5%b8%83%e6%ad%a5%e9%aa%a4">
+												 发布步骤
+											</a>
+										</li>
+						 
+								
+								
+									</ul>
+								
+									</ul>
+								
+									</ul>
+								
+							
+						
+				 
+						
+						
+							
+								
+								
+									<ul class="nav">
+								
+									<ul class="nav">
+								
+								
+
+										<li class="nav-item">
+						 					<a class="nav-link" href="#%e6%80%bb%e7%bb%93">
+												 总结
+											</a>
+										</li>
+						 
+								
+								
+									</ul>
+								
+									</ul>
+								
+							
+						
+				 
+
+				</ul>
+			</div>
+			
+
+		</div>
+		
+	
+
+    </div>
+    
+
+
+  </main>
+  
+
+
+    
+    
+<footer class="page-footer text-center font-small mt-4 wow fadeIn">
+
+
+  
+  <div class="pb-2 mt-5 pt-5">
+    
+    <a href="//github.com/axfinn " target="_blank" rel="noopener"><i class="fab fa-github mr-3"
+        aria-hidden="true"></i></a>
+    
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+
+    
+    <a href="mailto:521very@email.com"><i class="far fa-envelope-open mr-3" aria-hidden="true"></i></a>
+    
+
+    
+
+    
+
+  </div>
+  
+
+  
+  <div class="copyright py-4">
+    
+    <span> 2016 - 2026 &copy; | Theme <a href='https://github.com/orianna-zzo/AllinOne'
+        target="_blank">AllinOne</a> by <a href='https://github.com/orianna-zzo' target="_blank">Orianna</a> </span>
+  </div>
+  
+
+</footer>
+
+    
+
+
+
+
+<script type="text/javascript" src="https://blog.jaxiu.cn/js/vendors/jquery/jquery-3.3.1.min.js"></script>
+<script type="text/javascript" src="https://blog.jaxiu.cn/js/vendors/jquery/jquery.smooth-scroll.min.js"></script>
+
+
+
+<script type="text/javascript" src="https://blog.jaxiu.cn/js/vendors/popper.min.js"></script>
+<script type="text/javascript" src="https://blog.jaxiu.cn/js/vendors/holder.min.js"></script>
+<script type="text/javascript" src="https://blog.jaxiu.cn/js/vendors-extensions/bootstrap4/bootstrap.js" ></script>
+
+<script type="text/javascript" src="https://blog.jaxiu.cn/js/vendors/mdb/mdb.min.js"></script>
+
+<script type="text/javascript" src="https://blog.jaxiu.cn/js/main.js"></script>
+<script type="text/javascript" src="https://blog.jaxiu.cn/js/search.js"></script>
+
+
+
+
+  <script src="https://blog.jaxiu.cn/js/vendors/highlight.pack.js"> </script>
+  <script>hljs.initHighlightingOnLoad();</script>
+
+
+
+
+
+  <script src="https://blog.jaxiu.cn/js/vendors/katex/katex.min.js"> </script>
+  <script src="https://blog.jaxiu.cn/js/vendors/katex/contrib/auto-render.min.js"></script>
+
+  <script>
+      document.addEventListener("DOMContentLoaded", function () {
+          renderMathInElement(document.body);
+      });
+  </script>
+
+
+
+
+
+
+
+
+<script type="text/javascript">
+  
+  new WOW().init();
+</script>
+  </body>
+</html>

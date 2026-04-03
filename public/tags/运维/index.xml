@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>运维 on jaxiu He</title>
+    <link>https://blog.jaxiu.cn/tags/%E8%BF%90%E7%BB%B4/</link>
+    <description>Recent content in 运维 on jaxiu He</description>
+    <generator>Hugo</generator>
+    <language>zn-Hans</language>
+    <lastBuildDate>Sat, 19 Jul 2025 11:00:00 +0800</lastBuildDate>
+    <atom:link href="https://blog.jaxiu.cn/tags/%E8%BF%90%E7%BB%B4/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Hotel 项目：远程服务器部署指南</title>
+      <link>https://blog.jaxiu.cn/blog/2025-07/hotel-project-remote-deployment-guide/</link>
+      <pubDate>Sat, 19 Jul 2025 11:00:00 +0800</pubDate>
+      <guid>https://blog.jaxiu.cn/blog/2025-07/hotel-project-remote-deployment-guide/</guid>
+      <description>&lt;h1 id=&#34;hotel-项目远程服务器部署指南&#34;&gt;Hotel 项目：远程服务器部署指南&lt;/h1&gt;&#xA;&lt;p&gt;本文档提供了将 &lt;code&gt;hotel&lt;/code&gt; 酒店管理系统部署到远程服务器的详细步骤，主要通过 Docker 进行。&lt;/p&gt;&#xA;&lt;h2 id=&#34;前提条件&#34;&gt;前提条件&lt;/h2&gt;&#xA;&lt;p&gt;在开始之前，请确保您的远程服务器已安装以下工具：&lt;/p&gt;&#xA;&lt;ul&gt;&#xA;&lt;li&gt;&lt;strong&gt;Git&lt;/strong&gt;: 用于克隆项目仓库。&lt;/li&gt;&#xA;&lt;li&gt;&lt;strong&gt;Docker&lt;/strong&gt;: 用于构建和运行容器化应用程序。&lt;/li&gt;&#xA;&lt;li&gt;&lt;strong&gt;SSH 访问&lt;/strong&gt;: 用于连接到您的远程服务器。&lt;/li&gt;&#xA;&lt;/ul&gt;&#xA;&lt;h2 id=&#34;部署步骤&#34;&gt;部署步骤&lt;/h2&gt;&#xA;&lt;p&gt;请按照以下步骤在您的远程服务器上部署 &lt;code&gt;hotel&lt;/code&gt; 项目：&lt;/p&gt;&#xA;&lt;h3 id=&#34;1-连接到您的远程服务器&#34;&gt;1. 连接到您的远程服务器&lt;/h3&gt;&#xA;&lt;p&gt;使用 SSH 连接到您的远程服务器：&lt;/p&gt;&#xA;&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;ssh your_username@your_server_ip&#xA;&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h3 id=&#34;2-克隆仓库&#34;&gt;2. 克隆仓库&lt;/h3&gt;&#xA;&lt;p&gt;导航到您希望部署的目录（例如，&lt;code&gt;/opt/apps/&lt;/code&gt;），然后克隆 &lt;code&gt;hotel&lt;/code&gt; 项目仓库：&lt;/p&gt;</description>
+    </item>
+  </channel>
+</rss>

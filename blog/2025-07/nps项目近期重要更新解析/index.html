@@ -1,0 +1,1071 @@
+<!DOCTYPE html>
+<html lang="zn-Hans">
+  <head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge, chrome=1">
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no, maximum-scale=1" />
+  
+  <meta name="author" content="jaxiu He">
+  <meta name="description"
+    content="NPS项目近期重要更新解析
+NPS（Network Penetration Suite）是一个轻量级、高性能、功能强大的内网穿透代理服务器，支持TCP、UDP、HTTP、HTTPS等协议。近期该项目进行了多次重要更新，本文将为您详细解析这些更新内容。
+最新版本概览
+在过去的一个月中，NPS项目发布了多个版本，从v0.26.37到最新的v0.26.63，主要集中在稳定性提升、错误修复和用户体验改进等方面。
+核心版本更新
+v0.26.63 - 关键错误修复
+最新发布的v0.26.63版本重点解决了客户端和服务端握手过程中出现的EOF错误问题。这个问题可能导致连接不稳定或连接失败，特别是在网络环境较差的情况下。">
+
+  <meta property="og:url" content="https://blog.jaxiu.cn/blog/2025-07/nps%E9%A1%B9%E7%9B%AE%E8%BF%91%E6%9C%9F%E9%87%8D%E8%A6%81%E6%9B%B4%E6%96%B0%E8%A7%A3%E6%9E%90/">
+  <meta property="og:site_name" content="jaxiu He">
+  <meta property="og:title" content="NPS项目近期重要更新解析">
+  <meta property="og:description" content="NPS项目近期重要更新解析 NPS（Network Penetration Suite）是一个轻量级、高性能、功能强大的内网穿透代理服务器，支持TCP、UDP、HTTP、HTTPS等协议。近期该项目进行了多次重要更新，本文将为您详细解析这些更新内容。
+最新版本概览 在过去的一个月中，NPS项目发布了多个版本，从v0.26.37到最新的v0.26.63，主要集中在稳定性提升、错误修复和用户体验改进等方面。
+核心版本更新 v0.26.63 - 关键错误修复 最新发布的v0.26.63版本重点解决了客户端和服务端握手过程中出现的EOF错误问题。这个问题可能导致连接不稳定或连接失败，特别是在网络环境较差的情况下。">
+  <meta property="og:locale" content="zn_Hans">
+  <meta property="og:type" content="article">
+    <meta property="article:section" content="blog">
+    <meta property="article:published_time" content="2025-07-30T10:00:00+08:00">
+    <meta property="article:modified_time" content="2025-07-30T10:00:00+08:00">
+    <meta property="article:tag" content="NPS">
+    <meta property="article:tag" content="内网穿透">
+    <meta property="article:tag" content="网络工具">
+    <meta property="article:tag" content="开源项目">
+
+
+  <title>
+    
+     NPS项目近期重要更新解析 | jaxiu He 
+    
+  </title>
+
+  <link rel="canonical" href="https://blog.jaxiu.cn/blog/2025-07/nps%E9%A1%B9%E7%9B%AE%E8%BF%91%E6%9C%9F%E9%87%8D%E8%A6%81%E6%9B%B4%E6%96%B0%E8%A7%A3%E6%9E%90/">
+
+  
+  
+
+  
+  
+  
+  <meta name="baidu-site-verification" content="your-baidu-verify-code" />
+  
+
+  
+  
+  <meta name="google-site-verification" content="your-google-verify-code" />
+  
+
+  
+  <link href="https://blog.jaxiu.cn/css/vendors-extensions/fontawesome/all.min.css" rel="stylesheet">
+
+  
+  <link rel="stylesheet"
+    href="https://fonts.googleapis.com/css?family=Open+Sans:400,700|Ubuntu+Mono:400,400i,700,700i|Raleway:300,400,500,600">
+  <link href="https://blog.jaxiu.cn/css/font.css" rel="stylesheet">
+
+  
+  <link href="https://blog.jaxiu.cn/css/vendors/bootstrap4/bootstrap.min.css" rel="stylesheet">
+  <link href="https://blog.jaxiu.cn/css/vendors-extensions/mdb/mdb.min.css" rel="stylesheet">
+  <link href="https://blog.jaxiu.cn/css/vendors/mdb/style.min.css" rel="stylesheet">
+  <link href="https://blog.jaxiu.cn/css/main.css" rel="stylesheet">
+
+
+  
+  <link rel="shortcut icon"  href="https://blog.jaxiu.cn/img/logo.png" >
+
+
+  
+  
+
+  <style type="text/css">
+    @media (min-width: 800px) and (max-width: 850px) {
+      .navbar:not(.top-nav-collapse) {
+        background: #1C2331 !important;
+      }
+    }
+  </style>
+
+
+  
+  
+  <link rel="stylesheet" href="https://blog.jaxiu.cn/js/vendors/katex/katex.min.css">
+  
+  
+
+  
+  
+  <link rel="stylesheet" href="https://blog.jaxiu.cn/css/vendors/highlight/github-gist.css">
+  
+
+  
+  
+  <script type="module">
+    import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.esm.min.mjs';
+    mermaid.initialize({ startOnLoad: true });
+  </script>
+  
+  
+
+  
+  <link href="https://blog.jaxiu.cn/css/holiday-effects.css" rel="stylesheet">
+  <script src="https://blog.jaxiu.cn/js/holiday-effects.js"></script>
+
+  
+  <script src="https://blog.jaxiu.cn/js/dynamic-bg.js"></script>
+  <link href="https://blog.jaxiu.cn/css/dynamic-bg-control.css" rel="stylesheet">
+
+</head>
+  <body class="bg-light" data-spy="scroll" data-target="#page-scrollspy" data-offset="90">
+  
+    
+    
+
+    
+      
+
+
+<nav class="navbar fixed-top navbar-expand-lg navbar-dark scrolling-navbar">
+    <div class="container">
+
+      
+      <a class="navbar-brand" href="https://blog.jaxiu.cn/">
+          
+        <img class="avatar" src="https://blog.jaxiu.cn/img/logo.png" style="width: 40px!important;height: auto;"  class="d-inline-block align-top" alt="" >
+        
+        <strong> jaxiu He</strong>
+      </a>
+
+      
+      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
+        aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+
+      
+      <div class="collapse navbar-collapse" id="navbarSupportedContent">
+
+        
+        <ul class="navbar-nav mr-auto ">
+          <li class="nav-item ">
+            <a class="nav-link" href="https://blog.jaxiu.cn/">Home</a>
+          </li>
+          
+            <li class="nav-item ">
+              <a class="nav-link" href="https://blog.jaxiu.cn/blog/" >博客  </a>
+            </li>
+
+          
+            <li class="nav-item ">
+              <a class="nav-link" href="https://blog.jaxiu.cn/moment/" >动态  </a>
+            </li>
+
+          
+            <li class="nav-item ">
+              <a class="nav-link" href="https://blog.jaxiu.cn/blog/prenatal-stories/" >胎教故事  </a>
+            </li>
+
+          
+            <li class="nav-item ">
+              <a class="nav-link" href="https://blog.jaxiu.cn/about/" >关于  </a>
+            </li>
+
+          
+        </ul>
+
+        
+        <ul class="navbar-nav">
+          <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" href="#" id="searchDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+              <i class="fas fa-search"></i> 搜索
+            </a>
+            <div class="dropdown-menu dropdown-menu-right p-3" aria-labelledby="searchDropdown" style="min-width: 300px; max-width: 400px;">
+              <form class="search-form" onsubmit="return false;">
+                <div class="input-group">
+                  <input type="text" id="search-query" class="form-control" placeholder="搜索文章标题或内容..." autocomplete="off">
+                  <div class="input-group-append">
+                    <button class="btn btn-outline-secondary" type="button" onclick="document.getElementById('search-query').focus();">
+                      <i class="fas fa-search"></i>
+                    </button>
+                  </div>
+                </div>
+              </form>
+              <ul id="search-results" class="list-unstyled mt-2 mb-0" style="max-height: 400px; overflow-y: auto;"></ul>
+            </div>
+          </li>
+        </ul>
+
+      </div>
+
+    </div>
+  </nav>
+   
+      
+
+
+
+
+
+
+
+<div id="site-header" class="carousel slide carousel-fade" data-ride="carousel" style="height: 18rem;">
+  
+
+  
+  
+  
+
+  
+  <div class="carousel-inner" role="listbox">
+    
+    
+
+    
+    <div class="carousel-item active">
+      <div class="view"
+        style="background-image: url('https://blog.jaxiu.cn/img/header-slides/raw_1515691746.jpg'); background-repeat: no-repeat; background-size: cover;">
+
+        
+        <div class="mask rgba-black-light d-flex justify-content-center align-items-center">
+
+          
+          
+          
+
+        </div>
+        
+
+      </div>
+    </div>
+    
+    
+    
+    
+
+    
+    <div class="carousel-item">
+      <div class="view"
+        style="background-image: url('https://blog.jaxiu.cn/img/header-slides//raw_1515847341.jpg'); background-repeat: no-repeat; background-size: cover;">
+
+        
+        <div class="mask rgba-black-light d-flex justify-content-center align-items-center">
+
+
+
+        </div>
+        
+
+      </div>
+    </div>
+    
+    
+    
+
+
+  </div>
+  
+
+  
+  <div class="carousel-content text-center white-text wow fadeIn">
+    <div class="row mx-0 headfont mt-3 pt-4">
+      
+      <div class="col-12 col-sm-5 align-middle">
+        <a href="https://blog.jaxiu.cn/">
+          
+          <img class="pull-right avatar avatar-md" src="https://blog.jaxiu.cn/img/logo.png" alt="">
+          
+        </a>
+      </div>
+
+      <div class="col-12 col-sm-7 text-left pl-2">
+        <a href="https://blog.jaxiu.cn/">
+          <h1 class="mb-2 h1" style="font-weight: 300;">
+            <strong>jaxiu He</strong>
+          </h1>
+        </a>
+
+
+        
+        <div class="mt-2" style="font-size: 1rem; color: white;">
+          
+          <a href="//github.com/axfinn" target="_blank" rel="noopener"><i class="fab fa-github pr-1"
+              aria-hidden="true"></i></a>
+          
+          
+
+          
+
+          
+
+          
+
+          
+
+          
+
+
+          
+          <a href="mailto:521very@email.com"><i class="far fa-envelope-open pr-1" aria-hidden="true"></i></a>
+          
+
+          
+
+
+        </div>
+      </div>
+    </div>
+  </div>
+  
+
+  
+  
+  
+
+</div>
+  
+    
+
+    
+  
+  <main class="post-main-wrapper">
+    
+    
+    <div class="row">
+
+      
+
+      
+      <div class="col-md-10">
+      
+
+        
+        <div class="z-depth-1  post-wrapper white-bg single-post">
+
+          <div class="post-header text-center" >
+  <ul class="post-meta li-x">
+    
+      
+        <li><a href="https://blog.jaxiu.cn/categories/%E6%8A%80%E6%9C%AF%E5%AE%9E%E8%B7%B5"><i class="fas fa-folder-open pr-1" aria-hidden="true"></i> 技术实践 </a></li>
+      
+    
+    
+  </ul>
+
+  <div class="px-4 post-heading">NPS项目近期重要更新解析</div>
+
+  <ul class="post-meta li-x mt-1">
+    
+      <li>Jul 30, 2025</li>
+    
+
+    
+      <li class="middot"></li>
+      <li>3 minutes read</li>
+    
+  </ul>
+  
+
+</div>
+
+
+          <div class="post-content markdown">
+            <h2 id="nps项目近期重要更新解析">NPS项目近期重要更新解析</h2>
+<p>NPS（Network Penetration Suite）是一个轻量级、高性能、功能强大的内网穿透代理服务器，支持TCP、UDP、HTTP、HTTPS等协议。近期该项目进行了多次重要更新，本文将为您详细解析这些更新内容。</p>
+<h2 id="最新版本概览">最新版本概览</h2>
+<p>在过去的一个月中，NPS项目发布了多个版本，从v0.26.37到最新的v0.26.63，主要集中在稳定性提升、错误修复和用户体验改进等方面。</p>
+<h3 id="核心版本更新">核心版本更新</h3>
+<h4 id="v02663---关键错误修复">v0.26.63 - 关键错误修复</h4>
+<p>最新发布的v0.26.63版本重点解决了客户端和服务端握手过程中出现的EOF错误问题。这个问题可能导致连接不稳定或连接失败，特别是在网络环境较差的情况下。</p>
+<h4 id="v02655---客户端连接优化">v0.26.55 - 客户端连接优化</h4>
+<p>该版本优化了客户端连接的错误处理逻辑，提高了系统在网络异常情况下的稳定性。</p>
+<h4 id="v02652---多语言支持改进">v0.26.52 - 多语言支持改进</h4>
+<p>修复了选择中文等语言不生效的问题，提升了国际化用户体验。</p>
+<h4 id="v02651---页面显示修复">v0.26.51 - 页面显示修复</h4>
+<p>解决了多语言模块异常导致页面文字消失的问题，确保了用户界面的正常显示。</p>
+<h4 id="v02650---javascript错误修复">v0.26.50 - JavaScript错误修复</h4>
+<p>修复了前端JavaScript报错&quot;setLang is not a function&quot;的问题，提升了前端稳定性。</p>
+<h4 id="v02647---代码结构优化">v0.26.47 - 代码结构优化</h4>
+<p>优化了<a href="file:///Volumes/M20/code/docs/nps/bridge/bridge.go">bridge.go</a>文件中的导入包顺序，提高了代码的可读性和维护性。</p>
+<h4 id="v02646---docker配置优化">v0.26.46 - Docker配置优化</h4>
+<p>移除了二进制文件，更新了Dockerfile配置参数，使Docker部署更加轻量化和标准化。</p>
+<h2 id="技术亮点分析">技术亮点分析</h2>
+<h3 id="1-连接稳定性提升">1. 连接稳定性提升</h3>
+<p>近期版本中，开发团队重点关注了连接稳定性问题，特别是处理了客户端连接中的unexpected EOF错误。通过增加详细错误日志和超时控制，大大提高了系统在复杂网络环境下的可靠性。</p>
+<h3 id="2-多语言支持完善">2. 多语言支持完善</h3>
+<p>NPS项目加强了对多语言的支持，修复了多个与国际化相关的bug，包括语言切换不生效、页面文字消失等问题，为全球用户提供了更好的使用体验。</p>
+<h3 id="3-部署和配置优化">3. 部署和配置优化</h3>
+<p>通过优化Dockerfile配置，改进了容器化部署体验。明确区分了nps和npc的配置参数（nps使用-conf_path，npc使用-config），使配置更加清晰明了。</p>
+<h3 id="4-代码质量改进">4. 代码质量改进</h3>
+<p>项目不仅在功能上有所提升，在代码质量方面也进行了优化，包括包导入顺序的规范化、构建脚本的改进等，这些都体现了开发团队对代码质量的严格要求。</p>
+<h2 id="实际应用价值">实际应用价值</h2>
+<p>这些更新对于NPS的用户来说具有重要的实际意义：</p>
+<ol>
+<li>
+<p><strong>提高系统稳定性</strong>：连接稳定性的提升意味着用户可以更可靠地使用内网穿透服务，特别是在生产环境中。</p>
+</li>
+<li>
+<p><strong>改善用户体验</strong>：多语言支持的完善使得非英语用户能够更轻松地使用该工具，扩大了用户群体。</p>
+</li>
+<li>
+<p><strong>简化部署流程</strong>：Docker配置的优化使得部署变得更加简单和标准化，降低了使用门槛。</p>
+</li>
+<li>
+<p><strong>增强可维护性</strong>：代码结构和构建流程的优化为项目的长期维护奠定了良好基础。</p>
+</li>
+</ol>
+<h2 id="总结">总结</h2>
+<p>NPS项目在过去一个月中持续进行优化和改进，重点关注连接稳定性、用户体验和代码质量。这些更新不仅修复了已知问题，还提升了系统的整体性能和可靠性。对于需要内网穿透解决方案的用户来说，NPS是一个值得信赖的选择。</p>
+<p>随着这些改进的不断积累，NPS正变得越来越成熟和稳定，为用户提供更加优质的内网穿透服务。</p>
+
+          </div>
+
+          
+          <div class="row">
+            <div class="col-md-8">
+            
+              <div class="mb-5">
+                
+<div class="li-x div-x post-meta">
+  <li class="pr-0"><a href="https://blog.jaxiu.cn/tags/"><i class="fas fa-tags"></i></a></li>
+  <div class="tags-sm">
+    
+      <li><a href="https://blog.jaxiu.cn/tags/nps" role="button">NPS </a></li>
+      
+    
+      <li><a href="https://blog.jaxiu.cn/tags/%E5%86%85%E7%BD%91%E7%A9%BF%E9%80%8F" role="button">内网穿透 </a></li>
+      
+    
+      <li><a href="https://blog.jaxiu.cn/tags/%E7%BD%91%E7%BB%9C%E5%B7%A5%E5%85%B7" role="button">网络工具 </a></li>
+      
+    
+      <li><a href="https://blog.jaxiu.cn/tags/%E5%BC%80%E6%BA%90%E9%A1%B9%E7%9B%AE" role="button">开源项目 </a></li>
+      
+    
+  </div>
+</div>
+              </div>
+            
+            </div>
+            
+          </div>
+          
+
+          
+          <div class="row pt-3">
+            <div class="col-md-6">
+              
+                <a href=https://blog.jaxiu.cn/blog/2025-07/%E6%B7%B1%E5%85%A5%E8%A7%A3%E6%9E%90nps%E9%A1%B9%E7%9B%AE%E8%BF%91%E6%9C%9F%E9%87%8D%E5%A4%A7%E6%9B%B4%E6%96%B0%E4%BB%8E%E4%BB%A3%E7%A0%81%E5%B1%82%E9%9D%A2%E7%9C%8B%E6%8A%80%E6%9C%AF%E6%BC%94%E8%BF%9B/ class="post-meta">Previous
+                  <div class="pt-2 pb-5 d-flex">
+                    <i class="fas fa-angle-left text-grey font-weight-bold mr-2 active-color"></i>
+                    <span>深入解析NPS项目近期重大更新：从代码层面看技术演进</span>
+                  </div>
+                </a>
+              
+            </div>
+            
+            <div class="col-md-6 text-right" >
+              
+                <a href=https://blog.jaxiu.cn/blog/2025-07/deepchat-project-overview/ class="post-meta">Next
+                  <div class="pt-2 pb-5 flex-reverse">
+                    <i class="fas fa-angle-right text-grey font-weight-bold ml-2 active-color"></i>
+                    <span>DeepChat 项目概览：多模型AI对话平台介绍</span>
+                  </div>
+                </a>
+              
+            </div>
+          </div>
+
+          
+
+        </div>
+        
+
+      </div>
+      
+
+      
+	
+	
+	
+	
+		
+		
+		
+	
+
+		
+		<div class="col-md-2 pl-0">
+
+			
+			<div id="page-scrollspy" class="toc-nav">
+				
+				<ul class="nav nav-pills ml-0">
+					
+					<li class="nav-item pb-3 text-center">
+						<span class="font-weight-bold mb-2">- CATALOG - </span>
+					</li>
+
+					
+						
+						
+							
+								
+								
+									<ul class="nav">
+								
+								
+
+										<li class="nav-item">
+						 					<a class="nav-link" href="#nps%e9%a1%b9%e7%9b%ae%e8%bf%91%e6%9c%9f%e9%87%8d%e8%a6%81%e6%9b%b4%e6%96%b0%e8%a7%a3%e6%9e%90">
+												 NPS项目近期重要更新解析
+											</a>
+										</li>
+						 
+								
+								
+									</ul>
+								
+							
+						
+				 
+						
+						
+							
+								
+								
+									<ul class="nav">
+								
+								
+
+										<li class="nav-item">
+						 					<a class="nav-link" href="#%e6%9c%80%e6%96%b0%e7%89%88%e6%9c%ac%e6%a6%82%e8%a7%88">
+												 最新版本概览
+											</a>
+										</li>
+						 
+								
+								
+									</ul>
+								
+							
+						
+				 
+						
+						
+							
+								
+								
+									<ul class="nav">
+								
+									<ul class="nav">
+								
+								
+
+										<li class="nav-item">
+						 					<a class="nav-link" href="#%e6%a0%b8%e5%bf%83%e7%89%88%e6%9c%ac%e6%9b%b4%e6%96%b0">
+												 核心版本更新
+											</a>
+										</li>
+						 
+								
+								
+									</ul>
+								
+									</ul>
+								
+							
+						
+				 
+						
+						
+							
+								
+								
+									<ul class="nav">
+								
+									<ul class="nav">
+								
+									<ul class="nav">
+								
+								
+
+										<li class="nav-item">
+						 					<a class="nav-link" href="#v02663---%e5%85%b3%e9%94%ae%e9%94%99%e8%af%af%e4%bf%ae%e5%a4%8d">
+												 v0.26.63 - 关键错误修复
+											</a>
+										</li>
+						 
+								
+								
+									</ul>
+								
+									</ul>
+								
+									</ul>
+								
+							
+						
+				 
+						
+						
+							
+								
+								
+									<ul class="nav">
+								
+									<ul class="nav">
+								
+									<ul class="nav">
+								
+								
+
+										<li class="nav-item">
+						 					<a class="nav-link" href="#v02655---%e5%ae%a2%e6%88%b7%e7%ab%af%e8%bf%9e%e6%8e%a5%e4%bc%98%e5%8c%96">
+												 v0.26.55 - 客户端连接优化
+											</a>
+										</li>
+						 
+								
+								
+									</ul>
+								
+									</ul>
+								
+									</ul>
+								
+							
+						
+				 
+						
+						
+							
+								
+								
+									<ul class="nav">
+								
+									<ul class="nav">
+								
+									<ul class="nav">
+								
+								
+
+										<li class="nav-item">
+						 					<a class="nav-link" href="#v02652---%e5%a4%9a%e8%af%ad%e8%a8%80%e6%94%af%e6%8c%81%e6%94%b9%e8%bf%9b">
+												 v0.26.52 - 多语言支持改进
+											</a>
+										</li>
+						 
+								
+								
+									</ul>
+								
+									</ul>
+								
+									</ul>
+								
+							
+						
+				 
+						
+						
+							
+								
+								
+									<ul class="nav">
+								
+									<ul class="nav">
+								
+									<ul class="nav">
+								
+								
+
+										<li class="nav-item">
+						 					<a class="nav-link" href="#v02651---%e9%a1%b5%e9%9d%a2%e6%98%be%e7%a4%ba%e4%bf%ae%e5%a4%8d">
+												 v0.26.51 - 页面显示修复
+											</a>
+										</li>
+						 
+								
+								
+									</ul>
+								
+									</ul>
+								
+									</ul>
+								
+							
+						
+				 
+						
+						
+							
+								
+								
+									<ul class="nav">
+								
+									<ul class="nav">
+								
+									<ul class="nav">
+								
+								
+
+										<li class="nav-item">
+						 					<a class="nav-link" href="#v02650---javascript%e9%94%99%e8%af%af%e4%bf%ae%e5%a4%8d">
+												 v0.26.50 - JavaScript错误修复
+											</a>
+										</li>
+						 
+								
+								
+									</ul>
+								
+									</ul>
+								
+									</ul>
+								
+							
+						
+				 
+						
+						
+							
+								
+								
+									<ul class="nav">
+								
+									<ul class="nav">
+								
+									<ul class="nav">
+								
+								
+
+										<li class="nav-item">
+						 					<a class="nav-link" href="#v02647---%e4%bb%a3%e7%a0%81%e7%bb%93%e6%9e%84%e4%bc%98%e5%8c%96">
+												 v0.26.47 - 代码结构优化
+											</a>
+										</li>
+						 
+								
+								
+									</ul>
+								
+									</ul>
+								
+									</ul>
+								
+							
+						
+				 
+						
+						
+							
+								
+								
+									<ul class="nav">
+								
+									<ul class="nav">
+								
+									<ul class="nav">
+								
+								
+
+										<li class="nav-item">
+						 					<a class="nav-link" href="#v02646---docker%e9%85%8d%e7%bd%ae%e4%bc%98%e5%8c%96">
+												 v0.26.46 - Docker配置优化
+											</a>
+										</li>
+						 
+								
+								
+									</ul>
+								
+									</ul>
+								
+									</ul>
+								
+							
+						
+				 
+						
+						
+							
+								
+								
+									<ul class="nav">
+								
+								
+
+										<li class="nav-item">
+						 					<a class="nav-link" href="#%e6%8a%80%e6%9c%af%e4%ba%ae%e7%82%b9%e5%88%86%e6%9e%90">
+												 技术亮点分析
+											</a>
+										</li>
+						 
+								
+								
+									</ul>
+								
+							
+						
+				 
+						
+						
+							
+								
+								
+									<ul class="nav">
+								
+									<ul class="nav">
+								
+								
+
+										<li class="nav-item">
+						 					<a class="nav-link" href="#1-%e8%bf%9e%e6%8e%a5%e7%a8%b3%e5%ae%9a%e6%80%a7%e6%8f%90%e5%8d%87">
+												 1. 连接稳定性提升
+											</a>
+										</li>
+						 
+								
+								
+									</ul>
+								
+									</ul>
+								
+							
+						
+				 
+						
+						
+							
+								
+								
+									<ul class="nav">
+								
+									<ul class="nav">
+								
+								
+
+										<li class="nav-item">
+						 					<a class="nav-link" href="#2-%e5%a4%9a%e8%af%ad%e8%a8%80%e6%94%af%e6%8c%81%e5%ae%8c%e5%96%84">
+												 2. 多语言支持完善
+											</a>
+										</li>
+						 
+								
+								
+									</ul>
+								
+									</ul>
+								
+							
+						
+				 
+						
+						
+							
+								
+								
+									<ul class="nav">
+								
+									<ul class="nav">
+								
+								
+
+										<li class="nav-item">
+						 					<a class="nav-link" href="#3-%e9%83%a8%e7%bd%b2%e5%92%8c%e9%85%8d%e7%bd%ae%e4%bc%98%e5%8c%96">
+												 3. 部署和配置优化
+											</a>
+										</li>
+						 
+								
+								
+									</ul>
+								
+									</ul>
+								
+							
+						
+				 
+						
+						
+							
+								
+								
+									<ul class="nav">
+								
+									<ul class="nav">
+								
+								
+
+										<li class="nav-item">
+						 					<a class="nav-link" href="#4-%e4%bb%a3%e7%a0%81%e8%b4%a8%e9%87%8f%e6%94%b9%e8%bf%9b">
+												 4. 代码质量改进
+											</a>
+										</li>
+						 
+								
+								
+									</ul>
+								
+									</ul>
+								
+							
+						
+				 
+						
+						
+							
+								
+								
+									<ul class="nav">
+								
+								
+
+										<li class="nav-item">
+						 					<a class="nav-link" href="#%e5%ae%9e%e9%99%85%e5%ba%94%e7%94%a8%e4%bb%b7%e5%80%bc">
+												 实际应用价值
+											</a>
+										</li>
+						 
+								
+								
+									</ul>
+								
+							
+						
+				 
+						
+						
+							
+								
+								
+									<ul class="nav">
+								
+								
+
+										<li class="nav-item">
+						 					<a class="nav-link" href="#%e6%80%bb%e7%bb%93">
+												 总结
+											</a>
+										</li>
+						 
+								
+								
+									</ul>
+								
+							
+						
+				 
+
+				</ul>
+			</div>
+			
+
+		</div>
+		
+	
+
+    </div>
+    
+
+
+  </main>
+  
+
+
+    
+    
+<footer class="page-footer text-center font-small mt-4 wow fadeIn">
+
+
+  
+  <div class="pb-2 mt-5 pt-5">
+    
+    <a href="//github.com/axfinn " target="_blank" rel="noopener"><i class="fab fa-github mr-3"
+        aria-hidden="true"></i></a>
+    
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+
+    
+    <a href="mailto:521very@email.com"><i class="far fa-envelope-open mr-3" aria-hidden="true"></i></a>
+    
+
+    
+
+    
+
+  </div>
+  
+
+  
+  <div class="copyright py-4">
+    
+    <span> 2016 - 2026 &copy; | Theme <a href='https://github.com/orianna-zzo/AllinOne'
+        target="_blank">AllinOne</a> by <a href='https://github.com/orianna-zzo' target="_blank">Orianna</a> </span>
+  </div>
+  
+
+</footer>
+
+    
+
+
+
+
+<script type="text/javascript" src="https://blog.jaxiu.cn/js/vendors/jquery/jquery-3.3.1.min.js"></script>
+<script type="text/javascript" src="https://blog.jaxiu.cn/js/vendors/jquery/jquery.smooth-scroll.min.js"></script>
+
+
+
+<script type="text/javascript" src="https://blog.jaxiu.cn/js/vendors/popper.min.js"></script>
+<script type="text/javascript" src="https://blog.jaxiu.cn/js/vendors/holder.min.js"></script>
+<script type="text/javascript" src="https://blog.jaxiu.cn/js/vendors-extensions/bootstrap4/bootstrap.js" ></script>
+
+<script type="text/javascript" src="https://blog.jaxiu.cn/js/vendors/mdb/mdb.min.js"></script>
+
+<script type="text/javascript" src="https://blog.jaxiu.cn/js/main.js"></script>
+<script type="text/javascript" src="https://blog.jaxiu.cn/js/search.js"></script>
+
+
+
+
+  <script src="https://blog.jaxiu.cn/js/vendors/highlight.pack.js"> </script>
+  <script>hljs.initHighlightingOnLoad();</script>
+
+
+
+
+
+  <script src="https://blog.jaxiu.cn/js/vendors/katex/katex.min.js"> </script>
+  <script src="https://blog.jaxiu.cn/js/vendors/katex/contrib/auto-render.min.js"></script>
+
+  <script>
+      document.addEventListener("DOMContentLoaded", function () {
+          renderMathInElement(document.body);
+      });
+  </script>
+
+
+
+
+
+
+
+
+<script type="text/javascript">
+  
+  new WOW().init();
+</script>
+  </body>
+</html>

@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>HTTP反向代理 on jaxiu He</title>
+    <link>https://blog.jaxiu.cn/tags/http%E5%8F%8D%E5%90%91%E4%BB%A3%E7%90%86/</link>
+    <description>Recent content in HTTP反向代理 on jaxiu He</description>
+    <generator>Hugo</generator>
+    <language>zn-Hans</language>
+    <lastBuildDate>Fri, 18 Jul 2025 17:00:00 +0800</lastBuildDate>
+    <atom:link href="https://blog.jaxiu.cn/tags/http%E5%8F%8D%E5%90%91%E4%BB%A3%E7%90%86/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>NPS 代理实现：WebSocket 代理与 HTTP 反向代理</title>
+      <link>https://blog.jaxiu.cn/blog/2025-07/nps-%E4%BB%A3%E7%90%86%E5%AE%9E%E7%8E%B0websocket-%E4%BB%A3%E7%90%86%E4%B8%8E-http-%E5%8F%8D%E5%90%91%E4%BB%A3%E7%90%86/</link>
+      <pubDate>Fri, 18 Jul 2025 17:00:00 +0800</pubDate>
+      <guid>https://blog.jaxiu.cn/blog/2025-07/nps-%E4%BB%A3%E7%90%86%E5%AE%9E%E7%8E%B0websocket-%E4%BB%A3%E7%90%86%E4%B8%8E-http-%E5%8F%8D%E5%90%91%E4%BB%A3%E7%90%86/</guid>
+      <description>&lt;h2 id=&#34;引言&#34;&gt;引言&lt;/h2&gt;&#xA;&lt;p&gt;在 NPS 系列文章的前几篇中，我们已经探讨了 NPS 的整体架构、服务端核心以及多种代理模式（TCP 隧道、HTTP 代理、SOCKS5 代理、P2P 代理和 UDP 代理）。本篇文章将深入 NPS 的 &lt;strong&gt;WebSocket 代理&lt;/strong&gt;和 &lt;strong&gt;HTTP 反向代理&lt;/strong&gt;实现。我们将通过分析 &lt;code&gt;nps/server/proxy/websocket.go&lt;/code&gt; 文件，揭示 NPS 如何处理这两种特殊的 HTTP 流量，实现更灵活的网络穿透。&lt;/p&gt;&#xA;&lt;h2 id=&#34;websocket-与-http-反向代理的需求&#34;&gt;WebSocket 与 HTTP 反向代理的需求&lt;/h2&gt;&#xA;&lt;ul&gt;&#xA;&lt;li&gt;&lt;strong&gt;WebSocket&lt;/strong&gt;：提供客户端和服务器之间的全双工通信通道，常用于实时应用，如聊天、在线游戏、股票行情等。传统的 HTTP 代理无法直接处理 WebSocket 协议的升级和持续连接。&lt;/li&gt;&#xA;&lt;li&gt;&lt;strong&gt;HTTP 反向代理&lt;/strong&gt;：将客户端的 HTTP 请求转发到后端服务器，并返回后端服务器的响应。它通常用于负载均衡、SSL 卸载、缓存和安全防护等。&lt;/li&gt;&#xA;&lt;/ul&gt;&#xA;&lt;h2 id=&#34;websocketgowebsocket-与-http-反向代理的实现&#34;&gt;&lt;code&gt;websocket.go&lt;/code&gt;：WebSocket 与 HTTP 反向代理的实现&lt;/h2&gt;&#xA;&lt;p&gt;&lt;code&gt;websocket.go&lt;/code&gt; 文件主要定义了 &lt;code&gt;HttpReverseProxy&lt;/code&gt; 和 &lt;code&gt;ReverseProxy&lt;/code&gt; 两个结构体，它们共同协作来处理 HTTP 反向代理和 WebSocket 连接。&lt;/p&gt;</description>
+    </item>
+  </channel>
+</rss>

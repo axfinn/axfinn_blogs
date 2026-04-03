@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>工具调用 on jaxiu He</title>
+    <link>https://blog.jaxiu.cn/tags/%E5%B7%A5%E5%85%B7%E8%B0%83%E7%94%A8/</link>
+    <description>Recent content in 工具调用 on jaxiu He</description>
+    <generator>Hugo</generator>
+    <language>zn-Hans</language>
+    <lastBuildDate>Thu, 31 Jul 2025 19:30:00 +0800</lastBuildDate>
+    <atom:link href="https://blog.jaxiu.cn/tags/%E5%B7%A5%E5%85%B7%E8%B0%83%E7%94%A8/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>DeepChat MCP 支持深度剖析</title>
+      <link>https://blog.jaxiu.cn/blog/2025-07/deepchat-mcp-support/</link>
+      <pubDate>Thu, 31 Jul 2025 19:30:00 +0800</pubDate>
+      <guid>https://blog.jaxiu.cn/blog/2025-07/deepchat-mcp-support/</guid>
+      <description>&lt;h1 id=&#34;deepchat-mcp-支持深度剖析&#34;&gt;DeepChat MCP 支持深度剖析&lt;/h1&gt;&#xA;&lt;h2 id=&#34;引言&#34;&gt;引言&lt;/h2&gt;&#xA;&lt;p&gt;Model Context Protocol (MCP) 是一种新兴的协议，旨在为 AI 模型提供访问外部资源、执行工具和获取提示的标准方法。DeepChat 作为先进的 AI 聊天平台，深度集成了 MCP 支持，使其能够扩展 AI 的能力，实现代码执行、网络访问等高级功能。本文将深入分析 DeepChat 中 MCP 的实现原理和应用。&lt;/p&gt;&#xA;&lt;h2 id=&#34;mcp-协议概述&#34;&gt;MCP 协议概述&lt;/h2&gt;&#xA;&lt;h3 id=&#34;什么是-mcp&#34;&gt;什么是 MCP？&lt;/h3&gt;&#xA;&lt;p&gt;Model Context Protocol (MCP) 是一种标准化协议，允许 AI 模型安全地与外部系统交互。它定义了三种核心能力：&lt;/p&gt;&#xA;&lt;ol&gt;&#xA;&lt;li&gt;&lt;strong&gt;Resources（资源）&lt;/strong&gt; - 访问外部数据和文件&lt;/li&gt;&#xA;&lt;li&gt;&lt;strong&gt;Prompts（提示）&lt;/strong&gt; - 获取和使用预定义的提示模板&lt;/li&gt;&#xA;&lt;li&gt;&lt;strong&gt;Tools（工具）&lt;/strong&gt; - 执行特定功能，如代码运行、网络请求等&lt;/li&gt;&#xA;&lt;/ol&gt;&#xA;&lt;h3 id=&#34;mcp-的核心价值&#34;&gt;MCP 的核心价值&lt;/h3&gt;&#xA;&lt;p&gt;MCP 的引入解决了 AI 应用中的几个关键问题：&lt;/p&gt;</description>
+    </item>
+  </channel>
+</rss>

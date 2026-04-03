@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>工具 on jaxiu He</title>
+    <link>https://blog.jaxiu.cn/tags/%E5%B7%A5%E5%85%B7/</link>
+    <description>Recent content in 工具 on jaxiu He</description>
+    <generator>Hugo</generator>
+    <language>zn-Hans</language>
+    <lastBuildDate>Tue, 12 Aug 2025 14:00:00 +0800</lastBuildDate>
+    <atom:link href="https://blog.jaxiu.cn/tags/%E5%B7%A5%E5%85%B7/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>fcopy - 一个全平台剪贴板同步工具</title>
+      <link>https://blog.jaxiu.cn/blog/2025-08/fcopy-%E4%B8%80%E4%B8%AA%E5%85%A8%E5%B9%B3%E5%8F%B0%E5%89%AA%E8%B4%B4%E6%9D%BF%E5%90%8C%E6%AD%A5%E5%B7%A5%E5%85%B7/</link>
+      <pubDate>Tue, 12 Aug 2025 14:00:00 +0800</pubDate>
+      <guid>https://blog.jaxiu.cn/blog/2025-08/fcopy-%E4%B8%80%E4%B8%AA%E5%85%A8%E5%B9%B3%E5%8F%B0%E5%89%AA%E8%B4%B4%E6%9D%BF%E5%90%8C%E6%AD%A5%E5%B7%A5%E5%85%B7/</guid>
+      <description>&lt;p&gt;在日常工作中，我们经常需要在不同设备之间复制粘贴文本、图片或文件。虽然有很多商业解决方案，但我还是希望能有一个简单、安全、自托管的解决方案。因此，我开发了 &lt;a href=&#34;https://github.com/axfinn/fcopy&#34;&gt;fcopy&lt;/a&gt; - 一个全平台剪贴板同步工具。&lt;/p&gt;&#xA;&lt;h2 id=&#34;项目介绍&#34;&gt;项目介绍&lt;/h2&gt;&#xA;&lt;p&gt;&lt;a href=&#34;https://github.com/axfinn/fcopy&#34;&gt;fcopy&lt;/a&gt; 是一个基于 Web 的剪贴板同步工具，支持文本和文件的跨设备同步。它采用现代化的技术栈构建，具有响应式设计，可以在桌面端和移动端使用。&lt;/p&gt;&#xA;&lt;p&gt;项目的主要特性包括：&lt;/p&gt;&#xA;&lt;ul&gt;&#xA;&lt;li&gt;📋 文本和文件剪贴板同步&lt;/li&gt;&#xA;&lt;li&gt;🔐 安全的API密钥认证机制&lt;/li&gt;&#xA;&lt;li&gt;🖼️ 图片预览和文件下载&lt;/li&gt;&#xA;&lt;li&gt;📱 响应式设计，支持移动端使用&lt;/li&gt;&#xA;&lt;li&gt;🌐 Socket.IO实时同步&lt;/li&gt;&#xA;&lt;li&gt;📊 访问统计和监控面板&lt;/li&gt;&#xA;&lt;li&gt;👤 用户管理和数据隔离&lt;/li&gt;&#xA;&lt;li&gt;🐳 Docker容器化部署支持&lt;/li&gt;&#xA;&lt;/ul&gt;&#xA;&lt;h2 id=&#34;项目背景和动机&#34;&gt;项目背景和动机&lt;/h2&gt;&#xA;&lt;p&gt;在日常工作中，我经常需要在不同的设备之间复制粘贴内容，比如在电脑上复制一段代码，然后在远程服务器上粘贴；或者在手机上看到一段文字，想要快速发送到电脑上处理。虽然系统自带的剪贴板功能可以在单一设备上使用，但在跨设备场景下却显得力不从心。&lt;/p&gt;</description>
+    </item>
+  </channel>
+</rss>

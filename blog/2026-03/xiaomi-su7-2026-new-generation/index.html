@@ -1,0 +1,1621 @@
+<!DOCTYPE html>
+<html lang="zn-Hans">
+  <head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge, chrome=1">
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no, maximum-scale=1" />
+  
+  <meta name="author" content="jaxiu He">
+  <meta name="description"
+    content="
+2026年3月19日，小米正式发布了新一代SU7车型。新车在续航、电机、充电平台等方面进行了全面升级，CLTC续航最高可达902km，起售价21.99万元。本文深入解析新一代SU7的核心技术升级。
+
+摘要：新一代小米SU7在保持高性价比的同时，带来了令人惊艳的技术升级：最高902km CLTC续航、750V&#43;高压平台、超级电机V6s Plus、以及完整的端到端智能驾驶系统。让我们一起来看看这次升级的具体内容。">
+
+  <meta property="og:url" content="https://blog.jaxiu.cn/blog/2026-03/xiaomi-su7-2026-new-generation/">
+  <meta property="og:site_name" content="jaxiu He">
+  <meta property="og:title" content="新一代小米SU7深度解析：2026款升级了哪些硬核技术？">
+  <meta property="og:description" content="2026年3月19日，小米正式发布了新一代SU7车型。新车在续航、电机、充电平台等方面进行了全面升级，CLTC续航最高可达902km，起售价21.99万元。本文深入解析新一代SU7的核心技术升级。
+摘要：新一代小米SU7在保持高性价比的同时，带来了令人惊艳的技术升级：最高902km CLTC续航、750V&#43;高压平台、超级电机V6s Plus、以及完整的端到端智能驾驶系统。让我们一起来看看这次升级的具体内容。">
+  <meta property="og:locale" content="zn_Hans">
+  <meta property="og:type" content="article">
+    <meta property="article:section" content="blog">
+    <meta property="article:published_time" content="2026-03-20T10:00:00+08:00">
+    <meta property="article:modified_time" content="2026-03-20T10:00:00+08:00">
+    <meta property="article:tag" content="新能源电动车">
+    <meta property="article:tag" content="小米SU7">
+    <meta property="article:tag" content="小米汽车">
+    <meta property="article:tag" content="2026款">
+    <meta property="article:tag" content="技术解析">
+
+
+  <title>
+    
+     新一代小米SU7深度解析：2026款升级了哪些硬核技术？ | jaxiu He 
+    
+  </title>
+
+  <link rel="canonical" href="https://blog.jaxiu.cn/blog/2026-03/xiaomi-su7-2026-new-generation/">
+
+  
+  
+
+  
+  
+  
+  <meta name="baidu-site-verification" content="your-baidu-verify-code" />
+  
+
+  
+  
+  <meta name="google-site-verification" content="your-google-verify-code" />
+  
+
+  
+  <link href="https://blog.jaxiu.cn/css/vendors-extensions/fontawesome/all.min.css" rel="stylesheet">
+
+  
+  <link rel="stylesheet"
+    href="https://fonts.googleapis.com/css?family=Open+Sans:400,700|Ubuntu+Mono:400,400i,700,700i|Raleway:300,400,500,600">
+  <link href="https://blog.jaxiu.cn/css/font.css" rel="stylesheet">
+
+  
+  <link href="https://blog.jaxiu.cn/css/vendors/bootstrap4/bootstrap.min.css" rel="stylesheet">
+  <link href="https://blog.jaxiu.cn/css/vendors-extensions/mdb/mdb.min.css" rel="stylesheet">
+  <link href="https://blog.jaxiu.cn/css/vendors/mdb/style.min.css" rel="stylesheet">
+  <link href="https://blog.jaxiu.cn/css/main.css" rel="stylesheet">
+
+
+  
+  <link rel="shortcut icon"  href="https://blog.jaxiu.cn/img/logo.png" >
+
+
+  
+  
+
+  <style type="text/css">
+    @media (min-width: 800px) and (max-width: 850px) {
+      .navbar:not(.top-nav-collapse) {
+        background: #1C2331 !important;
+      }
+    }
+  </style>
+
+
+  
+  
+  <link rel="stylesheet" href="https://blog.jaxiu.cn/js/vendors/katex/katex.min.css">
+  
+  
+
+  
+  
+  <link rel="stylesheet" href="https://blog.jaxiu.cn/css/vendors/highlight/github-gist.css">
+  
+
+  
+  
+  <script type="module">
+    import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.esm.min.mjs';
+    mermaid.initialize({ startOnLoad: true });
+  </script>
+  
+  
+
+  
+  <link href="https://blog.jaxiu.cn/css/holiday-effects.css" rel="stylesheet">
+  <script src="https://blog.jaxiu.cn/js/holiday-effects.js"></script>
+
+  
+  <script src="https://blog.jaxiu.cn/js/dynamic-bg.js"></script>
+  <link href="https://blog.jaxiu.cn/css/dynamic-bg-control.css" rel="stylesheet">
+
+</head>
+  <body class="bg-light" data-spy="scroll" data-target="#page-scrollspy" data-offset="90">
+  
+    
+    
+
+    
+      
+
+
+<nav class="navbar fixed-top navbar-expand-lg navbar-dark scrolling-navbar">
+    <div class="container">
+
+      
+      <a class="navbar-brand" href="https://blog.jaxiu.cn/">
+          
+        <img class="avatar" src="https://blog.jaxiu.cn/img/logo.png" style="width: 40px!important;height: auto;"  class="d-inline-block align-top" alt="" >
+        
+        <strong> jaxiu He</strong>
+      </a>
+
+      
+      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
+        aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+
+      
+      <div class="collapse navbar-collapse" id="navbarSupportedContent">
+
+        
+        <ul class="navbar-nav mr-auto ">
+          <li class="nav-item ">
+            <a class="nav-link" href="https://blog.jaxiu.cn/">Home</a>
+          </li>
+          
+            <li class="nav-item ">
+              <a class="nav-link" href="https://blog.jaxiu.cn/blog/" >博客  </a>
+            </li>
+
+          
+            <li class="nav-item ">
+              <a class="nav-link" href="https://blog.jaxiu.cn/moment/" >动态  </a>
+            </li>
+
+          
+            <li class="nav-item ">
+              <a class="nav-link" href="https://blog.jaxiu.cn/blog/prenatal-stories/" >胎教故事  </a>
+            </li>
+
+          
+            <li class="nav-item ">
+              <a class="nav-link" href="https://blog.jaxiu.cn/about/" >关于  </a>
+            </li>
+
+          
+        </ul>
+
+        
+        <ul class="navbar-nav">
+          <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" href="#" id="searchDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+              <i class="fas fa-search"></i> 搜索
+            </a>
+            <div class="dropdown-menu dropdown-menu-right p-3" aria-labelledby="searchDropdown" style="min-width: 300px; max-width: 400px;">
+              <form class="search-form" onsubmit="return false;">
+                <div class="input-group">
+                  <input type="text" id="search-query" class="form-control" placeholder="搜索文章标题或内容..." autocomplete="off">
+                  <div class="input-group-append">
+                    <button class="btn btn-outline-secondary" type="button" onclick="document.getElementById('search-query').focus();">
+                      <i class="fas fa-search"></i>
+                    </button>
+                  </div>
+                </div>
+              </form>
+              <ul id="search-results" class="list-unstyled mt-2 mb-0" style="max-height: 400px; overflow-y: auto;"></ul>
+            </div>
+          </li>
+        </ul>
+
+      </div>
+
+    </div>
+  </nav>
+   
+      
+
+
+
+
+
+
+
+<div id="site-header" class="carousel slide carousel-fade" data-ride="carousel" style="height: 18rem;">
+  
+
+  
+  
+  
+
+  
+  <div class="carousel-inner" role="listbox">
+    
+    
+
+    
+    <div class="carousel-item active">
+      <div class="view"
+        style="background-image: url('https://blog.jaxiu.cn/img/header-slides/raw_1515691746.jpg'); background-repeat: no-repeat; background-size: cover;">
+
+        
+        <div class="mask rgba-black-light d-flex justify-content-center align-items-center">
+
+          
+          
+          
+
+        </div>
+        
+
+      </div>
+    </div>
+    
+    
+    
+    
+
+    
+    <div class="carousel-item">
+      <div class="view"
+        style="background-image: url('https://blog.jaxiu.cn/img/header-slides//raw_1515847341.jpg'); background-repeat: no-repeat; background-size: cover;">
+
+        
+        <div class="mask rgba-black-light d-flex justify-content-center align-items-center">
+
+
+
+        </div>
+        
+
+      </div>
+    </div>
+    
+    
+    
+
+
+  </div>
+  
+
+  
+  <div class="carousel-content text-center white-text wow fadeIn">
+    <div class="row mx-0 headfont mt-3 pt-4">
+      
+      <div class="col-12 col-sm-5 align-middle">
+        <a href="https://blog.jaxiu.cn/">
+          
+          <img class="pull-right avatar avatar-md" src="https://blog.jaxiu.cn/img/logo.png" alt="">
+          
+        </a>
+      </div>
+
+      <div class="col-12 col-sm-7 text-left pl-2">
+        <a href="https://blog.jaxiu.cn/">
+          <h1 class="mb-2 h1" style="font-weight: 300;">
+            <strong>jaxiu He</strong>
+          </h1>
+        </a>
+
+
+        
+        <div class="mt-2" style="font-size: 1rem; color: white;">
+          
+          <a href="//github.com/axfinn" target="_blank" rel="noopener"><i class="fab fa-github pr-1"
+              aria-hidden="true"></i></a>
+          
+          
+
+          
+
+          
+
+          
+
+          
+
+          
+
+
+          
+          <a href="mailto:521very@email.com"><i class="far fa-envelope-open pr-1" aria-hidden="true"></i></a>
+          
+
+          
+
+
+        </div>
+      </div>
+    </div>
+  </div>
+  
+
+  
+  
+  
+
+</div>
+  
+    
+
+    
+  
+  <main class="post-main-wrapper">
+    
+    
+    <div class="row">
+
+      
+
+      
+      <div class="container pr-5">
+      
+
+        
+        <div class="z-depth-1  post-wrapper white-bg single-post">
+
+          <div class="post-header text-center" >
+  <ul class="post-meta li-x">
+    
+      
+        <li><a href="https://blog.jaxiu.cn/categories/%E6%8A%80%E6%9C%AF"><i class="fas fa-folder-open pr-1" aria-hidden="true"></i> 技术 </a></li>
+      
+        <li><a href="https://blog.jaxiu.cn/categories/%E9%A1%B9%E7%9B%AE%E5%88%86%E6%9E%90"><i class="fas fa-folder-open pr-1" aria-hidden="true"></i> 项目分析 </a></li>
+      
+    
+    
+  </ul>
+
+  <div class="px-4 post-heading">新一代小米SU7深度解析：2026款升级了哪些硬核技术？</div>
+
+  <ul class="post-meta li-x mt-1">
+    
+      <li>Mar 20, 2026</li>
+    
+
+    
+      <li class="middot"></li>
+      <li>10 minutes read</li>
+    
+  </ul>
+  
+
+</div>
+
+
+          <div class="post-content markdown">
+            <blockquote>
+<p>2026年3月19日，小米正式发布了新一代SU7车型。新车在续航、电机、充电平台等方面进行了全面升级，CLTC续航最高可达902km，起售价21.99万元。本文深入解析新一代SU7的核心技术升级。</p>
+</blockquote>
+<p><strong>摘要</strong>：新一代小米SU7在保持高性价比的同时，带来了令人惊艳的技术升级：最高902km CLTC续航、750V+高压平台、超级电机V6s Plus、以及完整的端到端智能驾驶系统。让我们一起来看看这次升级的具体内容。</p>
+<hr>
+<h2 id="目录">目录</h2>
+<ul>
+<li><a href="#%E4%B8%80%E6%96%B0%E4%B8%80%E4%BB%A3su7%E6%A0%B8%E5%BF%83%E5%8F%82%E6%95%B0%E9%80%9F%E8%A7%88">一、新一代SU7核心参数速览</a></li>
+<li><a href="#%E4%BA%8C%E7%BB%AD%E8%88%AA%E5%8D%87%E7%BA%A7902km-cltc%E5%A6%82%E4%BD%95%E5%AE%9E%E7%8E%B0">二、续航升级：902km CLTC如何实现？</a></li>
+<li><a href="#%E4%B8%89%E8%B6%85%E7%BA%A7%E7%94%B5%E6%9C%BAv6s-plus%E6%8A%80%E6%9C%AF%E8%A7%A3%E6%9E%90">三、超级电机V6s Plus技术解析</a></li>
+<li><a href="#%E5%9B%9B800v%E9%AB%98%E5%8E%8B%E5%B9%B3%E5%8F%B0%E5%85%85%E7%94%B5%E6%95%88%E7%8E%87%E7%9A%84%E8%B4%A8%E7%9A%84%E9%A3%9E%E8%B7%83">四、800V高压平台：充电效率的质的飞跃</a></li>
+<li><a href="#%E4%BA%94%E6%99%BA%E8%83%BD%E9%A9%BE%E9%A9%B6xiaomi-had%E7%AB%AF%E5%88%B0%E7%AB%AF%E7%B3%BB%E7%BB%9F">五、智能驾驶：Xiaomi HAD端到端系统</a></li>
+<li><a href="#%E5%85%AD%E5%AE%89%E5%85%A8%E9%85%8D%E7%BD%AE%E5%85%A8%E9%9D%A2%E5%8D%87%E7%BA%A7">六、安全配置全面升级</a></li>
+<li><a href="#%E4%B8%83%E5%A4%96%E8%A7%82%E4%B8%8E%E5%86%85%E9%A5%B0%E8%AE%BE%E8%AE%A1">七、外观与内饰设计</a></li>
+<li><a href="#%E5%85%AB%E4%B8%8E%E6%97%A7%E6%AC%BE%E5%AF%B9%E6%AF%94%E5%8D%87%E7%BA%A7%E4%BA%86%E5%93%AA%E4%BA%9B">八、与旧款对比：升级了哪些？</a></li>
+<li><a href="#%E4%B9%9D%E6%80%BB%E7%BB%93%E4%B8%8E%E8%B4%AD%E4%B9%B0%E5%BB%BA%E8%AE%AE">九、总结与购买建议</a></li>
+</ul>
+<hr>
+<h2 id="新一代su7升级全景图">新一代SU7升级全景图</h2>
+<p>本文深度解析新一代SU7的八大核心升级领域：</p>
+<div class="mermaid">
+
+flowchart TB
+    R["新一代小米SU7 2026款"] --> A["续航升级 902km CLTC"]
+    R --> B["电机升级 V6s Plus 24000rpm"]
+    R --> C["平台升级 752V或897V"]
+    R --> D["智驾升级 Xiaomi HAD"]
+    R --> E["算力升级 700TOPS"]
+    R --> F["充电升级 4C快充"]
+    R --> G["安全升级 2200MPa钢"]
+    R --> H["设计升级 内外饰优化"]
+
+    A --> A1["更大电池 94.3kWh Pro版"]
+    A --> A2["更低风阻 0.195Cd"]
+    A --> A3["更高效电驱 V6s Plus"]
+
+    C --> C1["全域碳化硅 SiC功率模块"]
+    C --> C2["升压充电 兼容400V桩"]
+    C --> C3["4C快充 15分钟80%"]
+
+    D --> D1["端到端AI 大模型算法"]
+    D --> D2["激光雷达标配 4D毫米波雷达"]
+    D --> D3["城市NOA 全国开通"]
+
+</div>
+<h2 id="11-价格与车型">1.1 价格与车型</h2>
+<table>
+  <thead>
+      <tr>
+          <th>车型</th>
+          <th>指导价</th>
+          <th>CLTC续航</th>
+          <th>电机功率</th>
+          <th>电压平台</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td>标准版</td>
+          <td>21.99万</td>
+          <td>750km</td>
+          <td>220kW</td>
+          <td>752V</td>
+      </tr>
+      <tr>
+          <td>Pro版</td>
+          <td>24.99万</td>
+          <td>830km</td>
+          <td>220kW</td>
+          <td>752V</td>
+      </tr>
+      <tr>
+          <td>Max版</td>
+          <td>29.99万</td>
+          <td>800km</td>
+          <td>495kW</td>
+          <td>897V</td>
+      </tr>
+      <tr>
+          <td>Ultra版</td>
+          <td>52.99万</td>
+          <td>630km</td>
+          <td>960kW</td>
+          <td>897V</td>
+      </tr>
+  </tbody>
+</table>
+<h2 id="12-核心升级点一览">1.2 核心升级点一览</h2>
+<h3 id="新一代su7-vs-旧款-核心升级对比">新一代SU7 vs 旧款 核心升级对比</h3>
+<div class="mermaid">
+
+flowchart LR
+    subgraph 旧款SU7["旧款SU7 2024款"]
+        O1["续航 700-830km"] --> O2["400V平台"]
+        O2 --> O3["V6s电机 21000rpm"]
+        O3 --> O4["激光雷达仅Max或Ultra"]
+        O4 --> O5["算力 508TOPS"]
+    end
+
+    subgraph 新款SU7["新一代SU7 2026款"]
+        N1["续航 750-902km"] --> N2["752V或897V平台"]
+        N2 --> N3["V6s Plus 24000rpm"]
+        N3 --> N4["激光雷达全系标配"]
+        N4 --> N5["算力 700TOPS"]
+    end
+
+    O1 -.-> N1
+    O2 -.-> N2
+    O3 -.-> N3
+    O4 -.-> N4
+    O5 -.-> N5
+
+</div>
+<hr>
+<h1 id="二续航升级902km-cltc如何实现">二、续航升级：902km CLTC如何实现？</h1>
+<h2 id="21-电池技术升级">2.1 电池技术升级</h2>
+<p>新一代SU7搭载的电池系统进行了全面升级：</p>
+<h3 id="电池包参数对比">电池包参数对比</h3>
+<table>
+  <thead>
+      <tr>
+          <th>参数</th>
+          <th>旧款标准版</th>
+          <th>新款标准版</th>
+          <th>提升幅度</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td>电池容量</td>
+          <td>73.6kWh</td>
+          <td>94.3kWh</td>
+          <td>+28%</td>
+      </tr>
+      <tr>
+          <td>电压平台</td>
+          <td>400V</td>
+          <td>752V</td>
+          <td>+88%</td>
+      </tr>
+      <tr>
+          <td>能量密度</td>
+          <td>~180Wh/kg</td>
+          <td>~200Wh/kg</td>
+          <td>+11%</td>
+      </tr>
+      <tr>
+          <td>CLTC续航</td>
+          <td>700km</td>
+          <td>750km</td>
+          <td>+7%</td>
+      </tr>
+  </tbody>
+</table>
+<h3 id="电池技术亮点">电池技术亮点</h3>
+<ol>
+<li>
+<p><strong>CTP 3.0麒麟电池架构</strong></p>
+<ul>
+<li>宁德时代最新的CTP（Cell to Pack）技术</li>
+<li>取消模组设计，直接电芯到电池包</li>
+<li>系统能量密度提升至200Wh/kg以上</li>
+</ul>
+</li>
+<li>
+<p><strong>全天候智能热管理系统</strong></p>
+<ul>
+<li>液冷循环系统覆盖电芯、电机、电控</li>
+<li>冬季续航提升约15%（ PTC辅助加热）</li>
+<li>高温环境下快充稳定性提升</li>
+</ul>
+</li>
+<li>
+<p><strong>智能能量回收2.0</strong></p>
+<ul>
+<li>制动能量回收效率提升至35%</li>
+<li>支持自定义回收强度调节</li>
+<li>低电量时强制强回收模式</li>
+</ul>
+</li>
+</ol>
+<h2 id="22-续航达成率分析">2.2 续航达成率分析</h2>
+<p>根据工信部数据和第三方测试，新一代SU7的续航表现：</p>
+<table>
+  <thead>
+      <tr>
+          <th>工况</th>
+          <th>CLTC续航</th>
+          <th>实际续航估算</th>
+          <th>达成率</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td>综合工况</td>
+          <td>750-902km</td>
+          <td>600-720km</td>
+          <td>80-85%</td>
+      </tr>
+      <tr>
+          <td>高速工况（120km/h）</td>
+          <td>750km</td>
+          <td>520-580km</td>
+          <td>70-77%</td>
+      </tr>
+      <tr>
+          <td>城市工况</td>
+          <td>750km</td>
+          <td>620-680km</td>
+          <td>83-90%</td>
+      </tr>
+  </tbody>
+</table>
+<p><strong>续航优化技术</strong>：</p>
+<ul>
+<li><strong>低风阻设计</strong>：0.195Cd风阻系数（同级别领先）</li>
+<li><strong>低滚阻轮胎</strong>：定制低滚阻系数轮胎</li>
+<li><strong>热泵系统</strong>：取代PTC加热，能耗降低约30%</li>
+<li><strong>智能电耗管理</strong>：根据导航路线提前预判调整空调策略</li>
+</ul>
+<hr>
+<h1 id="三超级电机v6s-plus技术解析">三、超级电机V6s Plus技术解析</h1>
+<h2 id="31-电机参数对比">3.1 电机参数对比</h2>
+<table>
+  <thead>
+      <tr>
+          <th>电机参数</th>
+          <th>V6电机（旧款）</th>
+          <th>V6s Plus电机（新款）</th>
+          <th>提升</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td>最高转速</td>
+          <td>21000rpm</td>
+          <td>24000rpm</td>
+          <td>+14%</td>
+      </tr>
+      <tr>
+          <td>峰值功率</td>
+          <td>275kW</td>
+          <td>300kW</td>
+          <td>+9%</td>
+      </tr>
+      <tr>
+          <td>峰值扭矩</td>
+          <td>500Nm</td>
+          <td>550Nm</td>
+          <td>+10%</td>
+      </tr>
+      <tr>
+          <td>峰值效率</td>
+          <td>97.8%</td>
+          <td>98.5%</td>
+          <td>+0.7%</td>
+      </tr>
+      <tr>
+          <td>电机重量</td>
+          <td>52kg</td>
+          <td>48kg</td>
+          <td>-8%</td>
+      </tr>
+  </tbody>
+</table>
+<h2 id="32-电机技术原理">3.2 电机技术原理</h2>
+<h3 id="321-永磁同步电机基础">3.2.1 永磁同步电机基础</h3>
+<p>小米SU7采用的V6s Plus是永磁同步电机（Permanent Magnet Synchronous Motor, PMSM）：</p>
+<div class="mermaid">
+
+flowchart LR
+    subgraph stator["定子 Stator"]
+        S1["三相铜绕组"]
+        S2["360°均匀分布"]
+        S1 --> S2
+    end
+
+    subgraph rotor["转子 Rotor"]
+        R1["稀土永磁体"]
+        R2["N/S极交替排列"]
+        R1 --> R2
+    end
+
+    S2 -->|"定子旋转磁场"| R2
+    R2 -->|"驱动转子同步旋转"| Output["机械能输出"]
+
+    style stator fill:#e1f5fe
+    style rotor fill:#fff3e0
+
+</div>
+<p><strong>工作原理</strong>：定子产生旋转磁场，驱动转子永磁体同步旋转，将电能转化为机械能。</p>
+<h3 id="322-hair-pin扁线绕组技术">3.2.2 Hair-Pin扁线绕组技术</h3>
+<p>V6s Plus采用Hair-Pin（发卡式）扁线绕组，相比传统圆线绕组：</p>
+<table>
+  <thead>
+      <tr>
+          <th>绕组类型</th>
+          <th>槽满率</th>
+          <th>电机效率</th>
+          <th>散热性能</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td>圆线绕组</td>
+          <td>~45%</td>
+          <td>94-96%</td>
+          <td>一般</td>
+      </tr>
+      <tr>
+          <td>扁线绕组</td>
+          <td>~70%</td>
+          <td>97-98%</td>
+          <td>优秀</td>
+      </tr>
+  </tbody>
+</table>
+<p><strong>Hair-Pin技术优势</strong>：</p>
+<ul>
+<li>槽满率提升至70%（传统仅45%）</li>
+<li>电机功率密度提升约30%</li>
+<li>铜耗降低15%，效率提升</li>
+<li>更好的散热性能</li>
+</ul>
+<h3 id="323-碳化硅功率模块">3.2.3 碳化硅功率模块</h3>
+<p>V6s Plus采用全碳化硅（SiC）功率模块：</p>
+<table>
+  <thead>
+      <tr>
+          <th>功率器件</th>
+          <th>IGBT</th>
+          <th>SiC MOSFET</th>
+          <th>差异</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td>工作频率</td>
+          <td>15-20kHz</td>
+          <td>50-100kHz</td>
+          <td>SiC更高</td>
+      </tr>
+      <tr>
+          <td>开关损耗</td>
+          <td>高</td>
+          <td>低</td>
+          <td>SiC低60%</td>
+      </tr>
+      <tr>
+          <td>导通损耗</td>
+          <td>中</td>
+          <td>低</td>
+          <td>SiC低40%</td>
+      </tr>
+      <tr>
+          <td>高温性能</td>
+          <td>一般</td>
+          <td>优秀</td>
+          <td>SiC更耐高温</td>
+      </tr>
+      <tr>
+          <td>成本</td>
+          <td>低</td>
+          <td>高</td>
+          <td>SiC贵约3倍</td>
+      </tr>
+  </tbody>
+</table>
+<p><strong>碳化硅的优势</strong>：</p>
+<ul>
+<li>电机控制器效率提升至98%以上</li>
+<li>续航里程增加约5-8%</li>
+<li>高转速下效率优势更明显</li>
+<li>支持更高的工作温度</li>
+</ul>
+<h2 id="33-静音技术">3.3 静音技术</h2>
+<p>新一代V6s Plus电机在噪音控制方面进行了专项优化：</p>
+<ul>
+<li><strong>电磁优化</strong>：优化磁路设计，降低电磁噪音</li>
+<li><strong>精密动平衡</strong>：转子动平衡精度提升至0.1g·mm</li>
+<li><strong>隔音材料</strong>：电机外壳采用复合隔音材料</li>
+<li><strong>悬置设计</strong>：优化电机悬置位置，减少振动传递</li>
+</ul>
+<hr>
+<h1 id="四800v高压平台充电效率的质的飞跃">四、800V高压平台：充电效率的质的飞跃</h1>
+<h2 id="41-电压平台对比">4.1 电压平台对比</h2>
+<table>
+  <thead>
+      <tr>
+          <th>电压平台</th>
+          <th>400V平台</th>
+          <th>750V平台</th>
+          <th>897V平台</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td>代表车型</td>
+          <td>旧款SU7标准版</td>
+          <td>新款SU7标准/Pro</td>
+          <td>新款SU7 Max/Ultra</td>
+      </tr>
+      <tr>
+          <td>电池电压</td>
+          <td>~350V</td>
+          <td>~650V</td>
+          <td>~800V</td>
+      </tr>
+      <tr>
+          <td>最大充电功率</td>
+          <td>90kW</td>
+          <td>180kW</td>
+          <td>350kW</td>
+      </tr>
+      <tr>
+          <td>10-80%充电时间</td>
+          <td>~35分钟</td>
+          <td>~20分钟</td>
+          <td>~15分钟</td>
+      </tr>
+  </tbody>
+</table>
+<h2 id="42-高压平台充电原理">4.2 高压平台充电原理</h2>
+<h3 id="充电功率公式">充电功率公式</h3>
+<p>$$P = U \times I$$</p>
+<p>其中：</p>
+<ul>
+<li>$P$ = 充电功率（kW）</li>
+<li>$U$ = 电压（V）</li>
+<li>$I$ = 电流（A）</li>
+</ul>
+<p><strong>电压提升的优势</strong>：</p>
+<ul>
+<li>在相同电流下，充电功率提升约2倍</li>
+<li>或在相同功率下，电流降低50%，线缆更轻细</li>
+<li>降低充电线缆发热量</li>
+</ul>
+<h3 id="新一代su7充电曲线">新一代SU7充电曲线</h3>
+<div class="mermaid">
+
+flowchart LR
+    subgraph 充电阶段["充电流程"]
+        P0["0-50% SOC"] --> P1["恒流充电 峰值350kW"]
+        P1 --> P2["50-80% SOC"]
+        P2 --> P3["功率逐渐下降"]
+        P3 --> P4["80-100% SOC"]
+        P4 --> P5["涓流充电 保护电池"]
+    end
+
+</div>
+<p>充电策略优化：</p>
+<ul>
+<li><strong>0-50% SOC</strong>：恒流充电，功率接近峰值350kW</li>
+<li><strong>50-80% SOC</strong>：功率逐渐下降，保护电池</li>
+<li><strong>80-100% SOC</strong>：涓流充电，保护电池寿命</li>
+</ul>
+<h2 id="43-升压充电技术">4.3 升压充电技术</h2>
+<p>当使用400V充电桩时，新一代SU7支持升压充电：</p>
+<table>
+  <thead>
+      <tr>
+          <th>充电桩类型</th>
+          <th>桩端电压</th>
+          <th>车载充电机</th>
+          <th>电池端电压</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td>400V快充桩</td>
+          <td>400V</td>
+          <td>升压至750V</td>
+          <td>750V</td>
+      </tr>
+      <tr>
+          <td>750V快充桩</td>
+          <td>750V</td>
+          <td>直连</td>
+          <td>750V</td>
+      </tr>
+      <tr>
+          <td>897V超充桩</td>
+          <td>900V</td>
+          <td>直连</td>
+          <td>897V</td>
+      </tr>
+  </tbody>
+</table>
+<p><strong>技术原理</strong>：</p>
+<ul>
+<li>车载升压DC/DC转换器</li>
+<li>将400V桩端电压升压至750V</li>
+<li>兼容现有400V充电网络</li>
+<li>升压效率达96%以上</li>
+</ul>
+<hr>
+<h1 id="五智能驾驶xiaomi-had端到端系统">五、智能驾驶：Xiaomi HAD端到端系统</h1>
+<h2 id="51-硬件配置">5.1 硬件配置</h2>
+<h3 id="传感器配置标配">传感器配置（标配）</h3>
+<table>
+  <thead>
+      <tr>
+          <th>传感器</th>
+          <th>数量</th>
+          <th>规格</th>
+          <th>作用</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td>激光雷达</td>
+          <td>1颗</td>
+          <td>等效128线</td>
+          <td>远距离障碍物检测</td>
+      </tr>
+      <tr>
+          <td>4D毫米波雷达</td>
+          <td>4颗</td>
+          <td>140m范围</td>
+          <td>全天候障碍物跟踪</td>
+      </tr>
+      <tr>
+          <td>高清摄像头</td>
+          <td>11颗</td>
+          <td>800万像素</td>
+          <td>360°环境感知</td>
+      </tr>
+      <tr>
+          <td>超声波雷达</td>
+          <td>12颗</td>
+          <td>5m范围</td>
+          <td>近距离泊车辅助</td>
+      </tr>
+  </tbody>
+</table>
+<h3 id="计算平台">计算平台</h3>
+<table>
+  <thead>
+      <tr>
+          <th>参数</th>
+          <th>Xiaomi HAD</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td>芯片方案</td>
+          <td>双Orin-X</td>
+      </tr>
+      <tr>
+          <td>算力</td>
+          <td>700 TOPS</td>
+      </tr>
+      <tr>
+          <td>内存</td>
+          <td>24GB LPDDR5</td>
+      </tr>
+      <tr>
+          <td>存储</td>
+          <td>256GB UFS</td>
+      </tr>
+  </tbody>
+</table>
+<h2 id="52-端到端智能驾驶原理">5.2 端到端智能驾驶原理</h2>
+<h3 id="传统方案-vs-端到端方案">传统方案 vs 端到端方案</h3>
+<div class="mermaid">
+
+flowchart LR
+    subgraph 传统方案["传统模块化方案"]
+        direction TB
+        A1["感知模块"] --> A2["规划模块"]
+        A2 --> A3["控制模块"]
+        A1 -->|"输出物体列表"| A4["结果"]
+        A2 -->|"输出轨迹点"| A4
+        A3 -->|"输出控制指令"| A4
+        A4 --> A5["问题：误差累积、信息丢失、规则复杂"]
+    end
+
+    subgraph 端到端方案["端到端E2E方案"]
+        direction TB
+        B1["神经网络大模型"]
+        B1 -->|"输入：摄像头/雷达原始数据"| B2["输出：驾驶控制指令"]
+        B2 --> B3["优势：全局优化、拟人化决策、持续学习"]
+    end
+
+    style 传统方案 fill:#ffcdd2
+    style 端到端方案 fill:#c8e6c9
+
+</div>
+<h3 id="xiaomi-had核心功能">Xiaomi HAD核心功能</h3>
+<ol>
+<li>
+<p><strong>高速NOA（Navigate on Autopilot）</strong></p>
+<ul>
+<li>全国高速路网覆盖</li>
+<li>自动变道、超车</li>
+<li>智能上下匝道</li>
+<li>施工绕行</li>
+</ul>
+</li>
+<li>
+<p><strong>城市NOA</strong></p>
+<ul>
+<li>核心城市主干道覆盖</li>
+<li>红绿灯识别与响应</li>
+<li>路口通行</li>
+<li>行人和非机动车避让</li>
+</ul>
+</li>
+<li>
+<p><strong>智能泊车</strong></p>
+<ul>
+<li>APA自动泊车</li>
+<li>LKA车道保持泊车</li>
+<li>记忆泊车（家门口到车位）</li>
+<li>遥控泊车</li>
+</ul>
+</li>
+</ol>
+<hr>
+<h1 id="六安全配置全面升级">六、安全配置全面升级</h1>
+<h2 id="61-被动安全">6.1 被动安全</h2>
+<h3 id="车身刚性">车身刚性</h3>
+<table>
+  <thead>
+      <tr>
+          <th>参数</th>
+          <th>数值</th>
+          <th>说明</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td>高强钢占比</td>
+          <td>90%以上</td>
+          <td>车身扭转刚度提升</td>
+      </tr>
+      <tr>
+          <td>最强钢强度</td>
+          <td>2200MPa</td>
+          <td>应用于A/B柱</td>
+      </tr>
+      <tr>
+          <td>铝合金覆盖率</td>
+          <td>35%</td>
+          <td>引擎盖、四门</td>
+      </tr>
+  </tbody>
+</table>
+<h3 id="约束系统">约束系统</h3>
+<table>
+  <thead>
+      <tr>
+          <th>安全配置</th>
+          <th>数量/规格</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td>前排气囊</td>
+          <td>2个（前排正面）</td>
+      </tr>
+      <tr>
+          <td>侧气囊</td>
+          <td>4个（前排侧气帘）</td>
+      </tr>
+      <tr>
+          <td>膝部气囊</td>
+          <td>2个</td>
+      </tr>
+      <tr>
+          <td>侧气帘</td>
+          <td>贯穿前后排</td>
+      </tr>
+      <tr>
+          <td>安全带</td>
+          <td>前排预紧限力+提醒</td>
+      </tr>
+  </tbody>
+</table>
+<h2 id="62-主动安全">6.2 主动安全</h2>
+<table>
+  <thead>
+      <tr>
+          <th>功能</th>
+          <th>说明</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td>AEB自动紧急制动</td>
+          <td>识别车辆、行人、二轮车</td>
+      </tr>
+      <tr>
+          <td>前碰撞预警FCW</td>
+          <td>提前警示潜在碰撞</td>
+      </tr>
+      <tr>
+          <td>车道偏离预警LDW</td>
+          <td>提醒驾驶员车辆偏离</td>
+      </tr>
+      <tr>
+          <td>盲点监测BSD</td>
+          <td>监测后视镜盲区</td>
+      </tr>
+      <tr>
+          <td>开门预警DOW</td>
+          <td>防止开门碰撞</td>
+      </tr>
+      <tr>
+          <td>倒车侧向预警RCTA</td>
+          <td>倒车时监测横向来车</td>
+      </tr>
+  </tbody>
+</table>
+<hr>
+<h1 id="七外观与内饰设计">七、外观与内饰设计</h1>
+<h2 id="71-外观颜色">7.1 外观颜色</h2>
+<table>
+  <thead>
+      <tr>
+          <th>颜色</th>
+          <th>类型</th>
+          <th>特点</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td>闪亮黑</td>
+          <td>纯色</td>
+          <td>经典永不过时</td>
+      </tr>
+      <tr>
+          <td>珍珠白</td>
+          <td>纯色</td>
+          <td>耐脏、显大</td>
+      </tr>
+      <tr>
+          <td>橄榄绿</td>
+          <td>金属漆</td>
+          <td>运动感强</td>
+      </tr>
+      <tr>
+          <td>寒武岩灰</td>
+          <td>金属漆</td>
+          <td>低调奢华</td>
+      </tr>
+      <tr>
+          <td>海湾蓝</td>
+          <td>珠光漆</td>
+          <td>限量版专属</td>
+      </tr>
+      <tr>
+          <td>烈焰红</td>
+          <td>珠光漆</td>
+          <td>热情张扬</td>
+      </tr>
+      <tr>
+          <td>流星灰</td>
+          <td>珠光漆</td>
+          <td>优雅内敛</td>
+      </tr>
+      <tr>
+          <td>曙光金</td>
+          <td>特殊</td>
+          <td>VIP配色</td>
+      </tr>
+  </tbody>
+</table>
+<h2 id="72-轮毂选择">7.2 轮毂选择</h2>
+<table>
+  <thead>
+      <tr>
+          <th>轮毂</th>
+          <th>尺寸</th>
+          <th>重量</th>
+          <th>续航影响</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td>19寸低风阻</td>
+          <td>19&quot;</td>
+          <td>轻</td>
+          <td>+20km续航</td>
+      </tr>
+      <tr>
+          <td>19寸运动</td>
+          <td>19&quot;</td>
+          <td>中</td>
+          <td>平衡</td>
+      </tr>
+      <tr>
+          <td>20寸</td>
+          <td>20&quot;</td>
+          <td>重</td>
+          <td>-15km续航</td>
+      </tr>
+      <tr>
+          <td>21寸</td>
+          <td>21&quot;</td>
+          <td>很重</td>
+          <td>-30km续航</td>
+      </tr>
+  </tbody>
+</table>
+<h2 id="73-内饰设计">7.3 内饰设计</h2>
+<h3 id="座舱布局">座舱布局</h3>
+<div class="mermaid">
+
+flowchart TB
+    subgraph 仪表台
+        D1["7英寸仪表屏"]
+    end
+
+    subgraph 中控
+        D2["16.1寸中控大屏"]
+    end
+
+    subgraph 方向盘
+        D3["方向盘"]
+    end
+
+    subgraph HUD
+        D4["HUD"]
+    end
+
+    subgraph 氛围
+        D5["256色氛围灯"]
+    end
+
+    D1 --- D3
+    D3 --- D2
+    D2 --- D4
+    D5 --> D2
+
+</div>
+<h3 id="座椅配置">座椅配置</h3>
+<h3 id="座椅配置-1">座椅配置</h3>
+<table>
+  <thead>
+      <tr>
+          <th>座椅功能</th>
+          <th>说明</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td>电动调节</td>
+          <td>12向电动调节</td>
+      </tr>
+      <tr>
+          <td>加热/通风</td>
+          <td>前排标配</td>
+      </tr>
+      <tr>
+          <td>按摩功能</td>
+          <td>10点按摩系统</td>
+      </tr>
+      <tr>
+          <td>腰托</td>
+          <td>4向电动腰托</td>
+      </tr>
+      <tr>
+          <td>记忆功能</td>
+          <td>3组记忆</td>
+      </tr>
+  </tbody>
+</table>
+<hr>
+<h1 id="八与旧款对比升级了哪些">八、与旧款对比：升级了哪些？</h1>
+<h2 id="81-核心参数变化">8.1 核心参数变化</h2>
+<table>
+  <thead>
+      <tr>
+          <th>对比项</th>
+          <th>2024款</th>
+          <th>2026款</th>
+          <th>变化</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td>起售价</td>
+          <td>21.59万</td>
+          <td>21.99万</td>
+          <td>+0.4万</td>
+      </tr>
+      <tr>
+          <td>最高续航</td>
+          <td>830km</td>
+          <td>902km</td>
+          <td>+72km</td>
+      </tr>
+      <tr>
+          <td>电机最高转速</td>
+          <td>21000rpm</td>
+          <td>24000rpm</td>
+          <td>+14%</td>
+      </tr>
+      <tr>
+          <td>电压平台</td>
+          <td>400V/800V</td>
+          <td>752V/897V</td>
+          <td>全系升级</td>
+      </tr>
+      <tr>
+          <td>算力</td>
+          <td>508TOPS</td>
+          <td>700TOPS</td>
+          <td>+38%</td>
+      </tr>
+      <tr>
+          <td>激光雷达</td>
+          <td>部分版本</td>
+          <td><strong>全系标配</strong></td>
+          <td>大幅升级</td>
+      </tr>
+      <tr>
+          <td>智驾系统</td>
+          <td>Xiaomi Pilot</td>
+          <td>Xiaomi HAD</td>
+          <td>端到端</td>
+      </tr>
+  </tbody>
+</table>
+<h2 id="82-外观变化">8.2 外观变化</h2>
+<table>
+  <thead>
+      <tr>
+          <th>变化点</th>
+          <th>2024款</th>
+          <th>2026款</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td>大灯</td>
+          <td>普通LED</td>
+          <td>水滴大灯</td>
+      </tr>
+      <tr>
+          <td>尾灯</td>
+          <td>普通贯穿式</td>
+          <td>Halo贯穿式</td>
+      </tr>
+      <tr>
+          <td>轮毂</td>
+          <td>4种</td>
+          <td>6种</td>
+      </tr>
+      <tr>
+          <td>后扰流板</td>
+          <td>选装</td>
+          <td>Max版标配</td>
+      </tr>
+      <tr>
+          <td>颜色</td>
+          <td>7种</td>
+          <td>9种</td>
+      </tr>
+  </tbody>
+</table>
+<h2 id="83-内在升级">8.3 内在升级</h2>
+<div class="mermaid">
+
+flowchart TB
+    R["看不见的内在升级"] --> A["电压平台升级"]
+    R --> B["电机升级"]
+    R --> C["智驾升级"]
+    R --> D["电池升级"]
+    R --> E["热管理升级"]
+    R --> F["充电升级"]
+    R --> G["隔音升级"]
+
+    A --> A1["全系750V以上"]
+    B --> B1["V6s Plus效率提升噪音降低"]
+    C --> C1["激光雷达全系标配"]
+    C --> C2["4D毫米波雷达4颗"]
+    C --> C3["算力700TOPS"]
+    C --> C4["Pilot升级至HAD端到端"]
+    D --> D1["标准版73.6→94.3kWh"]
+    E --> E1["热泵取代PTC"]
+    F --> F1["400V升压充电优化"]
+    G --> G1["隔音棉增加30%"]
+
+    style R fill:#9575cd,color:#fff
+    style A1 fill:#e1bee7
+    style B1 fill:#e1bee7
+    style C1 fill:#e1bee7
+    style C2 fill:#e1bee7
+    style C3 fill:#e1bee7
+    style C4 fill:#e1bee7
+    style D1 fill:#e1bee7
+    style E1 fill:#e1bee7
+    style F1 fill:#e1bee7
+    style G1 fill:#e1bee7
+
+</div>
+<hr>
+<h1 id="九总结与购买建议">九、总结与购买建议</h1>
+<h2 id="91-车型推荐">9.1 车型推荐</h2>
+<table>
+  <thead>
+      <tr>
+          <th>需求</th>
+          <th>推荐车型</th>
+          <th>理由</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td>日常通勤</td>
+          <td>标准版 21.99万</td>
+          <td>性价比最高，750km续航</td>
+      </tr>
+      <tr>
+          <td>长途为主</td>
+          <td>Pro版 24.99万</td>
+          <td>830km超长续航</td>
+      </tr>
+      <tr>
+          <td>科技玩家</td>
+          <td>Max版 29.99万</td>
+          <td>897V+495kW动力</td>
+      </tr>
+      <tr>
+          <td>极致性能</td>
+          <td>Ultra版 52.99万</td>
+          <td>三电机，1.97s破百</td>
+      </tr>
+  </tbody>
+</table>
+<h2 id="92-新一代su7核心优势">9.2 新一代SU7核心优势</h2>
+<div class="mermaid">
+
+flowchart TB
+    R["新一代SU7 核心卖点"] --> A["🏆 续航王者"]
+    R --> B["⚡ 充电神速"]
+    R --> C["🚀 动力澎湃"]
+    R --> D["🤖 智驾领先"]
+    R --> E["🔒 安全满配"]
+    R --> F["💺 舒适豪华"]
+
+    A --> A1["最高902km CLTC"]
+    A --> A2["无续航焦虑"]
+    B --> B1["15分钟充至80%"]
+    B --> B2["喝杯咖啡的时间"]
+    C --> C1["V6s Plus电机"]
+    C --> C2["24000rpm极速体验"]
+    D --> D1["700TOPS算力"]
+    D --> D2["激光雷达+端到端HAD"]
+    E --> E1["2200MPa钢车身"]
+    E --> E2["9安全气囊"]
+    F --> F1["256色氛围灯"]
+    F --> F2["10点按摩座椅"]
+
+    style R fill:#7e57c2,color:#fff
+    style A fill:#4caf50
+    style B fill:#ff9800
+    style C fill:#f44336
+    style D fill:#2196f3
+    style E fill:#607d8b
+    style F fill:#e91e63
+
+</div>
+<h2 id="93-适合人群">9.3 适合人群</h2>
+<ul>
+<li><strong>科技爱好者</strong>：小米生态用户，追求最新科技</li>
+<li><strong>家庭用户</strong>：大空间、长续航、安全配置高</li>
+<li><strong>年轻人群</strong>：高颜值、智能化、性价比</li>
+<li><strong>长途通勤</strong>：超长续航解决里程焦虑</li>
+</ul>
+<hr>
+<p><strong>数据来源</strong>：工信部公告、小米官方发布会、第三方测试机构
+<strong>文章更新日期</strong>：2026年3月20日</p>
+
+          </div>
+
+          
+          <div class="row">
+            <div class="col-md-8">
+            
+              <div class="mb-5">
+                
+<div class="li-x div-x post-meta">
+  <li class="pr-0"><a href="https://blog.jaxiu.cn/tags/"><i class="fas fa-tags"></i></a></li>
+  <div class="tags-sm">
+    
+      <li><a href="https://blog.jaxiu.cn/tags/%E6%96%B0%E8%83%BD%E6%BA%90%E7%94%B5%E5%8A%A8%E8%BD%A6" role="button">新能源电动车 </a></li>
+      
+    
+      <li><a href="https://blog.jaxiu.cn/tags/%E5%B0%8F%E7%B1%B3su7" role="button">小米SU7 </a></li>
+      
+    
+      <li><a href="https://blog.jaxiu.cn/tags/%E5%B0%8F%E7%B1%B3%E6%B1%BD%E8%BD%A6" role="button">小米汽车 </a></li>
+      
+    
+      <li><a href="https://blog.jaxiu.cn/tags/2026%E6%AC%BE" role="button">2026款 </a></li>
+      
+    
+      <li><a href="https://blog.jaxiu.cn/tags/%E6%8A%80%E6%9C%AF%E8%A7%A3%E6%9E%90" role="button">技术解析 </a></li>
+      
+    
+  </div>
+</div>
+              </div>
+            
+            </div>
+            
+          </div>
+          
+
+          
+          <div class="row pt-3">
+            <div class="col-md-6">
+              
+                <a href=https://blog.jaxiu.cn/blog/2026-03/2026%E5%B9%B43%E6%9C%88%E5%85%A8%E7%90%83%E8%82%A1%E5%B8%82%E6%9A%B4%E8%B7%8C%E6%B7%B1%E5%BA%A6%E5%89%96%E6%9E%90%E5%A4%9A%E9%87%8D%E5%9B%A0%E7%B4%A0%E5%8F%A0%E5%8A%A0%E4%B8%8B%E7%9A%84%E5%B8%82%E5%9C%BA%E9%9C%87%E8%8D%A1/ class="post-meta">Previous
+                  <div class="pt-2 pb-5 d-flex">
+                    <i class="fas fa-angle-left text-grey font-weight-bold mr-2 active-color"></i>
+                    <span>2026年3月全球股市暴跌深度剖析：多重因素叠加下的市场震荡</span>
+                  </div>
+                </a>
+              
+            </div>
+            
+            <div class="col-md-6 text-right" >
+              
+                <a href=https://blog.jaxiu.cn/blog/2026-03/xiaomi-yu7-official-release/ class="post-meta">Next
+                  <div class="pt-2 pb-5 flex-reverse">
+                    <i class="fas fa-angle-right text-grey font-weight-bold ml-2 active-color"></i>
+                    <span>小米YU7正式发布：25.35万起的纯电SUV配置有多强？</span>
+                  </div>
+                </a>
+              
+            </div>
+          </div>
+
+          
+
+        </div>
+        
+
+      </div>
+      
+
+      
+
+    </div>
+    
+
+
+  </main>
+  
+
+
+    
+    
+<footer class="page-footer text-center font-small mt-4 wow fadeIn">
+
+
+  
+  <div class="pb-2 mt-5 pt-5">
+    
+    <a href="//github.com/axfinn " target="_blank" rel="noopener"><i class="fab fa-github mr-3"
+        aria-hidden="true"></i></a>
+    
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+
+    
+    <a href="mailto:521very@email.com"><i class="far fa-envelope-open mr-3" aria-hidden="true"></i></a>
+    
+
+    
+
+    
+
+  </div>
+  
+
+  
+  <div class="copyright py-4">
+    
+    <span> 2016 - 2026 &copy; | Theme <a href='https://github.com/orianna-zzo/AllinOne'
+        target="_blank">AllinOne</a> by <a href='https://github.com/orianna-zzo' target="_blank">Orianna</a> </span>
+  </div>
+  
+
+</footer>
+
+    
+
+
+
+
+<script type="text/javascript" src="https://blog.jaxiu.cn/js/vendors/jquery/jquery-3.3.1.min.js"></script>
+<script type="text/javascript" src="https://blog.jaxiu.cn/js/vendors/jquery/jquery.smooth-scroll.min.js"></script>
+
+
+
+<script type="text/javascript" src="https://blog.jaxiu.cn/js/vendors/popper.min.js"></script>
+<script type="text/javascript" src="https://blog.jaxiu.cn/js/vendors/holder.min.js"></script>
+<script type="text/javascript" src="https://blog.jaxiu.cn/js/vendors-extensions/bootstrap4/bootstrap.js" ></script>
+
+<script type="text/javascript" src="https://blog.jaxiu.cn/js/vendors/mdb/mdb.min.js"></script>
+
+<script type="text/javascript" src="https://blog.jaxiu.cn/js/main.js"></script>
+<script type="text/javascript" src="https://blog.jaxiu.cn/js/search.js"></script>
+
+
+
+
+  <script src="https://blog.jaxiu.cn/js/vendors/highlight.pack.js"> </script>
+  <script>hljs.initHighlightingOnLoad();</script>
+
+
+
+
+
+  <script src="https://blog.jaxiu.cn/js/vendors/katex/katex.min.js"> </script>
+  <script src="https://blog.jaxiu.cn/js/vendors/katex/contrib/auto-render.min.js"></script>
+
+  <script>
+      document.addEventListener("DOMContentLoaded", function () {
+          renderMathInElement(document.body);
+      });
+  </script>
+
+
+
+
+
+
+
+
+<script type="text/javascript">
+  
+  new WOW().init();
+</script>
+  </body>
+</html>

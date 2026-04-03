@@ -1,0 +1,1298 @@
+<!DOCTYPE html>
+<html lang="zn-Hans">
+  <head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge, chrome=1">
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no, maximum-scale=1" />
+  
+  <meta name="author" content="jaxiu He">
+  <meta name="description"
+    content="DeepChat 项目概览：多模型AI对话平台介绍
+什么是 DeepChat？
+DeepChat 是一个功能丰富的开源 AI 聊天平台，支持多种云端和本地大语言模型，具备强大的搜索增强和工具调用能力。作为一个跨平台的 AI 助手应用程序，DeepChat 不仅支持基本的聊天功能，还提供了诸如搜索增强、工具调用和多模态交互等高级功能，让 AI 能力更加触手可及和高效。
+无论您是使用 OpenAI、Gemini、Anthropic 等云 API，还是本地部署的 Ollama 模型，DeepChat 都能提供流畅的用户体验。">
+
+  <meta property="og:url" content="https://blog.jaxiu.cn/blog/2025-07/deepchat-project-overview/">
+  <meta property="og:site_name" content="jaxiu He">
+  <meta property="og:title" content="DeepChat 项目概览：多模型AI对话平台介绍">
+  <meta property="og:description" content="DeepChat 项目概览：多模型AI对话平台介绍 什么是 DeepChat？ DeepChat 是一个功能丰富的开源 AI 聊天平台，支持多种云端和本地大语言模型，具备强大的搜索增强和工具调用能力。作为一个跨平台的 AI 助手应用程序，DeepChat 不仅支持基本的聊天功能，还提供了诸如搜索增强、工具调用和多模态交互等高级功能，让 AI 能力更加触手可及和高效。
+无论您是使用 OpenAI、Gemini、Anthropic 等云 API，还是本地部署的 Ollama 模型，DeepChat 都能提供流畅的用户体验。">
+  <meta property="og:locale" content="zn_Hans">
+  <meta property="og:type" content="article">
+    <meta property="article:section" content="blog">
+    <meta property="article:published_time" content="2025-07-31T18:00:00+08:00">
+    <meta property="article:modified_time" content="2025-07-31T18:00:00+08:00">
+    <meta property="article:tag" content="DeepChat">
+    <meta property="article:tag" content="AI">
+    <meta property="article:tag" content="Electron">
+    <meta property="article:tag" content="多平台">
+    <meta property="article:tag" content="开源项目">
+
+
+  <title>
+    
+     DeepChat 项目概览：多模型AI对话平台介绍 | jaxiu He 
+    
+  </title>
+
+  <link rel="canonical" href="https://blog.jaxiu.cn/blog/2025-07/deepchat-project-overview/">
+
+  
+  
+
+  
+  
+  
+  <meta name="baidu-site-verification" content="your-baidu-verify-code" />
+  
+
+  
+  
+  <meta name="google-site-verification" content="your-google-verify-code" />
+  
+
+  
+  <link href="https://blog.jaxiu.cn/css/vendors-extensions/fontawesome/all.min.css" rel="stylesheet">
+
+  
+  <link rel="stylesheet"
+    href="https://fonts.googleapis.com/css?family=Open+Sans:400,700|Ubuntu+Mono:400,400i,700,700i|Raleway:300,400,500,600">
+  <link href="https://blog.jaxiu.cn/css/font.css" rel="stylesheet">
+
+  
+  <link href="https://blog.jaxiu.cn/css/vendors/bootstrap4/bootstrap.min.css" rel="stylesheet">
+  <link href="https://blog.jaxiu.cn/css/vendors-extensions/mdb/mdb.min.css" rel="stylesheet">
+  <link href="https://blog.jaxiu.cn/css/vendors/mdb/style.min.css" rel="stylesheet">
+  <link href="https://blog.jaxiu.cn/css/main.css" rel="stylesheet">
+
+
+  
+  <link rel="shortcut icon"  href="https://blog.jaxiu.cn/img/logo.png" >
+
+
+  
+  
+
+  <style type="text/css">
+    @media (min-width: 800px) and (max-width: 850px) {
+      .navbar:not(.top-nav-collapse) {
+        background: #1C2331 !important;
+      }
+    }
+  </style>
+
+
+  
+  
+  <link rel="stylesheet" href="https://blog.jaxiu.cn/js/vendors/katex/katex.min.css">
+  
+  
+
+  
+  
+  <link rel="stylesheet" href="https://blog.jaxiu.cn/css/vendors/highlight/github-gist.css">
+  
+
+  
+  
+  <script type="module">
+    import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.esm.min.mjs';
+    mermaid.initialize({ startOnLoad: true });
+  </script>
+  
+  
+
+  
+  <link href="https://blog.jaxiu.cn/css/holiday-effects.css" rel="stylesheet">
+  <script src="https://blog.jaxiu.cn/js/holiday-effects.js"></script>
+
+  
+  <script src="https://blog.jaxiu.cn/js/dynamic-bg.js"></script>
+  <link href="https://blog.jaxiu.cn/css/dynamic-bg-control.css" rel="stylesheet">
+
+</head>
+  <body class="bg-light" data-spy="scroll" data-target="#page-scrollspy" data-offset="90">
+  
+    
+    
+
+    
+      
+
+
+<nav class="navbar fixed-top navbar-expand-lg navbar-dark scrolling-navbar">
+    <div class="container">
+
+      
+      <a class="navbar-brand" href="https://blog.jaxiu.cn/">
+          
+        <img class="avatar" src="https://blog.jaxiu.cn/img/logo.png" style="width: 40px!important;height: auto;"  class="d-inline-block align-top" alt="" >
+        
+        <strong> jaxiu He</strong>
+      </a>
+
+      
+      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
+        aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+
+      
+      <div class="collapse navbar-collapse" id="navbarSupportedContent">
+
+        
+        <ul class="navbar-nav mr-auto ">
+          <li class="nav-item ">
+            <a class="nav-link" href="https://blog.jaxiu.cn/">Home</a>
+          </li>
+          
+            <li class="nav-item ">
+              <a class="nav-link" href="https://blog.jaxiu.cn/blog/" >博客  </a>
+            </li>
+
+          
+            <li class="nav-item ">
+              <a class="nav-link" href="https://blog.jaxiu.cn/moment/" >动态  </a>
+            </li>
+
+          
+            <li class="nav-item ">
+              <a class="nav-link" href="https://blog.jaxiu.cn/blog/prenatal-stories/" >胎教故事  </a>
+            </li>
+
+          
+            <li class="nav-item ">
+              <a class="nav-link" href="https://blog.jaxiu.cn/about/" >关于  </a>
+            </li>
+
+          
+        </ul>
+
+        
+        <ul class="navbar-nav">
+          <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" href="#" id="searchDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+              <i class="fas fa-search"></i> 搜索
+            </a>
+            <div class="dropdown-menu dropdown-menu-right p-3" aria-labelledby="searchDropdown" style="min-width: 300px; max-width: 400px;">
+              <form class="search-form" onsubmit="return false;">
+                <div class="input-group">
+                  <input type="text" id="search-query" class="form-control" placeholder="搜索文章标题或内容..." autocomplete="off">
+                  <div class="input-group-append">
+                    <button class="btn btn-outline-secondary" type="button" onclick="document.getElementById('search-query').focus();">
+                      <i class="fas fa-search"></i>
+                    </button>
+                  </div>
+                </div>
+              </form>
+              <ul id="search-results" class="list-unstyled mt-2 mb-0" style="max-height: 400px; overflow-y: auto;"></ul>
+            </div>
+          </li>
+        </ul>
+
+      </div>
+
+    </div>
+  </nav>
+   
+      
+
+
+
+
+
+
+
+<div id="site-header" class="carousel slide carousel-fade" data-ride="carousel" style="height: 18rem;">
+  
+
+  
+  
+  
+
+  
+  <div class="carousel-inner" role="listbox">
+    
+    
+
+    
+    <div class="carousel-item active">
+      <div class="view"
+        style="background-image: url('https://blog.jaxiu.cn/img/header-slides/raw_1515691746.jpg'); background-repeat: no-repeat; background-size: cover;">
+
+        
+        <div class="mask rgba-black-light d-flex justify-content-center align-items-center">
+
+          
+          
+          
+
+        </div>
+        
+
+      </div>
+    </div>
+    
+    
+    
+    
+
+    
+    <div class="carousel-item">
+      <div class="view"
+        style="background-image: url('https://blog.jaxiu.cn/img/header-slides//raw_1515847341.jpg'); background-repeat: no-repeat; background-size: cover;">
+
+        
+        <div class="mask rgba-black-light d-flex justify-content-center align-items-center">
+
+
+
+        </div>
+        
+
+      </div>
+    </div>
+    
+    
+    
+
+
+  </div>
+  
+
+  
+  <div class="carousel-content text-center white-text wow fadeIn">
+    <div class="row mx-0 headfont mt-3 pt-4">
+      
+      <div class="col-12 col-sm-5 align-middle">
+        <a href="https://blog.jaxiu.cn/">
+          
+          <img class="pull-right avatar avatar-md" src="https://blog.jaxiu.cn/img/logo.png" alt="">
+          
+        </a>
+      </div>
+
+      <div class="col-12 col-sm-7 text-left pl-2">
+        <a href="https://blog.jaxiu.cn/">
+          <h1 class="mb-2 h1" style="font-weight: 300;">
+            <strong>jaxiu He</strong>
+          </h1>
+        </a>
+
+
+        
+        <div class="mt-2" style="font-size: 1rem; color: white;">
+          
+          <a href="//github.com/axfinn" target="_blank" rel="noopener"><i class="fab fa-github pr-1"
+              aria-hidden="true"></i></a>
+          
+          
+
+          
+
+          
+
+          
+
+          
+
+          
+
+
+          
+          <a href="mailto:521very@email.com"><i class="far fa-envelope-open pr-1" aria-hidden="true"></i></a>
+          
+
+          
+
+
+        </div>
+      </div>
+    </div>
+  </div>
+  
+
+  
+  
+  
+
+</div>
+  
+    
+
+    
+  
+  <main class="post-main-wrapper">
+    
+    
+    <div class="row">
+
+      
+
+      
+      <div class="col-md-10">
+      
+
+        
+        <div class="z-depth-1  post-wrapper white-bg single-post">
+
+          <div class="post-header text-center" >
+  <ul class="post-meta li-x">
+    
+      
+        <li><a href="https://blog.jaxiu.cn/categories/%E6%8A%80%E6%9C%AF"><i class="fas fa-folder-open pr-1" aria-hidden="true"></i> 技术 </a></li>
+      
+        <li><a href="https://blog.jaxiu.cn/categories/ai%E5%B7%A5%E5%85%B7"><i class="fas fa-folder-open pr-1" aria-hidden="true"></i> AI工具 </a></li>
+      
+    
+    
+  </ul>
+
+  <div class="px-4 post-heading">DeepChat 项目概览：多模型AI对话平台介绍</div>
+
+  <ul class="post-meta li-x mt-1">
+    
+      <li>Jul 31, 2025</li>
+    
+
+    
+      <li class="middot"></li>
+      <li>4 minutes read</li>
+    
+  </ul>
+  
+
+</div>
+
+
+          <div class="post-content markdown">
+            <h1 id="deepchat-项目概览多模型ai对话平台介绍">DeepChat 项目概览：多模型AI对话平台介绍</h1>
+<h2 id="什么是-deepchat">什么是 DeepChat？</h2>
+<p>DeepChat 是一个功能丰富的开源 AI 聊天平台，支持多种云端和本地大语言模型，具备强大的搜索增强和工具调用能力。作为一个跨平台的 AI 助手应用程序，DeepChat 不仅支持基本的聊天功能，还提供了诸如搜索增强、工具调用和多模态交互等高级功能，让 AI 能力更加触手可及和高效。</p>
+<p>无论您是使用 OpenAI、Gemini、Anthropic 等云 API，还是本地部署的 Ollama 模型，DeepChat 都能提供流畅的用户体验。</p>
+<h2 id="核心特性一览">核心特性一览</h2>
+<h3 id="统一多模型管理">统一多模型管理</h3>
+<p>DeepChat 最大的优势之一是提供了一个统一的应用程序来支持几乎所有主流的大语言模型（LLM），无需在多个应用程序之间切换。它支持包括但不限于以下模型提供商：</p>
+<ul>
+<li>Ollama（本地模型）</li>
+<li>DeepSeek</li>
+<li>OpenAI</li>
+<li>Gemini</li>
+<li>Anthropic</li>
+<li>Azure OpenAI</li>
+<li>Moonshot</li>
+<li>Grok</li>
+<li>Zhipu</li>
+<li>以及更多</li>
+</ul>
+<h3 id="无缝本地模型集成">无缝本地模型集成</h3>
+<p>DeepChat 内置了对 Ollama 的支持，允许您管理和使用本地模型而无需命令行操作。您可以直接在界面中控制和管理 Ollama 模型的下载、部署和运行。</p>
+<h3 id="高级工具调用能力">高级工具调用能力</h3>
+<p>通过内置的 MCP（Model Context Protocol）支持，DeepChat 可以实现代码执行、网络访问等工具功能，无需额外配置。</p>
+<h3 id="强大的搜索增强功能">强大的搜索增强功能</h3>
+<p>DeepChat 支持多种搜索引擎，使 AI 回答更加准确和及时。它不仅支持标准的 Web 搜索范式，还可以快速定制以满足特定需求。</p>
+<h3 id="隐私优先设计">隐私优先设计</h3>
+<p>DeepChat 采用本地数据存储和网络代理支持，降低信息泄露风险，保护用户隐私。</p>
+<h2 id="主要功能详解">主要功能详解</h2>
+<h3 id="多云-llm-提供商支持">多云 LLM 提供商支持</h3>
+<p>DeepChat 支持众多云服务提供商的 LLM 模型，包括 DeepSeek、OpenAI、SiliconFlow、Grok、Gemini、Anthropic 等。</p>
+<h3 id="本地模型部署支持">本地模型部署支持</h3>
+<p>通过集成 Ollama，DeepChat 提供了全面的本地模型管理功能：</p>
+<ul>
+<li>无需命令行操作即可控制 Ollama 模型的下载、部署和运行</li>
+<li>可视化管理界面，方便用户操作</li>
+</ul>
+<h3 id="丰富易用的聊天功能">丰富易用的聊天功能</h3>
+<p>DeepChat 提供了多种高级聊天功能：</p>
+<ul>
+<li>完整的 Markdown 渲染，包括基于行业领先的 CodeMirror 的代码块渲染</li>
+<li>多窗口+多标签架构，支持跨维度的并行多会话操作</li>
+<li>支持 Artifacts 渲染，多样化结果展示</li>
+<li>消息支持重试生成多个变体，对话可以自由分叉</li>
+<li>支持渲染图像、Mermaid 图表等多模态内容</li>
+<li>支持在内容中高亮显示外部信息源如搜索结果</li>
+</ul>
+<h3 id="强大的搜索扩展能力">强大的搜索扩展能力</h3>
+<p>DeepChat 的搜索功能非常强大：</p>
+<ul>
+<li>通过 MCP 模式内置集成 BoSearch、Brave Search 等领先搜索 API</li>
+<li>支持 Google、Bing、百度、搜狗微信等主流搜索引擎</li>
+<li>支持连接任何搜索引擎，包括内网、无 API 引擎或垂直领域搜索引擎</li>
+</ul>
+<h3 id="优秀的-mcpmodel-context-protocol支持">优秀的 MCP（Model Context Protocol）支持</h3>
+<p>DeepChat 对 MCP 协议的支持非常完整：</p>
+<ul>
+<li>完整支持 Resources/Prompts/Tools 三个核心能力</li>
+<li>支持语义工作流，实现更复杂和智能的自动化</li>
+<li>极其友好的配置界面</li>
+<li>美观清晰的工具调用显示</li>
+<li>详细的工具调用调试窗口</li>
+<li>内置 Node.js 运行环境，开箱即用</li>
+<li>支持 StreamableHTTP/SSE/Stdio 协议传输</li>
+<li>支持 inMemory 服务，内置代码执行、网络信息检索和文件操作等实用工具</li>
+</ul>
+<h3 id="多平台支持">多平台支持</h3>
+<p>DeepChat 支持 Windows、macOS 和 Linux 三大主流操作系统，真正实现了跨平台使用。</p>
+<h3 id="美观易用的界面">美观易用的界面</h3>
+<p>DeepChat 采用以用户为导向的设计，精心制作了浅色和深色主题，提供良好的使用体验。</p>
+<h3 id="丰富的-deeplink-支持">丰富的 DeepLink 支持</h3>
+<p>通过链接发起对话，实现与其他应用程序的无缝集成。还支持一键安装 MCP 服务，简单快捷。</p>
+<h3 id="安全优先设计">安全优先设计</h3>
+<p>聊天数据和配置数据保留了加密接口和代码混淆能力，确保数据安全。</p>
+<h3 id="隐私保护">隐私保护</h3>
+<p>支持屏幕投影隐藏、网络代理等隐私保护方法，降低信息泄露风险。</p>
+<h3 id="商业友好">商业友好</h3>
+<p>DeepChat 基于 Apache License 2.0 协议开源，企业可以放心使用。代码结构清晰，模型提供商和 MCP 服务高度解耦，可以自由定制，成本低廉。</p>
+<h2 id="为什么选择-deepchat">为什么选择 DeepChat？</h2>
+<p>相比其他 AI 工具，DeepChat 提供了以下独特优势：</p>
+<ol>
+<li><strong>统一多模型管理</strong> - 一个应用程序支持几乎所有主流 LLM，无需切换多个应用</li>
+<li><strong>无缝本地模型集成</strong> - 内置 Ollama 支持，无需命令行操作即可管理本地模型</li>
+<li><strong>高级工具调用</strong> - 内置 MCP 支持，无需额外配置即可执行代码、访问网络等</li>
+<li><strong>强大的搜索增强</strong> - 支持多种搜索引擎，使 AI 回答更准确及时</li>
+<li><strong>隐私优先</strong> - 本地数据存储和网络代理支持，降低信息泄露风险</li>
+<li><strong>商业友好</strong> - 基于 Apache License 2.0 开源，适合商业和个人使用</li>
+</ol>
+<h2 id="小结">小结</h2>
+<p>DeepChat 作为一个功能强大的开源 AI 聊天平台，不仅支持多种模型提供商，还提供了丰富的高级功能，如搜索增强、工具调用、多模态交互等。其跨平台特性和美观易用的界面设计，使其成为开发人员和普通用户的理想选择。</p>
+<p>在接下来的博客系列中，我们将深入分析 DeepChat 的架构设计、多平台实现原理、多模型支持机制、MCP 协议集成等核心技术，敬请期待！</p>
+
+          </div>
+
+          
+          <div class="row">
+            <div class="col-md-8">
+            
+              <div class="mb-5">
+                
+<div class="li-x div-x post-meta">
+  <li class="pr-0"><a href="https://blog.jaxiu.cn/tags/"><i class="fas fa-tags"></i></a></li>
+  <div class="tags-sm">
+    
+      <li><a href="https://blog.jaxiu.cn/tags/deepchat" role="button">DeepChat </a></li>
+      
+    
+      <li><a href="https://blog.jaxiu.cn/tags/ai" role="button">AI </a></li>
+      
+    
+      <li><a href="https://blog.jaxiu.cn/tags/electron" role="button">Electron </a></li>
+      
+    
+      <li><a href="https://blog.jaxiu.cn/tags/%E5%A4%9A%E5%B9%B3%E5%8F%B0" role="button">多平台 </a></li>
+      
+    
+      <li><a href="https://blog.jaxiu.cn/tags/%E5%BC%80%E6%BA%90%E9%A1%B9%E7%9B%AE" role="button">开源项目 </a></li>
+      
+    
+  </div>
+</div>
+              </div>
+            
+            </div>
+            
+          </div>
+          
+
+          
+          <div class="row pt-3">
+            <div class="col-md-6">
+              
+                <a href=https://blog.jaxiu.cn/blog/2025-07/nps%E9%A1%B9%E7%9B%AE%E8%BF%91%E6%9C%9F%E9%87%8D%E8%A6%81%E6%9B%B4%E6%96%B0%E8%A7%A3%E6%9E%90/ class="post-meta">Previous
+                  <div class="pt-2 pb-5 d-flex">
+                    <i class="fas fa-angle-left text-grey font-weight-bold mr-2 active-color"></i>
+                    <span>NPS项目近期重要更新解析</span>
+                  </div>
+                </a>
+              
+            </div>
+            
+            <div class="col-md-6 text-right" >
+              
+                <a href=https://blog.jaxiu.cn/blog/2025-07/deepchat-multi-platform-build/ class="post-meta">Next
+                  <div class="pt-2 pb-5 flex-reverse">
+                    <i class="fas fa-angle-right text-grey font-weight-bold ml-2 active-color"></i>
+                    <span>DeepChat 多平台构建实现详解：从代码到发布</span>
+                  </div>
+                </a>
+              
+            </div>
+          </div>
+
+          
+
+        </div>
+        
+
+      </div>
+      
+
+      
+	
+	
+	
+	
+		
+		
+		
+	
+
+		
+		<div class="col-md-2 pl-0">
+
+			
+			<div id="page-scrollspy" class="toc-nav">
+				
+				<ul class="nav nav-pills ml-0">
+					
+					<li class="nav-item pb-3 text-center">
+						<span class="font-weight-bold mb-2">- CATALOG - </span>
+					</li>
+
+					
+						
+						
+							
+								
+								
+									<ul class="nav">
+								
+								
+
+										<li class="nav-item">
+						 					<a class="nav-link" href="#deepchat-%e9%a1%b9%e7%9b%ae%e6%a6%82%e8%a7%88%e5%a4%9a%e6%a8%a1%e5%9e%8bai%e5%af%b9%e8%af%9d%e5%b9%b3%e5%8f%b0%e4%bb%8b%e7%bb%8d">
+												 DeepChat 项目概览：多模型AI对话平台介绍
+											</a>
+										</li>
+						 
+								
+								
+									</ul>
+								
+							
+						
+				 
+						
+						
+							
+								
+								
+									<ul class="nav">
+								
+									<ul class="nav">
+								
+								
+
+										<li class="nav-item">
+						 					<a class="nav-link" href="#%e4%bb%80%e4%b9%88%e6%98%af-deepchat">
+												 什么是 DeepChat？
+											</a>
+										</li>
+						 
+								
+								
+									</ul>
+								
+									</ul>
+								
+							
+						
+				 
+						
+						
+							
+								
+								
+									<ul class="nav">
+								
+									<ul class="nav">
+								
+								
+
+										<li class="nav-item">
+						 					<a class="nav-link" href="#%e6%a0%b8%e5%bf%83%e7%89%b9%e6%80%a7%e4%b8%80%e8%a7%88">
+												 核心特性一览
+											</a>
+										</li>
+						 
+								
+								
+									</ul>
+								
+									</ul>
+								
+							
+						
+				 
+						
+						
+							
+								
+								
+									<ul class="nav">
+								
+									<ul class="nav">
+								
+									<ul class="nav">
+								
+								
+
+										<li class="nav-item">
+						 					<a class="nav-link" href="#%e7%bb%9f%e4%b8%80%e5%a4%9a%e6%a8%a1%e5%9e%8b%e7%ae%a1%e7%90%86">
+												 统一多模型管理
+											</a>
+										</li>
+						 
+								
+								
+									</ul>
+								
+									</ul>
+								
+									</ul>
+								
+							
+						
+				 
+						
+						
+							
+								
+								
+									<ul class="nav">
+								
+									<ul class="nav">
+								
+									<ul class="nav">
+								
+								
+
+										<li class="nav-item">
+						 					<a class="nav-link" href="#%e6%97%a0%e7%bc%9d%e6%9c%ac%e5%9c%b0%e6%a8%a1%e5%9e%8b%e9%9b%86%e6%88%90">
+												 无缝本地模型集成
+											</a>
+										</li>
+						 
+								
+								
+									</ul>
+								
+									</ul>
+								
+									</ul>
+								
+							
+						
+				 
+						
+						
+							
+								
+								
+									<ul class="nav">
+								
+									<ul class="nav">
+								
+									<ul class="nav">
+								
+								
+
+										<li class="nav-item">
+						 					<a class="nav-link" href="#%e9%ab%98%e7%ba%a7%e5%b7%a5%e5%85%b7%e8%b0%83%e7%94%a8%e8%83%bd%e5%8a%9b">
+												 高级工具调用能力
+											</a>
+										</li>
+						 
+								
+								
+									</ul>
+								
+									</ul>
+								
+									</ul>
+								
+							
+						
+				 
+						
+						
+							
+								
+								
+									<ul class="nav">
+								
+									<ul class="nav">
+								
+									<ul class="nav">
+								
+								
+
+										<li class="nav-item">
+						 					<a class="nav-link" href="#%e5%bc%ba%e5%a4%a7%e7%9a%84%e6%90%9c%e7%b4%a2%e5%a2%9e%e5%bc%ba%e5%8a%9f%e8%83%bd">
+												 强大的搜索增强功能
+											</a>
+										</li>
+						 
+								
+								
+									</ul>
+								
+									</ul>
+								
+									</ul>
+								
+							
+						
+				 
+						
+						
+							
+								
+								
+									<ul class="nav">
+								
+									<ul class="nav">
+								
+									<ul class="nav">
+								
+								
+
+										<li class="nav-item">
+						 					<a class="nav-link" href="#%e9%9a%90%e7%a7%81%e4%bc%98%e5%85%88%e8%ae%be%e8%ae%a1">
+												 隐私优先设计
+											</a>
+										</li>
+						 
+								
+								
+									</ul>
+								
+									</ul>
+								
+									</ul>
+								
+							
+						
+				 
+						
+						
+							
+								
+								
+									<ul class="nav">
+								
+									<ul class="nav">
+								
+								
+
+										<li class="nav-item">
+						 					<a class="nav-link" href="#%e4%b8%bb%e8%a6%81%e5%8a%9f%e8%83%bd%e8%af%a6%e8%a7%a3">
+												 主要功能详解
+											</a>
+										</li>
+						 
+								
+								
+									</ul>
+								
+									</ul>
+								
+							
+						
+				 
+						
+						
+							
+								
+								
+									<ul class="nav">
+								
+									<ul class="nav">
+								
+									<ul class="nav">
+								
+								
+
+										<li class="nav-item">
+						 					<a class="nav-link" href="#%e5%a4%9a%e4%ba%91-llm-%e6%8f%90%e4%be%9b%e5%95%86%e6%94%af%e6%8c%81">
+												 多云 LLM 提供商支持
+											</a>
+										</li>
+						 
+								
+								
+									</ul>
+								
+									</ul>
+								
+									</ul>
+								
+							
+						
+				 
+						
+						
+							
+								
+								
+									<ul class="nav">
+								
+									<ul class="nav">
+								
+									<ul class="nav">
+								
+								
+
+										<li class="nav-item">
+						 					<a class="nav-link" href="#%e6%9c%ac%e5%9c%b0%e6%a8%a1%e5%9e%8b%e9%83%a8%e7%bd%b2%e6%94%af%e6%8c%81">
+												 本地模型部署支持
+											</a>
+										</li>
+						 
+								
+								
+									</ul>
+								
+									</ul>
+								
+									</ul>
+								
+							
+						
+				 
+						
+						
+							
+								
+								
+									<ul class="nav">
+								
+									<ul class="nav">
+								
+									<ul class="nav">
+								
+								
+
+										<li class="nav-item">
+						 					<a class="nav-link" href="#%e4%b8%b0%e5%af%8c%e6%98%93%e7%94%a8%e7%9a%84%e8%81%8a%e5%a4%a9%e5%8a%9f%e8%83%bd">
+												 丰富易用的聊天功能
+											</a>
+										</li>
+						 
+								
+								
+									</ul>
+								
+									</ul>
+								
+									</ul>
+								
+							
+						
+				 
+						
+						
+							
+								
+								
+									<ul class="nav">
+								
+									<ul class="nav">
+								
+									<ul class="nav">
+								
+								
+
+										<li class="nav-item">
+						 					<a class="nav-link" href="#%e5%bc%ba%e5%a4%a7%e7%9a%84%e6%90%9c%e7%b4%a2%e6%89%a9%e5%b1%95%e8%83%bd%e5%8a%9b">
+												 强大的搜索扩展能力
+											</a>
+										</li>
+						 
+								
+								
+									</ul>
+								
+									</ul>
+								
+									</ul>
+								
+							
+						
+				 
+						
+						
+							
+								
+								
+									<ul class="nav">
+								
+									<ul class="nav">
+								
+									<ul class="nav">
+								
+								
+
+										<li class="nav-item">
+						 					<a class="nav-link" href="#%e4%bc%98%e7%a7%80%e7%9a%84-mcpmodel-context-protocol%e6%94%af%e6%8c%81">
+												 优秀的 MCP（Model Context Protocol）支持
+											</a>
+										</li>
+						 
+								
+								
+									</ul>
+								
+									</ul>
+								
+									</ul>
+								
+							
+						
+				 
+						
+						
+							
+								
+								
+									<ul class="nav">
+								
+									<ul class="nav">
+								
+									<ul class="nav">
+								
+								
+
+										<li class="nav-item">
+						 					<a class="nav-link" href="#%e5%a4%9a%e5%b9%b3%e5%8f%b0%e6%94%af%e6%8c%81">
+												 多平台支持
+											</a>
+										</li>
+						 
+								
+								
+									</ul>
+								
+									</ul>
+								
+									</ul>
+								
+							
+						
+				 
+						
+						
+							
+								
+								
+									<ul class="nav">
+								
+									<ul class="nav">
+								
+									<ul class="nav">
+								
+								
+
+										<li class="nav-item">
+						 					<a class="nav-link" href="#%e7%be%8e%e8%a7%82%e6%98%93%e7%94%a8%e7%9a%84%e7%95%8c%e9%9d%a2">
+												 美观易用的界面
+											</a>
+										</li>
+						 
+								
+								
+									</ul>
+								
+									</ul>
+								
+									</ul>
+								
+							
+						
+				 
+						
+						
+							
+								
+								
+									<ul class="nav">
+								
+									<ul class="nav">
+								
+									<ul class="nav">
+								
+								
+
+										<li class="nav-item">
+						 					<a class="nav-link" href="#%e4%b8%b0%e5%af%8c%e7%9a%84-deeplink-%e6%94%af%e6%8c%81">
+												 丰富的 DeepLink 支持
+											</a>
+										</li>
+						 
+								
+								
+									</ul>
+								
+									</ul>
+								
+									</ul>
+								
+							
+						
+				 
+						
+						
+							
+								
+								
+									<ul class="nav">
+								
+									<ul class="nav">
+								
+									<ul class="nav">
+								
+								
+
+										<li class="nav-item">
+						 					<a class="nav-link" href="#%e5%ae%89%e5%85%a8%e4%bc%98%e5%85%88%e8%ae%be%e8%ae%a1">
+												 安全优先设计
+											</a>
+										</li>
+						 
+								
+								
+									</ul>
+								
+									</ul>
+								
+									</ul>
+								
+							
+						
+				 
+						
+						
+							
+								
+								
+									<ul class="nav">
+								
+									<ul class="nav">
+								
+									<ul class="nav">
+								
+								
+
+										<li class="nav-item">
+						 					<a class="nav-link" href="#%e9%9a%90%e7%a7%81%e4%bf%9d%e6%8a%a4">
+												 隐私保护
+											</a>
+										</li>
+						 
+								
+								
+									</ul>
+								
+									</ul>
+								
+									</ul>
+								
+							
+						
+				 
+						
+						
+							
+								
+								
+									<ul class="nav">
+								
+									<ul class="nav">
+								
+									<ul class="nav">
+								
+								
+
+										<li class="nav-item">
+						 					<a class="nav-link" href="#%e5%95%86%e4%b8%9a%e5%8f%8b%e5%a5%bd">
+												 商业友好
+											</a>
+										</li>
+						 
+								
+								
+									</ul>
+								
+									</ul>
+								
+									</ul>
+								
+							
+						
+				 
+						
+						
+							
+								
+								
+									<ul class="nav">
+								
+									<ul class="nav">
+								
+								
+
+										<li class="nav-item">
+						 					<a class="nav-link" href="#%e4%b8%ba%e4%bb%80%e4%b9%88%e9%80%89%e6%8b%a9-deepchat">
+												 为什么选择 DeepChat？
+											</a>
+										</li>
+						 
+								
+								
+									</ul>
+								
+									</ul>
+								
+							
+						
+				 
+						
+						
+							
+								
+								
+									<ul class="nav">
+								
+									<ul class="nav">
+								
+								
+
+										<li class="nav-item">
+						 					<a class="nav-link" href="#%e5%b0%8f%e7%bb%93">
+												 小结
+											</a>
+										</li>
+						 
+								
+								
+									</ul>
+								
+									</ul>
+								
+							
+						
+				 
+
+				</ul>
+			</div>
+			
+
+		</div>
+		
+	
+
+    </div>
+    
+
+
+  </main>
+  
+
+
+    
+    
+<footer class="page-footer text-center font-small mt-4 wow fadeIn">
+
+
+  
+  <div class="pb-2 mt-5 pt-5">
+    
+    <a href="//github.com/axfinn " target="_blank" rel="noopener"><i class="fab fa-github mr-3"
+        aria-hidden="true"></i></a>
+    
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+
+    
+    <a href="mailto:521very@email.com"><i class="far fa-envelope-open mr-3" aria-hidden="true"></i></a>
+    
+
+    
+
+    
+
+  </div>
+  
+
+  
+  <div class="copyright py-4">
+    
+    <span> 2016 - 2026 &copy; | Theme <a href='https://github.com/orianna-zzo/AllinOne'
+        target="_blank">AllinOne</a> by <a href='https://github.com/orianna-zzo' target="_blank">Orianna</a> </span>
+  </div>
+  
+
+</footer>
+
+    
+
+
+
+
+<script type="text/javascript" src="https://blog.jaxiu.cn/js/vendors/jquery/jquery-3.3.1.min.js"></script>
+<script type="text/javascript" src="https://blog.jaxiu.cn/js/vendors/jquery/jquery.smooth-scroll.min.js"></script>
+
+
+
+<script type="text/javascript" src="https://blog.jaxiu.cn/js/vendors/popper.min.js"></script>
+<script type="text/javascript" src="https://blog.jaxiu.cn/js/vendors/holder.min.js"></script>
+<script type="text/javascript" src="https://blog.jaxiu.cn/js/vendors-extensions/bootstrap4/bootstrap.js" ></script>
+
+<script type="text/javascript" src="https://blog.jaxiu.cn/js/vendors/mdb/mdb.min.js"></script>
+
+<script type="text/javascript" src="https://blog.jaxiu.cn/js/main.js"></script>
+<script type="text/javascript" src="https://blog.jaxiu.cn/js/search.js"></script>
+
+
+
+
+  <script src="https://blog.jaxiu.cn/js/vendors/highlight.pack.js"> </script>
+  <script>hljs.initHighlightingOnLoad();</script>
+
+
+
+
+
+  <script src="https://blog.jaxiu.cn/js/vendors/katex/katex.min.js"> </script>
+  <script src="https://blog.jaxiu.cn/js/vendors/katex/contrib/auto-render.min.js"></script>
+
+  <script>
+      document.addEventListener("DOMContentLoaded", function () {
+          renderMathInElement(document.body);
+      });
+  </script>
+
+
+
+
+
+
+
+
+<script type="text/javascript">
+  
+  new WOW().init();
+</script>
+  </body>
+</html>

@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>MongoDB on jaxiu He</title>
+    <link>https://blog.jaxiu.cn/tags/mongodb/</link>
+    <description>Recent content in MongoDB on jaxiu He</description>
+    <generator>Hugo</generator>
+    <language>zn-Hans</language>
+    <lastBuildDate>Sat, 02 Aug 2025 15:00:00 +0800</lastBuildDate>
+    <atom:link href="https://blog.jaxiu.cn/tags/mongodb/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>todoIng 团队协作与权限管理架构设计</title>
+      <link>https://blog.jaxiu.cn/blog/2025-08/todoing-team-collaboration-and-permissions/</link>
+      <pubDate>Sat, 02 Aug 2025 15:00:00 +0800</pubDate>
+      <guid>https://blog.jaxiu.cn/blog/2025-08/todoing-team-collaboration-and-permissions/</guid>
+      <description>&lt;h1 id=&#34;todoing-团队协作与权限管理架构设计&#34;&gt;todoIng 团队协作与权限管理架构设计&lt;/h1&gt;&#xA;&lt;p&gt;在前面的文章中，我们已经介绍了 todoIng 的核心模块和 Git 风格的历史追踪系统。今天我们来探讨 todoIng 的团队协作功能和权限管理系统，这是实现高效团队任务管理的关键。&lt;/p&gt;&#xA;&lt;h2 id=&#34;团队协作的重要性&#34;&gt;团队协作的重要性&lt;/h2&gt;&#xA;&lt;p&gt;在现代工作中，很少有任务是完全独立完成的。大多数项目都需要团队成员之间的协作，这就要求任务管理系统具备强大的团队协作功能：&lt;/p&gt;&#xA;&lt;ol&gt;&#xA;&lt;li&gt;&lt;strong&gt;任务分配&lt;/strong&gt;：能够将任务分配给特定的团队成员&lt;/li&gt;&#xA;&lt;li&gt;&lt;strong&gt;进度共享&lt;/strong&gt;：团队成员可以实时查看任务进度&lt;/li&gt;&#xA;&lt;li&gt;&lt;strong&gt;沟通协作&lt;/strong&gt;：在任务上下文中进行讨论和沟通&lt;/li&gt;&#xA;&lt;li&gt;&lt;strong&gt;权限控制&lt;/strong&gt;：确保每个成员只能访问和操作自己有权限的内容&lt;/li&gt;&#xA;&lt;/ol&gt;&#xA;&lt;h2 id=&#34;系统设计思路&#34;&gt;系统设计思路&lt;/h2&gt;&#xA;&lt;p&gt;todoIng 的团队协作系统采用了基于角色的访问控制（RBAC）模型，并结合了项目组的概念来组织团队成员和任务。&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>todoIng Git 风格历史追踪系统设计与架构</title>
+      <link>https://blog.jaxiu.cn/blog/2025-08/todoing-git-style-history-tracking/</link>
+      <pubDate>Sat, 02 Aug 2025 09:00:00 +0800</pubDate>
+      <guid>https://blog.jaxiu.cn/blog/2025-08/todoing-git-style-history-tracking/</guid>
+      <description>&lt;h1 id=&#34;todoing-git-风格历史追踪系统设计与架构&#34;&gt;todoIng Git 风格历史追踪系统设计与架构&lt;/h1&gt;&#xA;&lt;p&gt;在前面的文章中，我们介绍了 todoIng 项目的核心模块设计。今天，我们将深入探讨 todoIng 最具特色的功能——Git 风格的任务历史追踪系统。这个功能使得 todoIng 与其他任务管理工具区别开来，为用户提供了前所未有的任务管理体验。&lt;/p&gt;&#xA;&lt;h2 id=&#34;为什么需要任务历史追踪&#34;&gt;为什么需要任务历史追踪？&lt;/h2&gt;&#xA;&lt;p&gt;在传统的任务管理工具中，我们只能看到任务的当前状态，而无法了解任务是如何一步步演进的。这导致了以下几个问题：&lt;/p&gt;&#xA;&lt;ol&gt;&#xA;&lt;li&gt;&lt;strong&gt;缺乏上下文&lt;/strong&gt;：无法了解任务状态变更的原因和背景&lt;/li&gt;&#xA;&lt;li&gt;&lt;strong&gt;责任不明确&lt;/strong&gt;：不清楚是谁在什么时候做了什么变更&lt;/li&gt;&#xA;&lt;li&gt;&lt;strong&gt;无法回溯&lt;/strong&gt;：当任务状态出现异常时，无法回溯到之前的正确状态&lt;/li&gt;&#xA;&lt;li&gt;&lt;strong&gt;分析困难&lt;/strong&gt;：难以分析任务完成的效率和模式&lt;/li&gt;&#xA;&lt;/ol&gt;&#xA;&lt;p&gt;为了解决这些问题，todoIng 引入了 Git 风格的任务历史追踪系统，为每个任务维护完整的变更历史。&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>todoIng 核心模块设计与架构</title>
+      <link>https://blog.jaxiu.cn/blog/2025-08/todoing-core-modules-implementation/</link>
+      <pubDate>Fri, 01 Aug 2025 14:00:00 +0800</pubDate>
+      <guid>https://blog.jaxiu.cn/blog/2025-08/todoing-core-modules-implementation/</guid>
+      <description>&lt;h1 id=&#34;todoing-核心模块设计与架构&#34;&gt;todoIng 核心模块设计与架构&lt;/h1&gt;&#xA;&lt;p&gt;在上一篇文章中，我们介绍了 todoIng 项目的整体概况和主要特性。今天，我们将深入探讨 todoIng 的核心模块设计和系统架构。这些模块是整个系统的基础，为其他高级功能提供了支撑。&lt;/p&gt;&#xA;&lt;h2 id=&#34;项目架构概览&#34;&gt;项目架构概览&lt;/h2&gt;&#xA;&lt;p&gt;todoIng 采用现代化的前后端分离架构设计，这种架构模式带来了许多优势：&lt;/p&gt;&#xA;&lt;ol&gt;&#xA;&lt;li&gt;&lt;strong&gt;技术栈独立&lt;/strong&gt;：前端和后端可以使用最适合各自领域的技术栈&lt;/li&gt;&#xA;&lt;li&gt;&lt;strong&gt;开发效率&lt;/strong&gt;：前后端团队可以并行开发，互不干扰&lt;/li&gt;&#xA;&lt;li&gt;&lt;strong&gt;可扩展性&lt;/strong&gt;：前后端可以独立扩展和部署&lt;/li&gt;&#xA;&lt;li&gt;&lt;strong&gt;维护性&lt;/strong&gt;：代码结构清晰，易于维护和重构&lt;/li&gt;&#xA;&lt;/ol&gt;&#xA;&lt;p&gt;下面是 todoIng 的整体架构图：&lt;/p&gt;</description>
+    </item>
+  </channel>
+</rss>

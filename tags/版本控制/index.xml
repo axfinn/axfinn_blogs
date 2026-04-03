@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>版本控制 on jaxiu He</title>
+    <link>https://blog.jaxiu.cn/tags/%E7%89%88%E6%9C%AC%E6%8E%A7%E5%88%B6/</link>
+    <description>Recent content in 版本控制 on jaxiu He</description>
+    <generator>Hugo</generator>
+    <language>zn-Hans</language>
+    <lastBuildDate>Sat, 19 Jul 2025 11:00:00 +0800</lastBuildDate>
+    <atom:link href="https://blog.jaxiu.cn/tags/%E7%89%88%E6%9C%AC%E6%8E%A7%E5%88%B6/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Git 学习与详细使用指南</title>
+      <link>https://blog.jaxiu.cn/blog/2025-07/git-learning-and-usage-guide/</link>
+      <pubDate>Sat, 19 Jul 2025 11:00:00 +0800</pubDate>
+      <guid>https://blog.jaxiu.cn/blog/2025-07/git-learning-and-usage-guide/</guid>
+      <description>&lt;h1 id=&#34;git-学习与详细使用指南&#34;&gt;Git 学习与详细使用指南&lt;/h1&gt;&#xA;&lt;p&gt;Git 是目前世界上最流行、最先进的分布式版本控制系统。它能够高效地管理项目代码，记录每一次修改，并允许多人协作开发。无论你是个人开发者还是团队成员，掌握 Git 都是一项必备技能。&lt;/p&gt;&#xA;&lt;p&gt;本文将从 Git 的基本概念入手，逐步深入到常用命令、分支管理、远程协作，并提供一些高级技巧和参考资源，帮助你全面掌握 Git。&lt;/p&gt;&#xA;&lt;h2 id=&#34;1-git-基础概念&#34;&gt;1. Git 基础概念&lt;/h2&gt;&#xA;&lt;p&gt;在深入学习 Git 命令之前，理解以下核心概念至关重要：&lt;/p&gt;&#xA;&lt;ul&gt;&#xA;&lt;li&gt;&lt;strong&gt;版本控制系统 (VCS)&lt;/strong&gt;: 记录文件内容变化，以便将来查阅特定版本修订情况的系统。&lt;/li&gt;&#xA;&lt;li&gt;&lt;strong&gt;分布式版本控制系统 (DVCS)&lt;/strong&gt;: 每个开发者都拥有完整的代码仓库副本，无需依赖中央服务器即可进行大部分操作。&lt;/li&gt;&#xA;&lt;li&gt;&lt;strong&gt;仓库 (Repository)&lt;/strong&gt;: 存储项目所有文件和历史记录的��方。分为本地仓库和远程仓库。&lt;/li&gt;&#xA;&lt;li&gt;&lt;strong&gt;工作区 (Working Directory)&lt;/strong&gt;: 你在电脑上实际操作的目录，包含项目文件。&lt;/li&gt;&#xA;&lt;li&gt;&lt;strong&gt;暂存区 (Staging Area / Index)&lt;/strong&gt;: 一个临时区域，用于存放你即将提交（commit）的更改。你可以选择性地将工作区的修改添加到暂存区。&lt;/li&gt;&#xA;&lt;li&gt;&lt;strong&gt;提交 (Commit)&lt;/strong&gt;: 将暂存区的更改永久保存到本地仓库的历史记录中。每次提交都会生成一个唯一的 SHA-1 值作为标识。&lt;/li&gt;&#xA;&lt;li&gt;&lt;strong&gt;分支 (Branch)&lt;/strong&gt;: Git 中最强大的功能之一。它允许你在不影响主线开发的情况下，独立地进行新功能开发或 bug 修复。每个分支都是一个独立的开发线。&lt;/li&gt;&#xA;&lt;li&gt;&lt;strong&gt;HEAD&lt;/strong&gt;: 指向当前所在分支的指针。&lt;/li&gt;&#xA;&lt;/ul&gt;&#xA;&lt;h2 id=&#34;2-git-安装与配置&#34;&gt;2. Git 安装与配置&lt;/h2&gt;&#xA;&lt;h3 id=&#34;21-安装-git&#34;&gt;2.1 安装 Git&lt;/h3&gt;&#xA;&lt;ul&gt;&#xA;&lt;li&gt;&lt;strong&gt;macOS&lt;/strong&gt;: &lt;code&gt;brew install git&lt;/code&gt;&lt;/li&gt;&#xA;&lt;li&gt;&lt;strong&gt;Linux (Debian/Ubuntu)&lt;/strong&gt;: &lt;code&gt;sudo apt-get install git&lt;/code&gt;&lt;/li&gt;&#xA;&lt;li&gt;&lt;strong&gt;Windows&lt;/strong&gt;: 从 &lt;a href=&#34;https://git-scm.com/download/win&#34;&gt;Git 官方网站&lt;/a&gt; 下载安装包。&lt;/li&gt;&#xA;&lt;/ul&gt;&#xA;&lt;p&gt;安装完成后，在终端输入 &lt;code&gt;git --version&lt;/code&gt; 验证是否成功。&lt;/p&gt;</description>
+    </item>
+  </channel>
+</rss>

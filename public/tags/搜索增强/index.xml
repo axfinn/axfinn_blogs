@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>搜索增强 on jaxiu He</title>
+    <link>https://blog.jaxiu.cn/tags/%E6%90%9C%E7%B4%A2%E5%A2%9E%E5%BC%BA/</link>
+    <description>Recent content in 搜索增强 on jaxiu He</description>
+    <generator>Hugo</generator>
+    <language>zn-Hans</language>
+    <lastBuildDate>Thu, 31 Jul 2025 20:00:00 +0800</lastBuildDate>
+    <atom:link href="https://blog.jaxiu.cn/tags/%E6%90%9C%E7%B4%A2%E5%A2%9E%E5%BC%BA/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>DeepChat 搜索增强功能实现分析</title>
+      <link>https://blog.jaxiu.cn/blog/2025-07/deepchat-search-enhancement/</link>
+      <pubDate>Thu, 31 Jul 2025 20:00:00 +0800</pubDate>
+      <guid>https://blog.jaxiu.cn/blog/2025-07/deepchat-search-enhancement/</guid>
+      <description>&lt;h1 id=&#34;deepchat-搜索增强功能实现分析&#34;&gt;DeepChat 搜索增强功能实现分析&lt;/h1&gt;&#xA;&lt;h2 id=&#34;引言&#34;&gt;引言&lt;/h2&gt;&#xA;&lt;p&gt;在当今信息爆炸的时代，单纯的 AI 模型已经不能满足用户对实时、准确信息的需求。DeepChat 通过强大的搜索增强功能，将 AI 的智能与搜索引擎的实时信息相结合，为用户提供更加准确和及时的回答。本文将深入分析 DeepChat 的搜索增强功能实现机制。&lt;/p&gt;&#xA;&lt;h2 id=&#34;搜索增强的核心价值&#34;&gt;搜索增强的核心价值&lt;/h2&gt;&#xA;&lt;h3 id=&#34;为什么需要搜索增强&#34;&gt;为什么需要搜索增强？&lt;/h3&gt;&#xA;&lt;p&gt;传统的 AI 模型存在以下局限性：&lt;/p&gt;&#xA;&lt;ol&gt;&#xA;&lt;li&gt;&lt;strong&gt;知识截止时间&lt;/strong&gt; - 大多数模型的知识截止到训练数据的时间点&lt;/li&gt;&#xA;&lt;li&gt;&lt;strong&gt;实时信息缺失&lt;/strong&gt; - 无法获取最新的新闻、股价、天气等实时信息&lt;/li&gt;&#xA;&lt;li&gt;&lt;strong&gt;事实准确性&lt;/strong&gt; - 模型可能会产生&amp;quot;幻觉&amp;quot;，提供不准确的信息&lt;/li&gt;&#xA;&lt;li&gt;&lt;strong&gt;个性化限制&lt;/strong&gt; - 无法访问用户的私人数据和特定环境信息&lt;/li&gt;&#xA;&lt;/ol&gt;&#xA;&lt;p&gt;搜索增强功能通过将 AI 与搜索引擎结合，有效解决了这些问题。&lt;/p&gt;</description>
+    </item>
+  </channel>
+</rss>

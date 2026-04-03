@@ -1,0 +1,2074 @@
+<!DOCTYPE html>
+<html lang="zn-Hans">
+  <head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge, chrome=1">
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no, maximum-scale=1" />
+  
+  <meta name="author" content="jaxiu He">
+  <meta name="description"
+    content="AI编程工具深度调研系列（四）
+智谱GLM国产大模型解析
+一、产品概述
+智谱AI（Zhipu AI）是中国领先的AI大模型公司，其GLM系列模型在国内外都有重要影响。GLM（General Language Model）是智谱自主研发的大语言模型家族。
+官网: https://chatglm.cn
+最新动态 (截至2026年2月):
+
+GLM-4系列持续迭代
+推出多模态模型
+企业级解决方案完善
+
+二、技术架构
+2.1 GLM模型演进
+
+  
+      
+          模型
+          发布时间
+          参数规模
+          主要特点
+      
+  
+  
+      
+          GLM-10B
+          2022年
+          100亿
+          首个开源版本
+      
+      
+          GLM-130B
+          2023年
+          1300亿
+          开源千亿模型
+      
+      
+          GLM-3
+          2023年
+          -
+          对标GPT-3.5
+      
+      
+          GLM-4
+          2024年
+          -
+          128K上下文
+      
+      
+          GLM-4V
+          2024年
+          -
+          多模态版本
+      
+      
+          GLM-4 Plus
+          2025年
+          -
+          性能大幅提升
+      
+  
+
+2.2 技术特点
+智谱GLM采用自主研发的技术架构：">
+
+  <meta property="og:url" content="https://blog.jaxiu.cn/blog/2026-02/ai%E7%BC%96%E7%A8%8B%E5%B7%A5%E5%85%B7%E6%B7%B1%E5%BA%A6%E8%B0%83%E7%A0%94%E7%B3%BB%E5%88%97%E5%9B%9B%E6%99%BA%E8%B0%B1glm%E5%9B%BD%E4%BA%A7%E5%A4%A7%E6%A8%A1%E5%9E%8B%E8%A7%A3%E6%9E%90/">
+  <meta property="og:site_name" content="jaxiu He">
+  <meta property="og:title" content="AI编程工具深度调研系列（四）：智谱GLM国产大模型解析">
+  <meta property="og:description" content="AI编程工具深度调研系列（四） 智谱GLM国产大模型解析 一、产品概述 智谱AI（Zhipu AI）是中国领先的AI大模型公司，其GLM系列模型在国内外都有重要影响。GLM（General Language Model）是智谱自主研发的大语言模型家族。
+官网: https://chatglm.cn
+最新动态 (截至2026年2月):
+GLM-4系列持续迭代 推出多模态模型 企业级解决方案完善 二、技术架构 2.1 GLM模型演进 模型 发布时间 参数规模 主要特点 GLM-10B 2022年 100亿 首个开源版本 GLM-130B 2023年 1300亿 开源千亿模型 GLM-3 2023年 - 对标GPT-3.5 GLM-4 2024年 - 128K上下文 GLM-4V 2024年 - 多模态版本 GLM-4 Plus 2025年 - 性能大幅提升 2.2 技术特点 智谱GLM采用自主研发的技术架构：">
+  <meta property="og:locale" content="zn_Hans">
+  <meta property="og:type" content="article">
+    <meta property="article:section" content="blog">
+    <meta property="article:published_time" content="2026-02-26T11:21:00+08:00">
+    <meta property="article:modified_time" content="2026-02-26T11:21:00+08:00">
+    <meta property="article:tag" content="AI">
+    <meta property="article:tag" content="编程工具">
+    <meta property="article:tag" content="GLM">
+    <meta property="article:tag" content="智谱AI">
+    <meta property="article:tag" content="国产大模型">
+
+
+  <title>
+    
+     AI编程工具深度调研系列（四）：智谱GLM国产大模型解析 | jaxiu He 
+    
+  </title>
+
+  <link rel="canonical" href="https://blog.jaxiu.cn/blog/2026-02/ai%E7%BC%96%E7%A8%8B%E5%B7%A5%E5%85%B7%E6%B7%B1%E5%BA%A6%E8%B0%83%E7%A0%94%E7%B3%BB%E5%88%97%E5%9B%9B%E6%99%BA%E8%B0%B1glm%E5%9B%BD%E4%BA%A7%E5%A4%A7%E6%A8%A1%E5%9E%8B%E8%A7%A3%E6%9E%90/">
+
+  
+  
+
+  
+  
+  
+  <meta name="baidu-site-verification" content="your-baidu-verify-code" />
+  
+
+  
+  
+  <meta name="google-site-verification" content="your-google-verify-code" />
+  
+
+  
+  <link href="https://blog.jaxiu.cn/css/vendors-extensions/fontawesome/all.min.css" rel="stylesheet">
+
+  
+  <link rel="stylesheet"
+    href="https://fonts.googleapis.com/css?family=Open+Sans:400,700|Ubuntu+Mono:400,400i,700,700i|Raleway:300,400,500,600">
+  <link href="https://blog.jaxiu.cn/css/font.css" rel="stylesheet">
+
+  
+  <link href="https://blog.jaxiu.cn/css/vendors/bootstrap4/bootstrap.min.css" rel="stylesheet">
+  <link href="https://blog.jaxiu.cn/css/vendors-extensions/mdb/mdb.min.css" rel="stylesheet">
+  <link href="https://blog.jaxiu.cn/css/vendors/mdb/style.min.css" rel="stylesheet">
+  <link href="https://blog.jaxiu.cn/css/main.css" rel="stylesheet">
+
+
+  
+  <link rel="shortcut icon"  href="https://blog.jaxiu.cn/img/logo.png" >
+
+
+  
+  
+
+  <style type="text/css">
+    @media (min-width: 800px) and (max-width: 850px) {
+      .navbar:not(.top-nav-collapse) {
+        background: #1C2331 !important;
+      }
+    }
+  </style>
+
+
+  
+  
+  <link rel="stylesheet" href="https://blog.jaxiu.cn/js/vendors/katex/katex.min.css">
+  
+  
+
+  
+  
+  <link rel="stylesheet" href="https://blog.jaxiu.cn/css/vendors/highlight/github-gist.css">
+  
+
+  
+  
+  <script type="module">
+    import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.esm.min.mjs';
+    mermaid.initialize({ startOnLoad: true });
+  </script>
+  
+  
+
+  
+  <link href="https://blog.jaxiu.cn/css/holiday-effects.css" rel="stylesheet">
+  <script src="https://blog.jaxiu.cn/js/holiday-effects.js"></script>
+
+  
+  <script src="https://blog.jaxiu.cn/js/dynamic-bg.js"></script>
+  <link href="https://blog.jaxiu.cn/css/dynamic-bg-control.css" rel="stylesheet">
+
+</head>
+  <body class="bg-light" data-spy="scroll" data-target="#page-scrollspy" data-offset="90">
+  
+    
+    
+
+    
+      
+
+
+<nav class="navbar fixed-top navbar-expand-lg navbar-dark scrolling-navbar">
+    <div class="container">
+
+      
+      <a class="navbar-brand" href="https://blog.jaxiu.cn/">
+          
+        <img class="avatar" src="https://blog.jaxiu.cn/img/logo.png" style="width: 40px!important;height: auto;"  class="d-inline-block align-top" alt="" >
+        
+        <strong> jaxiu He</strong>
+      </a>
+
+      
+      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
+        aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+
+      
+      <div class="collapse navbar-collapse" id="navbarSupportedContent">
+
+        
+        <ul class="navbar-nav mr-auto ">
+          <li class="nav-item ">
+            <a class="nav-link" href="https://blog.jaxiu.cn/">Home</a>
+          </li>
+          
+            <li class="nav-item ">
+              <a class="nav-link" href="https://blog.jaxiu.cn/blog/" >博客  </a>
+            </li>
+
+          
+            <li class="nav-item ">
+              <a class="nav-link" href="https://blog.jaxiu.cn/moment/" >动态  </a>
+            </li>
+
+          
+            <li class="nav-item ">
+              <a class="nav-link" href="https://blog.jaxiu.cn/blog/prenatal-stories/" >胎教故事  </a>
+            </li>
+
+          
+            <li class="nav-item ">
+              <a class="nav-link" href="https://blog.jaxiu.cn/about/" >关于  </a>
+            </li>
+
+          
+        </ul>
+
+        
+        <ul class="navbar-nav">
+          <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" href="#" id="searchDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+              <i class="fas fa-search"></i> 搜索
+            </a>
+            <div class="dropdown-menu dropdown-menu-right p-3" aria-labelledby="searchDropdown" style="min-width: 300px; max-width: 400px;">
+              <form class="search-form" onsubmit="return false;">
+                <div class="input-group">
+                  <input type="text" id="search-query" class="form-control" placeholder="搜索文章标题或内容..." autocomplete="off">
+                  <div class="input-group-append">
+                    <button class="btn btn-outline-secondary" type="button" onclick="document.getElementById('search-query').focus();">
+                      <i class="fas fa-search"></i>
+                    </button>
+                  </div>
+                </div>
+              </form>
+              <ul id="search-results" class="list-unstyled mt-2 mb-0" style="max-height: 400px; overflow-y: auto;"></ul>
+            </div>
+          </li>
+        </ul>
+
+      </div>
+
+    </div>
+  </nav>
+   
+      
+
+
+
+
+
+
+
+<div id="site-header" class="carousel slide carousel-fade" data-ride="carousel" style="height: 18rem;">
+  
+
+  
+  
+  
+
+  
+  <div class="carousel-inner" role="listbox">
+    
+    
+
+    
+    <div class="carousel-item active">
+      <div class="view"
+        style="background-image: url('https://blog.jaxiu.cn/img/header-slides/raw_1515691746.jpg'); background-repeat: no-repeat; background-size: cover;">
+
+        
+        <div class="mask rgba-black-light d-flex justify-content-center align-items-center">
+
+          
+          
+          
+
+        </div>
+        
+
+      </div>
+    </div>
+    
+    
+    
+    
+
+    
+    <div class="carousel-item">
+      <div class="view"
+        style="background-image: url('https://blog.jaxiu.cn/img/header-slides//raw_1515847341.jpg'); background-repeat: no-repeat; background-size: cover;">
+
+        
+        <div class="mask rgba-black-light d-flex justify-content-center align-items-center">
+
+
+
+        </div>
+        
+
+      </div>
+    </div>
+    
+    
+    
+
+
+  </div>
+  
+
+  
+  <div class="carousel-content text-center white-text wow fadeIn">
+    <div class="row mx-0 headfont mt-3 pt-4">
+      
+      <div class="col-12 col-sm-5 align-middle">
+        <a href="https://blog.jaxiu.cn/">
+          
+          <img class="pull-right avatar avatar-md" src="https://blog.jaxiu.cn/img/logo.png" alt="">
+          
+        </a>
+      </div>
+
+      <div class="col-12 col-sm-7 text-left pl-2">
+        <a href="https://blog.jaxiu.cn/">
+          <h1 class="mb-2 h1" style="font-weight: 300;">
+            <strong>jaxiu He</strong>
+          </h1>
+        </a>
+
+
+        
+        <div class="mt-2" style="font-size: 1rem; color: white;">
+          
+          <a href="//github.com/axfinn" target="_blank" rel="noopener"><i class="fab fa-github pr-1"
+              aria-hidden="true"></i></a>
+          
+          
+
+          
+
+          
+
+          
+
+          
+
+          
+
+
+          
+          <a href="mailto:521very@email.com"><i class="far fa-envelope-open pr-1" aria-hidden="true"></i></a>
+          
+
+          
+
+
+        </div>
+      </div>
+    </div>
+  </div>
+  
+
+  
+  
+  
+
+</div>
+  
+    
+
+    
+  
+  <main class="post-main-wrapper">
+    
+    
+    <div class="row">
+
+      
+
+      
+      <div class="col-md-10">
+      
+
+        
+        <div class="z-depth-1  post-wrapper white-bg single-post">
+
+          <div class="post-header text-center" >
+  <ul class="post-meta li-x">
+    
+      
+        <li><a href="https://blog.jaxiu.cn/categories/%E6%8A%80%E6%9C%AF"><i class="fas fa-folder-open pr-1" aria-hidden="true"></i> 技术 </a></li>
+      
+        <li><a href="https://blog.jaxiu.cn/categories/ai"><i class="fas fa-folder-open pr-1" aria-hidden="true"></i> AI </a></li>
+      
+        <li><a href="https://blog.jaxiu.cn/categories/%E7%BC%96%E7%A8%8B%E5%B7%A5%E5%85%B7"><i class="fas fa-folder-open pr-1" aria-hidden="true"></i> 编程工具 </a></li>
+      
+    
+    
+  </ul>
+
+  <div class="px-4 post-heading">AI编程工具深度调研系列（四）：智谱GLM国产大模型解析</div>
+
+  <ul class="post-meta li-x mt-1">
+    
+      <li>Feb 26, 2026</li>
+    
+
+    
+      <li class="middot"></li>
+      <li>4 minutes read</li>
+    
+  </ul>
+  
+
+</div>
+
+
+          <div class="post-content markdown">
+            <h1 id="ai编程工具深度调研系列四">AI编程工具深度调研系列（四）</h1>
+<h2 id="智谱glm国产大模型解析">智谱GLM国产大模型解析</h2>
+<h3 id="一产品概述">一、产品概述</h3>
+<p>智谱AI（Zhipu AI）是中国领先的AI大模型公司，其GLM系列模型在国内外都有重要影响。GLM（General Language Model）是智谱自主研发的大语言模型家族。</p>
+<p><strong>官网</strong>: <a href="https://chatglm.cn">https://chatglm.cn</a></p>
+<p><strong>最新动态</strong> (截至2026年2月):</p>
+<ul>
+<li>GLM-4系列持续迭代</li>
+<li>推出多模态模型</li>
+<li>企业级解决方案完善</li>
+</ul>
+<h3 id="二技术架构">二、技术架构</h3>
+<h4 id="21-glm模型演进">2.1 GLM模型演进</h4>
+<table>
+  <thead>
+      <tr>
+          <th>模型</th>
+          <th>发布时间</th>
+          <th>参数规模</th>
+          <th>主要特点</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td>GLM-10B</td>
+          <td>2022年</td>
+          <td>100亿</td>
+          <td>首个开源版本</td>
+      </tr>
+      <tr>
+          <td>GLM-130B</td>
+          <td>2023年</td>
+          <td>1300亿</td>
+          <td>开源千亿模型</td>
+      </tr>
+      <tr>
+          <td>GLM-3</td>
+          <td>2023年</td>
+          <td>-</td>
+          <td>对标GPT-3.5</td>
+      </tr>
+      <tr>
+          <td>GLM-4</td>
+          <td>2024年</td>
+          <td>-</td>
+          <td>128K上下文</td>
+      </tr>
+      <tr>
+          <td>GLM-4V</td>
+          <td>2024年</td>
+          <td>-</td>
+          <td>多模态版本</td>
+      </tr>
+      <tr>
+          <td>GLM-4 Plus</td>
+          <td>2025年</td>
+          <td>-</td>
+          <td>性能大幅提升</td>
+      </tr>
+  </tbody>
+</table>
+<h4 id="22-技术特点">2.2 技术特点</h4>
+<p>智谱GLM采用自主研发的技术架构：</p>
+<pre tabindex="0"><code> GLM 核心技术：
+ │
+ ├─ GLM (General Language Model)
+ │  ├─ 自回归填空预训练
+ │  ├─ 多任务学习
+ │  └─ 指令微调
+ │
+ ├─ 128K超长上下文
+ │  ├─ 位置编码扩展
+ │  └─ 内存优化
+ │
+ └─ 多模态能力
+    ├─ 视觉理解
+    ├─ 语音识别
+    └─ 图像生成
+</code></pre><h3 id="三核心功能">三、核心功能</h3>
+<h4 id="31-编程能力">3.1 编程能力</h4>
+<p>根据公开基准测试，GLM-4的编程能力：</p>
+<table>
+  <thead>
+      <tr>
+          <th>基准测试</th>
+          <th>GLM-4</th>
+          <th>GPT-4</th>
+          <th>说明</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td>HumanEval</td>
+          <td>58.2%</td>
+          <td>67.0%</td>
+          <td>代码生成</td>
+      </tr>
+      <tr>
+          <td>MBPP</td>
+          <td>65.3%</td>
+          <td>67.6%</td>
+          <td>基础编程</td>
+      </tr>
+      <tr>
+          <td>MBXP</td>
+          <td>52.1%</td>
+          <td>58.3%</td>
+          <td>多语言</td>
+      </tr>
+      <tr>
+          <td>APPS</td>
+          <td>48.5%</td>
+          <td>55.2%</td>
+          <td>问题解决</td>
+      </tr>
+  </tbody>
+</table>
+<p><em>数据来源: 智谱AI技术报告 [1]</em></p>
+<h4 id="32-编程语言支持">3.2 编程语言支持</h4>
+<p>GLM主要支持的编程语言：</p>
+<ul>
+<li>Python ⭐</li>
+<li>JavaScript/TypeScript</li>
+<li>Java</li>
+<li>C/C++</li>
+<li>Go</li>
+<li>Rust</li>
+<li>PHP</li>
+<li>Ruby</li>
+<li>Swift</li>
+<li>Kotlin</li>
+</ul>
+<h4 id="33-特色功能">3.3 特色功能</h4>
+<p><strong>3.3.1 智能体(Agent)</strong></p>
+<ul>
+<li>支持复杂任务分解</li>
+<li>工具调用能力</li>
+<li>自主决策能力</li>
+</ul>
+<p><strong>3.3.2 代码解释</strong></p>
+<ul>
+<li>逐行代码解读</li>
+<li>算法复杂度分析</li>
+<li>优化建议生成</li>
+</ul>
+<p><strong>3.3.3 项目级理解</strong></p>
+<ul>
+<li>代码库结构分析</li>
+<li>依赖关系图谱</li>
+<li>架构优化建议</li>
+</ul>
+<h3 id="四产品矩阵">四、产品矩阵</h3>
+<h4 id="41-对话产品">4.1 对话产品</h4>
+<table>
+  <thead>
+      <tr>
+          <th>产品</th>
+          <th>说明</th>
+          <th>链接</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td>智谱清言</td>
+          <td>Web版对话</td>
+          <td>chatglm.cn</td>
+      </tr>
+      <tr>
+          <td>APP</td>
+          <td>移动应用</td>
+          <td>应用商店</td>
+      </tr>
+      <tr>
+          <td>小程序</td>
+          <td>微信小程序</td>
+          <td>微信</td>
+      </tr>
+  </tbody>
+</table>
+<h4 id="42-开发平台">4.2 开发平台</h4>
+<table>
+  <thead>
+      <tr>
+          <th>产品</th>
+          <th>说明</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td>GLM API</td>
+          <td>开放API</td>
+      </tr>
+      <tr>
+          <td>BigModel开放平台</td>
+          <td>企业级平台</td>
+      </tr>
+      <tr>
+          <td>ModelScope</td>
+          <td>模型社区</td>
+      </tr>
+  </tbody>
+</table>
+<h4 id="43-开源模型">4.3 开源模型</h4>
+<table>
+  <thead>
+      <tr>
+          <th>模型</th>
+          <th>说明</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td>ChatGLM-6B</td>
+          <td>开源对话模型</td>
+      </tr>
+      <tr>
+          <td>ChatGLM2-6B</td>
+          <td>升级版本</td>
+      </tr>
+      <tr>
+          <td>CodeGeeX</td>
+          <td>代码生成模型</td>
+      </tr>
+  </tbody>
+</table>
+<h3 id="五codegeex专题">五、CodeGeeX专题</h3>
+<h4 id="51-什么是codegeex">5.1 什么是CodeGeeX</h4>
+<p>CodeGeeX是智谱AI推出的专门用于代码生成的大模型，基于GLM架构，专门针对编程任务优化。</p>
+<h4 id="52-codegeex功能">5.2 CodeGeeX功能</h4>
+<pre tabindex="0"><code> CodeGeeX 核心能力：
+ │
+ ├─ 代码补全
+ │  ├─ 行级补全
+ │  ├─ 函数级补全
+ │  └─ 文件级补全
+ │
+ ├─ 代码生成
+ │  ├─ 自然语言转代码
+ │  ├─ 注释转代码
+ │  └─ 测试生成
+ │
+ ├─ 代码翻译
+ │  ├─ 语言间转换
+ │  ├─ 语法升级
+ │  └─ 框架迁移
+ │
+ └─ 代码理解
+    ├─ 代码解释
+    ├─ Bug定位
+    └─ 优化建议
+</code></pre><h4 id="53-性能表现">5.3 性能表现</h4>
+<table>
+  <thead>
+      <tr>
+          <th>基准测试</th>
+          <th>CodeGeeX</th>
+          <th>说明</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td>HumanEval</td>
+          <td>35.6%</td>
+          <td>Python代码生成</td>
+      </tr>
+      <tr>
+          <td>MultiPL-E</td>
+          <td>28.4%</td>
+          <td>多语言测试</td>
+      </tr>
+  </tbody>
+</table>
+<p><em>数据来源: CodeGeeX论文 [2]</em></p>
+<h3 id="六集成生态">六、集成生态</h3>
+<h4 id="61-ide集成">6.1 IDE集成</h4>
+<ul>
+<li><strong>VS Code</strong>: CodeGeeX插件</li>
+<li><strong>JetBrains</strong>: IDE插件(开发中)</li>
+<li><strong>Vim</strong>: 命令行插件</li>
+</ul>
+<h4 id="62-企业集成">6.2 企业集成</h4>
+<ul>
+<li><strong>钉钉</strong>: 企业IM集成</li>
+<li><strong>飞书</strong>: 协作平台集成</li>
+<li><strong>微信</strong>: 企业微信集成</li>
+</ul>
+<h3 id="七安全性与合规">七、安全性与合规</h3>
+<h4 id="71-安全措施">7.1 安全措施</h4>
+<ul>
+<li>内容安全审核</li>
+<li>敏感信息过滤</li>
+<li>恶意代码检测</li>
+<li>用户隐私保护</li>
+</ul>
+<h4 id="72-合规认证">7.2 合规认证</h4>
+<ul>
+<li>中国互联网安全评估</li>
+<li>数据安全合规</li>
+<li>个人信息保护认证</li>
+</ul>
+<h3 id="八定价策略">八、定价策略</h3>
+<h4 id="81-api定价">8.1 API定价</h4>
+<table>
+  <thead>
+      <tr>
+          <th>模型</th>
+          <th>输入价格</th>
+          <th>输出价格</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td>GLM-4</td>
+          <td>¥1/1M</td>
+          <td>¥1/1M</td>
+      </tr>
+      <tr>
+          <td>GLM-4-Flash</td>
+          <td>¥0.1/1M</td>
+          <td>¥0.1/1M</td>
+      </tr>
+      <tr>
+          <td>GLM-4V</td>
+          <td>¥3/1M</td>
+          <td>¥3/1M</td>
+      </tr>
+      <tr>
+          <td>CodeGeeX</td>
+          <td>¥1/1M</td>
+          <td>¥1/1M</td>
+      </tr>
+  </tbody>
+</table>
+<p><em>数据来源: 智谱AI开放平台 [3]</em></p>
+<h4 id="82-企业版">8.2 企业版</h4>
+<p>企业版价格根据需求定制，包含：</p>
+<ul>
+<li>专属算力</li>
+<li>数据隔离</li>
+<li>定制微调</li>
+<li>技术支持</li>
+</ul>
+<h3 id="九优势与劣势">九、优势与劣势</h3>
+<h4 id="91-优势">9.1 优势</h4>
+<ol>
+<li><strong>本土化</strong>: 完全中文语境优化</li>
+<li><strong>性价比</strong>: 价格相对较低</li>
+<li><strong>开源</strong>: 提供开源版本供研究</li>
+<li><strong>生态完整</strong>: 从对话到开发平台全覆盖</li>
+<li><strong>合规</strong>: 符合中国法规要求</li>
+</ol>
+<h4 id="92-劣势">9.2 劣势</h4>
+<ol>
+<li><strong>国际影响</strong>: 相比OpenAI全球影响力较弱</li>
+<li><strong>英语能力</strong>: 英语代码能力略逊于GPT</li>
+<li><strong>生态</strong>: 第三方集成相对较少</li>
+</ol>
+<h3 id="十开发者评价">十、开发者评价</h3>
+<p>根据国内开发者社区反馈：</p>
+<blockquote>
+<p>&ldquo;GLM在中文代码注释理解方面表现出色，很适合国内开发者使用。&rdquo; - V2EX开发者社区 [4]</p>
+</blockquote>
+<blockquote>
+<p>&ldquo;CodeGeeX的免费版本已经足够日常使用，性价比很高。&rdquo; - 知乎</p>
+</blockquote>
+<h3 id="十一参考来源">十一、参考来源</h3>
+<p>[1] 智谱AI技术报告: <a href="https://chatglm.cn/blog">https://chatglm.cn/blog</a></p>
+<p>[2] CodeGeeX论文: <a href="https://github.com/THUDM/CodeGeeX">https://github.com/THUDM/CodeGeeX</a></p>
+<p>[3] 智谱AI开放平台: <a href="https://open.bigmodel.cn">https://open.bigmodel.cn</a></p>
+<p>[4] V2EX开发者社区: <a href="https://v2ex.com">https://v2ex.com</a></p>
+<h3 id="十二结论">十二、结论</h3>
+<p>智谱AI作为中国AI大模型的代表，GLM系列在编程能力上已经接近国际先进水平。特别是CodeGeeX的开源，使得更多开发者能够使用到国产的代码生成工具。</p>
+<p><strong>推荐指数</strong>: ⭐⭐⭐⭐</p>
+<p><strong>适用场景</strong>:</p>
+<ul>
+<li>国内开发者</li>
+<li>对性价比有要求的项目</li>
+<li>需要中文语境优化的场景</li>
+</ul>
+<hr>
+<p><em>下期预告: AI编程工具深度调研系列（五）- MiniMax多模态AI解析</em></p>
+
+          </div>
+
+          
+          <div class="row">
+            <div class="col-md-8">
+            
+              <div class="mb-5">
+                
+<div class="li-x div-x post-meta">
+  <li class="pr-0"><a href="https://blog.jaxiu.cn/tags/"><i class="fas fa-tags"></i></a></li>
+  <div class="tags-sm">
+    
+      <li><a href="https://blog.jaxiu.cn/tags/ai" role="button">AI </a></li>
+      
+    
+      <li><a href="https://blog.jaxiu.cn/tags/%E7%BC%96%E7%A8%8B%E5%B7%A5%E5%85%B7" role="button">编程工具 </a></li>
+      
+    
+      <li><a href="https://blog.jaxiu.cn/tags/glm" role="button">GLM </a></li>
+      
+    
+      <li><a href="https://blog.jaxiu.cn/tags/%E6%99%BA%E8%B0%B1ai" role="button">智谱AI </a></li>
+      
+    
+      <li><a href="https://blog.jaxiu.cn/tags/%E5%9B%BD%E4%BA%A7%E5%A4%A7%E6%A8%A1%E5%9E%8B" role="button">国产大模型 </a></li>
+      
+    
+  </div>
+</div>
+              </div>
+            
+            </div>
+            
+          </div>
+          
+
+          
+          <div class="row pt-3">
+            <div class="col-md-6">
+              
+                <a href=https://blog.jaxiu.cn/blog/2026-02/ai%E7%BC%96%E7%A8%8B%E5%B7%A5%E5%85%B7%E6%B7%B1%E5%BA%A6%E8%B0%83%E7%A0%94%E7%B3%BB%E5%88%97%E4%B8%89claude-%E7%BC%96%E7%A8%8B%E5%8A%A9%E6%89%8B%E5%85%A8%E9%9D%A2%E8%A7%A3%E6%9E%90/ class="post-meta">Previous
+                  <div class="pt-2 pb-5 d-flex">
+                    <i class="fas fa-angle-left text-grey font-weight-bold mr-2 active-color"></i>
+                    <span>AI编程工具深度调研系列（三）：Claude 编程助手全面解析</span>
+                  </div>
+                </a>
+              
+            </div>
+            
+            <div class="col-md-6 text-right" >
+              
+                <a href=https://blog.jaxiu.cn/blog/2026-02/ai%E7%BC%96%E7%A8%8B%E5%B7%A5%E5%85%B7%E6%B7%B1%E5%BA%A6%E8%B0%83%E7%A0%94%E7%B3%BB%E5%88%97%E4%BA%94minimax-%E5%A4%9A%E6%A8%A1%E6%80%81ai%E6%96%B0%E7%A7%80%E8%A7%A3%E6%9E%90/ class="post-meta">Next
+                  <div class="pt-2 pb-5 flex-reverse">
+                    <i class="fas fa-angle-right text-grey font-weight-bold ml-2 active-color"></i>
+                    <span>AI编程工具深度调研系列（五）：MiniMax 多模态AI新秀解析</span>
+                  </div>
+                </a>
+              
+            </div>
+          </div>
+
+          
+
+        </div>
+        
+
+      </div>
+      
+
+      
+	
+	
+	
+	
+		
+		
+		
+	
+
+		
+		<div class="col-md-2 pl-0">
+
+			
+			<div id="page-scrollspy" class="toc-nav">
+				
+				<ul class="nav nav-pills ml-0">
+					
+					<li class="nav-item pb-3 text-center">
+						<span class="font-weight-bold mb-2">- CATALOG - </span>
+					</li>
+
+					
+						
+						
+							
+								
+								
+									<ul class="nav">
+								
+								
+
+										<li class="nav-item">
+						 					<a class="nav-link" href="#ai%e7%bc%96%e7%a8%8b%e5%b7%a5%e5%85%b7%e6%b7%b1%e5%ba%a6%e8%b0%83%e7%a0%94%e7%b3%bb%e5%88%97%e5%9b%9b">
+												 AI编程工具深度调研系列（四）
+											</a>
+										</li>
+						 
+								
+								
+									</ul>
+								
+							
+						
+				 
+						
+						
+							
+								
+								
+									<ul class="nav">
+								
+									<ul class="nav">
+								
+								
+
+										<li class="nav-item">
+						 					<a class="nav-link" href="#%e6%99%ba%e8%b0%b1glm%e5%9b%bd%e4%ba%a7%e5%a4%a7%e6%a8%a1%e5%9e%8b%e8%a7%a3%e6%9e%90">
+												 智谱GLM国产大模型解析
+											</a>
+										</li>
+						 
+								
+								
+									</ul>
+								
+									</ul>
+								
+							
+						
+				 
+						
+						
+							
+								
+								
+									<ul class="nav">
+								
+									<ul class="nav">
+								
+									<ul class="nav">
+								
+								
+
+										<li class="nav-item">
+						 					<a class="nav-link" href="#%e4%b8%80%e4%ba%a7%e5%93%81%e6%a6%82%e8%bf%b0">
+												 一、产品概述
+											</a>
+										</li>
+						 
+								
+								
+									</ul>
+								
+									</ul>
+								
+									</ul>
+								
+							
+						
+				 
+						
+						
+							
+								
+								
+									<ul class="nav">
+								
+									<ul class="nav">
+								
+									<ul class="nav">
+								
+								
+
+										<li class="nav-item">
+						 					<a class="nav-link" href="#%e4%ba%8c%e6%8a%80%e6%9c%af%e6%9e%b6%e6%9e%84">
+												 二、技术架构
+											</a>
+										</li>
+						 
+								
+								
+									</ul>
+								
+									</ul>
+								
+									</ul>
+								
+							
+						
+				 
+						
+						
+							
+								
+								
+									<ul class="nav">
+								
+									<ul class="nav">
+								
+									<ul class="nav">
+								
+									<ul class="nav">
+								
+								
+
+										<li class="nav-item">
+						 					<a class="nav-link" href="#21-glm%e6%a8%a1%e5%9e%8b%e6%bc%94%e8%bf%9b">
+												 2.1 GLM模型演进
+											</a>
+										</li>
+						 
+								
+								
+									</ul>
+								
+									</ul>
+								
+									</ul>
+								
+									</ul>
+								
+							
+						
+				 
+						
+						
+							
+								
+								
+									<ul class="nav">
+								
+									<ul class="nav">
+								
+									<ul class="nav">
+								
+									<ul class="nav">
+								
+								
+
+										<li class="nav-item">
+						 					<a class="nav-link" href="#22-%e6%8a%80%e6%9c%af%e7%89%b9%e7%82%b9">
+												 2.2 技术特点
+											</a>
+										</li>
+						 
+								
+								
+									</ul>
+								
+									</ul>
+								
+									</ul>
+								
+									</ul>
+								
+							
+						
+				 
+						
+						
+							
+								
+								
+									<ul class="nav">
+								
+									<ul class="nav">
+								
+									<ul class="nav">
+								
+								
+
+										<li class="nav-item">
+						 					<a class="nav-link" href="#%e4%b8%89%e6%a0%b8%e5%bf%83%e5%8a%9f%e8%83%bd">
+												 三、核心功能
+											</a>
+										</li>
+						 
+								
+								
+									</ul>
+								
+									</ul>
+								
+									</ul>
+								
+							
+						
+				 
+						
+						
+							
+								
+								
+									<ul class="nav">
+								
+									<ul class="nav">
+								
+									<ul class="nav">
+								
+									<ul class="nav">
+								
+								
+
+										<li class="nav-item">
+						 					<a class="nav-link" href="#31-%e7%bc%96%e7%a8%8b%e8%83%bd%e5%8a%9b">
+												 3.1 编程能力
+											</a>
+										</li>
+						 
+								
+								
+									</ul>
+								
+									</ul>
+								
+									</ul>
+								
+									</ul>
+								
+							
+						
+				 
+						
+						
+							
+								
+								
+									<ul class="nav">
+								
+									<ul class="nav">
+								
+									<ul class="nav">
+								
+									<ul class="nav">
+								
+								
+
+										<li class="nav-item">
+						 					<a class="nav-link" href="#32-%e7%bc%96%e7%a8%8b%e8%af%ad%e8%a8%80%e6%94%af%e6%8c%81">
+												 3.2 编程语言支持
+											</a>
+										</li>
+						 
+								
+								
+									</ul>
+								
+									</ul>
+								
+									</ul>
+								
+									</ul>
+								
+							
+						
+				 
+						
+						
+							
+								
+								
+									<ul class="nav">
+								
+									<ul class="nav">
+								
+									<ul class="nav">
+								
+									<ul class="nav">
+								
+								
+
+										<li class="nav-item">
+						 					<a class="nav-link" href="#33-%e7%89%b9%e8%89%b2%e5%8a%9f%e8%83%bd">
+												 3.3 特色功能
+											</a>
+										</li>
+						 
+								
+								
+									</ul>
+								
+									</ul>
+								
+									</ul>
+								
+									</ul>
+								
+							
+						
+				 
+						
+						
+							
+								
+								
+									<ul class="nav">
+								
+									<ul class="nav">
+								
+									<ul class="nav">
+								
+								
+
+										<li class="nav-item">
+						 					<a class="nav-link" href="#%e5%9b%9b%e4%ba%a7%e5%93%81%e7%9f%a9%e9%98%b5">
+												 四、产品矩阵
+											</a>
+										</li>
+						 
+								
+								
+									</ul>
+								
+									</ul>
+								
+									</ul>
+								
+							
+						
+				 
+						
+						
+							
+								
+								
+									<ul class="nav">
+								
+									<ul class="nav">
+								
+									<ul class="nav">
+								
+									<ul class="nav">
+								
+								
+
+										<li class="nav-item">
+						 					<a class="nav-link" href="#41-%e5%af%b9%e8%af%9d%e4%ba%a7%e5%93%81">
+												 4.1 对话产品
+											</a>
+										</li>
+						 
+								
+								
+									</ul>
+								
+									</ul>
+								
+									</ul>
+								
+									</ul>
+								
+							
+						
+				 
+						
+						
+							
+								
+								
+									<ul class="nav">
+								
+									<ul class="nav">
+								
+									<ul class="nav">
+								
+									<ul class="nav">
+								
+								
+
+										<li class="nav-item">
+						 					<a class="nav-link" href="#42-%e5%bc%80%e5%8f%91%e5%b9%b3%e5%8f%b0">
+												 4.2 开发平台
+											</a>
+										</li>
+						 
+								
+								
+									</ul>
+								
+									</ul>
+								
+									</ul>
+								
+									</ul>
+								
+							
+						
+				 
+						
+						
+							
+								
+								
+									<ul class="nav">
+								
+									<ul class="nav">
+								
+									<ul class="nav">
+								
+									<ul class="nav">
+								
+								
+
+										<li class="nav-item">
+						 					<a class="nav-link" href="#43-%e5%bc%80%e6%ba%90%e6%a8%a1%e5%9e%8b">
+												 4.3 开源模型
+											</a>
+										</li>
+						 
+								
+								
+									</ul>
+								
+									</ul>
+								
+									</ul>
+								
+									</ul>
+								
+							
+						
+				 
+						
+						
+							
+								
+								
+									<ul class="nav">
+								
+									<ul class="nav">
+								
+									<ul class="nav">
+								
+								
+
+										<li class="nav-item">
+						 					<a class="nav-link" href="#%e4%ba%94codegeex%e4%b8%93%e9%a2%98">
+												 五、CodeGeeX专题
+											</a>
+										</li>
+						 
+								
+								
+									</ul>
+								
+									</ul>
+								
+									</ul>
+								
+							
+						
+				 
+						
+						
+							
+								
+								
+									<ul class="nav">
+								
+									<ul class="nav">
+								
+									<ul class="nav">
+								
+									<ul class="nav">
+								
+								
+
+										<li class="nav-item">
+						 					<a class="nav-link" href="#51-%e4%bb%80%e4%b9%88%e6%98%afcodegeex">
+												 5.1 什么是CodeGeeX
+											</a>
+										</li>
+						 
+								
+								
+									</ul>
+								
+									</ul>
+								
+									</ul>
+								
+									</ul>
+								
+							
+						
+				 
+						
+						
+							
+								
+								
+									<ul class="nav">
+								
+									<ul class="nav">
+								
+									<ul class="nav">
+								
+									<ul class="nav">
+								
+								
+
+										<li class="nav-item">
+						 					<a class="nav-link" href="#52-codegeex%e5%8a%9f%e8%83%bd">
+												 5.2 CodeGeeX功能
+											</a>
+										</li>
+						 
+								
+								
+									</ul>
+								
+									</ul>
+								
+									</ul>
+								
+									</ul>
+								
+							
+						
+				 
+						
+						
+							
+								
+								
+									<ul class="nav">
+								
+									<ul class="nav">
+								
+									<ul class="nav">
+								
+									<ul class="nav">
+								
+								
+
+										<li class="nav-item">
+						 					<a class="nav-link" href="#53-%e6%80%a7%e8%83%bd%e8%a1%a8%e7%8e%b0">
+												 5.3 性能表现
+											</a>
+										</li>
+						 
+								
+								
+									</ul>
+								
+									</ul>
+								
+									</ul>
+								
+									</ul>
+								
+							
+						
+				 
+						
+						
+							
+								
+								
+									<ul class="nav">
+								
+									<ul class="nav">
+								
+									<ul class="nav">
+								
+								
+
+										<li class="nav-item">
+						 					<a class="nav-link" href="#%e5%85%ad%e9%9b%86%e6%88%90%e7%94%9f%e6%80%81">
+												 六、集成生态
+											</a>
+										</li>
+						 
+								
+								
+									</ul>
+								
+									</ul>
+								
+									</ul>
+								
+							
+						
+				 
+						
+						
+							
+								
+								
+									<ul class="nav">
+								
+									<ul class="nav">
+								
+									<ul class="nav">
+								
+									<ul class="nav">
+								
+								
+
+										<li class="nav-item">
+						 					<a class="nav-link" href="#61-ide%e9%9b%86%e6%88%90">
+												 6.1 IDE集成
+											</a>
+										</li>
+						 
+								
+								
+									</ul>
+								
+									</ul>
+								
+									</ul>
+								
+									</ul>
+								
+							
+						
+				 
+						
+						
+							
+								
+								
+									<ul class="nav">
+								
+									<ul class="nav">
+								
+									<ul class="nav">
+								
+									<ul class="nav">
+								
+								
+
+										<li class="nav-item">
+						 					<a class="nav-link" href="#62-%e4%bc%81%e4%b8%9a%e9%9b%86%e6%88%90">
+												 6.2 企业集成
+											</a>
+										</li>
+						 
+								
+								
+									</ul>
+								
+									</ul>
+								
+									</ul>
+								
+									</ul>
+								
+							
+						
+				 
+						
+						
+							
+								
+								
+									<ul class="nav">
+								
+									<ul class="nav">
+								
+									<ul class="nav">
+								
+								
+
+										<li class="nav-item">
+						 					<a class="nav-link" href="#%e4%b8%83%e5%ae%89%e5%85%a8%e6%80%a7%e4%b8%8e%e5%90%88%e8%a7%84">
+												 七、安全性与合规
+											</a>
+										</li>
+						 
+								
+								
+									</ul>
+								
+									</ul>
+								
+									</ul>
+								
+							
+						
+				 
+						
+						
+							
+								
+								
+									<ul class="nav">
+								
+									<ul class="nav">
+								
+									<ul class="nav">
+								
+									<ul class="nav">
+								
+								
+
+										<li class="nav-item">
+						 					<a class="nav-link" href="#71-%e5%ae%89%e5%85%a8%e6%8e%aa%e6%96%bd">
+												 7.1 安全措施
+											</a>
+										</li>
+						 
+								
+								
+									</ul>
+								
+									</ul>
+								
+									</ul>
+								
+									</ul>
+								
+							
+						
+				 
+						
+						
+							
+								
+								
+									<ul class="nav">
+								
+									<ul class="nav">
+								
+									<ul class="nav">
+								
+									<ul class="nav">
+								
+								
+
+										<li class="nav-item">
+						 					<a class="nav-link" href="#72-%e5%90%88%e8%a7%84%e8%ae%a4%e8%af%81">
+												 7.2 合规认证
+											</a>
+										</li>
+						 
+								
+								
+									</ul>
+								
+									</ul>
+								
+									</ul>
+								
+									</ul>
+								
+							
+						
+				 
+						
+						
+							
+								
+								
+									<ul class="nav">
+								
+									<ul class="nav">
+								
+									<ul class="nav">
+								
+								
+
+										<li class="nav-item">
+						 					<a class="nav-link" href="#%e5%85%ab%e5%ae%9a%e4%bb%b7%e7%ad%96%e7%95%a5">
+												 八、定价策略
+											</a>
+										</li>
+						 
+								
+								
+									</ul>
+								
+									</ul>
+								
+									</ul>
+								
+							
+						
+				 
+						
+						
+							
+								
+								
+									<ul class="nav">
+								
+									<ul class="nav">
+								
+									<ul class="nav">
+								
+									<ul class="nav">
+								
+								
+
+										<li class="nav-item">
+						 					<a class="nav-link" href="#81-api%e5%ae%9a%e4%bb%b7">
+												 8.1 API定价
+											</a>
+										</li>
+						 
+								
+								
+									</ul>
+								
+									</ul>
+								
+									</ul>
+								
+									</ul>
+								
+							
+						
+				 
+						
+						
+							
+								
+								
+									<ul class="nav">
+								
+									<ul class="nav">
+								
+									<ul class="nav">
+								
+									<ul class="nav">
+								
+								
+
+										<li class="nav-item">
+						 					<a class="nav-link" href="#82-%e4%bc%81%e4%b8%9a%e7%89%88">
+												 8.2 企业版
+											</a>
+										</li>
+						 
+								
+								
+									</ul>
+								
+									</ul>
+								
+									</ul>
+								
+									</ul>
+								
+							
+						
+				 
+						
+						
+							
+								
+								
+									<ul class="nav">
+								
+									<ul class="nav">
+								
+									<ul class="nav">
+								
+								
+
+										<li class="nav-item">
+						 					<a class="nav-link" href="#%e4%b9%9d%e4%bc%98%e5%8a%bf%e4%b8%8e%e5%8a%a3%e5%8a%bf">
+												 九、优势与劣势
+											</a>
+										</li>
+						 
+								
+								
+									</ul>
+								
+									</ul>
+								
+									</ul>
+								
+							
+						
+				 
+						
+						
+							
+								
+								
+									<ul class="nav">
+								
+									<ul class="nav">
+								
+									<ul class="nav">
+								
+									<ul class="nav">
+								
+								
+
+										<li class="nav-item">
+						 					<a class="nav-link" href="#91-%e4%bc%98%e5%8a%bf">
+												 9.1 优势
+											</a>
+										</li>
+						 
+								
+								
+									</ul>
+								
+									</ul>
+								
+									</ul>
+								
+									</ul>
+								
+							
+						
+				 
+						
+						
+							
+								
+								
+									<ul class="nav">
+								
+									<ul class="nav">
+								
+									<ul class="nav">
+								
+									<ul class="nav">
+								
+								
+
+										<li class="nav-item">
+						 					<a class="nav-link" href="#92-%e5%8a%a3%e5%8a%bf">
+												 9.2 劣势
+											</a>
+										</li>
+						 
+								
+								
+									</ul>
+								
+									</ul>
+								
+									</ul>
+								
+									</ul>
+								
+							
+						
+				 
+						
+						
+							
+								
+								
+									<ul class="nav">
+								
+									<ul class="nav">
+								
+									<ul class="nav">
+								
+								
+
+										<li class="nav-item">
+						 					<a class="nav-link" href="#%e5%8d%81%e5%bc%80%e5%8f%91%e8%80%85%e8%af%84%e4%bb%b7">
+												 十、开发者评价
+											</a>
+										</li>
+						 
+								
+								
+									</ul>
+								
+									</ul>
+								
+									</ul>
+								
+							
+						
+				 
+						
+						
+							
+								
+								
+									<ul class="nav">
+								
+									<ul class="nav">
+								
+									<ul class="nav">
+								
+								
+
+										<li class="nav-item">
+						 					<a class="nav-link" href="#%e5%8d%81%e4%b8%80%e5%8f%82%e8%80%83%e6%9d%a5%e6%ba%90">
+												 十一、参考来源
+											</a>
+										</li>
+						 
+								
+								
+									</ul>
+								
+									</ul>
+								
+									</ul>
+								
+							
+						
+				 
+						
+						
+							
+								
+								
+									<ul class="nav">
+								
+									<ul class="nav">
+								
+									<ul class="nav">
+								
+								
+
+										<li class="nav-item">
+						 					<a class="nav-link" href="#%e5%8d%81%e4%ba%8c%e7%bb%93%e8%ae%ba">
+												 十二、结论
+											</a>
+										</li>
+						 
+								
+								
+									</ul>
+								
+									</ul>
+								
+									</ul>
+								
+							
+						
+				 
+
+				</ul>
+			</div>
+			
+
+		</div>
+		
+	
+
+    </div>
+    
+
+
+  </main>
+  
+
+
+    
+    
+<footer class="page-footer text-center font-small mt-4 wow fadeIn">
+
+
+  
+  <div class="pb-2 mt-5 pt-5">
+    
+    <a href="//github.com/axfinn " target="_blank" rel="noopener"><i class="fab fa-github mr-3"
+        aria-hidden="true"></i></a>
+    
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+
+    
+    <a href="mailto:521very@email.com"><i class="far fa-envelope-open mr-3" aria-hidden="true"></i></a>
+    
+
+    
+
+    
+
+  </div>
+  
+
+  
+  <div class="copyright py-4">
+    
+    <span> 2016 - 2026 &copy; | Theme <a href='https://github.com/orianna-zzo/AllinOne'
+        target="_blank">AllinOne</a> by <a href='https://github.com/orianna-zzo' target="_blank">Orianna</a> </span>
+  </div>
+  
+
+</footer>
+
+    
+
+
+
+
+<script type="text/javascript" src="https://blog.jaxiu.cn/js/vendors/jquery/jquery-3.3.1.min.js"></script>
+<script type="text/javascript" src="https://blog.jaxiu.cn/js/vendors/jquery/jquery.smooth-scroll.min.js"></script>
+
+
+
+<script type="text/javascript" src="https://blog.jaxiu.cn/js/vendors/popper.min.js"></script>
+<script type="text/javascript" src="https://blog.jaxiu.cn/js/vendors/holder.min.js"></script>
+<script type="text/javascript" src="https://blog.jaxiu.cn/js/vendors-extensions/bootstrap4/bootstrap.js" ></script>
+
+<script type="text/javascript" src="https://blog.jaxiu.cn/js/vendors/mdb/mdb.min.js"></script>
+
+<script type="text/javascript" src="https://blog.jaxiu.cn/js/main.js"></script>
+<script type="text/javascript" src="https://blog.jaxiu.cn/js/search.js"></script>
+
+
+
+
+  <script src="https://blog.jaxiu.cn/js/vendors/highlight.pack.js"> </script>
+  <script>hljs.initHighlightingOnLoad();</script>
+
+
+
+
+
+  <script src="https://blog.jaxiu.cn/js/vendors/katex/katex.min.js"> </script>
+  <script src="https://blog.jaxiu.cn/js/vendors/katex/contrib/auto-render.min.js"></script>
+
+  <script>
+      document.addEventListener("DOMContentLoaded", function () {
+          renderMathInElement(document.body);
+      });
+  </script>
+
+
+
+
+
+
+
+
+<script type="text/javascript">
+  
+  new WOW().init();
+</script>
+  </body>
+</html>

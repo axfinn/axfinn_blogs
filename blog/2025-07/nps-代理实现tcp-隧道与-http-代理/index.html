@@ -1,0 +1,913 @@
+<!DOCTYPE html>
+<html lang="zn-Hans">
+  <head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge, chrome=1">
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no, maximum-scale=1" />
+  
+  <meta name="author" content="jaxiu He">
+  <meta name="description"
+    content="引言
+在上一篇文章中，我们深入探讨了 nps/server/proxy/base.go 中定义的通用代理基础和流量控制机制。本篇文章将聚焦于 NPS 最常用也是最基础的两种代理模式：TCP 隧道和 HTTP 代理。我们将通过分析 nps/server/proxy/tcp.go 文件，揭示这两种模式的具体实现细节。
+tcp.go：TCP 隧道与 HTTP 代理的实现
+tcp.go 文件主要定义了 TunnelModeServer 结构体，它是实现 TCP 隧道和 HTTP 代理的核心。此外，该文件还包含了 WebServer 结构体，用于启动 NPS 的 Web 管理界面。
+TunnelModeServer：通用隧道模式服务器
+TunnelModeServer 结构体继承了 BaseServer，并增加了两个特定于隧道模式的字段：
+type TunnelModeServer struct {
+    BaseServer
+    process  process
+    listener net.Listener
+}
+
+BaseServer：继承了 base.go 中定义的通用功能，如流量统计、安全检查等。
+process process：这是一个函数类型 type process func(c *conn.Conn, s *TunnelModeServer) error，它定义了如何处理传入的客户端连接。不同的代理模式会传入不同的 process 函数。
+listener net.Listener：用于监听传入连接的网络监听器。
+
+NewTunnelModeServer() 函数用于创建并初始化一个 TunnelModeServer 实例。">
+
+  <meta property="og:url" content="https://blog.jaxiu.cn/blog/2025-07/nps-%E4%BB%A3%E7%90%86%E5%AE%9E%E7%8E%B0tcp-%E9%9A%A7%E9%81%93%E4%B8%8E-http-%E4%BB%A3%E7%90%86/">
+  <meta property="og:site_name" content="jaxiu He">
+  <meta property="og:title" content="NPS 代理实现：TCP 隧道与 HTTP 代理">
+  <meta property="og:description" content="引言 在上一篇文章中，我们深入探讨了 nps/server/proxy/base.go 中定义的通用代理基础和流量控制机制。本篇文章将聚焦于 NPS 最常用也是最基础的两种代理模式：TCP 隧道和 HTTP 代理。我们将通过分析 nps/server/proxy/tcp.go 文件，揭示这两种模式的具体实现细节。
+tcp.go：TCP 隧道与 HTTP 代理的实现 tcp.go 文件主要定义了 TunnelModeServer 结构体，它是实现 TCP 隧道和 HTTP 代理的核心。此外，该文件还包含了 WebServer 结构体，用于启动 NPS 的 Web 管理界面。
+TunnelModeServer：通用隧道模式服务器 TunnelModeServer 结构体继承了 BaseServer，并增加了两个特定于隧道模式的字段：
+type TunnelModeServer struct { BaseServer process process listener net.Listener } BaseServer：继承了 base.go 中定义的通用功能，如流量统计、安全检查等。 process process：这是一个函数类型 type process func(c *conn.Conn, s *TunnelModeServer) error，它定义了如何处理传入的客户端连接。不同的代理模式会传入不同的 process 函数。 listener net.Listener：用于监听传入连接的网络监听器。 NewTunnelModeServer() 函数用于创建并初始化一个 TunnelModeServer 实例。">
+  <meta property="og:locale" content="zn_Hans">
+  <meta property="og:type" content="article">
+    <meta property="article:section" content="blog">
+    <meta property="article:published_time" content="2025-07-18T16:00:00+08:00">
+    <meta property="article:modified_time" content="2025-07-18T16:00:00+08:00">
+    <meta property="article:tag" content="NPS">
+    <meta property="article:tag" content="TCP代理">
+    <meta property="article:tag" content="HTTP代理">
+    <meta property="article:tag" content="Go语言">
+    <meta property="article:tag" content="内网穿透">
+
+
+  <title>
+    
+     NPS 代理实现：TCP 隧道与 HTTP 代理 | jaxiu He 
+    
+  </title>
+
+  <link rel="canonical" href="https://blog.jaxiu.cn/blog/2025-07/nps-%E4%BB%A3%E7%90%86%E5%AE%9E%E7%8E%B0tcp-%E9%9A%A7%E9%81%93%E4%B8%8E-http-%E4%BB%A3%E7%90%86/">
+
+  
+  
+
+  
+  
+  
+  <meta name="baidu-site-verification" content="your-baidu-verify-code" />
+  
+
+  
+  
+  <meta name="google-site-verification" content="your-google-verify-code" />
+  
+
+  
+  <link href="https://blog.jaxiu.cn/css/vendors-extensions/fontawesome/all.min.css" rel="stylesheet">
+
+  
+  <link rel="stylesheet"
+    href="https://fonts.googleapis.com/css?family=Open+Sans:400,700|Ubuntu+Mono:400,400i,700,700i|Raleway:300,400,500,600">
+  <link href="https://blog.jaxiu.cn/css/font.css" rel="stylesheet">
+
+  
+  <link href="https://blog.jaxiu.cn/css/vendors/bootstrap4/bootstrap.min.css" rel="stylesheet">
+  <link href="https://blog.jaxiu.cn/css/vendors-extensions/mdb/mdb.min.css" rel="stylesheet">
+  <link href="https://blog.jaxiu.cn/css/vendors/mdb/style.min.css" rel="stylesheet">
+  <link href="https://blog.jaxiu.cn/css/main.css" rel="stylesheet">
+
+
+  
+  <link rel="shortcut icon"  href="https://blog.jaxiu.cn/img/logo.png" >
+
+
+  
+  
+
+  <style type="text/css">
+    @media (min-width: 800px) and (max-width: 850px) {
+      .navbar:not(.top-nav-collapse) {
+        background: #1C2331 !important;
+      }
+    }
+  </style>
+
+
+  
+  
+  <link rel="stylesheet" href="https://blog.jaxiu.cn/js/vendors/katex/katex.min.css">
+  
+  
+
+  
+  
+  <link rel="stylesheet" href="https://blog.jaxiu.cn/css/vendors/highlight/github-gist.css">
+  
+
+  
+  
+  <script type="module">
+    import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.esm.min.mjs';
+    mermaid.initialize({ startOnLoad: true });
+  </script>
+  
+  
+
+  
+  <link href="https://blog.jaxiu.cn/css/holiday-effects.css" rel="stylesheet">
+  <script src="https://blog.jaxiu.cn/js/holiday-effects.js"></script>
+
+  
+  <script src="https://blog.jaxiu.cn/js/dynamic-bg.js"></script>
+  <link href="https://blog.jaxiu.cn/css/dynamic-bg-control.css" rel="stylesheet">
+
+</head>
+  <body class="bg-light" data-spy="scroll" data-target="#page-scrollspy" data-offset="90">
+  
+    
+    
+
+    
+      
+
+
+<nav class="navbar fixed-top navbar-expand-lg navbar-dark scrolling-navbar">
+    <div class="container">
+
+      
+      <a class="navbar-brand" href="https://blog.jaxiu.cn/">
+          
+        <img class="avatar" src="https://blog.jaxiu.cn/img/logo.png" style="width: 40px!important;height: auto;"  class="d-inline-block align-top" alt="" >
+        
+        <strong> jaxiu He</strong>
+      </a>
+
+      
+      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
+        aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+
+      
+      <div class="collapse navbar-collapse" id="navbarSupportedContent">
+
+        
+        <ul class="navbar-nav mr-auto ">
+          <li class="nav-item ">
+            <a class="nav-link" href="https://blog.jaxiu.cn/">Home</a>
+          </li>
+          
+            <li class="nav-item ">
+              <a class="nav-link" href="https://blog.jaxiu.cn/blog/" >博客  </a>
+            </li>
+
+          
+            <li class="nav-item ">
+              <a class="nav-link" href="https://blog.jaxiu.cn/moment/" >动态  </a>
+            </li>
+
+          
+            <li class="nav-item ">
+              <a class="nav-link" href="https://blog.jaxiu.cn/blog/prenatal-stories/" >胎教故事  </a>
+            </li>
+
+          
+            <li class="nav-item ">
+              <a class="nav-link" href="https://blog.jaxiu.cn/about/" >关于  </a>
+            </li>
+
+          
+        </ul>
+
+        
+        <ul class="navbar-nav">
+          <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" href="#" id="searchDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+              <i class="fas fa-search"></i> 搜索
+            </a>
+            <div class="dropdown-menu dropdown-menu-right p-3" aria-labelledby="searchDropdown" style="min-width: 300px; max-width: 400px;">
+              <form class="search-form" onsubmit="return false;">
+                <div class="input-group">
+                  <input type="text" id="search-query" class="form-control" placeholder="搜索文章标题或内容..." autocomplete="off">
+                  <div class="input-group-append">
+                    <button class="btn btn-outline-secondary" type="button" onclick="document.getElementById('search-query').focus();">
+                      <i class="fas fa-search"></i>
+                    </button>
+                  </div>
+                </div>
+              </form>
+              <ul id="search-results" class="list-unstyled mt-2 mb-0" style="max-height: 400px; overflow-y: auto;"></ul>
+            </div>
+          </li>
+        </ul>
+
+      </div>
+
+    </div>
+  </nav>
+   
+      
+
+
+
+
+
+
+
+<div id="site-header" class="carousel slide carousel-fade" data-ride="carousel" style="height: 18rem;">
+  
+
+  
+  
+  
+
+  
+  <div class="carousel-inner" role="listbox">
+    
+    
+
+    
+    <div class="carousel-item active">
+      <div class="view"
+        style="background-image: url('https://blog.jaxiu.cn/img/header-slides/raw_1515691746.jpg'); background-repeat: no-repeat; background-size: cover;">
+
+        
+        <div class="mask rgba-black-light d-flex justify-content-center align-items-center">
+
+          
+          
+          
+
+        </div>
+        
+
+      </div>
+    </div>
+    
+    
+    
+    
+
+    
+    <div class="carousel-item">
+      <div class="view"
+        style="background-image: url('https://blog.jaxiu.cn/img/header-slides//raw_1515847341.jpg'); background-repeat: no-repeat; background-size: cover;">
+
+        
+        <div class="mask rgba-black-light d-flex justify-content-center align-items-center">
+
+
+
+        </div>
+        
+
+      </div>
+    </div>
+    
+    
+    
+
+
+  </div>
+  
+
+  
+  <div class="carousel-content text-center white-text wow fadeIn">
+    <div class="row mx-0 headfont mt-3 pt-4">
+      
+      <div class="col-12 col-sm-5 align-middle">
+        <a href="https://blog.jaxiu.cn/">
+          
+          <img class="pull-right avatar avatar-md" src="https://blog.jaxiu.cn/img/logo.png" alt="">
+          
+        </a>
+      </div>
+
+      <div class="col-12 col-sm-7 text-left pl-2">
+        <a href="https://blog.jaxiu.cn/">
+          <h1 class="mb-2 h1" style="font-weight: 300;">
+            <strong>jaxiu He</strong>
+          </h1>
+        </a>
+
+
+        
+        <div class="mt-2" style="font-size: 1rem; color: white;">
+          
+          <a href="//github.com/axfinn" target="_blank" rel="noopener"><i class="fab fa-github pr-1"
+              aria-hidden="true"></i></a>
+          
+          
+
+          
+
+          
+
+          
+
+          
+
+          
+
+
+          
+          <a href="mailto:521very@email.com"><i class="far fa-envelope-open pr-1" aria-hidden="true"></i></a>
+          
+
+          
+
+
+        </div>
+      </div>
+    </div>
+  </div>
+  
+
+  
+  
+  
+
+</div>
+  
+    
+
+    
+  
+  <main class="post-main-wrapper">
+    
+    
+    <div class="row">
+
+      
+
+      
+      <div class="col-md-10">
+      
+
+        
+        <div class="z-depth-1  post-wrapper white-bg single-post">
+
+          <div class="post-header text-center" >
+  <ul class="post-meta li-x">
+    
+      
+        <li><a href="https://blog.jaxiu.cn/categories/%E6%8A%80%E6%9C%AF"><i class="fas fa-folder-open pr-1" aria-hidden="true"></i> 技术 </a></li>
+      
+        <li><a href="https://blog.jaxiu.cn/categories/%E9%A1%B9%E7%9B%AE%E5%88%86%E6%9E%90"><i class="fas fa-folder-open pr-1" aria-hidden="true"></i> 项目分析 </a></li>
+      
+    
+    
+  </ul>
+
+  <div class="px-4 post-heading">NPS 代理实现：TCP 隧道与 HTTP 代理</div>
+
+  <ul class="post-meta li-x mt-1">
+    
+      <li>Jul 18, 2025</li>
+    
+
+    
+      <li class="middot"></li>
+      <li>4 minutes read</li>
+    
+  </ul>
+  
+
+</div>
+
+
+          <div class="post-content markdown">
+            <h2 id="引言">引言</h2>
+<p>在上一篇文章中，我们深入探讨了 <code>nps/server/proxy/base.go</code> 中定义的通用代理基础和流量控制机制。本篇文章将聚焦于 NPS 最常用也是最基础的两种代理模式：<strong>TCP 隧道</strong>和 <strong>HTTP 代理</strong>。我们将通过分析 <code>nps/server/proxy/tcp.go</code> 文件，揭示这两种模式的具体实现细节。</p>
+<h2 id="tcpgotcp-隧道与-http-代理的实现"><code>tcp.go</code>：TCP 隧道与 HTTP 代理的实现</h2>
+<p><code>tcp.go</code> 文件主要定义了 <code>TunnelModeServer</code> 结构体，它是实现 TCP 隧道和 HTTP 代理的核心。此外，该文件还包含了 <code>WebServer</code> 结构体，用于启动 NPS 的 Web 管理界面。</p>
+<h3 id="tunnelmodeserver通用隧道模式服务器"><code>TunnelModeServer</code>：通用隧道模式服务器</h3>
+<p><code>TunnelModeServer</code> 结构体继承了 <code>BaseServer</code>，并增加了两个特定于隧道模式的字段：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-go" data-lang="go"><span class="line"><span class="cl"><span class="kd">type</span><span class="w"> </span><span class="nx">TunnelModeServer</span><span class="w"> </span><span class="kd">struct</span><span class="w"> </span><span class="p">{</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nx">BaseServer</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nx">process</span><span class="w">  </span><span class="nx">process</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nx">listener</span><span class="w"> </span><span class="nx">net</span><span class="p">.</span><span class="nx">Listener</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="p">}</span><span class="w">
+</span></span></span></code></pre></div><ul>
+<li><code>BaseServer</code>：继承了 <code>base.go</code> 中定义的通用功能，如流量统计、安全检查等。</li>
+<li><code>process process</code>：这是一个函数类型 <code>type process func(c *conn.Conn, s *TunnelModeServer) error</code>，它定义了如何处理传入的客户端连接。不同的代理模式会传入不同的 <code>process</code> 函数。</li>
+<li><code>listener net.Listener</code>：用于监听传入连接的网络监听器。</li>
+</ul>
+<p><code>NewTunnelModeServer()</code> 函数用于创建并初始化一个 <code>TunnelModeServer</code> 实例。</p>
+<h4 id="start-方法启动监听"><code>Start()</code> 方法：启动监听</h4>
+<p><code>TunnelModeServer</code> 的 <code>Start()</code> 方法负责启动 TCP 监听，并为每个传入连接调用 <code>process</code> 函数进行处理：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-go" data-lang="go"><span class="line"><span class="cl"><span class="kd">func</span><span class="w"> </span><span class="p">(</span><span class="nx">s</span><span class="w"> </span><span class="o">*</span><span class="nx">TunnelModeServer</span><span class="p">)</span><span class="w"> </span><span class="nf">Start</span><span class="p">()</span><span class="w"> </span><span class="kt">error</span><span class="w"> </span><span class="p">{</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="nx">conn</span><span class="p">.</span><span class="nf">NewTcpListenerAndProcess</span><span class="p">(</span><span class="nx">s</span><span class="p">.</span><span class="nx">task</span><span class="p">.</span><span class="nx">ServerIp</span><span class="o">+</span><span class="s">&#34;:&#34;</span><span class="o">+</span><span class="nx">strconv</span><span class="p">.</span><span class="nf">Itoa</span><span class="p">(</span><span class="nx">s</span><span class="p">.</span><span class="nx">task</span><span class="p">.</span><span class="nx">Port</span><span class="p">),</span><span class="w"> </span><span class="kd">func</span><span class="p">(</span><span class="nx">c</span><span class="w"> </span><span class="nx">net</span><span class="p">.</span><span class="nx">Conn</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">        </span><span class="c1">// ... 流量和连接数检查 ...</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">        </span><span class="nx">logs</span><span class="p">.</span><span class="nf">Trace</span><span class="p">(</span><span class="s">&#34;new tcp connection,local port %d,client %d,remote address %s&#34;</span><span class="p">,</span><span class="w"> </span><span class="nx">s</span><span class="p">.</span><span class="nx">task</span><span class="p">.</span><span class="nx">Port</span><span class="p">,</span><span class="w"> </span><span class="nx">s</span><span class="p">.</span><span class="nx">task</span><span class="p">.</span><span class="nx">Client</span><span class="p">.</span><span class="nx">Id</span><span class="p">,</span><span class="w"> </span><span class="nx">c</span><span class="p">.</span><span class="nf">RemoteAddr</span><span class="p">())</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">        </span><span class="nx">s</span><span class="p">.</span><span class="nf">process</span><span class="p">(</span><span class="nx">conn</span><span class="p">.</span><span class="nf">NewConn</span><span class="p">(</span><span class="nx">c</span><span class="p">),</span><span class="w"> </span><span class="nx">s</span><span class="p">)</span><span class="w"> </span><span class="c1">// 调用具体的处理函数</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">        </span><span class="nx">s</span><span class="p">.</span><span class="nx">task</span><span class="p">.</span><span class="nx">Client</span><span class="p">.</span><span class="nf">AddConn</span><span class="p">()</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="p">},</span><span class="w"> </span><span class="o">&amp;</span><span class="nx">s</span><span class="p">.</span><span class="nx">listener</span><span class="p">)</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="p">}</span><span class="w">
+</span></span></span></code></pre></div><ul>
+<li><code>conn.NewTcpListenerAndProcess()</code>：这是一个辅助函数，用于创建一个 TCP 监听器，并在有新连接到来时，在一个新的 goroutine 中调用传入的处理函数。</li>
+<li><strong>流量和连接数检查</strong>：在处理新连接之前，会调用 <code>s.CheckFlowAndConnNum()</code> 对客户端的流量和连接数进行检查，如果超出限制则直接关闭连接。</li>
+<li><strong>调用 <code>s.process()</code></strong>：这是关键一步，它将传入的 <code>net.Conn</code> 封装为 <code>conn.Conn</code>，然后调用 <code>TunnelModeServer</code> 实例中存储的 <code>process</code> 函数来处理具体的代理逻辑。</li>
+</ul>
+<h4 id="close-方法关闭监听"><code>Close()</code> 方法：关闭监听</h4>
+<p><code>TunnelModeServer</code> 的 <code>Close()</code> 方法非常简单，它仅仅关闭了底层的 <code>net.Listener</code>，从而停止接收新的连接：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-go" data-lang="go"><span class="line"><span class="cl"><span class="kd">func</span><span class="w"> </span><span class="p">(</span><span class="nx">s</span><span class="w"> </span><span class="o">*</span><span class="nx">TunnelModeServer</span><span class="p">)</span><span class="w"> </span><span class="nf">Close</span><span class="p">()</span><span class="w"> </span><span class="kt">error</span><span class="w"> </span><span class="p">{</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="nx">s</span><span class="p">.</span><span class="nx">listener</span><span class="p">.</span><span class="nf">Close</span><span class="p">()</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="p">}</span><span class="w">
+</span></span></span></code></pre></div><h3 id="processtunnel实现-tcp-隧道"><code>ProcessTunnel()</code>：实现 TCP 隧道</h3>
+<p><code>ProcessTunnel()</code> 函数是 <code>process</code> 类型的一个具体实现，它负责处理标准的 TCP 隧道连接。当 <code>TunnelModeServer</code> 以 <code>tcp</code> 或 <code>file</code> 模式启动时，会使用这个函数。</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-go" data-lang="go"><span class="line"><span class="cl"><span class="kd">func</span><span class="w"> </span><span class="nf">ProcessTunnel</span><span class="p">(</span><span class="nx">c</span><span class="w"> </span><span class="o">*</span><span class="nx">conn</span><span class="p">.</span><span class="nx">Conn</span><span class="p">,</span><span class="w"> </span><span class="nx">s</span><span class="w"> </span><span class="o">*</span><span class="nx">TunnelModeServer</span><span class="p">)</span><span class="w"> </span><span class="kt">error</span><span class="w"> </span><span class="p">{</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nx">targetAddr</span><span class="p">,</span><span class="w"> </span><span class="nx">err</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nx">s</span><span class="p">.</span><span class="nx">task</span><span class="p">.</span><span class="nx">Target</span><span class="p">.</span><span class="nf">GetRandomTarget</span><span class="p">()</span><span class="w"> </span><span class="c1">// 获取目标地址</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="nx">err</span><span class="w"> </span><span class="o">!=</span><span class="w"> </span><span class="kc">nil</span><span class="w"> </span><span class="p">{</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">        </span><span class="nx">c</span><span class="p">.</span><span class="nf">Close</span><span class="p">()</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">        </span><span class="nx">logs</span><span class="p">.</span><span class="nf">Warn</span><span class="p">(</span><span class="s">&#34;tcp port %d ,client id %d,task id %d connect error %s&#34;</span><span class="p">,</span><span class="w"> </span><span class="nx">s</span><span class="p">.</span><span class="nx">task</span><span class="p">.</span><span class="nx">Port</span><span class="p">,</span><span class="w"> </span><span class="nx">s</span><span class="p">.</span><span class="nx">task</span><span class="p">.</span><span class="nx">Client</span><span class="p">.</span><span class="nx">Id</span><span class="p">,</span><span class="w"> </span><span class="nx">s</span><span class="p">.</span><span class="nx">task</span><span class="p">.</span><span class="nx">Id</span><span class="p">,</span><span class="w"> </span><span class="nx">err</span><span class="p">.</span><span class="nf">Error</span><span class="p">())</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">        </span><span class="k">return</span><span class="w"> </span><span class="nx">err</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="p">}</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="c1">// 调用 BaseServer 的 DealClient 方法进行数据转发</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="nx">s</span><span class="p">.</span><span class="nf">DealClient</span><span class="p">(</span><span class="nx">c</span><span class="p">,</span><span class="w"> </span><span class="nx">s</span><span class="p">.</span><span class="nx">task</span><span class="p">.</span><span class="nx">Client</span><span class="p">,</span><span class="w"> </span><span class="nx">targetAddr</span><span class="p">,</span><span class="w"> </span><span class="kc">nil</span><span class="p">,</span><span class="w"> </span><span class="nx">common</span><span class="p">.</span><span class="nx">CONN_TCP</span><span class="p">,</span><span class="w"> </span><span class="kc">nil</span><span class="p">,</span><span class="w"> </span><span class="nx">s</span><span class="p">.</span><span class="nx">task</span><span class="p">.</span><span class="nx">Client</span><span class="p">.</span><span class="nx">Flow</span><span class="p">,</span><span class="w"> </span><span class="nx">s</span><span class="p">.</span><span class="nx">task</span><span class="p">.</span><span class="nx">Target</span><span class="p">.</span><span class="nx">LocalProxy</span><span class="p">,</span><span class="w"> </span><span class="nx">s</span><span class="p">.</span><span class="nx">task</span><span class="p">)</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="p">}</span><span class="w">
+</span></span></span></code></pre></div><ul>
+<li><strong>获取目标地址</strong>：<code>s.task.Target.GetRandomTarget()</code> 从隧道配置中获取一个随机的目标地址。NPS 支持配置多个目标地址，实现负载均衡。</li>
+<li><strong>调用 <code>s.DealClient()</code></strong>：这是核心的数据转发逻辑。<code>ProcessTunnel</code> 将客户端连接 (<code>c</code>)、客户端信息 (<code>s.task.Client</code>)、目标地址 (<code>targetAddr</code>) 以及其他相关参数传递给 <code>BaseServer</code> 的 <code>DealClient()</code> 方法。<code>DealClient()</code> 会负责与目标建立连接，并在客户端和目标之间进行双向数据拷贝，同时处理加密、压缩和流量统计等通用逻辑。</li>
+</ul>
+<h3 id="processhttp实现-http-代理"><code>ProcessHttp()</code>：实现 HTTP 代理</h3>
+<p><code>ProcessHttp()</code> 函数是 <code>process</code> 类型的一个具体实现，它负责处理 HTTP 代理连接。当 <code>TunnelModeServer</code> 以 <code>httpProxy</code> 模式启动时，会使用这个函数。</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-go" data-lang="go"><span class="line"><span class="cl"><span class="kd">func</span><span class="w"> </span><span class="nf">ProcessHttp</span><span class="p">(</span><span class="nx">c</span><span class="w"> </span><span class="o">*</span><span class="nx">conn</span><span class="p">.</span><span class="nx">Conn</span><span class="p">,</span><span class="w"> </span><span class="nx">s</span><span class="w"> </span><span class="o">*</span><span class="nx">TunnelModeServer</span><span class="p">)</span><span class="w"> </span><span class="kt">error</span><span class="w"> </span><span class="p">{</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nx">_</span><span class="p">,</span><span class="w"> </span><span class="nx">addr</span><span class="p">,</span><span class="w"> </span><span class="nx">rb</span><span class="p">,</span><span class="w"> </span><span class="nx">err</span><span class="p">,</span><span class="w"> </span><span class="nx">r</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nx">c</span><span class="p">.</span><span class="nf">GetHost</span><span class="p">()</span><span class="w"> </span><span class="c1">// 从 HTTP 请求中解析出目标地址</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="nx">err</span><span class="w"> </span><span class="o">!=</span><span class="w"> </span><span class="kc">nil</span><span class="w"> </span><span class="p">{</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">        </span><span class="nx">c</span><span class="p">.</span><span class="nf">Close</span><span class="p">()</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">        </span><span class="nx">logs</span><span class="p">.</span><span class="nf">Info</span><span class="p">(</span><span class="nx">err</span><span class="p">)</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">        </span><span class="k">return</span><span class="w"> </span><span class="nx">err</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="p">}</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="nx">r</span><span class="p">.</span><span class="nx">Method</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="s">&#34;CONNECT&#34;</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="c1">// 处理 HTTPS CONNECT 请求</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">        </span><span class="nx">c</span><span class="p">.</span><span class="nf">Write</span><span class="p">([]</span><span class="nb">byte</span><span class="p">(</span><span class="s">&#34;HTTP/1.1 200 Connection established\r\n\r\n&#34;</span><span class="p">))</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">        </span><span class="nx">rb</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="kc">nil</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="p">}</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="nx">err</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nx">s</span><span class="p">.</span><span class="nf">auth</span><span class="p">(</span><span class="nx">r</span><span class="p">,</span><span class="w"> </span><span class="nx">c</span><span class="p">,</span><span class="w"> </span><span class="nx">s</span><span class="p">.</span><span class="nx">task</span><span class="p">.</span><span class="nx">Client</span><span class="p">.</span><span class="nx">Cnf</span><span class="p">.</span><span class="nx">U</span><span class="p">,</span><span class="w"> </span><span class="nx">s</span><span class="p">.</span><span class="nx">task</span><span class="p">.</span><span class="nx">Client</span><span class="p">.</span><span class="nx">Cnf</span><span class="p">.</span><span class="nx">P</span><span class="p">);</span><span class="w"> </span><span class="nx">err</span><span class="w"> </span><span class="o">!=</span><span class="w"> </span><span class="kc">nil</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="c1">// 认证检查</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">        </span><span class="k">return</span><span class="w"> </span><span class="nx">err</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="p">}</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="c1">// 调用 BaseServer 的 DealClient 方法进行数据转发</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="nx">s</span><span class="p">.</span><span class="nf">DealClient</span><span class="p">(</span><span class="nx">c</span><span class="p">,</span><span class="w"> </span><span class="nx">s</span><span class="p">.</span><span class="nx">task</span><span class="p">.</span><span class="nx">Client</span><span class="p">,</span><span class="w"> </span><span class="nx">addr</span><span class="p">,</span><span class="w"> </span><span class="nx">rb</span><span class="p">,</span><span class="w"> </span><span class="nx">common</span><span class="p">.</span><span class="nx">CONN_TCP</span><span class="p">,</span><span class="w"> </span><span class="kc">nil</span><span class="p">,</span><span class="w"> </span><span class="nx">s</span><span class="p">.</span><span class="nx">task</span><span class="p">.</span><span class="nx">Client</span><span class="p">.</span><span class="nx">Flow</span><span class="p">,</span><span class="w"> </span><span class="nx">s</span><span class="p">.</span><span class="nx">task</span><span class="p">.</span><span class="nx">Target</span><span class="p">.</span><span class="nx">LocalProxy</span><span class="p">,</span><span class="w"> </span><span class="kc">nil</span><span class="p">)</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="p">}</span><span class="w">
+</span></span></span></code></pre></div><ul>
+<li><strong>解析 HTTP 请求</strong>：<code>c.GetHost()</code> 用于从传入的 TCP 连接中解析出 HTTP 请求的 Host 头，从而获取目标地址 (<code>addr</code>) 和请求的原始字节 (<code>rb</code>)。</li>
+<li><strong>处理 HTTPS CONNECT 请求</strong>：如果 HTTP 方法是 <code>CONNECT</code>（通常用于 HTTPS 代理），NPS 会向客户端发送 <code>HTTP/1.1 200 Connection established</code> 响应，表示连接已建立，然后后续的数据将直接在客户端和目标之间转发。</li>
+<li><strong>认证检查</strong>：调用 <code>s.auth()</code> 对 HTTP 请求进行认证，如果配置了用户名和密码，则会进行验证。</li>
+<li><strong>调用 <code>s.DealClient()</code></strong>：与 <code>ProcessTunnel</code> 类似，<code>ProcessHttp</code> 也将解析出的目标地址和请求数据传递给 <code>BaseServer</code> 的 <code>DealClient()</code> 方法进行数据转发。</li>
+</ul>
+<h3 id="webserverweb-管理界面的启动"><code>WebServer</code>：Web 管理界面的启动</h3>
+<p><code>tcp.go</code> 文件中还包含了 <code>WebServer</code> 结构体和相关方法，用于启动 NPS 的 Web 管理界面。虽然它与 TCP 隧道和 HTTP 代理的逻辑不同，但由于其在 <code>server.go</code> 中通过 <code>NewMode()</code> 被 <code>webServer</code> 模式调用，所以被放在了同一个文件中。</p>
+<ul>
+<li><strong><code>WebServer</code> 结构体</strong>：继承 <code>BaseServer</code>，但其 <code>Start()</code> 方法主要负责配置 Beego Web 框架的静态文件路径、视图路径，并启动 HTTP 或 HTTPS 服务来提供 Web 管理界面。</li>
+<li><strong><code>NewWebServer()</code></strong>：用于创建 <code>WebServer</code> 实例。</li>
+</ul>
+<h2 id="总结">总结</h2>
+<p><code>nps/server/proxy/tcp.go</code> 文件是 NPS 实现 TCP 隧道和 HTTP 代理的关键。通过 <code>TunnelModeServer</code> 结构体和 <code>process</code> 函数的抽象，NPS 能够以统一的方式处理这两种代理模式。<code>ProcessTunnel()</code> 和 <code>ProcessHttp()</code> 分别实现了各自的代理逻辑，并最终都依赖于 <code>BaseServer</code> 的 <code>DealClient()</code> 方法进行实际的数据转发和通用功能处理。<code>WebServer</code> 的存在则确保了 NPS 拥有一个功能完善的 Web 管理界面。</p>
+<p>在下一篇文章中，我们将继续探索 NPS 的其他代理模式，例如 SOCKS5 代理。</p>
+
+          </div>
+
+          
+          <div class="row">
+            <div class="col-md-8">
+            
+              <div class="mb-5">
+                
+<div class="li-x div-x post-meta">
+  <li class="pr-0"><a href="https://blog.jaxiu.cn/tags/"><i class="fas fa-tags"></i></a></li>
+  <div class="tags-sm">
+    
+      <li><a href="https://blog.jaxiu.cn/tags/nps" role="button">NPS </a></li>
+      
+    
+      <li><a href="https://blog.jaxiu.cn/tags/tcp%E4%BB%A3%E7%90%86" role="button">TCP代理 </a></li>
+      
+    
+      <li><a href="https://blog.jaxiu.cn/tags/http%E4%BB%A3%E7%90%86" role="button">HTTP代理 </a></li>
+      
+    
+      <li><a href="https://blog.jaxiu.cn/tags/go%E8%AF%AD%E8%A8%80" role="button">Go语言 </a></li>
+      
+    
+      <li><a href="https://blog.jaxiu.cn/tags/%E5%86%85%E7%BD%91%E7%A9%BF%E9%80%8F" role="button">内网穿透 </a></li>
+      
+    
+  </div>
+</div>
+              </div>
+            
+            </div>
+            
+          </div>
+          
+
+          
+          <div class="row pt-3">
+            <div class="col-md-6">
+              
+                <a href=https://blog.jaxiu.cn/blog/2025-07/nps-%E4%BB%A3%E7%90%86%E5%AE%9E%E7%8E%B0%E9%80%9A%E7%94%A8%E5%9F%BA%E7%A1%80%E4%B8%8E%E6%B5%81%E9%87%8F%E6%8E%A7%E5%88%B6/ class="post-meta">Previous
+                  <div class="pt-2 pb-5 d-flex">
+                    <i class="fas fa-angle-left text-grey font-weight-bold mr-2 active-color"></i>
+                    <span>NPS 代理实现：通用基础与流量控制</span>
+                  </div>
+                </a>
+              
+            </div>
+            
+            <div class="col-md-6 text-right" >
+              
+                <a href=https://blog.jaxiu.cn/blog/2025-07/nps-%E4%BB%A3%E7%90%86%E5%AE%9E%E7%8E%B0socks5-%E5%8D%8F%E8%AE%AE%E6%B7%B1%E5%BA%A6%E8%A7%A3%E6%9E%90/ class="post-meta">Next
+                  <div class="pt-2 pb-5 flex-reverse">
+                    <i class="fas fa-angle-right text-grey font-weight-bold ml-2 active-color"></i>
+                    <span>NPS 代理实现：SOCKS5 协议深度解析</span>
+                  </div>
+                </a>
+              
+            </div>
+          </div>
+
+          
+
+        </div>
+        
+
+      </div>
+      
+
+      
+	
+	
+	
+	
+		
+		
+		
+	
+
+		
+		<div class="col-md-2 pl-0">
+
+			
+			<div id="page-scrollspy" class="toc-nav">
+				
+				<ul class="nav nav-pills ml-0">
+					
+					<li class="nav-item pb-3 text-center">
+						<span class="font-weight-bold mb-2">- CATALOG - </span>
+					</li>
+
+					
+						
+						
+							
+								
+								
+									<ul class="nav">
+								
+								
+
+										<li class="nav-item">
+						 					<a class="nav-link" href="#%e5%bc%95%e8%a8%80">
+												 引言
+											</a>
+										</li>
+						 
+								
+								
+									</ul>
+								
+							
+						
+				 
+						
+						
+							
+								
+								
+									<ul class="nav">
+								
+								
+
+										<li class="nav-item">
+						 					<a class="nav-link" href="#tcpgotcp-%e9%9a%a7%e9%81%93%e4%b8%8e-http-%e4%bb%a3%e7%90%86%e7%9a%84%e5%ae%9e%e7%8e%b0">
+												 tcp.go：TCP 隧道与 HTTP 代理的实现
+											</a>
+										</li>
+						 
+								
+								
+									</ul>
+								
+							
+						
+				 
+						
+						
+							
+								
+								
+									<ul class="nav">
+								
+									<ul class="nav">
+								
+								
+
+										<li class="nav-item">
+						 					<a class="nav-link" href="#tunnelmodeserver%e9%80%9a%e7%94%a8%e9%9a%a7%e9%81%93%e6%a8%a1%e5%bc%8f%e6%9c%8d%e5%8a%a1%e5%99%a8">
+												 TunnelModeServer：通用隧道模式服务器
+											</a>
+										</li>
+						 
+								
+								
+									</ul>
+								
+									</ul>
+								
+							
+						
+				 
+						
+						
+							
+								
+								
+									<ul class="nav">
+								
+									<ul class="nav">
+								
+									<ul class="nav">
+								
+								
+
+										<li class="nav-item">
+						 					<a class="nav-link" href="#start-%e6%96%b9%e6%b3%95%e5%90%af%e5%8a%a8%e7%9b%91%e5%90%ac">
+												 Start() 方法：启动监听
+											</a>
+										</li>
+						 
+								
+								
+									</ul>
+								
+									</ul>
+								
+									</ul>
+								
+							
+						
+				 
+						
+						
+							
+								
+								
+									<ul class="nav">
+								
+									<ul class="nav">
+								
+									<ul class="nav">
+								
+								
+
+										<li class="nav-item">
+						 					<a class="nav-link" href="#close-%e6%96%b9%e6%b3%95%e5%85%b3%e9%97%ad%e7%9b%91%e5%90%ac">
+												 Close() 方法：关闭监听
+											</a>
+										</li>
+						 
+								
+								
+									</ul>
+								
+									</ul>
+								
+									</ul>
+								
+							
+						
+				 
+						
+						
+							
+								
+								
+									<ul class="nav">
+								
+									<ul class="nav">
+								
+								
+
+										<li class="nav-item">
+						 					<a class="nav-link" href="#processtunnel%e5%ae%9e%e7%8e%b0-tcp-%e9%9a%a7%e9%81%93">
+												 ProcessTunnel()：实现 TCP 隧道
+											</a>
+										</li>
+						 
+								
+								
+									</ul>
+								
+									</ul>
+								
+							
+						
+				 
+						
+						
+							
+								
+								
+									<ul class="nav">
+								
+									<ul class="nav">
+								
+								
+
+										<li class="nav-item">
+						 					<a class="nav-link" href="#processhttp%e5%ae%9e%e7%8e%b0-http-%e4%bb%a3%e7%90%86">
+												 ProcessHttp()：实现 HTTP 代理
+											</a>
+										</li>
+						 
+								
+								
+									</ul>
+								
+									</ul>
+								
+							
+						
+				 
+						
+						
+							
+								
+								
+									<ul class="nav">
+								
+									<ul class="nav">
+								
+								
+
+										<li class="nav-item">
+						 					<a class="nav-link" href="#webserverweb-%e7%ae%a1%e7%90%86%e7%95%8c%e9%9d%a2%e7%9a%84%e5%90%af%e5%8a%a8">
+												 WebServer：Web 管理界面的启动
+											</a>
+										</li>
+						 
+								
+								
+									</ul>
+								
+									</ul>
+								
+							
+						
+				 
+						
+						
+							
+								
+								
+									<ul class="nav">
+								
+								
+
+										<li class="nav-item">
+						 					<a class="nav-link" href="#%e6%80%bb%e7%bb%93">
+												 总结
+											</a>
+										</li>
+						 
+								
+								
+									</ul>
+								
+							
+						
+				 
+
+				</ul>
+			</div>
+			
+
+		</div>
+		
+	
+
+    </div>
+    
+
+
+  </main>
+  
+
+
+    
+    
+<footer class="page-footer text-center font-small mt-4 wow fadeIn">
+
+
+  
+  <div class="pb-2 mt-5 pt-5">
+    
+    <a href="//github.com/axfinn " target="_blank" rel="noopener"><i class="fab fa-github mr-3"
+        aria-hidden="true"></i></a>
+    
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+
+    
+    <a href="mailto:521very@email.com"><i class="far fa-envelope-open mr-3" aria-hidden="true"></i></a>
+    
+
+    
+
+    
+
+  </div>
+  
+
+  
+  <div class="copyright py-4">
+    
+    <span> 2016 - 2026 &copy; | Theme <a href='https://github.com/orianna-zzo/AllinOne'
+        target="_blank">AllinOne</a> by <a href='https://github.com/orianna-zzo' target="_blank">Orianna</a> </span>
+  </div>
+  
+
+</footer>
+
+    
+
+
+
+
+<script type="text/javascript" src="https://blog.jaxiu.cn/js/vendors/jquery/jquery-3.3.1.min.js"></script>
+<script type="text/javascript" src="https://blog.jaxiu.cn/js/vendors/jquery/jquery.smooth-scroll.min.js"></script>
+
+
+
+<script type="text/javascript" src="https://blog.jaxiu.cn/js/vendors/popper.min.js"></script>
+<script type="text/javascript" src="https://blog.jaxiu.cn/js/vendors/holder.min.js"></script>
+<script type="text/javascript" src="https://blog.jaxiu.cn/js/vendors-extensions/bootstrap4/bootstrap.js" ></script>
+
+<script type="text/javascript" src="https://blog.jaxiu.cn/js/vendors/mdb/mdb.min.js"></script>
+
+<script type="text/javascript" src="https://blog.jaxiu.cn/js/main.js"></script>
+<script type="text/javascript" src="https://blog.jaxiu.cn/js/search.js"></script>
+
+
+
+
+  <script src="https://blog.jaxiu.cn/js/vendors/highlight.pack.js"> </script>
+  <script>hljs.initHighlightingOnLoad();</script>
+
+
+
+
+
+  <script src="https://blog.jaxiu.cn/js/vendors/katex/katex.min.js"> </script>
+  <script src="https://blog.jaxiu.cn/js/vendors/katex/contrib/auto-render.min.js"></script>
+
+  <script>
+      document.addEventListener("DOMContentLoaded", function () {
+          renderMathInElement(document.body);
+      });
+  </script>
+
+
+
+
+
+
+
+
+<script type="text/javascript">
+  
+  new WOW().init();
+</script>
+  </body>
+</html>

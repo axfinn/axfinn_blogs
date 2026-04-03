@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>AI大模型 on jaxiu He</title>
+    <link>https://blog.jaxiu.cn/tags/ai%E5%A4%A7%E6%A8%A1%E5%9E%8B/</link>
+    <description>Recent content in AI大模型 on jaxiu He</description>
+    <generator>Hugo</generator>
+    <language>zn-Hans</language>
+    <lastBuildDate>Wed, 18 Mar 2026 09:00:00 +0800</lastBuildDate>
+    <atom:link href="https://blog.jaxiu.cn/tags/ai%E5%A4%A7%E6%A8%A1%E5%9E%8B/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>每日AI与大模型技术观察 - 2026年3月17日</title>
+      <link>https://blog.jaxiu.cn/blog/2026-03/daily-news-2026-03-17/</link>
+      <pubDate>Wed, 18 Mar 2026 09:00:00 +0800</pubDate>
+      <guid>https://blog.jaxiu.cn/blog/2026-03/daily-news-2026-03-17/</guid>
+      <description>AI与大模型领域的最新进展、模型更新和技术趋势分析</description>
+    </item>
+  </channel>
+</rss>

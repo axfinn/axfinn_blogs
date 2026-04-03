@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>CLI on jaxiu He</title>
+    <link>https://blog.jaxiu.cn/tags/cli/</link>
+    <description>Recent content in CLI on jaxiu He</description>
+    <generator>Hugo</generator>
+    <language>zn-Hans</language>
+    <lastBuildDate>Wed, 23 Jul 2025 15:45:00 +0800</lastBuildDate>
+    <atom:link href="https://blog.jaxiu.cn/tags/cli/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Qwen Code CLI 使用详解</title>
+      <link>https://blog.jaxiu.cn/blog/2025-07/qwen-code-cli-usage/</link>
+      <pubDate>Wed, 23 Jul 2025 15:45:00 +0800</pubDate>
+      <guid>https://blog.jaxiu.cn/blog/2025-07/qwen-code-cli-usage/</guid>
+      <description>&lt;h1 id=&#34;qwen-code-cli-使用详解&#34;&gt;Qwen Code CLI 使用详解&lt;/h1&gt;&#xA;&lt;h2 id=&#34;cli-入门&#34;&gt;CLI 入门&lt;/h2&gt;&#xA;&lt;p&gt;Qwen Code 是一个功能强大的命令行 AI 工作流工具，为开发者提供了一种全新的与代码交互的方式。通过 CLI，用户可以与 AI 进行对话，执行各种编程任务。&lt;/p&gt;&#xA;&lt;h3 id=&#34;安装&#34;&gt;安装&lt;/h3&gt;&#xA;&lt;p&gt;确保您已经安装了 Node.js 20+ 版本，然后通过 npm 安装 Qwen Code：&lt;/p&gt;&#xA;&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;npm install -g @qwen-code/qwen-code&#xA;&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h3 id=&#34;基本使用&#34;&gt;基本使用&lt;/h3&gt;&#xA;&lt;p&gt;安装完成后，您可以通过以下命令启动 Qwen Code：&lt;/p&gt;&#xA;&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;qwen-code&#xA;&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;这将启动交互式 CLI 会话，您可以直接与 AI 进行对话。&lt;/p&gt;&#xA;&lt;h3 id=&#34;非交互式使用&#34;&gt;非交互式使用&lt;/h3&gt;&#xA;&lt;p&gt;您也可以通过管道或重定向将输入传递给 Qwen Code：&lt;/p&gt;&#xA;&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;nb&#34;&gt;echo&lt;/span&gt; &lt;span class=&#34;s2&#34;&gt;&amp;#34;帮我生成一个 React 组件&amp;#34;&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;|&lt;/span&gt; qwen-code&#xA;&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h2 id=&#34;cli-入口实现&#34;&gt;CLI 入口实现&lt;/h2&gt;&#xA;&lt;p&gt;Qwen Code 的 CLI 入口是一个基于 React 和 Ink 构建的命令行应用程序。主要特性包括：&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>Qwen Code 项目概览</title>
+      <link>https://blog.jaxiu.cn/blog/2025-07/qwen-code-project-overview/</link>
+      <pubDate>Wed, 23 Jul 2025 15:00:00 +0800</pubDate>
+      <guid>https://blog.jaxiu.cn/blog/2025-07/qwen-code-project-overview/</guid>
+      <description>&lt;h1 id=&#34;qwen-code-项目概览&#34;&gt;Qwen Code 项目概览&lt;/h1&gt;&#xA;&lt;h2 id=&#34;什么是-qwen-code&#34;&gt;什么是 Qwen Code？&lt;/h2&gt;&#xA;&lt;p&gt;Qwen Code 是一个基于 Gemini CLI 改造的命令行 AI 工作流工具，专为 Qwen3-Coder 模型优化，具有增强的解析器和工具支持。该项目的主要目标是为开发者提供一个强大的命令行界面，让他们能够利用 AI 的能力来完成各种编程任务。&lt;/p&gt;&#xA;&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;┌─────────────────────────────────────┐&#xA;│           Qwen Code 架构            │&#xA;├─────────────────────────────────────┤&#xA;│  ┌─────────────┐  ┌──────────────┐ │&#xA;│  │   CLI 界面   │  │  核心引擎     │ │&#xA;│  └─────────────┘  └──────────────┘ │&#xA;│        │               │           │&#xA;│        ▼               ▼           │&#xA;│  ┌─────────────┐  ┌──────────────┐ │&#xA;│  │  用户输入    │  │  AI 模型接口  │ │&#xA;│  └─────────────┘  └──────────────┘ │&#xA;│        │               │           │&#xA;│        ▼               ▼           │&#xA;│  ┌───────────────────────────────┐ │&#xA;│  │        工具执行层              │ │&#xA;│  │  - 文件系统操作                │ │&#xA;│  │  - 网络请求                   │ │&#xA;│  │  - 命令执行                   │ │&#xA;│  │  - 内存管理                   │ │&#xA;│  └───────────────────────────────┘ │&#xA;└─────────────────────────────────────┘&#xA;&lt;/code&gt;&lt;/pre&gt;&lt;h3 id=&#34;核心特性&#34;&gt;核心特性&lt;/h3&gt;&#xA;&lt;ol&gt;&#xA;&lt;li&gt;&lt;strong&gt;超越上下文限制的代码理解和编辑&lt;/strong&gt;：Qwen Code 可以处理大型代码库，不受传统模型上下文长度的限制。&lt;/li&gt;&#xA;&lt;li&gt;&lt;strong&gt;工作流自动化&lt;/strong&gt;：支持复杂的开发任务自动化，提高开发效率。&lt;/li&gt;&#xA;&lt;li&gt;&lt;strong&gt;增强的解析器&lt;/strong&gt;：改进了对代码结构的理解能力，能够更准确地解析和处理代码。&lt;/li&gt;&#xA;&lt;li&gt;&lt;strong&gt;丰富的工具集&lt;/strong&gt;：提供多种工具，包括文件系统访问、网络搜索、多文件处理等。&lt;/li&gt;&#xA;&lt;/ol&gt;&#xA;&lt;h3 id=&#34;安装要求&#34;&gt;安装要求&lt;/h3&gt;&#xA;&lt;p&gt;Qwen Code 需要 Node.js 20+ 版本。可以通过 npm 或从源代码安装：&lt;/p&gt;</description>
+    </item>
+  </channel>
+</rss>

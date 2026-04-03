@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>博客 on jaxiu He</title>
+    <link>https://blog.jaxiu.cn/tags/%E5%8D%9A%E5%AE%A2/</link>
+    <description>Recent content in 博客 on jaxiu He</description>
+    <generator>Hugo</generator>
+    <language>zn-Hans</language>
+    <lastBuildDate>Tue, 12 Aug 2025 14:45:00 +0800</lastBuildDate>
+    <atom:link href="https://blog.jaxiu.cn/tags/%E5%8D%9A%E5%AE%A2/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>为Hugo博客配置自定义域名完整指南</title>
+      <link>https://blog.jaxiu.cn/blog/2025-08/%E4%B8%BAhugo%E5%8D%9A%E5%AE%A2%E9%85%8D%E7%BD%AE%E8%87%AA%E5%AE%9A%E4%B9%89%E5%9F%9F%E5%90%8D%E5%AE%8C%E6%95%B4%E6%8C%87%E5%8D%97/</link>
+      <pubDate>Tue, 12 Aug 2025 14:45:00 +0800</pubDate>
+      <guid>https://blog.jaxiu.cn/blog/2025-08/%E4%B8%BAhugo%E5%8D%9A%E5%AE%A2%E9%85%8D%E7%BD%AE%E8%87%AA%E5%AE%9A%E4%B9%89%E5%9F%9F%E5%90%8D%E5%AE%8C%E6%95%B4%E6%8C%87%E5%8D%97/</guid>
+      <description>&lt;p&gt;为博客配置自定义域名可以让网站看起来更专业，也有助于品牌建设。本文将详细介绍如何为基于 Hugo 构建并托管在 GitHub Pages 上的博客配置自定义域名 blog.jaxiu.cn。&lt;/p&gt;&#xA;&lt;h2 id=&#34;一准备工作&#34;&gt;一、准备工作&lt;/h2&gt;&#xA;&lt;p&gt;在开始配置之前，您需要：&lt;/p&gt;&#xA;&lt;ol&gt;&#xA;&lt;li&gt;拥有一个已注册的域名（如 jaxiu.cn）&lt;/li&gt;&#xA;&lt;li&gt;拥有该域名的管理权限&lt;/li&gt;&#xA;&lt;li&gt;确保博客已经部署在 GitHub Pages 上&lt;/li&gt;&#xA;&lt;/ol&gt;&#xA;&lt;h2 id=&#34;二配置步骤&#34;&gt;二、配置步骤&lt;/h2&gt;&#xA;&lt;h3 id=&#34;1-修改hugo配置文件&#34;&gt;1. 修改Hugo配置文件&lt;/h3&gt;&#xA;&lt;p&gt;首先，需要修改博客的配置文件 &lt;code&gt;config.toml&lt;/code&gt;，将 baseURL 更新为您的自定义域名：&lt;/p&gt;&#xA;&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-toml&#34; data-lang=&#34;toml&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;nx&#34;&gt;baseURL&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;s1&#34;&gt;&amp;#39;https://blog.jaxiu.cn/&amp;#39;&lt;/span&gt;&#xA;&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h3 id=&#34;2-创建cname文件&#34;&gt;2. 创建CNAME文件&lt;/h3&gt;&#xA;&lt;p&gt;在 Hugo 项目的 &lt;code&gt;static&lt;/code&gt; 目录下创建一个名为 &lt;code&gt;CNAME&lt;/code&gt; 的文件（注意没有扩展名），内容为您的自定义域名：&lt;/p&gt;</description>
+    </item>
+  </channel>
+</rss>

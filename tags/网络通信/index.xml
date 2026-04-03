@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>网络通信 on jaxiu He</title>
+    <link>https://blog.jaxiu.cn/tags/%E7%BD%91%E7%BB%9C%E9%80%9A%E4%BF%A1/</link>
+    <description>Recent content in 网络通信 on jaxiu He</description>
+    <generator>Hugo</generator>
+    <language>zn-Hans</language>
+    <lastBuildDate>Fri, 18 Jul 2025 19:00:00 +0800</lastBuildDate>
+    <atom:link href="https://blog.jaxiu.cn/tags/%E7%BD%91%E7%BB%9C%E9%80%9A%E4%BF%A1/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>NPS 核心组件：深入剖析 Bridge 模块</title>
+      <link>https://blog.jaxiu.cn/blog/2025-07/nps-%E6%A0%B8%E5%BF%83%E7%BB%84%E4%BB%B6%E6%B7%B1%E5%85%A5%E5%89%96%E6%9E%90-bridge-%E6%A8%A1%E5%9D%97/</link>
+      <pubDate>Fri, 18 Jul 2025 19:00:00 +0800</pubDate>
+      <guid>https://blog.jaxiu.cn/blog/2025-07/nps-%E6%A0%B8%E5%BF%83%E7%BB%84%E4%BB%B6%E6%B7%B1%E5%85%A5%E5%89%96%E6%9E%90-bridge-%E6%A8%A1%E5%9D%97/</guid>
+      <description>&lt;h2 id=&#34;引言&#34;&gt;引言&lt;/h2&gt;&#xA;&lt;p&gt;在 NPS 的服务端架构中，&lt;code&gt;proxy&lt;/code&gt; 模块负责监听公网端口并处理各种协议的流量，而 &lt;code&gt;client&lt;/code&gt; 模块则在内网中连接本地服务。那么，当一个公网请求到达 &lt;code&gt;proxy&lt;/code&gt; 模块后，它是如何精确地找到对应的内网客户端，并与之建立一条数据通道的呢？答案就是 &lt;strong&gt;&lt;code&gt;Bridge&lt;/code&gt; 模块&lt;/strong&gt;。&lt;code&gt;Bridge&lt;/code&gt; 是 NPS 服务端的核心枢纽，它负责维护所有客户端的长连接，并在此之上建立控制和数据隧道，是整个 NPS 体系的“交通总指挥”。&lt;/p&gt;&#xA;&lt;h2 id=&#34;bridge-结构体通信枢纽的核心&#34;&gt;&lt;code&gt;Bridge&lt;/code&gt; 结构体：通信枢纽的核心&lt;/h2&gt;&#xA;&lt;p&gt;&lt;code&gt;bridge.go&lt;/code&gt; 文件首先定义了 &lt;code&gt;Bridge&lt;/code&gt; 结构体，它包含了 &lt;code&gt;Bridge&lt;/code&gt; 模块运行所需的所有关键信息：&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>NPS 客户端核心解析：连接管理与流量转发</title>
+      <link>https://blog.jaxiu.cn/blog/2025-07/nps-%E5%AE%A2%E6%88%B7%E7%AB%AF%E6%A0%B8%E5%BF%83%E8%A7%A3%E6%9E%90%E8%BF%9E%E6%8E%A5%E7%AE%A1%E7%90%86%E4%B8%8E%E6%B5%81%E9%87%8F%E8%BD%AC%E5%8F%91/</link>
+      <pubDate>Fri, 18 Jul 2025 17:45:00 +0800</pubDate>
+      <guid>https://blog.jaxiu.cn/blog/2025-07/nps-%E5%AE%A2%E6%88%B7%E7%AB%AF%E6%A0%B8%E5%BF%83%E8%A7%A3%E6%9E%90%E8%BF%9E%E6%8E%A5%E7%AE%A1%E7%90%86%E4%B8%8E%E6%B5%81%E9%87%8F%E8%BD%AC%E5%8F%91/</guid>
+      <description>&lt;h2 id=&#34;引言&#34;&gt;引言&lt;/h2&gt;&#xA;&lt;p&gt;在 NPS 系列文章的前几篇中，我们详细剖析了 NPS 服务端的各个模块和代理实现。本篇文章将转向 NPS 的 &lt;strong&gt;客户端（Client）&lt;/strong&gt; 模块，深入分析 &lt;code&gt;nps/client/client.go&lt;/code&gt; 文件。这个文件是 NPS 客户端的“大脑”，负责与服务端建立连接、管理隧道、处理不同类型的流量以及维护客户端的生命周期。理解客户端的运作机制，是掌握 NPS 完整内网穿透流程的关键。&lt;/p&gt;&#xA;&lt;h2 id=&#34;clientgo客户端的大脑&#34;&gt;&lt;code&gt;client.go&lt;/code&gt;：客户端的“大脑”&lt;/h2&gt;&#xA;&lt;p&gt;&lt;code&gt;client.go&lt;/code&gt; 文件定义了 &lt;code&gt;TRPClient&lt;/code&gt; 结构体，它是 NPS 客户端的核心。它负责客户端的启动、与服务端的通信、隧道管理以及流量转发。&lt;/p&gt;&#xA;&lt;h3 id=&#34;trpclient-结构体&#34;&gt;&lt;code&gt;TRPClient&lt;/code&gt; 结构体&lt;/h3&gt;&#xA;&lt;p&gt;&lt;code&gt;TRPClient&lt;/code&gt; 结构体包含了客户端运行所需的所有关键信息：&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>NPS 代理实现：WebSocket 代理与 HTTP 反向代理</title>
+      <link>https://blog.jaxiu.cn/blog/2025-07/nps-%E4%BB%A3%E7%90%86%E5%AE%9E%E7%8E%B0websocket-%E4%BB%A3%E7%90%86%E4%B8%8E-http-%E5%8F%8D%E5%90%91%E4%BB%A3%E7%90%86/</link>
+      <pubDate>Fri, 18 Jul 2025 17:00:00 +0800</pubDate>
+      <guid>https://blog.jaxiu.cn/blog/2025-07/nps-%E4%BB%A3%E7%90%86%E5%AE%9E%E7%8E%B0websocket-%E4%BB%A3%E7%90%86%E4%B8%8E-http-%E5%8F%8D%E5%90%91%E4%BB%A3%E7%90%86/</guid>
+      <description>&lt;h2 id=&#34;引言&#34;&gt;引言&lt;/h2&gt;&#xA;&lt;p&gt;在 NPS 系列文章的前几篇中，我们已经探讨了 NPS 的整体架构、服务端核心以及多种代理模式（TCP 隧道、HTTP 代理、SOCKS5 代理、P2P 代理和 UDP 代理）。本篇文章将深入 NPS 的 &lt;strong&gt;WebSocket 代理&lt;/strong&gt;和 &lt;strong&gt;HTTP 反向代理&lt;/strong&gt;实现。我们将通过分析 &lt;code&gt;nps/server/proxy/websocket.go&lt;/code&gt; 文件，揭示 NPS 如何处理这两种特殊的 HTTP 流量，实现更灵活的网络穿透。&lt;/p&gt;&#xA;&lt;h2 id=&#34;websocket-与-http-反向代理的需求&#34;&gt;WebSocket 与 HTTP 反向代理的需求&lt;/h2&gt;&#xA;&lt;ul&gt;&#xA;&lt;li&gt;&lt;strong&gt;WebSocket&lt;/strong&gt;：提供客户端和服务器之间的全双工通信通道，常用于实时应用，如聊天、在线游戏、股票行情等。传统的 HTTP 代理无法直接处理 WebSocket 协议的升级和持续连接。&lt;/li&gt;&#xA;&lt;li&gt;&lt;strong&gt;HTTP 反向代理&lt;/strong&gt;：将客户端的 HTTP 请求转发到后端服务器，并返回后端服务器的响应。它通常用于负载均衡、SSL 卸载、缓存和安全防护等。&lt;/li&gt;&#xA;&lt;/ul&gt;&#xA;&lt;h2 id=&#34;websocketgowebsocket-与-http-反向代理的实现&#34;&gt;&lt;code&gt;websocket.go&lt;/code&gt;：WebSocket 与 HTTP 反向代理的实现&lt;/h2&gt;&#xA;&lt;p&gt;&lt;code&gt;websocket.go&lt;/code&gt; 文件主要定义了 &lt;code&gt;HttpReverseProxy&lt;/code&gt; 和 &lt;code&gt;ReverseProxy&lt;/code&gt; 两个结构体，它们共同协作来处理 HTTP 反向代理和 WebSocket 连接。&lt;/p&gt;</description>
+    </item>
+  </channel>
+</rss>

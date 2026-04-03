@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>案例分析 on jaxiu He</title>
+    <link>https://blog.jaxiu.cn/tags/%E6%A1%88%E4%BE%8B%E5%88%86%E6%9E%90/</link>
+    <description>Recent content in 案例分析 on jaxiu He</description>
+    <generator>Hugo</generator>
+    <language>zn-Hans</language>
+    <lastBuildDate>Wed, 23 Jul 2025 16:10:00 +0800</lastBuildDate>
+    <atom:link href="https://blog.jaxiu.cn/tags/%E6%A1%88%E4%BE%8B%E5%88%86%E6%9E%90/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Qwen Code 实战应用与总结</title>
+      <link>https://blog.jaxiu.cn/blog/2025-07/qwen-code-practical-applications-and-summary/</link>
+      <pubDate>Wed, 23 Jul 2025 16:10:00 +0800</pubDate>
+      <guid>https://blog.jaxiu.cn/blog/2025-07/qwen-code-practical-applications-and-summary/</guid>
+      <description>&lt;h1 id=&#34;qwen-code-实战应用与总结&#34;&gt;Qwen Code 实战应用与总结&lt;/h1&gt;&#xA;&lt;h2 id=&#34;引言&#34;&gt;引言&lt;/h2&gt;&#xA;&lt;p&gt;经过前面七篇文章的详细介绍，我们已经全面了解了 Qwen Code 项目的各个方面，从基本概念到核心实现细节。在本文中，我们将通过实际应用案例来展示 Qwen Code 的强大功能，并对整个系列进行总结。&lt;/p&gt;&#xA;&lt;h2 id=&#34;实战应用案例&#34;&gt;实战应用案例&lt;/h2&gt;&#xA;&lt;h3 id=&#34;案例一快速理解开源项目&#34;&gt;案例一：快速理解开源项目&lt;/h3&gt;&#xA;&lt;p&gt;假设我们需要快速理解一个复杂的开源项目，比如 Redux。我们可以使用 Qwen Code 来帮助我们：&lt;/p&gt;&#xA;&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;c1&#34;&gt;# 启动 Qwen Code&lt;/span&gt;&#xA;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;qwen-code&#xA;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&#xA;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;c1&#34;&gt;# 然后输入以下指令：&lt;/span&gt;&#xA;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;c1&#34;&gt;# &amp;#34;请帮我分析 Redux 项目的结构，特别是它的核心概念和实现原理&amp;#34;&lt;/span&gt;&#xA;&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;Qwen Code 会执行以下操作：&lt;/p&gt;&#xA;&lt;ol&gt;&#xA;&lt;li&gt;使用 &lt;code&gt;list_directory&lt;/code&gt; 工具查看项目结构&lt;/li&gt;&#xA;&lt;li&gt;使用 &lt;code&gt;read_file&lt;/code&gt; 工具读取关键文件（如 README.md、核心源文件）&lt;/li&gt;&#xA;&lt;li&gt;使用 &lt;code&gt;search_file_content&lt;/code&gt; 工具搜索特定概念的实现&lt;/li&gt;&#xA;&lt;li&gt;综合分析后给出详细的解释&lt;/li&gt;&#xA;&lt;/ol&gt;&#xA;&lt;h3 id=&#34;案例二自动化代码审查&#34;&gt;案例二：自动化代码审查&lt;/h3&gt;&#xA;&lt;p&gt;我们可以使用 Qwen Code 来自动化代码审查流程：&lt;/p&gt;</description>
+    </item>
+  </channel>
+</rss>

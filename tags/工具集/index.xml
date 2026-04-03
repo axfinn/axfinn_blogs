@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>工具集 on jaxiu He</title>
+    <link>https://blog.jaxiu.cn/tags/%E5%B7%A5%E5%85%B7%E9%9B%86/</link>
+    <description>Recent content in 工具集 on jaxiu He</description>
+    <generator>Hugo</generator>
+    <language>zn-Hans</language>
+    <lastBuildDate>Wed, 23 Jul 2025 15:30:00 +0800</lastBuildDate>
+    <atom:link href="https://blog.jaxiu.cn/tags/%E5%B7%A5%E5%85%B7%E9%9B%86/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Qwen Code 工具详解</title>
+      <link>https://blog.jaxiu.cn/blog/2025-07/qwen-code-tools-detailed/</link>
+      <pubDate>Wed, 23 Jul 2025 15:30:00 +0800</pubDate>
+      <guid>https://blog.jaxiu.cn/blog/2025-07/qwen-code-tools-detailed/</guid>
+      <description>&lt;h1 id=&#34;qwen-code-工具详解&#34;&gt;Qwen Code 工具详解&lt;/h1&gt;&#xA;&lt;h2 id=&#34;工具概览&#34;&gt;工具概览&lt;/h2&gt;&#xA;&lt;p&gt;Qwen Code 提供了一套丰富的工具集，允许 AI 模型与本地环境进行交互、执行命令、访问文件和执行各种操作。这些工具通过确认提示和沙箱机制确保安全性。&lt;/p&gt;&#xA;&lt;p&gt;工具集的分类可以用下图表示：&lt;/p&gt;&#xA;&lt;div class=&#34;mermaid&#34;&gt;&#xA;&#xA;graph TD&#xA;    A[Qwen Code 工具集] --&gt; B[文件系统工具]&#xA;    A --&gt; C[网络工具]&#xA;    A --&gt; D[其他工具]&#xA;    &#xA;    B --&gt; B1[list_directory]&#xA;    B --&gt; B2[read_file]&#xA;    B --&gt; B3[write_file]&#xA;    B --&gt; B4[glob]&#xA;    B --&gt; B5[search_file_content]&#xA;    B --&gt; B6[replace]&#xA;    &#xA;    C --&gt; C1[google_web_search]&#xA;    C --&gt; C2[web_fetch]&#xA;    &#xA;    D --&gt; D1[save_memory]&#xA;    D --&gt; D2[run_shell_command]&#xA;    D --&gt; D3[MCP 服务器工具]&#xA;&#xA;&lt;/div&gt;&#xA;&lt;h2 id=&#34;文件系统工具&#34;&gt;文件系统工具&lt;/h2&gt;&#xA;&lt;p&gt;Qwen Code 提供了完整的文件系统操作工具：&lt;/p&gt;&#xA;&lt;h3 id=&#34;list_directory列出目录内容&#34;&gt;&lt;code&gt;list_directory&lt;/code&gt;：列出目录内容&lt;/h3&gt;&#xA;&lt;p&gt;参数：&lt;/p&gt;&#xA;&lt;ul&gt;&#xA;&lt;li&gt;&lt;code&gt;path&lt;/code&gt; (string, required): 要列出的目录的绝对路径&lt;/li&gt;&#xA;&lt;li&gt;&lt;code&gt;ignore&lt;/code&gt; (array, optional): 要忽略的 glob 模式列表&lt;/li&gt;&#xA;&lt;li&gt;&lt;code&gt;respect_git_ignore&lt;/code&gt; (boolean, optional): 是否遵循 .gitignore 模式，默认为 true&lt;/li&gt;&#xA;&lt;/ul&gt;&#xA;&lt;p&gt;功能：显示指定目录下的文件和子目录&lt;/p&gt;</description>
+    </item>
+  </channel>
+</rss>

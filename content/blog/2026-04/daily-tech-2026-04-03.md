@@ -12,7 +12,7 @@ images:
 
 
 <audio id="newsAudio" controls style="width:100%;max-width:700px;margin:16px 0;border-radius:12px;box-shadow:0 4px 20px rgba(0,0,0,0.3);">
-  <source src="/audio/song_2026-04-03.mp3" type="audio/mpeg">
+  <source src="/audio/ai-news-song-2026-04-03.mp3" type="audio/mpeg">
   您的浏览器不支持音频播放
 </audio>
 
@@ -136,112 +136,49 @@ P
 > 📝 **词曲：** AI创作 | **曲风：** 电子流行摇滚 | **阅读方式：** 配合歌词听歌效果更佳 🎧
 
 <div class="lyrics-box" id="lyricsBox">
-<think>
-We have a user request: "根据以下今日新闻，用中文歌词形式创作一首歌曲。要求：..."
-
-The user provides a list of news items, but wants us to write a song lyrics that "涵盖当日新闻精华，聚焦科技、创业、产品、技术类新闻" i.e., focus on tech, startup, product, technology news.
-
-Constraints:
-
-1. Must include the day's news essential content focusing on tech, startup, product, tech news.
-2. Total lyric word count within 250 characters (Chinese characters). Hard requirement.
-3. Structure: [Intro] + [Verse] + [Chorus] + [Verse] + [Chorus] + [Bridge] + [Outro]
-4. Each line no more than 14 characters, Chinese rhyming, rhythmic.
-5. No repeated meaning, concise.
-6. Output only lyrics, no explanation.
-7. Use [Verse] to mark paragraph start.
-8. Important: don't write specific person names (like 雷军, 马斯克), company names (like 苹果, 小米), specific financial numbers, all generic.
-
-The news content includes topics: "元气森林2044创造营", "模拟经营游戏《桃源深处有人家》", "泡泡玛特" financial results, "AI拟真人剧", "阅文AI拟真人大讲堂", "戴纳科技" B+ round, "AI社交" "叽伴", "量旋科技" C+ round financing, "数龙杯" AI competition, "抖音生活服务组织架构调整", "杭州监管部门立案调查", "霍尔木兹海峡", "飞天茅台批价上升", "礼来口服GLP-1药物获批", "陈光标赠劳斯莱斯" etc.
-
-But the user wants focus on tech, startup, product, technology. So we should incorporate these topics, but no specific brand names, no person names, no specific numbers.
-
-We can reference "新创公司" "AI" "量子计算" "融资" "产品发布" "虚拟剧" "游戏" "数字赛道" "智能体" "社交" "行业调整". Also "监管" maybe.
-
-We need to write lyrics in Chinese, each line up to 14 characters, total characters <=250.
-
-Need to be careful with counting Chinese characters (including punctuation?). The instruction says "歌词总字数控制在250字以内" likely means characters excluding punctuation? It's ambiguous, but we need to ensure we are under 250 characters (including Chinese characters). Since each line is <=14 characters, we can have perhaps around 20 lines or so.
-
-The structure: [Intro] + [Verse] + [Chorus] + [Verse] + [Chorus] + [Bridge] + [Outro].
-
-We need to label each part with the appropriate tags: "[Intro]" and so on. Each line within sections we need to keep under 14 characters.
-
-We need to rhyme: Chinese rhyming is about final character rhyme. We'll try to ensure the last characters of each line rhyme in each section or overall. We can choose a rhyme, like "星", "声", "情", "景". Or use a consistent final rhyme like "风". But each line may have 14 characters max. We'll aim for rhythmic, maybe 7 characters per half line.
-
-We need to avoid repeated meaning, keep it compact.
-
-We need to be mindful not to include any names like "雷军" etc. So generic terms like "科技领袖", "创新者". Not mention "泡泡玛特" etc. But can mention "潮流玩具" maybe. However the requirement says "不要写具体公司名（如苹果、小米）". So generic terms like "新创企业", "潮流品牌". That should be okay.
-
-We need to incorporate the major topics: AI, quantum computing, financing, new product launches, gaming, digital content, competition.
-
-We need to incorporate those in a song style: verses about each news, chorus about future, bridging about possibilities, outro about conclusion.
-
-We need to keep each line <=14 characters. Let's plan.
-
-First, count characters. Chinese characters each count as one. We need total <=250. We'll aim for around 200 characters.
-
-We'll have:
 
 [Intro]
-(1) 灯火微光映科技浪潮
-(2) 晨曦破晓梦开始跳动
+晨光照进科技海岸
+数字浪潮悄然来访
+新的一天新的方向
+梦想在代码里成长
 
-But each line must be <=14 characters. Let's check.
-
-Line1: "灯火微光映科技浪潮" -> characters: 灯(1) 火2 微3 光4 映5 科6 技7 浪8 潮9 -> 9 characters. Good.
-
-Line2: "晨曦破晓梦开始跳动" -> characters: 晨1 曦2 破3 晓4 梦5 开6 始7 跳8 动9 -> 9 characters. Good.
-
-Add maybe one more line.
-
-Line3: "新创星火点燃未来路" -> 新1 创2 星3 火4 点5 燃6 未7 来8 路9 -> 9 characters.
-
-That's intro with 3 lines.
-
-[Verse] => first verse.
-
-We need to reflect news: maybe "模拟经营游戏世界", "元宇宙乡村", "AI真人剧", "量子新星".
-
-We need to keep lines short. Let's aim for 4 lines.
-
-Verse1:
-Line1: "乡村深处有梦在经营" -> characters: 乡1 村2 深3 处4 有5 梦6 在7 经8 营9 -> 9.
-
-Line2: "模拟世界让玩家慢下来" -> 模1 拟2 世3 界4 让5 玩6 家7 慢8 下9 来10 -> 10.
-
-Line3: "AI拟真剧点燃创意潮" -> AI1 拟2 真3 剧4 点5 燃6 创7 意8 潮9 -> 9.
-
-Line4: "数字赛道新星崛起" -> 数1 字2 赛3 道4 新5 星6 崛7 起8 -> 8.
-
-All <14.
+[Verse]
+智能框架引领云端
+算法引擎高速运转
+云端算力连接万物
+数据河流跨越山川
 
 [Chorus]
+科技创新永不停歇
+创业者们在书写诗篇
+产品迭代初心不变
+未来已来就在眼前
 
-We need a catchy chorus about the future.
+[Verse]
+电动车驶向智能时代
+人工智能融入生活
+创投大赛点燃热情
+追梦人们在奋力拼搏
 
-We can have 4 lines.
+[Chorus]
+科技创新永不停歇
+创业者们在书写诗篇
+产品迭代初心不变
+未来已来就在眼前
 
-Chorus1:
-Line1: "科技浪潮滚滚向前冲" -> 科1 技2 浪3 潮4 滚5 滚6 向7 前8 冲9 -> 9.
+[Bridge]
+风雨中我们不退缩
+困难只是短暂考验
+团结向前创造明天
+科技之光照亮人间
 
-Line2: "创新星光照亮万家灯" -> 创1 新2 星3 光4 照5 亮6 万7 家8 灯9 -> 9.
+[Outro]
+夜幕降临星光闪烁
+代码世界里不寂寞
+明日再续新的传说
+科技之歌永远传唱
 
-Line3: "量子计算开启新纪元" -> 量1 子2 计3 算4 开5 启6 新7 纪8 元9 -> 9.
-
-Line4: "创业路上永不止步" -> 创1 业2 路3 上4 永5 不6 止7 步8 -> 8.
-
-All <14.
-
-[Verse] second verse.
-
-We need talk about financing, new products, AI social.
-
-Let's have 4 lines.
-
-Verse2:
-
-Line1: "融资潮涌注入创新血" -> 融1 资2 潮3 涌4 注5 入6 创7 新8 血
-</think>
 </div>
 
 <script>

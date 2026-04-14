@@ -10,6 +10,17 @@ images:
   - "https://images.unsplash.com/photo-1677442136019-21780ecad995?auto=format&fit=crop&w=1200&q=80"
 ---
 
+
+<audio id="newsAudio" controls style="width:100%;max-width:700px;margin:16px 0;border-radius:12px;box-shadow:0 4px 20px rgba(0,0,0,0.3);">
+  <source src="/audio/song_2026-04-14.mp3" type="audio/mpeg">
+  您的浏览器不支持音频播放
+</audio>
+
+> 🎧 **配套原创歌曲** — 04月14日 科技日报主题曲，边听边看效果更佳
+
+---
+
+
 > 每天整理当日技术领域重要新闻，带你快速掌握行业动态。数据来源：36kr、Hacker News。配合歌曲阅读效果更佳 🎵
 
 
@@ -124,6 +135,113 @@ Comments URL: https://news.ycombin
 13. 国办：优化创新药等新上市药品首发价格机制
 14. 宝马一季度欧洲纯电动汽车订单增长约40%
 15. 我国将健全药品价格形成机制
+
+
+---
+
+## 🎤 歌词原文
+
+> 📝 **词曲：** AI创作 | **曲风：** 电子流行摇滚 | **阅读方式：** 配合歌词听歌效果更佳 🎧
+
+<div class="lyrics-box" id="lyricsBox">
+<think>Let me create a song based on today's tech news, following all the requirements.</think>
+
+[Intro]
+芯片破浪八百速
+机器手臂替人工
+
+[Verse]
+高带宽存储芯片新鲜出
+带宽突破八百G的门槛处
+十二到二十四G两种规格
+对标国际标准自主向前路
+
+AI发球机器人球场起步
+创始人半年苦练打出新路
+融资近两亿要解训练苦
+全球亿万球迷不再孤独
+
+[Chorus]
+科技浪潮滚滚向前冲
+每一天都有新产品涌
+机器学会了人的手法
+效率翻倍不靠人来动
+这个时代跑得太匆匆
+抓住风口才能站得稳
+
+[Verse]
+具身智能平台打磨上线
+路径规划系统同步亮相
+工业打磨效率三四倍翻
+隐形工序迎来技术转场
+
+终端AI智能体化身虾王
+轻薄本里养虾重定方向
+某社交平台跨境商城启航
+六月上线全球买家期望
+
+[Chorus]
+科技浪潮滚滚向前冲
+每一天都有新产品涌
+机器学会了人的手法
+效率翻倍不靠人来动
+
+[Bridge]
+办公软件净利四倍飞升
+AI时代红利全面释放
+创业者拎着梦想往前闯
+每个赛道都在重写章
+
+[Outro]
+芯片机器人智能体
+中国科技写新页
+</div>
+
+<script>
+(function() {
+  var lyricsEl = document.getElementById('lyricsBox');
+  var audio = document.getElementById('newsAudio');
+  if (!lyricsEl || !audio) return;
+  var lines = lyricsEl.innerHTML.split('\n');
+  var current = -1, playing = false;
+  function updateLine(idx) {
+    var out = [];
+    for (var i = 0; i < lines.length; i++) {
+      out.push('<span' + (i === idx ? ' class="lyric-on"' : '') + '>' + lines[i] + '</span>');
+    }
+    lyricsEl.innerHTML = out.join('');
+    var active = lyricsEl.querySelector('.lyric-on');
+    if (active) active.scrollIntoView({ behavior: 'smooth', block: 'center' });
+  }
+  audio.addEventListener('playing', function() { playing = true; updateLine(0); });
+  audio.addEventListener('pause', function() { playing = false; });
+  audio.addEventListener('ended', function() { playing = false; updateLine(-1); });
+  audio.addEventListener('timeupdate', function() {
+    if (!playing) return;
+    var idx = Math.floor((audio.currentTime / audio.duration) * (lines.length - 1));
+    if (idx !== current) { current = idx; updateLine(idx); }
+  });
+})();
+</script>
+
+<style>
+#lyricsBox {
+  background: linear-gradient(135deg, #0d0d1a 0%, #1a1a2e 100%);
+  border-radius: 16px; padding: 24px 28px; margin: 20px 0;
+  box-shadow: 0 8px 32px rgba(0,0,0,0.3);
+  border: 1px solid rgba(255,255,255,0.08);
+  max-height: 420px; overflow-y: auto;
+}
+#lyricsBox span {
+  transition: color 0.3s, text-shadow 0.3s; display: block;
+  font-family: 'PingFang SC','Microsoft YaHei',sans-serif;
+  font-size: 14px; line-height: 2.0; color: rgba(255,255,255,0.4);
+}
+#lyricsBox .lyric-on {
+  color: #ffd700; text-shadow: 0 0 12px rgba(255,215,0,0.6); font-weight: 600;
+}
+</style>
+
 
 ## 📚 参考来源
 1. 「美股例外」何时休？ — https://36kr.com/p/3766410231726855?f=rss

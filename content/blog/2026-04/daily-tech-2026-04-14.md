@@ -79,7 +79,7 @@ images:
 ### 6. 半年融资近2亿，他要用AI发球机器人解决全球1亿人的训练难题｜硬氪专访
 来源：https://36kr.com/p/3764953900990977?f=rss
 
-摘要：主力资金早间净流入电子、国防军工、医药生物等板块，净流出有色金属、基础化工、机械设备等板块。具体到个股来看，剑桥科技、西部材料、神剑股份获净流入21.51亿元、18.90亿元、12.55亿元。净流出方面，赣锋锂业、华工科技、阳光电源遭抛售19.26亿元、17.07亿元、15.15亿元。（第一财经）
+摘要：36氪获悉，恒指午间休盘涨0.76%，恒生科技指数涨1.88%；科技、半导体走强，天数智芯涨近12%，京东集团涨超5%，阿里巴巴、百度集团涨超4%；石化股跌幅居前，蒙古能源跌超9%，中港石油跌超4%；南向资金净买入13.51亿港元。
 
 ## 💰 创业投资动态
 1. 氪星晚报｜高德首款具身机器人将亮相；日产发布转型计划：削减20%车型，冲刺中美百万销量；随着战略转向，OpenAI的8520亿美元估值遭投资者质疑 — 来源：https://36kr.com/p/3766487517594377?f=rss
@@ -87,6 +87,21 @@ images:
 3. 新世界旗下Gmarket与阿里合资后GMV实现双位数增长 — 来源：https://36kr.com/newsflashes/3767517674341127?f=rss
 
 ## 🌍 国外科技动态（HN热门）
+1. New AI capabilities are coming to Google Vids, powered by Lyria 3 and Veo 3.1 — https://blog.google/products-and-platforms/products/workspace/google-vids-updates-lyria-veo/
+   Article URL: https://blog.google/products-and-platforms/products/workspace/google-vids-updates-lyria
+2. Show HN: BSCS Bench – College CS Curriculum AI Benchmark — https://www.bscsbench.com/
+   Can frontier models complete a college CS curriculum? I tested exactly that with BSCS-bench: 66 assi
+3. GPT-5.4 Pro solves Erdős Problem #1196 — https://twitter.com/i/status/2044051379916882067
+   Article URL: https://twitter.com/i/status/2044051379916882067
+Comments URL: https://news.ycombinator
+4. Show HN: Agent Citizen – Your AI agents are sitting around doing nothing — https://agent-citizen.vercel.app
+   Platform where you point your AI agents at real-world issues (clean water, climate, healthcare) via 
+5. Bosses say AI boosts productivity – workers say they're drowning in 'workslop' — https://www.theguardian.com/technology/2026/apr/14/ai-productivity-workplace-errors
+   Article URL: https://www.theguardian.com/technology/2026/apr/14/ai-productivity-workplace-errors
+Com
+6. Aethon: A reference-based instantiation primitive for stateful AI agents — https://arxiv.org/abs/2604.12129
+   Article URL: https://arxiv.org/abs/2604.12129
+Comments URL: https://news.ycombinator.com/item?id=477
 
 ## 📱 一句话新闻速递
 1. 最前线｜追觅生态企业娲宝科技发布宠物智能项圈，布局“项圈+宠粮”数据闭环
@@ -97,13 +112,13 @@ images:
 6. 「美股例外」何时休？
 7. 最前线 | 远见智存发布HBM3/3e高带宽存储芯片，带宽迈入800GB/s级别
 8. 半年融资近2亿，他要用AI发球机器人解决全球1亿人的训练难题｜硬氪专访
-9. 半日主力资金加仓电子股，抛售有色金属股
-10. 中航机载系统公司注册资本增至约93.6亿元
-11. A股三大指数午间休盘涨跌不一，沐曦股份涨超13%
-12. 新世界旗下Gmarket与阿里合资后GMV实现双位数增长
-13. 软银邀请更多银行加入400亿美元OpenAI贷款项目
-14. IDC：2026年第一季度全球智能手机出货量下降4.1%
-15. 外资机构年内调研沪市公司近1400次，科创板公司尤受青睐
+9. 恒指午间休盘涨0.76%，恒生科技指数涨1.88%
+10. 半日主力资金加仓电子股，抛售有色金属股
+11. 中航机载系统公司注册资本增至约93.6亿元
+12. A股三大指数午间休盘涨跌不一，沐曦股份涨超13%
+13. 新世界旗下Gmarket与阿里合资后GMV实现双位数增长
+14. 软银邀请更多银行加入400亿美元OpenAI贷款项目
+15. IDC：2026年第一季度全球智能手机出货量下降4.1%
 
 ## 📚 参考来源
 1. 最前线｜追觅生态企业娲宝科技发布宠物智能项圈，布局“项圈+宠粮”数据闭环 — https://36kr.com/p/3767424500171271?f=rss
@@ -114,12 +129,22 @@ images:
 6. 「美股例外」何时休？ — https://36kr.com/p/3766410231726855?f=rss
 7. 最前线 | 远见智存发布HBM3/3e高带宽存储芯片，带宽迈入800GB/s级别 — https://36kr.com/p/3765986197684736?f=rss
 8. 半年融资近2亿，他要用AI发球机器人解决全球1亿人的训练难题｜硬氪专访 — https://36kr.com/p/3764953900990977?f=rss
-9. 半日主力资金加仓电子股，抛售有色金属股 — https://36kr.com/newsflashes/3767553288258304?f=rss
-10. 中航机载系统公司注册资本增至约93.6亿元 — https://36kr.com/newsflashes/3767542890578432?f=rss
-11. A股三大指数午间休盘涨跌不一，沐曦股份涨超13% — https://36kr.com/newsflashes/3767533027836673?f=rss
-12. 新世界旗下Gmarket与阿里合资后GMV实现双位数增长 — https://36kr.com/newsflashes/3767517674341127?f=rss
-13. 软银邀请更多银行加入400亿美元OpenAI贷款项目 — https://36kr.com/newsflashes/3767505865179650?f=rss
-14. IDC：2026年第一季度全球智能手机出货量下降4.1% — https://36kr.com/newsflashes/3767495355138823?f=rss
-15. 外资机构年内调研沪市公司近1400次，科创板公司尤受青睐 — https://36kr.com/newsflashes/3767465020883714?f=rss
+9. 恒指午间休盘涨0.76%，恒生科技指数涨1.88% — https://36kr.com/newsflashes/3767563393221380?f=rss
+10. 半日主力资金加仓电子股，抛售有色金属股 — https://36kr.com/newsflashes/3767553288258304?f=rss
+11. 中航机载系统公司注册资本增至约93.6亿元 — https://36kr.com/newsflashes/3767542890578432?f=rss
+12. A股三大指数午间休盘涨跌不一，沐曦股份涨超13% — https://36kr.com/newsflashes/3767533027836673?f=rss
+13. 新世界旗下Gmarket与阿里合资后GMV实现双位数增长 — https://36kr.com/newsflashes/3767517674341127?f=rss
+14. 软银邀请更多银行加入400亿美元OpenAI贷款项目 — https://36kr.com/newsflashes/3767505865179650?f=rss
+15. IDC：2026年第一季度全球智能手机出货量下降4.1% — https://36kr.com/newsflashes/3767495355138823?f=rss
 
 ### HackerNews热门
+1. New AI capabilities are coming to Google Vids, powered by Lyria 3 and Veo 3.1 — https://blog.google/products-and-platforms/products/workspace/google-vids-updates-lyria-veo/
+2. Show HN: BSCS Bench – College CS Curriculum AI Benchmark — https://www.bscsbench.com/
+3. GPT-5.4 Pro solves Erdős Problem #1196 — https://twitter.com/i/status/2044051379916882067
+4. Show HN: Agent Citizen – Your AI agents are sitting around doing nothing — https://agent-citizen.vercel.app
+5. Bosses say AI boosts productivity – workers say they're drowning in 'workslop' — https://www.theguardian.com/technology/2026/apr/14/ai-productivity-workplace-errors
+6. Aethon: A reference-based instantiation primitive for stateful AI agents — https://arxiv.org/abs/2604.12129
+7. The Origin of AI's 'Reasoning' Abilities — https://www.theatlantic.com/technology/2026/04/4chan-ai-dungeon-thinking-reasoning/686794/
+8. Show HN: Idea File for LLM Cycling Coach — https://gist.github.com/leourbina/4db27d9a0a86b9e1551bf9d4b3fd6dad
+9. Grok Imagine 2.0 – AI-Powered Image Generation — https://grokimagine2.io
+10. Show HN: Memwright – Self-hosted memory for multi-agent teams, no LLM in path — https://github.com/bolnet/agent-memory

@@ -61,13 +61,6 @@ images:
 - **全球AI监管趋严**：欧盟AI法案实施在即，美国参议院推进AI安全立法
 - **硬件供应链波动**：IDC数据显示Q1全球智能手机出货量下降4.1%，内存芯片供应紧张持续至2027年
 
-<audio id="newsAudio" controls style="width:100%;max-width:700px;margin:16px 0;border-radius:12px;box-shadow:0 4px 20px rgba(0,0,0,0.3);">
-  <source src="/audio/ai-news-song-2026-04-14.mp3" type="audio/mpeg">
-  您的浏览器不支持音频播放
-</audio>
-
-> 🎧 **配套原创歌曲** — 04月14日 科技日报主题曲，边听边看效果更佳
-
 ---
 
 ## 2. AI & 大模型进展

@@ -12,7 +12,7 @@ images:
 
 
 <audio id="newsAudio" controls style="width:100%;max-width:700px;margin:16px 0;border-radius:12px;box-shadow:0 4px 20px rgba(0,0,0,0.3);">
-  <source src="https://t.jaxiu.cn/api/paste/files/8c410e02e429649d50eadca11956a2eb.mp3" type="audio/mpeg">
+  <source src="https://t.jaxiu.cn/api/paste/files/2692084bf6e663686c3e9b4e59f4076b.mp3" type="audio/mpeg">
   您的浏览器不支持音频播放
 </audio>
 

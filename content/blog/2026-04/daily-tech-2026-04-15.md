@@ -12,15 +12,6 @@ images:
 
 > 每天整理当日技术领域重要新闻，带你快速掌握行业动态。数据来源：36kr、Hacker News。配合歌曲阅读效果更佳 🎵
 
-## 🎵 配套原创歌曲
-
-**《AI浪潮》** — 基于04月15日科技日报内容创作
-
-🎧 [点击收听歌曲](https://t.jaxiu.cn/paste/d42da447)
-
----
-
-
 
 ## ✅ 今日要点（60秒速读）
 - 8点1氪丨美国将退还超1万亿元关税；多家银行密集停发信用卡；滴露回应使用宠物消毒液后5只幼猫死亡
@@ -90,27 +81,26 @@ images:
 ## 💰 创业投资动态
 1. 氪星晚报｜Snap宣布将裁员约1000人；字节启动新一轮期权回购；苹果CEO库克斥资106万美元增持耐克 — 来源：https://36kr.com/p/3767970803221251?f=rss
 2. 氪星晚报｜高德首款具身机器人将亮相；日产发布转型计划：削减20%车型，冲刺中美百万销量；随着战略转向，OpenAI的8520亿美元估值遭投资者质疑 — 来源：https://36kr.com/p/3766487517594377?f=rss
-3. 印度航空报告年度亏损超24亿美元，寻求股东支持 — 来源：https://36kr.com/newsflashes/3768780208669184?f=rss
 
 ## 🌍 国外科技动态（HN热门）
-1. Amazon AI Cancelling Webcomics — http://www.kleefeldoncomics.com/2026/04/amazon-ai-cancelling-webcomics.html
+1. EU AI Act: curated tools, official sources, templates, and OSS — https://github.com/GenAI-Gurus/awesome-eu-ai-act
+   Article URL: https://github.com/GenAI-Gurus/awesome-eu-ai-act
+Comments URL: https://news.ycombinator
+2. Amazon AI Cancelling Webcomics — http://www.kleefeldoncomics.com/2026/04/amazon-ai-cancelling-webcomics.html
    Article URL: http://www.kleefeldoncomics.com/2026/04/amazon-ai-cancelling-webcomics.html
 Comments UR
-2. The Great AI Layoff Boomerang. 55% of companies regret their AI-drven layoffs — https://medium.com/@curiouser.ai/the-great-ai-layoff-boomerang-68e38c88fa7d
+3. The Great AI Layoff Boomerang. 55% of companies regret their AI-drven layoffs — https://medium.com/@curiouser.ai/the-great-ai-layoff-boomerang-68e38c88fa7d
    Article URL: https://medium.com/@curiouser.ai/the-great-ai-layoff-boomerang-68e38c88fa7d
 Comments UR
-3. Aggregated interviews on how YC W26 founders build internal AI employees — https://www.humanbehavior.co/blog/topic/ai-employees-inside-founders-agent-workflows
+4. Aggregated interviews on how YC W26 founders build internal AI employees — https://www.humanbehavior.co/blog/topic/ai-employees-inside-founders-agent-workflows
    Article URL: https://www.humanbehavior.co/blog/topic/ai-employees-inside-founders-agent-workflows
 Co
-4. PeonPing: Sound packs for Claude, Codex, Cursor, and other AI coding agents — https://www.peonping.com/
+5. PeonPing: Sound packs for Claude, Codex, Cursor, and other AI coding agents — https://www.peonping.com/
    Article URL: https://www.peonping.com/
 Comments URL: https://news.ycombinator.com/item?id=47787323
 P
-5. Show HN: Sudomake Friends, personalized AI personas in a Telegram group chat — https://github.com/audiodude/sudomake-friends/
+6. Show HN: Sudomake Friends, personalized AI personas in a Telegram group chat — https://github.com/audiodude/sudomake-friends/
    Virtual AI friends, personalized to you, that chat you (or don't!) on their own work/sleep schedules
-6. The AI Market Is Hitting Peak Absurdity — https://garymarcus.substack.com/p/peak-absurdity-part-ii
-   Article URL: https://garymarcus.substack.com/p/peak-absurdity-part-ii
-Comments URL: https://news.yco
 
 ## 📱 一句话新闻速递
 1. 8点1氪丨美国将退还超1万亿元关税；多家银行密集停发信用卡；滴露回应使用宠物消毒
@@ -121,13 +111,13 @@ Comments URL: https://news.yco
 6. 网易互娱架构调整，市场负责人王怡调任海外
 7. 氪星晚报｜高德首款具身机器人将亮相；日产发布转型计划：削减20%车型，冲刺中美百
 8. 「美股例外」何时休？
-9. 韩国：第一季度来韩外国游客达476万人次，中国游客约占三分之一
-10. 车企账期整体性回落，行业主动告别“内卷”、修复供应链生态
-11. 东风汽车正式发布“天元智舱”系列平台
-12. 3月中国快递发展指数同比增长2.4%
-13. 外国持有美国国债规模创一年来最大增幅并创纪录新高
-14. 中信证券：稀土管制开启中国高端陶瓷历史机遇期
-15. 医药行业迎政策东风，相关板块或正步入长期配置窗口
+9. 人民币对美元中间价调贬34个基点
+10. 韩国：第一季度来韩外国游客达476万人次，中国游客约占三分之一
+11. 车企账期整体性回落，行业主动告别“内卷”、修复供应链生态
+12. 东风汽车正式发布“天元智舱”系列平台
+13. 3月中国快递发展指数同比增长2.4%
+14. 外国持有美国国债规模创一年来最大增幅并创纪录新高
+15. 中信证券：稀土管制开启中国高端陶瓷历史机遇期
 
 ## 📚 参考来源
 1. 8点1氪丨美国将退还超1万亿元关税；多家银行密集停发信用卡；滴露回应使用宠物消毒液后5只幼猫死亡 — https://36kr.com/p/3768734631527176?f=rss
@@ -138,22 +128,22 @@ Comments URL: https://news.yco
 6. 网易互娱架构调整，市场负责人王怡调任海外 — https://36kr.com/p/3766722584822537?f=rss
 7. 氪星晚报｜高德首款具身机器人将亮相；日产发布转型计划：削减20%车型，冲刺中美百万销量；随着战略转向，OpenAI的8520亿美元估值遭投资者质疑 — https://36kr.com/p/3766487517594377?f=rss
 8. 「美股例外」何时休？ — https://36kr.com/p/3766410231726855?f=rss
-9. 韩国：第一季度来韩外国游客达476万人次，中国游客约占三分之一 — https://36kr.com/newsflashes/3768813945225728?f=rss
-10. 车企账期整体性回落，行业主动告别“内卷”、修复供应链生态 — https://36kr.com/newsflashes/3768788237632006?f=rss
-11. 东风汽车正式发布“天元智舱”系列平台 — https://36kr.com/newsflashes/3768811155128835?f=rss
-12. 3月中国快递发展指数同比增长2.4% — https://36kr.com/newsflashes/3768810450485768?f=rss
-13. 外国持有美国国债规模创一年来最大增幅并创纪录新高 — https://36kr.com/newsflashes/3768786321261060?f=rss
-14. 中信证券：稀土管制开启中国高端陶瓷历史机遇期 — https://36kr.com/newsflashes/3768781761856260?f=rss
-15. 医药行业迎政策东风，相关板块或正步入长期配置窗口 — https://36kr.com/newsflashes/3768785509827331?f=rss
+9. 人民币对美元中间价调贬34个基点 — https://36kr.com/newsflashes/3768817936188168?f=rss
+10. 韩国：第一季度来韩外国游客达476万人次，中国游客约占三分之一 — https://36kr.com/newsflashes/3768813945225728?f=rss
+11. 车企账期整体性回落，行业主动告别“内卷”、修复供应链生态 — https://36kr.com/newsflashes/3768788237632006?f=rss
+12. 东风汽车正式发布“天元智舱”系列平台 — https://36kr.com/newsflashes/3768811155128835?f=rss
+13. 3月中国快递发展指数同比增长2.4% — https://36kr.com/newsflashes/3768810450485768?f=rss
+14. 外国持有美国国债规模创一年来最大增幅并创纪录新高 — https://36kr.com/newsflashes/3768786321261060?f=rss
+15. 中信证券：稀土管制开启中国高端陶瓷历史机遇期 — https://36kr.com/newsflashes/3768781761856260?f=rss
 
 ### HackerNews热门
-1. Amazon AI Cancelling Webcomics — http://www.kleefeldoncomics.com/2026/04/amazon-ai-cancelling-webcomics.html
-2. The Great AI Layoff Boomerang. 55% of companies regret their AI-drven layoffs — https://medium.com/@curiouser.ai/the-great-ai-layoff-boomerang-68e38c88fa7d
-3. Aggregated interviews on how YC W26 founders build internal AI employees — https://www.humanbehavior.co/blog/topic/ai-employees-inside-founders-agent-workflows
-4. PeonPing: Sound packs for Claude, Codex, Cursor, and other AI coding agents — https://www.peonping.com/
-5. Show HN: Sudomake Friends, personalized AI personas in a Telegram group chat — https://github.com/audiodude/sudomake-friends/
-6. The AI Market Is Hitting Peak Absurdity — https://garymarcus.substack.com/p/peak-absurdity-part-ii
-7. Robot Police Dogs Powered by AI Take over Atlanta's Streets — https://www.newsweek.com/robot-police-dogs-powered-by-ai-take-over-atlantas-streets-11782889
-8. Show HN: I built a Wikipedia based AI deduction game — https://sleuththetruth.com/
-9. Shares in Allbirds surge after maker of wool sneakers announces pivot to AI — https://www.theguardian.com/business/2026/apr/15/allbirds-stock-ai-pivot
-10. Tirith – Track your AI API spend with one CLI import — https://github.com/joedaviesio/tirith
+1. EU AI Act: curated tools, official sources, templates, and OSS — https://github.com/GenAI-Gurus/awesome-eu-ai-act
+2. Amazon AI Cancelling Webcomics — http://www.kleefeldoncomics.com/2026/04/amazon-ai-cancelling-webcomics.html
+3. The Great AI Layoff Boomerang. 55% of companies regret their AI-drven layoffs — https://medium.com/@curiouser.ai/the-great-ai-layoff-boomerang-68e38c88fa7d
+4. Aggregated interviews on how YC W26 founders build internal AI employees — https://www.humanbehavior.co/blog/topic/ai-employees-inside-founders-agent-workflows
+5. PeonPing: Sound packs for Claude, Codex, Cursor, and other AI coding agents — https://www.peonping.com/
+6. Show HN: Sudomake Friends, personalized AI personas in a Telegram group chat — https://github.com/audiodude/sudomake-friends/
+7. The AI Market Is Hitting Peak Absurdity — https://garymarcus.substack.com/p/peak-absurdity-part-ii
+8. Robot Police Dogs Powered by AI Take over Atlanta's Streets — https://www.newsweek.com/robot-police-dogs-powered-by-ai-take-over-atlantas-streets-11782889
+9. Show HN: I built a Wikipedia based AI deduction game — https://sleuththetruth.com/
+10. Shares in Allbirds surge after maker of wool sneakers announces pivot to AI — https://www.theguardian.com/business/2026/apr/15/allbirds-stock-ai-pivot

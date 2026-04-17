@@ -11,7 +11,7 @@ images:
 ---
 
 
-<audio id="newsAudio" controls style="width:100%;max-width:700px;margin:16px 0;border-radius:12px;box-shadow:0 4px 20px rgba(0,0,0,0.3);">
+<audio id="newsAudio" src="https://t.jaxiu.cn/api/paste/files/bc8e19e5f7db1d9d676e1c3416e38162.mp3" controls style="width:100%;max-width:700px;margin:16px 0;border-radius:12px;box-shadow:0 4px 20px rgba(0,0,0,0.3);">
   <source src="https://t.jaxiu.cn/api/paste/files/2692084bf6e663686c3e9b4e59f4076b.mp3" type="audio/mpeg">
   您的浏览器不支持音频播放
 </audio>

@@ -12,6 +12,11 @@ images:
 
 > 每天整理当日技术领域重要新闻，带你快速掌握行业动态。数据来源：36kr、Hacker News。配合歌曲阅读效果更佳 🎵
 
+<audio id="newsAudio" controls style="width:100%;max-width:700px;margin:16px 0;border-radius:12px;box-shadow:0 4px 20px rgba(0,0,0,0.3);">
+  <source src="/audio/ai-news-song-2026-04-16.mp3" type="audio/mpeg">
+  您的浏览器不支持音频播放
+</audio>
+
 <think>
 The user wants a comprehensive AI tech daily report in Chinese (Simplified) for April 16, with at least 5000 Chinese characters, covering 10 sections, each with specific requirements:
 

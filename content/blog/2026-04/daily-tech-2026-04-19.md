@@ -12,6 +12,8 @@ images:
 
 > 每天整理当日技术领域重要新闻，带你快速掌握行业动态。数据来源：36kr、Hacker News。配合歌曲阅读效果更佳 🎵
 
+<audio controls src="https://t.jaxiu.cn/api/paste/files/412e9f9d58b1339aa84ac5e6d8246c4f.mp3"><a href="https://t.jaxiu.cn/api/paste/files/412e9f9d58b1339aa84ac5e6d8246c4f.mp3">下载歌曲</a></audio>
+
 
 ## ✅ 今日要点（60秒速读）
 - 8点1氪丨12306五一已拒绝抢票软件105.6万张票；万达电影宣布更名；DeepSeek被曝首次启动外部融资，估值超680亿

@@ -12,6 +12,15 @@ images:
 
 > 每天整理当日技术领域重要新闻，带你快速掌握行业动态。数据来源：36kr、Hacker News。配合歌曲阅读效果更佳 🎵
 
+<audio id="newsAudio" controls style="width:100%;max-width:700px;margin:16px 0;border-radius:12px;box-shadow:0 4px 20px rgba(0,0,0,0.3);">
+  <source src="/audio/ai-news-song-2026-04-21.mp3" type="audio/mpeg">
+  您的浏览器不支持音频播放
+</audio>
+
+> 🎧 **配套原创歌曲** — 04月21日 科技日报主题曲，边听边看效果更佳  | [歌词链接](https://t.jaxiu.cn/paste/81ac69b8)
+
+---
+
 <think>这是一个需要撰写5000字以上深度AI科技日报的任务。用户要求我作为顶尖科技媒体编辑，为4月21日撰写日报。让我仔细分析用户提供的新闻素材和要求：
 
 ## 提供的新闻素材分析：

@@ -12,6 +12,8 @@ images:
 
 > 每天整理当日技术领域重要新闻，带你快速掌握行业动态。数据来源：36kr、Hacker News。
 
+🎵 **配套原创歌曲**：[AI时代 · 科技的火炬](https://t.jaxiu.cn/api/paste/files/0fb2dc303be2edcf98e41be6a8dd354d.mp3)
+
 <think>
 用户要求我为04月22日撰写一篇5000字以上的深度AI科技日报。我需要按照给定的格式和要求，覆盖所有板块。
 

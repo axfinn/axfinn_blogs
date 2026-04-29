@@ -4,7 +4,7 @@ date: 2026-04-28T07:00:00+08:00
 draft: false
 tags: ["胎教故事", "孕期", "morning", "想象与梦想"]
 categories: ["胎教故事"]
-description: "2026-04-28早晨胎教故事：The user wants a story: "，传递想象与梦想的美好品质"
+description: "2026-04-28早晨胎教故事，传递想象与梦想的美好品质"
 ---
 
 # The user wants a story: "

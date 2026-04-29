@@ -1,5 +1,5 @@
 ---
-title: "The user wants a story: " —— 想象与梦想"
+title: "The user wants a story: 想象与梦想"
 date: 2026-04-28T07:00:00+08:00
 draft: false
 tags: ["胎教故事", "孕期", "morning", "想象与梦想"]

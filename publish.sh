@@ -17,6 +17,7 @@ cp -rp public/* "$DEPLOY_DIR/"
 
 echo "🚀 推送到 GitHub Pages..."
 cd "$DEPLOY_DIR"
+unset http_proxy https_proxy HTTP_PROXY HTTPS_PROXY
 git add -A
 git commit -m "chore: 发布 ${TODAY}" || echo "Nothing to commit"
 git push origin main
